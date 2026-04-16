@@ -62,12 +62,9 @@ const groupwareMenu = {
   ],
 }
 
-type TabType = "people" | "culture" | "groupware"
-
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
-  const [activeTab, setActiveTab] = useState<TabType>("people")
   const megaMenuRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
 
@@ -75,7 +72,7 @@ export default function Header() {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
-        megaMenuRef.current && 
+        megaMenuRef.current &&
         !megaMenuRef.current.contains(event.target as Node) &&
         triggerRef.current &&
         !triggerRef.current.contains(event.target as Node)
@@ -87,28 +84,6 @@ export default function Header() {
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
-
-  const tabs = [
-    { id: "people" as TabType, label: "People", sublabel: "인사관리", icon: Users, color: "primary", bgColor: "bg-primary", textColor: "text-primary", lightBg: "bg-primary/10" },
-    { id: "culture" as TabType, label: "Culture", sublabel: "기업문화", icon: Building2, color: "orange", bgColor: "bg-orange-500", textColor: "text-orange-500", lightBg: "bg-orange-100" },
-    { id: "groupware" as TabType, label: "그룹웨어", sublabel: "에버웍스", icon: Briefcase, color: "blue", bgColor: "bg-blue-500", textColor: "text-blue-500", lightBg: "bg-blue-100" },
-  ]
-
-  const getCurrentMenu = () => {
-    switch (activeTab) {
-      case "people": return peopleMenu
-      case "culture": return cultureMenu
-      case "groupware": return groupwareMenu
-    }
-  }
-
-  const getCurrentColors = () => {
-    switch (activeTab) {
-      case "people": return { text: "text-primary", hover: "hover:text-primary", border: "border-primary" }
-      case "culture": return { text: "text-orange-500", hover: "hover:text-orange-500", border: "border-orange-500" }
-      case "groupware": return { text: "text-blue-500", hover: "hover:text-blue-500", border: "border-blue-500" }
-    }
-  }
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -128,112 +103,144 @@ export default function Header() {
           <div className="flex items-center gap-16">
             <Link href="/" className="flex items-center gap-2 shrink-0">
               <Image
-                src="/everein-logo.png"
-                alt="에버人 심볼"
-                width={36}
-                height={36}
-                className="rounded-lg"
-                priority
-              />
-              <Image
-                src="/everein-wordmark-v2.png?t=${Date.now()}"
-                alt="에버人"
-                width={80}
-                height={28}
+                src="/ever-person-logo.png"
+                alt="에버人 로고"
+                width={140}
+                height={40}
                 className="object-contain"
+                priority
               />
             </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1">
             {/* 서비스 메가메뉴 */}
-            <div className="relative">
+            <div 
+              className="relative"
+              onMouseEnter={() => setMegaMenuOpen(true)}
+              onMouseLeave={() => setMegaMenuOpen(false)}
+            >
               <button
                 ref={triggerRef}
-                onClick={() => setMegaMenuOpen(!megaMenuOpen)}
                 className={`inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${megaMenuOpen ? "bg-accent" : ""}`}
               >
                 서비스
                 <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${megaMenuOpen ? "rotate-180" : ""}`} />
               </button>
 
-              {/* 메가메뉴 드롭다운 */}
+              {/* 메가메뉴 드롭다운 - 모던 팝업 레이어 */}
               {megaMenuOpen && (
-                <div 
+                <div
                   ref={megaMenuRef}
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-background border border-border rounded-2xl shadow-2xl overflow-hidden z-50 min-w-[800px]"
+                  className="absolute top-full -left-12 pt-3 z-50"
                 >
-                  {/* 1 depth: 탭 버튼들 */}
-                  <div className="flex items-center gap-2 p-4 border-b border-border/50 bg-muted/30">
-                    {tabs.map((tab, index) => (
-                      <div key={tab.id} className="flex items-center">
-                        <button
-                          onClick={() => setActiveTab(tab.id)}
-                          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-medium text-sm transition-all ${
-                            activeTab === tab.id 
-                              ? `${tab.bgColor} text-white shadow-md` 
-                              : "bg-background border border-border hover:bg-muted text-foreground"
-                          }`}
-                        >
-                          <tab.icon className="h-4 w-4" />
-                          <span>{tab.label}</span>
-                          <span className={`text-xs ${activeTab === tab.id ? "text-white/80" : "text-muted-foreground"}`}>
-                            ({tab.sublabel})
-                          </span>
-                        </button>
-                        {index < tabs.length - 1 && (
-                          <span className="mx-2 text-muted-foreground font-medium">&</span>
-                        )}
-                      </div>
-                    ))}
-                    
-                    {/* 닫기 버튼 */}
-                    <button 
-                      onClick={() => setMegaMenuOpen(false)}
-                      className="ml-auto p-2 rounded-full hover:bg-muted transition-colors"
-                    >
-                      <X className="h-4 w-4 text-muted-foreground" />
-                    </button>
-                  </div>
+                  <div className="bg-white border border-border/40 rounded-xl shadow-xl overflow-hidden">
+                    {/* 3개 섹션 - 가로 배치 */}
+                    <div className="flex p-5">
 
-                  {/* 2 depth + 3 depth: 컬럼 헤더 + 링크 */}
-                  <div className="p-5 bg-background">
-                    <div className="grid grid-cols-6 gap-4">
-                      {Object.entries(getCurrentMenu()).map(([category, items]) => (
-                        <div key={category} className="min-w-0">
-                          {/* 2 depth: 카테고리 헤더 */}
-                          <div className={`font-bold text-sm mb-3 pb-2 border-b-2 ${getCurrentColors().border} ${getCurrentColors().text} whitespace-pre-line leading-tight`}>
-                            {category}
-                          </div>
-                          
-                          {/* 3 depth: 실제 링크들 */}
-                          <div className="flex flex-col gap-2">
-                            {items.map((item) => (
-                              <Link
-                                key={item.title}
-                                href={item.href}
-                                onClick={() => setMegaMenuOpen(false)}
-                                className={`text-sm text-foreground ${getCurrentColors().hover} hover:underline transition-colors flex items-start gap-1 group`}
-                              >
-                                <span className="text-muted-foreground/60 shrink-0">ㄴ</span>
-                                <span className="flex flex-col gap-0.5">
-                                  <span className="flex items-center gap-1">
+                      {/* ════════ People 섹션 ════════ */}
+                      <div className="w-[500px] pr-6 border-r border-border/30">
+                        {/* People 배지 */}
+                        <div className="flex items-center gap-2 mb-3 pb-2 border-b-2 border-primary">
+                          <Users className="h-5 w-5 text-primary" />
+                          <span className="text-base font-bold text-primary">People</span>
+                          <span className="text-sm text-muted-foreground">(인사관리)</span>
+                        </div>
+                        {/* People 카테고리들 - 3컬럼 */}
+                        <div className="grid grid-cols-3 gap-x-4 gap-y-3">
+                          {Object.entries(peopleMenu).map(([category, items]) => (
+                            <div key={category} className="flex flex-col gap-2">
+                              <div className="text-sm font-semibold text-primary whitespace-nowrap">{category}</div>
+                              <div className="flex flex-col gap-1.5">
+                                {items.map((item) => (
+                                  <Link
+                                    key={item.title}
+                                    href={item.href}
+                                    onClick={() => setMegaMenuOpen(false)}
+                                    className="text-sm text-muted-foreground hover:text-primary transition-colors whitespace-nowrap"
+                                  >
                                     {item.title}
                                     {item.badge && (
-                                      <span className="text-[10px] bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full font-medium">
+                                      <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded ml-1">
                                         {item.badge}
                                       </span>
                                     )}
-                                  </span>
-                                  {item.subtitle && (
-                                    <span className={`${getCurrentColors().text} text-xs`}>{item.subtitle}</span>
-                                  )}
-                                </span>
-                              </Link>
-                            ))}
-                          </div>
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      </div>
+
+                      {/* ════════ Culture 섹션 ════════ */}
+                      <div className="w-[320px] px-6 border-r border-border/30">
+                        {/* Culture 배지 */}
+                        <div className="flex items-center gap-2 mb-3 pb-2 border-b-2 border-orange-500">
+                          <Building2 className="h-5 w-5 text-orange-500" />
+                          <span className="text-base font-bold text-orange-500">Culture</span>
+                          <span className="text-sm text-muted-foreground">(기업문화)</span>
+                        </div>
+                        {/* Culture 카테고리들 - 2컬럼 */}
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+                          {Object.entries(cultureMenu).map(([category, items]) => (
+                            <div key={category} className="flex flex-col gap-2">
+                              <div className="text-sm font-semibold text-orange-500 whitespace-nowrap">{category}</div>
+                              <div className="flex flex-col gap-1.5">
+                                {items.map((item) => (
+                                  <Link
+                                    key={item.title}
+                                    href={item.href}
+                                    onClick={() => setMegaMenuOpen(false)}
+                                    className="text-sm text-muted-foreground hover:text-orange-600 transition-colors whitespace-nowrap"
+                                  >
+                                    {item.title}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* ════════ 그룹웨어 섹션 ════════ */}
+                      <div className="w-[200px] pl-6">
+                        {/* 그룹웨어 배지 */}
+                        <div className="flex items-center gap-2 mb-3 pb-2 border-b-2 border-blue-500">
+                          <Briefcase className="h-5 w-5 text-blue-500" />
+                          <span className="text-base font-bold text-blue-500">그룹웨어</span>
+                          <span className="text-sm text-muted-foreground">(에버웍스)</span>
+                        </div>
+                        {/* 그룹웨어 카테고리들 */}
+                        <div className="flex flex-col gap-3">
+                          {Object.entries(groupwareMenu).map(([category, items]) => (
+                            <div key={category} className="flex flex-col gap-2">
+                              <div className="text-sm font-semibold text-blue-500 whitespace-nowrap">{category}</div>
+                              <div className="flex flex-col gap-1.5">
+                                {items.map((item) => (
+                                  <Link
+                                    key={item.title}
+                                    href={item.href}
+                                    onClick={() => setMegaMenuOpen(false)}
+                                    className="text-sm text-muted-foreground hover:text-blue-600 transition-colors whitespace-nowrap"
+                                  >
+                                    {item.title}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 닫기 버튼 */}
+                      <button 
+                        onClick={() => setMegaMenuOpen(false)} 
+                        className="ml-4 self-start p-1 rounded-full hover:bg-muted transition-colors"
+                      >
+                        <X className="h-5 w-5 text-muted-foreground" />
+                      </button>
+
                     </div>
                   </div>
                 </div>
