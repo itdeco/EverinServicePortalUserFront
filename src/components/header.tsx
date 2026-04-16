@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu, Users, Building2, Briefcase, ChevronDown, X } from "lucide-react"
@@ -122,16 +123,29 @@ export default function Header() {
 
       {/* 메인 네비게이션 */}
       <div className="border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
-              <span className="text-lg font-bold text-primary-foreground">E</span>
-            </div>
-            <span className="text-xl font-bold text-foreground">에버인</span>
-          </Link>
+        <div className="w-full flex h-16 items-center justify-between px-4 md:px-6">
+          {/* 왼쪽: 로고 + 네비게이션 */}
+          <div className="flex items-center gap-16">
+            <Link href="/" className="flex items-center gap-2 shrink-0">
+              <Image
+                src="/everein-logo.png"
+                alt="에버人 심볼"
+                width={36}
+                height={36}
+                className="rounded-lg"
+                priority
+              />
+              <Image
+                src="/everein-wordmark-v2.png?t=${Date.now()}"
+                alt="에버人"
+                width={80}
+                height={28}
+                className="object-contain"
+              />
+            </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-1">
             {/* 서비스 메가메뉴 */}
             <div className="relative">
               <button
@@ -183,34 +197,36 @@ export default function Header() {
                   </div>
 
                   {/* 2 depth + 3 depth: 컬럼 헤더 + 링크 */}
-                  <div className="p-5">
-                    <div className="flex gap-6">
+                  <div className="p-5 bg-background">
+                    <div className="grid grid-cols-6 gap-4">
                       {Object.entries(getCurrentMenu()).map(([category, items]) => (
-                        <div key={category} className="min-w-[120px]">
+                        <div key={category} className="min-w-0">
                           {/* 2 depth: 카테고리 헤더 */}
-                          <div className={`font-bold text-sm mb-3 pb-2 border-b-2 ${getCurrentColors().border} ${getCurrentColors().text} whitespace-pre-line`}>
+                          <div className={`font-bold text-sm mb-3 pb-2 border-b-2 ${getCurrentColors().border} ${getCurrentColors().text} whitespace-pre-line leading-tight`}>
                             {category}
                           </div>
                           
                           {/* 3 depth: 실제 링크들 */}
-                          <div className="flex flex-col gap-1.5">
+                          <div className="flex flex-col gap-2">
                             {items.map((item) => (
                               <Link
                                 key={item.title}
                                 href={item.href}
                                 onClick={() => setMegaMenuOpen(false)}
-                                className={`text-sm text-muted-foreground ${getCurrentColors().hover} hover:underline transition-colors flex items-start gap-1 group`}
+                                className={`text-sm text-foreground ${getCurrentColors().hover} hover:underline transition-colors flex items-start gap-1 group`}
                               >
                                 <span className="text-muted-foreground/60 shrink-0">ㄴ</span>
-                                <span className="flex flex-wrap items-center gap-1">
-                                  {item.title}
+                                <span className="flex flex-col gap-0.5">
+                                  <span className="flex items-center gap-1">
+                                    {item.title}
+                                    {item.badge && (
+                                      <span className="text-[10px] bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full font-medium">
+                                        {item.badge}
+                                      </span>
+                                    )}
+                                  </span>
                                   {item.subtitle && (
-                                    <span className={`${getCurrentColors().text} text-xs`}>({item.subtitle})</span>
-                                  )}
-                                  {item.badge && (
-                                    <span className="text-[10px] bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full font-medium">
-                                      {item.badge}
-                                    </span>
+                                    <span className={`${getCurrentColors().text} text-xs`}>{item.subtitle}</span>
                                   )}
                                 </span>
                               </Link>
@@ -236,21 +252,52 @@ export default function Header() {
             <Link href="#" className="inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
               고객센터
             </Link>
-            <Link href="#" className="inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
-              기업문화포털
-            </Link>
-          </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden items-center gap-3 lg:flex">
-            <Button variant="ghost" size="sm">
-              로그인
+            {/* 구분선 */}
+            <div className="h-6 w-px bg-border mx-2" />
+
+            {/* 외부 사이트 링크 */}
+            <a 
+              href="https://www.ksystem.co.kr/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex h-10 items-center justify-center rounded-md px-3 py-2 transition-colors hover:bg-accent"
+            >
+              <Image
+                src="/younglimwon-logo.png"
+                alt="영림원소프트랩"
+                width={100}
+                height={24}
+                className="object-contain h-auto"
+              />
+            </a>
+            <a 
+              href="https://everin.co.kr" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex h-10 items-center justify-center rounded-md px-3 py-2 transition-colors hover:bg-accent"
+            >
+              <Image
+                src="/everein-culture-logo.png"
+                alt="Ever人 기업문화"
+                width={90}
+                height={24}
+                className="object-contain h-auto"
+              />
+            </a>
+            </nav>
+          </div>
+
+          {/* Desktop CTA - 오른쪽 끝 정렬 */}
+          <div className="hidden items-center gap-3 lg:flex shrink-0">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/login">로그인</Link>
             </Button>
-            <Button variant="outline" size="sm">
-              회원가입
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/signup">회원가입</Link>
             </Button>
-            <Button size="sm" className="rounded-full px-5 bg-primary hover:bg-primary/90">
-              체험하기
+            <Button size="sm" className="rounded-full px-5 bg-primary hover:bg-primary/90" asChild>
+              <Link href="/trial">체험하기</Link>
             </Button>
             <Button size="sm" variant="secondary" className="rounded-full px-5 bg-foreground text-background hover:bg-foreground/90">
               도입문의
@@ -347,10 +394,15 @@ export default function Header() {
                 </div>
                 
                 <div className="mt-4 space-y-2 pt-4 border-t">
-                  <Button variant="outline" className="w-full">
-                    로그인
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link href="/login">로그인</Link>
                   </Button>
-                  <Button className="w-full">무료체험</Button>
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link href="/signup">회원가입</Link>
+                  </Button>
+                  <Button className="w-full" asChild>
+                    <Link href="/trial">무료체험</Link>
+                  </Button>
                 </div>
               </nav>
             </SheetContent>

@@ -33,7 +33,7 @@ export default function CertificationSection() {
             인증 & 수상
           </h2>
           <p className="text-pretty text-lg text-muted-foreground">
-            에버인은 국제 정보보안 인증과 3년 연속 품질 1위 수상으로 신뢰를 입증합니다.
+            에버人은 국제 정보보안 인증과 3년 연속 품질 1위 수상으로 신뢰를 입증합니다.
           </p>
         </div>
 

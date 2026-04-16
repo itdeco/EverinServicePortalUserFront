@@ -36,7 +36,7 @@ export default function CTASection() {
               파트너가 되어주세요
             </h2>
             <p className="mx-auto mb-8 max-w-xl text-pretty text-lg opacity-90">
-              에버인의 성장에 함께할 파트너를 모집합니다. 도입 문의부터 파트너십까지, 언제든지
+              에버人의 성장에 함께할 파트너를 모집합니다. 도입 문의부터 파트너십까지, 언제든지
               연결됩니다.
             </p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -51,7 +51,7 @@ export default function CTASection() {
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full border-primary-foreground/30 bg-transparent px-8 text-base text-primary-foreground hover:bg-primary-foreground/10"
+                className="rounded-full border-white/50 bg-transparent px-8 text-base text-white hover:bg-white/10 hover:border-white"
               >
                 도입 문의하기
               </Button>

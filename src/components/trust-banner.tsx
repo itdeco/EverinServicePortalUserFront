@@ -81,7 +81,7 @@ export function TrustBanner() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
           <h3 className="text-xl font-semibold text-foreground mb-2">검증된 신뢰와 품질</h3>
-          <p className="text-muted-foreground">국내외 공인기관이 인정한 에버인의 기술력</p>
+          <p className="text-muted-foreground">국내외 공인기관이 인정한 에버人의 기술력</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
           {certifications.map((cert, index) => (

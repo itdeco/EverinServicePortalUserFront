@@ -24,7 +24,7 @@ export function CtaBanner() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight text-balance">
             33년 ERP 명가 영림원이 만든
             <br />
-            HR 솔루션 에버인
+            HR 솔루션 에버人
           </h2>
 
           {/* 혜택 강조 */}
@@ -38,7 +38,7 @@ export function CtaBanner() {
               무료체험 시작하기
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
-            <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 px-8 h-14 text-base font-semibold rounded-2xl">
+            <Button size="lg" variant="ghost" className="border-2 border-white bg-transparent text-white hover:bg-white/10 hover:text-white px-8 h-14 text-base font-semibold rounded-2xl">
               도입 문의하기
             </Button>
           </div>

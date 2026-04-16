@@ -8,7 +8,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: '에버인(EVERIN) - 통합 HR 솔루션',
+  title: '에버人(EVERIN) - 통합 HR 솔루션',
   description: '근태·급여·평가·기업문화·ERP를 하나로 통합한 HR 솔루션. 33년 영림원 HR 전문성과 3,000+ 도입 사례.',
   generator: 'v0.app',
   icons: {

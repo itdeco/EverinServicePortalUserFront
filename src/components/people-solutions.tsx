@@ -45,7 +45,7 @@ export default function PeopleSolutions() {
             인사관리의 모든 것
           </h2>
           <p className="text-pretty text-lg text-muted-foreground">
-            에버인의 People 영역 4가지 핵심 솔루션으로 온보딩부터 인사·근태·보안까지 HR 운영의 전
+            에버人의 People 영역 4가지 핵심 솔루션으로 온보딩부터 인사·근태·보안까지 HR 운영의 전
             과정을 지원합니다.
           </p>
         </div>

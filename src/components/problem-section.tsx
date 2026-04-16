@@ -31,7 +31,7 @@ export default function ProblemSection() {
                 문제 인식
               </div>
               <h2 className="mb-4 text-balance text-3xl font-bold tracking-tight md:text-4xl">
-                왜 지금, 에버인인가?
+                왜 지금, 에버人인가?
               </h2>
               <p className="text-pretty text-lg text-muted-foreground">
                 신입사원 이탈의 주된 원인은 체계 없는 온보딩과 부재한 조직 문화 적응 지원입니다.
@@ -51,7 +51,7 @@ export default function ProblemSection() {
           {/* Solutions */}
           <div className="rounded-3xl border border-border/50 bg-card p-8 shadow-sm md:p-12">
             <h3 className="mb-8 text-center text-xl font-semibold text-foreground">
-              에버인이 해결하는 문제
+              에버人이 해결하는 문제
             </h3>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {problems.map((problem, index) => (

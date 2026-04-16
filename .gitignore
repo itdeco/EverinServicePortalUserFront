@@ -57,3 +57,10 @@ build.tar.gz
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+
+### docker ###
+.dockerignore
+Dockerfile
+
+dockerLocal

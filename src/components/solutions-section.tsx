@@ -100,7 +100,7 @@ const cultureSolutions = [
     badgeColor: "bg-slate-600 text-white",
     title: "ERP 연동/개발",
     subtitle: "시스템 연동 및 개발",
-    description: "HR 업무 관련 솔루션을 5개 이상 쓰고 계신가요?\n에버인 하나로 통합해보세요!",
+    description: "            HR 업무 관련 솔루션을 5개 이상 쓰고 계신가요?\n에버人 하나로 통합해보세요!",
     features: ["ERP 연동", "데이터 마이그레이션", "맞춤 개발"],
     icon: Link2,
     gradient: "from-slate-100/80 to-slate-50/50",

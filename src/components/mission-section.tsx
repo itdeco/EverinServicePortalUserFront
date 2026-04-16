@@ -75,7 +75,7 @@ const strengths = [
     suffix: "",
     prefix: "Zero",
     title: "HR 본질에 집중하세요!",
-    description: "에버인으로 아웃소싱하시고\n무결점 클라우드형 HR 솔루션",
+    description: "              에버人으로 아웃소싱하시고\n무결점 클라우드형 HR 솔루션",
     gradient: "from-orange-100/80 to-orange-50/50",
   },
 ]
