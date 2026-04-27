@@ -37,7 +37,10 @@ export default function HeroSection() {
               근태나 급여관리 엑셀로 수기 관리하시나요?
             </p>
             <h1 className="text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 leading-tight mb-6">
-              HR 솔루션×AI=에버<span className="text-[#1a1a2e]">人</span>
+              HR 솔루션×AI=
+              <span className="inline-block relative" style={{ width: "3.2em", height: "1em", verticalAlign: "middle" }}>
+                <Image src="/everein-wordmark.png" alt="에버인" fill className="object-contain object-left" />
+              </span>
             </h1>
             <p className="text-gray-500 text-base leading-relaxed mb-8">
               에버인의 AI 기반 통합 HR 솔루션으로 인사.근태.급여를 한 번에 OK<br />
@@ -98,9 +101,17 @@ export default function HeroSection() {
               />
             </div>
 
-            {/* 중앙: 흰색 원 + 에버人 텍스트 */}
+            {/* 중앙: 흰색 원 + 에버人 워드마크 이미지 */}
             <div className="absolute inset-[27%] bg-white rounded-full shadow-2xl flex items-center justify-center z-30">
-              <span className="text-3xl lg:text-5xl font-black text-[#1a1a2e]">에버<span className="text-emerald-500">人</span></span>
+              <div className="relative w-[60%] h-[40%]">
+                <Image
+                  src="/everein-wordmark.png"
+                  alt="에버인"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
             </div>
 
             {/* 아이콘들: bg-hero-01 위에 배치 (radius 35%) */}

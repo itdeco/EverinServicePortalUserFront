@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-function useCountUp(target: number, inView: boolean, duration = 1800) {
+function useCountUp(target: number, inView: boolean, duration = 2000) {
   const [count, setCount] = React.useState(0)
   const triggered = React.useRef(false)
 
@@ -13,7 +13,9 @@ function useCountUp(target: number, inView: boolean, duration = 1800) {
     const step = (ts: number) => {
       if (!start) start = ts
       const progress = Math.min((ts - start) / duration, 1)
-      setCount(Math.floor(progress * target))
+      // easeOut cubic
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCount(Math.floor(eased * target))
       if (progress < 1) requestAnimationFrame(step)
     }
     requestAnimationFrame(step)
@@ -22,14 +24,26 @@ function useCountUp(target: number, inView: boolean, duration = 1800) {
   return count
 }
 
-function StatItem({ value, suffix, label }: { value: number; suffix: string; label: string }) {
+function StatItem({
+  value,
+  suffix,
+  prefix,
+  label,
+  highlight,
+}: {
+  value: number
+  suffix: string
+  prefix?: string
+  label: string
+  highlight?: boolean
+}) {
   const ref = React.useRef<HTMLDivElement>(null)
   const [inView, setInView] = React.useState(false)
 
   React.useEffect(() => {
     const el = ref.current
     if (!el) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true) }, { threshold: 0.4 })
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true) }, { threshold: 0.3 })
     obs.observe(el)
     return () => obs.disconnect()
   }, [])
@@ -37,60 +51,97 @@ function StatItem({ value, suffix, label }: { value: number; suffix: string; lab
   const count = useCountUp(value, inView)
 
   return (
-    <div ref={ref} className="text-center">
-      <div className="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 tabular-nums mb-2">
-        {count.toLocaleString()}{suffix}
+    <div ref={ref} className="flex flex-col items-center gap-2">
+      <div className="flex items-end gap-0.5">
+        {prefix && <span className="text-3xl md:text-4xl font-black text-gray-900 mb-1">{prefix}</span>}
+        <span className="text-5xl md:text-6xl lg:text-7xl font-black tabular-nums" style={{ color: highlight ? "#00dcaa" : "#111827" }}>
+          {count.toLocaleString()}
+        </span>
+        <span className="text-2xl md:text-3xl font-bold text-gray-500 mb-1">{suffix}</span>
       </div>
-      <p className="text-gray-400 text-sm md:text-base">{label}</p>
+      <p className="text-sm md:text-base text-gray-500 font-medium">{label}</p>
     </div>
   )
 }
 
 const certifications = [
-  { label: "ISO 27001", sub: "정보보안 국제인증" },
-  { label: "품질경쟁력우수 1위", sub: "한국생산성본부 선정" },
-  { label: "GS인증", sub: "1등급 소프트웨어" },
-  { label: "벤처기업 확인", sub: "기술보증기금 인증" },
+  {
+    icon: "🔒",
+    label: "ISO 27001",
+    sub: "정보보안 국제인증",
+    color: "#586ffa",
+  },
+  {
+    icon: "🏆",
+    label: "품질경쟁력 1위",
+    sub: "한국생산성본부 선정",
+    color: "#00dcaa",
+  },
+  {
+    icon: "✅",
+    label: "GS인증 1등급",
+    sub: "소프트웨어 품질 인증",
+    color: "#586ffa",
+  },
+  {
+    icon: "🚀",
+    label: "벤처기업 확인",
+    sub: "기술보증기금 인증",
+    color: "#00dcaa",
+  },
 ]
 
 export function TrustBanner() {
   return (
-    <section className="py-20 lg:py-28 bg-white">
+    <section className="py-20 lg:py-28 bg-[#f8f9fc]">
       <div className="container mx-auto px-6 lg:px-12">
 
-        {/* Stats - light lavender bg area */}
-        <div
-          className="rounded-3xl py-14 px-8 mb-14"
-          style={{ background: "linear-gradient(135deg, rgba(88,111,250,0.05) 0%, rgba(0,220,170,0.05) 100%)" }}
-        >
-          <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
-            <StatItem value={33} suffix="년" label="ERP 업력" />
-            <StatItem value={3000} suffix="+" label="고객 기업" />
-            <StatItem value={3} suffix="년 연속" label="품질경쟁력 1위" />
+        {/* Section label */}
+        <div className="text-center mb-14">
+          <span className="inline-block text-xs font-semibold tracking-widest text-[#00dcaa] uppercase mb-4">
+            Why 에버인
+          </span>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug">
+            33년 ERP 업력의 신뢰,<br />
+            <span className="text-[#00dcaa]">3,000+</span> 기업이 선택한 이유
+          </h2>
+        </div>
+
+        {/* Stats row */}
+        <div className="grid grid-cols-3 gap-6 md:gap-10 max-w-3xl mx-auto mb-16">
+          <StatItem value={33} suffix="년" label="ERP 업력" />
+          <StatItem value={3000} suffix="+" label="고객 기업" highlight />
+          <StatItem value={3} suffix="년 연속" label="품질경쟁력 1위" />
+        </div>
+
+        {/* Divider + description */}
+        <div className="relative mb-16">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-200" />
+          </div>
+          <div className="relative flex justify-center">
+            <span className="bg-[#f8f9fc] px-6 text-center text-gray-600 text-sm md:text-base leading-relaxed max-w-xl">
+              영림인소프트랩은 2,300여개의 중대형 ERP 구축 및 유지보수 경험을 통한{" "}
+              <strong className="text-[#00dcaa] font-semibold">성능·보안·패치 안정성</strong>을 보장합니다.
+            </span>
           </div>
         </div>
 
-        {/* Description */}
-        <div className="text-center mb-12">
-          <p className="text-gray-700 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-            영림인소프트랩은 2,300여개의 중대형 ERP 구축 및<br />
-            유지보수 경험을 통한{" "}
-            <span className="text-[#00dcaa] font-semibold">성능·보안·패치 안정성</span>을 보장합니다.
-          </p>
-        </div>
-
-        {/* Certification badges */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+        {/* Certification cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
           {certifications.map((cert, i) => (
             <div
               key={i}
-              className="border border-gray-200 rounded-2xl p-5 text-center hover:shadow-md transition-shadow bg-white"
+              className="group bg-white border border-gray-100 rounded-2xl p-6 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="w-12 h-12 rounded-full bg-[#00dcaa]/10 mx-auto mb-3 flex items-center justify-center">
-                <span className="text-[#00dcaa] text-xs font-bold">인증</span>
+              <div
+                className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 transition-transform duration-300 group-hover:scale-110"
+                style={{ background: `${cert.color}18` }}
+              >
+                {cert.icon}
               </div>
-              <p className="text-gray-900 text-sm font-bold mb-1">{cert.label}</p>
-              <p className="text-gray-400 text-xs">{cert.sub}</p>
+              <p className="text-gray-900 text-sm font-bold leading-snug mb-1">{cert.label}</p>
+              <p className="text-gray-400 text-xs leading-relaxed">{cert.sub}</p>
             </div>
           ))}
         </div>
