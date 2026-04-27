@@ -184,69 +184,15 @@ export function SolutionsSection() {
 
         {/* ─── 기업문화 Tab ─── */}
         <div className={cn(activeTab === "culture" ? "block" : "hidden")}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {cultureCards.map((card, i) => (
-              <div key={i} className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col min-h-[300px]">
-                <div className="px-7 pt-7 pb-4">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{card.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed mb-5">{card.desc}</p>
-                  <Link
-                    href={card.href}
-                    className="inline-flex items-center justify-center w-fit px-5 py-2 rounded-full border border-gray-300 text-gray-700 text-sm font-medium hover:border-[#00dcaa] hover:text-[#00dcaa] transition-colors"
-                  >
-                    자세히 보기
-                  </Link>
-                </div>
-                <div className="relative flex-1 min-h-[200px]">
-                  <Image
-                    src={card.img}
-                    alt={card.title}
-                    fill
-                    className="object-contain object-bottom"
-                  />
-                </div>
-              </div>
-            ))}
+          <div className="py-20 text-center text-gray-400">
+            준비 중입니다.
           </div>
         </div>
 
         {/* ─── 그룹웨어 Tab ─── */}
         <div className={cn(activeTab === "groupware" ? "block" : "hidden")}>
-
-          {/* Main card */}
-          <div className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden mb-5 flex flex-col md:flex-row items-stretch min-h-[260px]">
-            <div className="flex flex-col justify-center px-8 py-8 md:py-10 md:w-[38%] shrink-0">
-              <h3 className="text-xl font-bold text-gray-900 mb-3">{groupwareMainCard.title}</h3>
-              <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-6">{groupwareMainCard.desc}</p>
-              <Link
-                href={groupwareMainCard.href}
-                className="inline-flex items-center justify-center w-fit px-5 py-2 rounded-full border border-gray-300 text-gray-700 text-sm font-medium hover:border-[#00dcaa] hover:text-[#00dcaa] transition-colors"
-              >
-                자세히 보기
-              </Link>
-            </div>
-            <div className="relative flex-1 min-h-[220px]">
-              <Image
-                src={groupwareMainCard.img}
-                alt={groupwareMainCard.title}
-                fill
-                className="object-contain object-right-bottom"
-              />
-            </div>
-          </div>
-
-          {/* Sub card */}
-          <div className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden p-7">
-            <h3 className="text-base font-bold text-gray-900 mb-2">{groupwareSubCard.title}</h3>
-            <p className="text-gray-500 text-sm mb-6">{groupwareSubCard.desc}</p>
-            <div className="relative w-full" style={{ aspectRatio: "16/4" }}>
-              <Image
-                src={groupwareSubCard.img}
-                alt={groupwareSubCard.title}
-                fill
-                className="object-contain object-left"
-              />
-            </div>
+          <div className="py-20 text-center text-gray-400">
+            준비 중입니다.
           </div>
         </div>
 
