@@ -50,6 +50,7 @@ next-env.d.ts
 build.tar.gz
 
 ### JetBrains ###
+.idea
 .idea/
 *.iws
 *.iml

@@ -5,8 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle2, Home, LogIn, PartyPopper } from "lucide-react";
 
-import Header from "@/components/header";
-import Footer from "@/components/footer";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 
 import CommonUtil from "@/utils/commonUtil";

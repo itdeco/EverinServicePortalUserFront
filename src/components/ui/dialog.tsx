@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
+import * as VisuallyHiddenPrimitive from '@radix-ui/react-visually-hidden'
 import { XIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -65,6 +66,13 @@ function DialogContent({
         )}
         {...props}
       >
+        {/* 접근성을 위한 숨겨진 제목 및 설명 */}
+        <VisuallyHiddenPrimitive.Root asChild>
+          <DialogPrimitive.Title>대화상자</DialogPrimitive.Title>
+        </VisuallyHiddenPrimitive.Root>
+        <VisuallyHiddenPrimitive.Root asChild>
+          <DialogPrimitive.Description>대화상자 내용</DialogPrimitive.Description>
+        </VisuallyHiddenPrimitive.Root>
         {children}
         {showCloseButton && (
           <DialogPrimitive.Close

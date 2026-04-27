@@ -123,3 +123,159 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* SweetAlert2 Custom Styles */
+.swal2-popup {
+  border-radius: 16px !important;
+  padding: 28px 24px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid var(--border) !important;
+  background: var(--background) !important;
+}
+
+.swal2-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: var(--foreground) !important;
+  padding: 0 0 8px 0 !important;
+  margin: 0 !important;
+}
+
+.swal2-html-container {
+  font-size: 0.95rem !important;
+  color: var(--muted-foreground) !important;
+  line-height: 1.6 !important;
+  padding: 12px 0 20px 0 !important;
+  margin: 0 !important;
+}
+
+.swal2-icon {
+  margin: 0 auto 16px auto !important;
+  border-width: 3px !important;
+}
+
+.swal2-icon.swal2-error {
+  border-color: oklch(0.577 0.245 27.325) !important;
+}
+
+.swal2-icon.swal2-error .swal2-x-mark-line-left,
+.swal2-icon.swal2-error .swal2-x-mark-line-right {
+  background-color: oklch(0.577 0.245 27.325) !important;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: oklch(0.75 0.18 70) !important;
+  color: oklch(0.75 0.18 70) !important;
+}
+
+.swal2-icon.swal2-success {
+  border-color: oklch(0.65 0.15 175) !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-line-tip,
+.swal2-icon.swal2-success .swal2-success-line-long {
+  background-color: oklch(0.65 0.15 175) !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+  border-color: oklch(0.65 0.15 175 / 0.3) !important;
+}
+
+.swal2-icon.swal2-info {
+  border-color: oklch(0.65 0.2 250) !important;
+  color: oklch(0.65 0.2 250) !important;
+}
+
+.swal2-actions {
+  margin-top: 8px !important;
+  gap: 12px !important;
+}
+
+.swal2-confirm {
+  background: oklch(0.65 0.15 175) !important;
+  color: white !important;
+  border-radius: 10px !important;
+  padding: 12px 28px !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  min-width: 100px !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 8px oklch(0.65 0.15 175 / 0.3) !important;
+}
+
+.swal2-confirm:hover {
+  background: oklch(0.55 0.15 175) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px oklch(0.65 0.15 175 / 0.4) !important;
+}
+
+.swal2-confirm:focus {
+  box-shadow: 0 0 0 3px oklch(0.65 0.15 175 / 0.3) !important;
+}
+
+.swal2-cancel {
+  background: transparent !important;
+  color: var(--muted-foreground) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  padding: 12px 28px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  min-width: 100px !important;
+  transition: all 0.2s ease !important;
+}
+
+.swal2-cancel:hover {
+  background: var(--muted) !important;
+  border-color: var(--border) !important;
+}
+
+.swal2-cancel:focus {
+  box-shadow: 0 0 0 3px var(--ring) !important;
+}
+
+/* Error popup specific styling */
+.swal2-popup.swal2-show {
+  animation: swal2-show 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+@keyframes swal2-show {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Backdrop styling */
+.swal2-container {
+  backdrop-filter: blur(4px) !important;
+}
+
+.swal2-backdrop-show {
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Danger confirm button for delete actions */
+.swal2-confirm-danger {
+  background: oklch(0.577 0.245 27.325) !important;
+  box-shadow: 0 2px 8px oklch(0.577 0.245 27.325 / 0.3) !important;
+}
+
+.swal2-confirm-danger:hover {
+  background: oklch(0.5 0.245 27.325) !important;
+  box-shadow: 0 4px 12px oklch(0.577 0.245 27.325 / 0.4) !important;
+}
+
+.swal2-confirm-danger:focus {
+  box-shadow: 0 0 0 3px oklch(0.577 0.245 27.325 / 0.3) !important;
+}
+
+/* Question icon styling */
+.swal2-icon.swal2-question {
+  border-color: oklch(0.65 0.15 175) !important;
+  color: oklch(0.65 0.15 175) !important;
+}

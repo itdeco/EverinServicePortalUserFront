@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import StoreProvider from "@/providers/StoreProvider";
 import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -14,11 +13,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
+        url: '/icon-32x32.png',
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/icon-dark-32x32.png',
+        url: '/icon-32x32.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
@@ -41,7 +40,6 @@ export default function RootLayout({
       <StoreProvider>
         {children}
       </StoreProvider>
-      {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
   )

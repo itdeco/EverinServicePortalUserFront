@@ -14,9 +14,10 @@ export enum PaymentMethodType {
 export enum PaymentLogStatusType {
     NotPaid,       // 미납
     Paid,          // 납부완료
-    PaidManually,  // 수동납부완료
+    ManualPaid,    // 수동납부완료
+    Refund,        // 환불
     Cancel,        // 취소
-    Error = 8,          // 오류
+    Error = 8,     // 오류
     Pause          // 미결제로 인한 일시 중지
 }
 

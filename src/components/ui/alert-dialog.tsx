@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
+import * as VisuallyHiddenPrimitive from '@radix-ui/react-visually-hidden'
 
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
@@ -58,7 +59,15 @@ function AlertDialogContent({
           className,
         )}
         {...props}
-      />
+      >
+        {/* 접근성을 위한 숨겨진 제목 및 설명 */}
+        <VisuallyHiddenPrimitive.Root asChild>
+          <AlertDialogPrimitive.Title>경고 대화상자</AlertDialogPrimitive.Title>
+        </VisuallyHiddenPrimitive.Root>
+        <VisuallyHiddenPrimitive.Root asChild>
+          <AlertDialogPrimitive.Description>경고 대화상자 내용</AlertDialogPrimitive.Description>
+        </VisuallyHiddenPrimitive.Root>
+      </AlertDialogPrimitive.Content>
     </AlertDialogPortal>
   )
 }
