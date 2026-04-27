@@ -88,7 +88,7 @@ export function SolutionsSection() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-3 mt-8 mb-10">
+        <div className="flex justify-center gap-3 mt-8 mb-10">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -131,9 +131,9 @@ export function SolutionsSection() {
           </div>
 
           {/* Sub cards: 에버웰커밍 (left, large) + 인사관리 + PC-OFF (right, stacked) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {/* 에버웰커밍 - left */}
-            <div className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col min-h-[300px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
+            {/* 에버웰커밍 - left, stretches to match right column height */}
+            <div className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col h-full">
               <div className="px-7 pt-7 pb-4">
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{hrSubCards[0].title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-5">{hrSubCards[0].desc}</p>
@@ -144,21 +144,22 @@ export function SolutionsSection() {
                   자세히 보기
                 </Link>
               </div>
+              {/* 이미지: 오른쪽 위 정렬 */}
               <div className="relative flex-1 min-h-[200px]">
                 <Image
                   src={hrSubCards[0].img}
                   alt={hrSubCards[0].title}
                   fill
-                  className="object-contain object-bottom"
+                  className="object-contain object-right-top"
                 />
               </div>
             </div>
 
-            {/* 인사관리 + PC-OFF - right stacked */}
-            <div className="flex flex-col gap-5">
+            {/* 인사관리 + PC-OFF - right stacked, each flex-1 so heights match total */}
+            <div className="flex flex-col gap-5 h-full">
               {hrSubCards.slice(1).map((card, i) => (
-                <div key={i} className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-row items-stretch min-h-[140px]">
-                  <div className="flex flex-col justify-center px-6 py-6 flex-1">
+                <div key={i} className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-row items-stretch flex-1">
+                  <div className="flex flex-col justify-center px-6 py-6 flex-1 min-w-0">
                     <h3 className="text-base font-bold text-gray-900 mb-1.5">{card.title}</h3>
                     <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4">{card.desc}</p>
                     <Link
@@ -168,12 +169,12 @@ export function SolutionsSection() {
                       자세히 보기
                     </Link>
                   </div>
-                  <div className="relative w-[180px] shrink-0">
+                  <div className="relative w-[160px] shrink-0">
                     <Image
                       src={card.img}
                       alt={card.title}
                       fill
-                      className="object-contain object-right"
+                      className="object-contain object-right-bottom"
                     />
                   </div>
                 </div>
