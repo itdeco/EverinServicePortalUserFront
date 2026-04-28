@@ -131,9 +131,14 @@ export function SolutionsSection() {
           </div>
 
           {/* Sub cards: 에버웰커밍 / 인사관리 / PC-OFF — 3열 한 줄 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-12 gap-5">
             {hrSubCards.map((card, i) => (
-              <div key={i} className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col h-[300px]">
+              <div 
+                key={i} 
+                className={`rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col ${
+                  i === 1 ? 'col-span-5 h-[420px]' : 'col-span-3.5 h-[360px]'
+                }`}
+              >
                 {/* 텍스트 영역 */}
                 <div className="px-6 pt-6 pb-3 shrink-0">
                   <h3 className="text-base font-bold text-gray-900 mb-1.5">{card.title}</h3>
