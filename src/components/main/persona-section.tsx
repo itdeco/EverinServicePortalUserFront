@@ -79,7 +79,16 @@ export function PersonaSection() {
                 </div>
 
                 {/* Big Quote Mark */}
-                <p className={`text-4xl font-bold mb-2 ${persona.quoteColor}`}>❝</p>
+                <div className="flex justify-center mb-4">
+                  <div className="relative w-12 h-12">
+                    <Image
+                      src={persona.bigQuoteMark}
+                      alt="quote"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
 
                 {/* Quote Text - 컬러 */}
                 <p className={`text-base leading-relaxed whitespace-pre-line mb-6 font-medium ${persona.quoteColor}`}>
