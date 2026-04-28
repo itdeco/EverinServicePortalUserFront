@@ -174,7 +174,7 @@ export function SolutionsSection() {
                       src={card.img}
                       alt={card.title}
                       fill
-                      className="object-cover object-top"
+                      className="object-cover object-center"
                     />
                   </div>
                 </div>
