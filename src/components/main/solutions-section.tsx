@@ -134,7 +134,7 @@ export function SolutionsSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {/* 에버웰커밍 - left */}
             <div className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-row items-stretch h-[280px]">
-              <div className="flex flex-col justify-center px-7 py-6 w-[55%]">
+              <div className="flex flex-col justify-center px-7 py-6 w-[45%]">
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{hrSubCards[0].title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4">{hrSubCards[0].desc}</p>
                 <Link
@@ -144,13 +144,13 @@ export function SolutionsSection() {
                   자세히 보기
                 </Link>
               </div>
-              {/* 이미지: 오른쪽 상단 정렬, 세로 줄임 */}
-              <div className="relative w-[45%]">
+              {/* 이미지: 오른쪽 하단 정렬, 더 크게 */}
+              <div className="relative w-[55%]">
                 <Image
                   src={hrSubCards[0].img}
                   alt={hrSubCards[0].title}
                   fill
-                  className="object-contain object-right-top"
+                  className="object-contain object-right-bottom"
                 />
               </div>
             </div>
@@ -174,7 +174,7 @@ export function SolutionsSection() {
                       src={card.img}
                       alt={card.title}
                       fill
-                      className="object-contain object-right-bottom"
+                      className="object-contain object-right-top"
                     />
                   </div>
                 </div>
