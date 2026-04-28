@@ -79,8 +79,8 @@ export function PersonaSection() {
                 </div>
 
                 {/* Big Quote Mark */}
-                <div className="flex justify-center mb-4">
-                  <div className="relative w-12 h-12">
+                <div className="flex justify-center mb-3">
+                  <div className="relative w-6 h-6">
                     <Image
                       src={persona.bigQuoteMark}
                       alt="quote"
