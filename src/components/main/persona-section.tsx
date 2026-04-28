@@ -5,6 +5,7 @@ import Image from 'next/image'
 const personas = [
   {
     profile: "/images/main/profiles/profile-pro-01.png",
+    bigQuoteMark: "/images/main/profiles/profile-01.jpg",
     name: "박은숙 과장, 34세",
     company: "(중소기업 HR 1인 담당자)",
     quote: "신입 오는 전날 야근해요.\n흩어진 자료 찾느라 하루가 다 가요...",
@@ -16,6 +17,7 @@ const personas = [
   },
   {
     profile: "/images/main/profiles/profile-pro-02.png",
+    bigQuoteMark: "/images/main/profiles/profile-02.jpg",
     name: "김피플 팀장, 38세",
     company: "(스타트업 People & Culture)",
     quote: "회사의 빠른 성장과 수시 인력채용으로\n인해 온보딩과 근태관리가 못 따라가요.\n엑셀+주먹구구식!",
@@ -27,6 +29,7 @@ const personas = [
   },
   {
     profile: "/images/main/profiles/profile-pro-03.png",
+    bigQuoteMark: "/images/main/profiles/profile-03.jpg",
     name: "박문화 이사, 48세",
     company: "(중소기업 경영지원 / C-Level)",
     quote: "연말정산이나 급여처리 등 특정시기에\n급여/세무 신고 등으로 바빠서\n다른 HR 주요업무를 추진할 수가 없음",
@@ -61,7 +64,7 @@ export function PersonaSection() {
               <div className="p-6 flex-1 flex flex-col">
                 {/* Profile Row: Image LEFT, Name/Company RIGHT */}
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-md flex-shrink-0">
+                  <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-md shrink-0">
                     <Image
                       src={persona.profile}
                       alt={persona.name}

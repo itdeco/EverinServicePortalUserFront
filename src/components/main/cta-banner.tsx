@@ -8,7 +8,7 @@ export function CtaBanner() {
     <section
       className="py-20 lg:py-24 relative overflow-hidden"
       style={{
-        backgroundImage: `url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/bg-hero-00-SrCoIpiJckerzxqSYX7kBJmvg2GZo1.jpg')`,
+        backgroundImage: `url('/images/main/backgrounds/bg-foot.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

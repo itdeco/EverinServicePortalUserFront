@@ -21,7 +21,7 @@ const circleIcons = [
 export default function HeroSection() {
   return (
     <section
-      className="relative overflow-hidden min-h-[700px]"
+      className="relative overflow-hidden min-h-175"
       style={{
         backgroundImage: `url('/images/main/backgrounds/bg-hero-00.jpg')`,
         backgroundSize: "cover",
@@ -36,10 +36,10 @@ export default function HeroSection() {
             <p className="text-gray-600 text-base md:text-lg mb-4">
               근태나 급여관리 엑셀로 수기 관리하시나요?
             </p>
-            <h1 className="text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 leading-tight mb-6-20">
               HR 솔루션×AI=
-              <span className="inline-block relative" style={{ width: "3.2em", height: "1em", verticalAlign: "middle" }}>
-                <Image src="/everein-wordmark.png" alt="에버인" fill className="object-contain object-left" />
+              <span className="inline-block relative" style={{ width: "3.5em", height: "1.5em", verticalAlign: "middle" }}>
+                <Image src="/images/main/icons/hero/everein-wordmark.png" alt="에버인" fill className="object-contain object-left" />
               </span>
             </h1>
             <p className="text-gray-500 text-base leading-relaxed mb-8">
@@ -105,7 +105,7 @@ export default function HeroSection() {
             <div className="absolute inset-[27%] bg-white rounded-full shadow-2xl flex items-center justify-center z-30">
               <div className="relative w-[60%] h-[40%]">
                 <Image
-                  src="/everein-wordmark.png"
+                  src="/images/main/icons/hero/everein-wordmark.png"
                   alt="에버인"
                   fill
                   className="object-contain"
