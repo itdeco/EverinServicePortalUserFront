@@ -38,7 +38,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="font-sans antialiased">
       <StoreProvider>
-        {children}
+        <div className="mx-auto max-w-[1280px] w-full">
+          {children}
+        </div>
       </StoreProvider>
       </body>
     </html>
