@@ -76,7 +76,7 @@ export function SolutionsSection() {
 
   return (
     <section className="py-20 lg:py-28 bg-white">
-      <div className="container mx-auto px-6 lg:px-12">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
 
         {/* Header */}
         <div className="mb-3">

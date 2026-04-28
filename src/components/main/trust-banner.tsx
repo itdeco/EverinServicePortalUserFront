@@ -94,7 +94,7 @@ const certifications = [
 export function TrustBanner() {
   return (
     <section className="py-20 lg:py-28 bg-[#f8f9fc]">
-      <div className="container mx-auto px-6 lg:px-12">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
 
         {/* Section label */}
         <div className="text-center mb-14">

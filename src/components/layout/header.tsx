@@ -143,17 +143,19 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* 상단 프로모션 배너 */}
-      <div className="bg-primary text-primary-foreground py-2.5 px-4 text-center text-sm">
+      <div className="bg-primary text-primary-foreground py-2.5">
+        <div className="mx-auto max-w-[1280px] px-4 text-center text-sm">
         <span className="font-medium">AI 빌더를 활용한 강력한 온보딩 솔루션!</span>
         {" "}에버웰커밍 무료 사용 이벤트{" "}
         <SmartLink href="#" className="underline underline-offset-2 font-semibold hover:opacity">
           확인하기 &gt;
         </SmartLink>
+        </div>
       </div>
 
       {/* 메인 네비게이션 */}
       <div className="border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="w-full flex h-16 items-center justify-between px-4 md:px-6">
+        <div className="mx-auto max-w-[1280px] w-full flex h-16 items-center justify-between px-4 md:px-6">
           {/* 왼쪽: 로고 + 네비게이션 */}
           <div className="flex items-center gap-16">
             <SmartLink href="/" className="flex items-center gap-2 shrink-0">
