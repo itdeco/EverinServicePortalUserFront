@@ -35,7 +35,7 @@ const cards = [
 export function MissionSection() {
   return (
     <section className="py-20 lg:py-28 bg-white">
-      <div className="container mx-auto px-6 lg:px-12">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
         {/* Quote */}
         <div className="text-center mb-16">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a2e] mb-5">

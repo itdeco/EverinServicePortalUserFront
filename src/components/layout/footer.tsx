@@ -15,7 +15,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-slate-900 text-slate-300 border-t-0">
-      <div className="container mx-auto px-4 py-12">
+      <div className="mx-auto max-w-[1280px] px-4 py-12">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
           {/* 왼쪽: 회사 정보 */}
           <div className="flex flex-col gap-4">

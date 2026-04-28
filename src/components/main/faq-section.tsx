@@ -34,7 +34,7 @@ const faqs = [
 export function FaqSection() {
   return (
     <section className="py-20 lg:py-28 bg-gray-50">
-      <div className="container mx-auto px-6 lg:px-12">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
         <div className="max-w-3xl mx-auto">
 
           {/* Header */}

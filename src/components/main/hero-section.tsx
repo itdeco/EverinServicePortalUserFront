@@ -28,7 +28,7 @@ export default function HeroSection() {
         backgroundPosition: "center",
       }}
     >
-      <div className="container mx-auto px-6 lg:px-12">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
         <div className="flex flex-col lg:flex-row items-center justify-between pt-24 pb-16 lg:pt-32 lg:pb-24 gap-8 lg:gap-4">
 
           {/* Left: Text Content */}

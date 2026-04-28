@@ -76,7 +76,7 @@ export function SolutionsSection() {
 
   return (
     <section className="py-20 lg:py-28 bg-white">
-      <div className="container mx-auto px-6 lg:px-12">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
 
         {/* Header */}
         <div className="mb-3">
@@ -130,13 +130,13 @@ export function SolutionsSection() {
             </div>
           </div>
 
-          {/* Sub cards: 에버웰커밍 (left, large) + 인사관리 + PC-OFF (right, stacked) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-            {/* 에버웰커밍 - left, stretches to match right column height */}
-            <div className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col h-full">
-              <div className="px-7 pt-7 pb-4">
+          {/* Sub cards: 에버웰커밍 (left) + 인사관리 + PC-OFF (right, stacked) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* 에버웰커밍 - left */}
+            <div className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-row items-stretch h-[280px]">
+              <div className="flex flex-col justify-center px-7 py-6 w-[45%]">
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{hrSubCards[0].title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-5">{hrSubCards[0].desc}</p>
+                <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4">{hrSubCards[0].desc}</p>
                 <Link
                   href={hrSubCards[0].href}
                   className="inline-flex items-center justify-center w-fit px-5 py-2 rounded-full border border-gray-300 text-gray-700 text-sm font-medium hover:border-[#00dcaa] hover:text-[#00dcaa] transition-colors"
@@ -144,24 +144,24 @@ export function SolutionsSection() {
                   자세히 보기
                 </Link>
               </div>
-              {/* 이미지: 오른쪽 위 정렬 */}
-              <div className="relative flex-1 min-h-[200px]">
+              {/* 이미지: 오른쪽 하단 정렬, 더 크게 */}
+              <div className="relative w-[55%]">
                 <Image
                   src={hrSubCards[0].img}
                   alt={hrSubCards[0].title}
                   fill
-                  className="object-contain object-right-top"
+                  className="object-contain object-right-bottom"
                 />
               </div>
             </div>
 
-            {/* 인사관리 + PC-OFF - right stacked, each flex-1 so heights match total */}
-            <div className="flex flex-col gap-5 h-full">
+            {/* 인사관리 + PC-OFF - right stacked, 에버웰커밍과 동일 높이 */}
+            <div className="flex flex-col gap-5 h-[280px]">
               {hrSubCards.slice(1).map((card, i) => (
                 <div key={i} className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-row items-stretch flex-1">
-                  <div className="flex flex-col justify-center px-6 py-6 flex-1 min-w-0">
-                    <h3 className="text-base font-bold text-gray-900 mb-1.5">{card.title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4">{card.desc}</p>
+                  <div className="flex flex-col justify-center px-6 py-4 flex-1 min-w-0">
+                    <h3 className="text-base font-bold text-gray-900 mb-1">{card.title}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-3">{card.desc}</p>
                     <Link
                       href={card.href}
                       className="inline-flex items-center justify-center w-fit px-4 py-1.5 rounded-full border border-gray-300 text-gray-700 text-xs font-medium hover:border-[#00dcaa] hover:text-[#00dcaa] transition-colors"
@@ -169,12 +169,12 @@ export function SolutionsSection() {
                       자세히 보기
                     </Link>
                   </div>
-                  <div className="relative w-[160px] shrink-0">
+                  <div className="relative w-[240px] shrink-0 h-full">
                     <Image
                       src={card.img}
                       alt={card.title}
                       fill
-                      className="object-contain object-right-bottom"
+                      className="object-cover object-center"
                     />
                   </div>
                 </div>

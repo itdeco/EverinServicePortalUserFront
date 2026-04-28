@@ -13,7 +13,7 @@ export function CtaBanner() {
         backgroundPosition: "center",
       }}
     >
-      <div className="container mx-auto px-6 lg:px-12">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
         <div className="max-w-2xl">
           <p className="text-sm text-[#00dcaa] font-semibold mb-3">에버人 솔루션</p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 leading-tight mb-4">
