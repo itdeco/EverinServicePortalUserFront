@@ -169,12 +169,12 @@ export function SolutionsSection() {
                       자세히 보기
                     </Link>
                   </div>
-                  <div className="relative w-[200px] shrink-0">
+                  <div className="relative w-[240px] shrink-0 h-full">
                     <Image
                       src={card.img}
                       alt={card.title}
                       fill
-                      className="object-contain object-right-top"
+                      className="object-cover object-top"
                     />
                   </div>
                 </div>
