@@ -130,56 +130,37 @@ export function SolutionsSection() {
             </div>
           </div>
 
-          {/* Sub cards: 에버웰커밍 (left) + 인사관리 + PC-OFF (right, stacked) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {/* 에버웰커밍 - left */}
-            <div className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-row items-stretch h-[280px]">
-              <div className="flex flex-col justify-center px-7 py-6 w-[45%]">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{hrSubCards[0].title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4">{hrSubCards[0].desc}</p>
-                <Link
-                  href={hrSubCards[0].href}
-                  className="inline-flex items-center justify-center w-fit px-5 py-2 rounded-full border border-gray-300 text-gray-700 text-sm font-medium hover:border-[#00dcaa] hover:text-[#00dcaa] transition-colors"
-                >
-                  자세히 보기
-                </Link>
-              </div>
-              {/* 이미지: 오른쪽 하단 정렬, 더 크게 */}
-              <div className="relative w-[55%]">
-                <Image
-                  src={hrSubCards[0].img}
-                  alt={hrSubCards[0].title}
-                  fill
-                  className="object-contain object-right-bottom"
-                />
-              </div>
-            </div>
-
-            {/* 인사관리 + PC-OFF - right stacked, 에버웰커밍과 동일 높이 */}
-            <div className="flex flex-col gap-5 h-[280px]">
-              {hrSubCards.slice(1).map((card, i) => (
-                <div key={i} className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-row items-stretch flex-1">
-                  <div className="flex flex-col justify-center px-6 py-4 flex-1 min-w-0">
-                    <h3 className="text-base font-bold text-gray-900 mb-1">{card.title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-3">{card.desc}</p>
-                    <Link
-                      href={card.href}
-                      className="inline-flex items-center justify-center w-fit px-4 py-1.5 rounded-full border border-gray-300 text-gray-700 text-xs font-medium hover:border-[#00dcaa] hover:text-[#00dcaa] transition-colors"
-                    >
-                      자세히 보기
-                    </Link>
-                  </div>
-                  <div className="relative w-[240px] shrink-0 h-full">
-                    <Image
-                      src={card.img}
-                      alt={card.title}
-                      fill
-                      className="object-cover object-center"
-                    />
-                  </div>
+          {/* Sub cards: 에버웰커밍 / 인사관리 / PC-OFF — 3열 한 줄 */}
+          <div className="grid grid-cols-12 gap-5">
+            {hrSubCards.map((card, i) => (
+              <div 
+                key={i} 
+                className={`rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col ${
+                  i === 1 ? 'col-span-5 h-[420px]' : 'col-span-3.5 h-[360px]'
+                }`}
+              >
+                {/* 텍스트 영역 */}
+                <div className="px-6 pt-6 pb-3 shrink-0">
+                  <h3 className="text-base font-bold text-gray-900 mb-1.5">{card.title}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4">{card.desc}</p>
+                  <Link
+                    href={card.href}
+                    className="inline-flex items-center justify-center w-fit px-4 py-1.5 rounded-full border border-gray-300 text-gray-700 text-xs font-medium hover:border-[#00dcaa] hover:text-[#00dcaa] transition-colors"
+                  >
+                    자세히 보기
+                  </Link>
                 </div>
-              ))}
-            </div>
+                {/* 이미지 영역 — 남은 공간 꽉 채우기 */}
+                <div className="relative flex-1 mx-3 mb-3 rounded-xl overflow-hidden">
+                  <Image
+                    src={card.img}
+                    alt={card.title}
+                    fill
+                    className="object-cover object-top"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
