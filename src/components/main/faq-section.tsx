@@ -39,7 +39,7 @@ export function FaqSection() {
 
           {/* Header */}
           <div className="text-center mb-10">
-            <p className="text-xs text-[#00dcaa] font-semibold tracking-widest uppercase mb-3">FAQ</p>
+            <p className="text-xl text-[#00dcaa] font-semibold tracking-widest uppercase mb-3">FAQ</p>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
               더 궁금한 점이 있으신가요?
             </h2>

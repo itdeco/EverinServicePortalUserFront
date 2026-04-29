@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
@@ -14,7 +14,7 @@ const tabs = [
 /* ─── 인사관리 탭 데이터 ─── */
 const hrMainCard = {
   title: "에버타임 스탠다드",
-  desc: "복잡한 근로기준법, 더 이상 걱정하지 마세요.\n실시간 모니터링으로 법적 리스크를 0%로",
+  desc: "복잡한 근로기준법\n더 이상 걱정하지 마세요.\n실시간 모니터링으로 \n법적 리스크를 0% 로",
   img: "/images/main/solutions/tab1/tab1-solutions-01.png",
   href: "/",
 }
@@ -28,7 +28,7 @@ const hrSubCards = [
   },
   {
     title: "인사관리",
-    desc: "인사정보, 전자근로계약서, 보안",
+    desc: "인사정보, 전자근로계약서, 보안\n ",
     img: "/images/main/solutions/tab1/tab1-solutions-03.png",
     href: "/",
   },
@@ -74,6 +74,26 @@ const groupwareSubCard = {
 export function SolutionsSection() {
   const [activeTab, setActiveTab] = useState("hr")
 
+
+  const sectionRef = useRef<HTMLDivElement | null>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true)
+            observer.disconnect()
+          }
+        },
+        { threshold: 0.2 }
+    )
+
+    if (sectionRef.current) observer.observe(sectionRef.current)
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <section className="py-20 lg:py-28 bg-white">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
@@ -106,11 +126,21 @@ export function SolutionsSection() {
         </div>
 
         {/* ─── 인사관리 Tab ─── */}
-        <div className={cn(activeTab === "hr" ? "block" : "hidden")}>
+        <div
+            ref={sectionRef}
+            className={cn(activeTab === "hr" ? "block" : "hidden")}
+        >
 
           {/* Main big card (full width) */}
-          <div className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden mb-5 flex flex-col md:flex-row items-stretch min-h-[260px]">
-            <div className="flex flex-col justify-center px-8 py-8 md:py-10 md:w-[38%] shrink-0">
+          <div
+              className={cn(
+                  "rounded-2xl group bg-[#f7f8fa] border border-gray-100 overflow-hidden mb-5 flex flex-col md:flex-row items-stretch min-h-88",
+                  "transition-all duration-700 ease-out",
+                  "hover:-translate-y-2 hover:shadow-xl hover:scale-[1.01]",
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              )}
+          >
+            <div className="flex flex-col justify-items-start px-8 py-8 md:py-10 md:w-[19%] shrink-0">
               <h3 className="text-xl font-bold text-gray-900 mb-3">{hrMainCard.title}</h3>
               <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-6">{hrMainCard.desc}</p>
               <Link
@@ -120,24 +150,34 @@ export function SolutionsSection() {
                 자세히 보기
               </Link>
             </div>
-            <div className="relative flex-1 min-h-[220px]">
+            <div className="relative flex-1 min-h-55">
               <Image
                 src={hrMainCard.img}
                 alt={hrMainCard.title}
                 fill
-                className="object-cover object-left-top"
+                className="object-contain object-top-right"
               />
             </div>
           </div>
 
           {/* Sub cards: 에버웰커밍 / 인사관리 / PC-OFF — 3열 한 줄 */}
-          <div className="grid grid-cols-10 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-10 gap-5 items-end">
             {hrSubCards.map((card, i) => (
               <div 
-                key={i} 
-                className={`rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col ${
-                  i === 1 ? 'col-span-4 h-[420px]' : 'col-span-3 h-[380px]'
-                }`}
+                key={i}
+                className={cn(
+                    "rounded-2xl group bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col",
+                    "col-span-1 h-[460px] md:col-span-1",
+                    "transition-all duration-500 ease-out",
+                    "hover:-translate-y-2 hover:shadow-xl hover:scale-[1.015]",
+                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
+                    i === 0 && "delay-100",
+                    i === 1 && "delay-200",
+                    i === 2 && "delay-300",
+                    i === 1
+                        ? "lg:col-span-4 lg:h-[460px]"
+                        : "lg:col-span-3 lg:h-[460px]"
+                )}
               >
                 {/* 텍스트 영역 */}
                 <div className="px-6 pt-6 pb-3 shrink-0">
@@ -156,7 +196,7 @@ export function SolutionsSection() {
                     src={card.img}
                     alt={card.title}
                     fill
-                    className="object-cover object-top"
+                    className="object-cover object-top-left"
                   />
                 </div>
               </div>

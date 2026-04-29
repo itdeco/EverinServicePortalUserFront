@@ -8,7 +8,7 @@ const personas = [
     bigQuoteMark: "/images/main/profiles/profile-01.jpg",
     name: "박은숙 과장, 34세",
     company: "(중소기업 HR 1인 담당자)",
-    quote: "신입 오는 전날 야근해요.\n흩어진 자료 찾느라 하루가 다 가요...",
+    quote: "신입 오는 전날 야근해요.\n흩어진 자료 찾느라 하루가 다 가요...\n !!",
     need: "나 대신 | 온보딩 해줄 자동화\n(온보딩만 전담해줄 인력필요)",
     solution: "해결책 : 에버웰커밍\n(Track A)",
     borderColor: "border-[#00dcaa]",
@@ -91,20 +91,20 @@ export function PersonaSection() {
                 </div>
 
                 {/* Quote Text - 컬러 */}
-                <p className={`text-base leading-relaxed whitespace-pre-line mb-6 font-medium ${persona.quoteColor}`}>
+                <p className={`text-base leading-relaxed whitespace-pre-line mb-6 font-medium text-center ${persona.quoteColor}`}>
                   {persona.quote}
                 </p>
 
                 {/* Need Section */}
                 <div className="mb-6 flex-1">
-                  <p className="text-sm text-gray-500 mb-2">Need:</p>
-                  <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                  <p className="text-sl text-gray-500 mb-2">Need:</p>
+                  <p className="text-sl text-gray-600 leading-relaxed whitespace-pre-line">
                     {persona.need}
                   </p>
                 </div>
 
                 {/* Solution Button - 하단 고정 */}
-                <button className={`${persona.buttonColor} text-white font-bold py-4 px-6 rounded-xl w-full hover:opacity-90 transition-opacity text-sm whitespace-pre-line leading-tight`}>
+                <button className={`${persona.buttonColor} text-white font-bold py-4 px-6 rounded-xl w-full hover:opacity-80 transition-opacity text-xl whitespace-pre-line leading-tight`}>
                   {persona.solution}
                 </button>
               </div>
