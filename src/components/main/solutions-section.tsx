@@ -131,12 +131,12 @@ export function SolutionsSection() {
           </div>
 
           {/* Sub cards: 에버웰커밍 / 인사관리 / PC-OFF — 3열 한 줄 */}
-          <div className="grid grid-cols-12 gap-5">
+          <div className="grid grid-cols-10 gap-5">
             {hrSubCards.map((card, i) => (
               <div 
                 key={i} 
                 className={`rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col ${
-                  i === 1 ? 'col-span-5 h-[420px]' : 'col-span-3.5 h-[360px]'
+                  i === 1 ? 'col-span-4 h-[420px]' : 'col-span-3 h-[380px]'
                 }`}
               >
                 {/* 텍스트 영역 */}
