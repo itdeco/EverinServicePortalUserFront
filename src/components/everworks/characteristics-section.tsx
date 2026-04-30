@@ -1,30 +1,57 @@
-const characteristics = [
-  {
-    title: "Teams Oneis AI+ 로",
-    description: "인공지능 기반의 지능형\n작업 할당 및 관리 시스템",
-  },
-  {
-    title: "Hybrid한 협업",
-    description: "온/오프라인 혼합형\n협업 환경 지원",
-  },
-  {
-    title: "3-fold 메디션",
-    description: "완벽한 데이터 보안\n및 백업 시스템",
-  },
-];
+import Image from "next/image";
 
 export default function CharacteristicsSection() {
+  const characteristics = [
+    {
+      id: 1,
+      title: "Teams Native Add-in",
+      description:
+        "이미 Teams를 사용 중이라면, 화면 전환 없이 Teams 안에서 EverWorks의 전자결재와 인사 기능을 그대로 사용하세요",
+    },
+    {
+      id: 2,
+      title: "Hybrid OS 지원",
+      description:
+        "Windows와 Mac 모두에서 최적화된 전용 앱을 제공합니다. 웹 브라우저보다 빠르고 안정적인 데스크톱 환경을 경험하십시오.",
+    },
+    {
+      id: 3,
+      title: "조직도 기반 메신저",
+      description:
+        "전사 조직도가 실시간 반영되는 보안 메신저로 업무의 속도를 높이고, 개인 사생활과 업무를 완벽히 분리합니다.",
+    },
+  ];
+
   return (
     <section className="w-full bg-white py-20">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+            어떤 환경에서도 끊김 없는 '올인원 커뮤니케이션'
+          </h2>
+          <p className="text-gray-700 text-base leading-relaxed">
+            업무의 시작은 소통입니다. EverWorks 메신저는 단순한 채팅을 넘어
+            <br />
+            모든 업무의 '허브' 역할을 수행합니다.
+          </p>
+        </div>
+
+        {/* 3 Circular Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {characteristics.map((char, idx) => (
-            <div key={idx} className="flex flex-col items-center text-center">
-              {/* Circle Border */}
-              <div className="w-48 h-48 rounded-full border-4 border-[#00dcaa] flex items-center justify-center mb-6">
-                <div className="text-center">
-                  <h3 className="font-bold text-gray-900 mb-3">{char.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
+          {characteristics.map((char) => (
+            <div key={char.id} className="flex flex-col items-center text-center">
+              {/* Circular Border Container */}
+              <div className="relative w-64 h-64 rounded-full border-4 border-[#00cc99] flex items-center justify-center mb-8">
+                {/* Center Dot */}
+                <div className="absolute top-8 w-4 h-4 bg-[#00cc99] rounded-full"></div>
+
+                {/* Content */}
+                <div className="px-8 py-8 flex flex-col items-center justify-center h-full">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4">
+                    {char.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
                     {char.description}
                   </p>
                 </div>

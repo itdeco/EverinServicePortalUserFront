@@ -1,73 +1,80 @@
 import Image from "next/image";
 
+const features = [
+  {
+    title: "통합 계정 관리",
+    description: "한 번의 입사 처리로 메일, ERP, 근태 계정까지 동시 생성"
+  },
+  {
+    title: "실시간 데이터 연동",
+    description: "연장근로 승인 즉시 PC-OFF 해제 및 급여 자동 가산"
+  },
+  {
+    title: "단일 창구 지원",
+    description: "모든 솔루션을 우리가 직접 만드니깐, 기술 지원도 단 한 곳에서 끝납니다."
+  }
+];
+
+const functions = [
+  { label: "메일", icon: "📧" },
+  { label: "전자결재", icon: "📋" },
+  { label: "게시판", icon: "📰" },
+  { label: "인장관리", icon: "🔐" },
+  { label: "TO-DO", icon: "✓" },
+  { label: "예약", icon: "📅" },
+  { label: "설문조사", icon: "📊" },
+  { label: "AI Assistant", icon: "🤖" },
+  { label: "대시보드", icon: "📈" },
+  { label: "조직관리", icon: "👥" },
+];
+
 export default function FeaturesSection() {
   return (
-    <section className="w-full bg-white py-20">
+    <section className="w-full bg-white py-16 md:py-24">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Left: Text */}
+        {/* Header */}
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+            &quot;우리는 <span className="text-[#00cc99]">하나</span>로 흐릅니다.
+            <br />
+            그룹웨어가 곧 모든 시스템의 관문입니다.&quot;
+          </h2>
+        </div>
+
+        {/* Features and Diagram */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-16">
+          {/* Left: Features List */}
           <div className="space-y-6">
-            <div>
-              <p className="text-[#00dcaa] font-semibold mb-4">기능 상세</p>
-              <p className="text-gray-700 text-base leading-relaxed mb-4">
-                "작업에 최신 도움주기"
-              </p>
-              <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                "예상에서 완료 시간을 다시 정보하세요"
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#ffa726] flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white text-xs font-bold">✓</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">작업현황</p>
-                  <p className="text-gray-600 text-sm">리얼타임으로 각 팀원의 업무를 관리할 수</p>
-                </div>
+            {features.map((feature, idx) => (
+              <div key={idx} className="bg-gray-50 p-6 rounded-lg">
+                <h3 className="text-[#00cc99] font-bold mb-2 text-lg">{feature.title}</h3>
+                <p className="text-gray-700 text-sm leading-relaxed">{feature.description}</p>
               </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#66bb6a] flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white text-xs font-bold">✓</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">협업 기능</p>
-                  <p className="text-gray-600 text-sm">팀 내 소통 및 공동작업을 효율적으로</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#ec407a] flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white text-xs font-bold">✓</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">보고서</p>
-                  <p className="text-gray-600 text-sm">자동 생성되는 진행 현황 보고서</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#5c6bc0] flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white text-xs font-bold">✓</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">분석</p>
-                  <p className="text-gray-600 text-sm">팀의 생산성을 한눈에 파악</p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
 
-          {/* Right: Chart Image */}
-          <div className="relative h-96">
+          {/* Right: Diagram Image */}
+          <div className="relative h-[350px] md:h-[400px]">
             <Image
-              src="/images/contents/everWorks/features-chart.png"
-              alt="기능 차트"
+              src="/images/contents/everWorks/bg-EverWorks-02.png"
+              alt="에버웍스 다이어그램"
               fill
               className="object-contain"
             />
+          </div>
+        </div>
+
+        {/* Functions Grid */}
+        <div className="mt-16 md:mt-20">
+          <div className="grid grid-cols-5 gap-4 md:gap-6">
+            {functions.map((func, idx) => (
+              <div key={idx} className="flex flex-col items-center text-center">
+                <div className="bg-[#00cc99] w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center mb-3">
+                  <span className="text-2xl md:text-3xl">{func.icon}</span>
+                </div>
+                <p className="text-xs md:text-sm font-medium text-gray-700">{func.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

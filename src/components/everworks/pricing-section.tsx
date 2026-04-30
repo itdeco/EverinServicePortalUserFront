@@ -2,8 +2,8 @@ const pricingPlans = [
   {
     title: "팀장 패키지 (Download)",
     duration: "월 / 정기 구독",
-    price: "99,000",
-    currency: "원",
+    price: "무료 예약",
+    currency: "",
     features: [
       "최대 10명 팀원 관리",
       "기본 업무 관리",
@@ -13,8 +13,8 @@ const pricingPlans = [
   {
     title: "엔터프라이즈 (Download)",
     duration: "연 / 정기 구독",
-    price: "990,000",
-    currency: "원",
+    price: "문의",
+    currency: "",
     features: [
       "무제한 팀원 관리",
       "고급 업무 관리",
@@ -25,8 +25,8 @@ const pricingPlans = [
   {
     title: "커스텀 Pro+ (Open)",
     duration: "월 / 정기 구독",
-    price: "299,000",
-    currency: "원",
+    price: "문의",
+    currency: "",
     features: [
       "최대 50명 팀원 관리",
       "고급 협업 기능",
