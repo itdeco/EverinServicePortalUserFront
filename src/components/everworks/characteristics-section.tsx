@@ -6,19 +6,19 @@ export default function CharacteristicsSection() {
       id: 1,
       title: "Teams Native Add-in",
       description:
-        "이미 Teams를 사용 중이라면, 화면 전환 없이 Teams 인에서 EverWorks의 전자결재와 인사 기능을 그대로 사용하세요",
+        "이미 Teams를 사용 중이라면, 화면 전환 없이 Teams 안에서 EverWorks의 전자결재와 인사 기능을 그대로 사용하세요",
     },
     {
       id: 2,
       title: "Hybrid OS 지원",
       description:
-        "Windows와 Mac 모두에서 최적화된 전용 앱을 제공합니다. 웹 브라우저보다 빠르고 경험하시는 데스크톱 환경을 확정하시오.",
+        "Windows와 Mac 모두에서 최적화된 전용 앱을 제공합니다. 웹 브라우저보다 빠르고 안정적인 데스크톱 환경을 경험하십시오.",
     },
     {
       id: 3,
       title: "조직도 기반 메신저",
       description:
-        "전사 조직도가 실시간 반영되는 보안 메시지로 업무의 속도를 높이고, 개인 사생활과 업무를 완벽히 분리합니다.",
+        "전사 조직도가 실시간 반영되는 보안 메신저로 업무의 속도를 높이고, 개인 사생활과 업무를 완벽히 분리합니다.",
     },
   ];
 
