@@ -14,7 +14,7 @@ export default function HeroSection() {
         />
       </div>
       
-      <div className="relative mx-auto max-w-[1400px] px-6 lg:px-12">
+      <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Left: Text Content */}
           <div className="space-y-6 z-10">
@@ -34,13 +34,10 @@ export default function HeroSection() {
               <button className="px-8 py-3.5 bg-[#00cc99] text-white rounded-xl font-semibold hover:bg-[#00b386] transition-colors">
                 체험하기
               </button>
-              <button className="px-8 py-3.5 bg-white border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors">
-                상세보기
-              </button>
             </div>
           </div>
 
-          {/* Right: Screenshot - 이미지만 사용 */}
+          {/* Right: Screenshot */}
           <div className="relative h-[300px] md:h-[400px] lg:h-[450px] z-10">
             <Image
               src="/images/contents/everWorks/bg-EverWorks-hero-01.png"
