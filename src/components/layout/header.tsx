@@ -58,7 +58,7 @@ const peopleMenuColumns = [
       { title: "연동서비스", href: "#" },
       { title: "출입관리시스템", href: "#" },
       { title: "SetUp/추가개발", href: "#" },
-      { title: "그룹웨어", subtitle: "에버웍스", href: "/everworks", highlight: true },
+      { title: "그룹웨어", subtitle: "에버웍스", href: "/everworks" },
     ],
   },
 ]
@@ -87,7 +87,7 @@ const peopleMenu = {
     { title: "연동서비스", href: "#" },
     { title: "출입관리시스템", href: "#" },
     { title: "SetUp/추가개발", href: "#" },
-    { title: "그룹웨어", subtitle: "에버웍스", href: "/everworks", highlight: true },
+    { title: "그룹웨어", subtitle: "에버웍스", href: "/everworks" },
   ],
 }
 
@@ -255,8 +255,8 @@ export default function Header() {
                                         href={item.href}
                                         onClick={() => setMegaMenuOpen(false)}
                                         className={`text-sm transition-colors whitespace-nowrap flex items-center gap-1 ${"highlight" in item && item.highlight
-                                            ? "text-primary font-medium hover:text-primary"
-                                            : "text-muted-foreground hover:text-primary"
+                                          ? "text-primary font-medium hover:text-primary"
+                                          : "text-muted-foreground hover:text-primary"
                                           }`}
                                       >
                                         <span className="text-muted-foreground/50 text-xs">ㄴ</span>
