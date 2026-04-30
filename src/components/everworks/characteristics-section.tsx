@@ -28,7 +28,7 @@ export default function CharacteristicsSection() {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-            어떤 환경에서도 끊김 없는 '올린원 커뮤니케이션'
+            어떤 환경에서도 끊김 없는 '올인원 커뮤니케이션'
           </h2>
           <p className="text-gray-700 text-base leading-relaxed">
             업무의 시작은 소통입니다. EverWorks 메신저는 단순한 채팅을 넘어
