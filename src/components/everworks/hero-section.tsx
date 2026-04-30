@@ -35,7 +35,7 @@ export default function HeroSection() {
           {/* Right: Screenshot - 이미지만 사용 */}
           <div className="relative h-[300px] md:h-[400px] lg:h-[450px] z-10">
             <Image
-              src="/images/contents/everWorks/bg-EverWorks-hero-00.png"
+              src="/images/contents/everWorks/bg-EverWorks-hero-01.png"
               alt="에버웍스 캘린더 스크린샷"
               fill
               className="object-contain object-right"
