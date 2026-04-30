@@ -8,7 +8,6 @@ import CaseSection from "@/components/everworks/case-section";
 import FeaturesSection from "@/components/everworks/features-section";
 import IconGridSection from "@/components/everworks/icon-grid-section";
 import CharacteristicsSection from "@/components/everworks/characteristics-section";
-import PricingSection from "@/components/everworks/pricing-section";
 import ServiceSection from "@/components/everworks/service-section";
 import CtaSection from "@/components/everworks/cta-section";
 
@@ -21,7 +20,6 @@ export default function EverWorksPage() {
       <FeaturesSection />
       <IconGridSection />
       <CharacteristicsSection />
-      <PricingSection />
       <ServiceSection />
       <CtaSection />
       <Footer />
