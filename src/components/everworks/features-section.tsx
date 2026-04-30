@@ -63,7 +63,7 @@ export default function FeaturesSection() {
           {/* Right: Chart Image */}
           <div className="relative h-96">
             <Image
-              src="/images/contents/everWorks/features-chart.png"
+              src="/images/contents/everWorks/bg-EverWorks-02.png"
               alt="기능 차트"
               fill
               className="object-contain"

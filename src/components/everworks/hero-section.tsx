@@ -11,14 +11,12 @@ export default function HeroSection() {
             <div>
               <p className="text-[#00dcaa] font-semibold mb-2">에버웍스</p>
               <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-4">
-                인팀 시뮬 시스템 관리,
-                <br />
-                임관지시 고도화된
+                모든 HR에 대한 조직원의 혼동을 덜어주는
                 <br />
                 <span className="text-[#00dcaa]">에버웍스</span>
               </h1>
               <p className="text-gray-600 text-base leading-relaxed">
-                부서별 작업현황 관리, 프로젝트 협업
+                팀 협업, 업무 관리, 성과 분석을 한 곳에서!
               </p>
             </div>
             <div className="flex gap-3 pt-2">
@@ -26,7 +24,7 @@ export default function HeroSection() {
                 무료체험 시작하기
               </button>
               <button className="px-7 py-3 border border-gray-300 text-gray-700 rounded-full font-semibold hover:border-gray-400 transition-colors">
-                더 알아보기
+                요청 신청
               </button>
             </div>
           </div>
@@ -34,7 +32,7 @@ export default function HeroSection() {
           {/* Right: Screenshot */}
           <div className="relative h-80 md:h-96">
             <Image
-              src="/images/contents/everWorks/main-screenshot.png"
+              src="/images/contents/everWorks/bg-EverWorks-hero-01.png"
               alt="에버웍스 스크린샷"
               fill
               className="object-contain"

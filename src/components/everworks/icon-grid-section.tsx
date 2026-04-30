@@ -1,18 +1,16 @@
-export default function IconGridSection() {
-  const icons = Array.from({ length: 10 }, (_, i) => i + 1);
+import Image from "next/image";
 
+export default function IconGridSection() {
   return (
     <section className="w-full bg-white py-20">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-          {icons.map((icon) => (
-            <div
-              key={icon}
-              className="h-24 rounded-xl bg-[#00dcaa] flex items-center justify-center text-white font-bold text-lg hover:shadow-lg transition-shadow"
-            >
-              E{icon}
-            </div>
-          ))}
+        <div className="relative w-full h-80">
+          <Image
+            src="/images/contents/everWorks/bg-EverWorks-05.png"
+            alt="기능 아이콘"
+            fill
+            className="object-contain"
+          />
         </div>
       </div>
     </section>

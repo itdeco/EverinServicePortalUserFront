@@ -41,7 +41,7 @@ export default function ServiceSection() {
           {/* Right: Screenshot */}
           <div className="relative h-80 md:h-96">
             <Image
-              src="/images/contents/everWorks/ai-assistant.png"
+              src="/images/contents/everWorks/bg-EverWorks-hero-00.png"
               alt="AI 어시스턴트"
               fill
               className="object-contain"
