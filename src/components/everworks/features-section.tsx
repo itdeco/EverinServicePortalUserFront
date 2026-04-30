@@ -3,15 +3,15 @@ import Image from "next/image";
 const features = [
   {
     title: "통합 계정 관리",
-    description: "한 번의 입사 처리로 메일, ERP, 구태 계정까지 동시 생성"
+    description: "한 번의 입사 처리로 메일, ERP, 근태 계정까지 동시 생성"
   },
   {
     title: "실시간 데이터 연동",
-    description: "연장근로 승인 즉시 PC-OFF 해제 및 금여 자동 가산"
+    description: "연장근로 승인 즉시 PC-OFF 해제 및 급여 자동 가산"
   },
   {
     title: "단일 창구 지원",
-    description: "모든 솔루션을 우리가 직접 만들고, 기술 지원도 단한 곳에서 끝납니다."
+    description: "모든 솔루션을 우리가 직접 만드니깐, 기술 지원도 단 한 곳에서 끝납니다."
   }
 ];
 
