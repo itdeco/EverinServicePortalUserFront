@@ -1,88 +1,63 @@
 import Image from "next/image";
 
 export default function CharacteristicsSection() {
+  const characteristics = [
+    {
+      id: 1,
+      title: "Teams Native Add-in",
+      description:
+        "이미 Teams를 사용 중이라면, 화면 전환 없이 Teams 인에서 EverWorks의 전자결재와 인사 기능을 그대로 사용하세요",
+    },
+    {
+      id: 2,
+      title: "Hybrid OS 지원",
+      description:
+        "Windows와 Mac 모두에서 최적화된 전용 앱을 제공합니다. 웹 브라우저보다 빠르고 경험하시는 데스크톱 환경을 확정하시오.",
+    },
+    {
+      id: 3,
+      title: "조직도 기반 메신저",
+      description:
+        "전사 조직도가 실시간 반영되는 보안 메시지로 업무의 속도를 높이고, 개인 사생활과 업무를 완벽히 분리합니다.",
+    },
+  ];
+
   return (
-    <section className="w-full bg-white py-16">
+    <section className="w-full bg-white py-20">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
-            핵심 모듈별 특장점
+        <div className="text-center mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+            어떤 환경에서도 끊김 없는 '올린원 커뮤니케이션'
           </h2>
-          <p className="text-gray-600">
-            EverWorks만의 차별화된 경쟁력을 확인하세요.
+          <p className="text-gray-700 text-base leading-relaxed">
+            업무의 시작은 소통입니다. EverWorks 메신저는 단순한 채팅을 넘어
+            <br />
+            모든 업무의 '허브' 역할을 수행합니다.
           </p>
         </div>
 
-        {/* 4 Cards Grid - 이미지들만 사용 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Card 1 */}
-          <div className="bg-[#e8f8f3] rounded-2xl p-6 border border-[#c8f0e8]">
-            <div className="mb-4">
-              <span className="inline-block px-3 py-1 bg-[#00cc99] text-white text-xs font-semibold rounded-full">
-                정책 &amp; 실행 연동 (Workflow)
-              </span>
-            </div>
-            <div className="relative h-[200px]">
-              <Image
-                src="/images/contents/everWorks/bg-EverWorks-05.png"
-                alt="정책 실행 연동"
-                fill
-                className="object-contain"
-              />
-            </div>
-          </div>
+        {/* 3 Circular Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {characteristics.map((char) => (
+            <div key={char.id} className="flex flex-col items-center text-center">
+              {/* Circular Border Container */}
+              <div className="relative w-64 h-64 rounded-full border-4 border-[#00cc99] flex items-center justify-center mb-8">
+                {/* Center Dot */}
+                <div className="absolute top-8 w-4 h-4 bg-[#00cc99] rounded-full"></div>
 
-          {/* Card 2 */}
-          <div className="bg-[#e8f8f3] rounded-2xl p-6 border border-[#c8f0e8]">
-            <div className="mb-4">
-              <span className="inline-block px-3 py-1 bg-[#00cc99] text-white text-xs font-semibold rounded-full">
-                관리 &amp; 통합 연동 (Workflow)
-              </span>
+                {/* Content */}
+                <div className="px-8 py-8 flex flex-col items-center justify-center h-full">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4">
+                    {char.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {char.description}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="relative h-[200px]">
-              <Image
-                src="/images/contents/everWorks/bg-EverWorks-06.png"
-                alt="관리 툴 통합"
-                fill
-                className="object-contain"
-              />
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="bg-[#e8f8f3] rounded-2xl p-6 border border-[#c8f0e8]">
-            <div className="mb-4">
-              <span className="inline-block px-3 py-1 bg-[#00cc99] text-white text-xs font-semibold rounded-full">
-                글로벌 협업 툴 호환 (Sync)
-              </span>
-            </div>
-            <div className="relative h-[200px]">
-              <Image
-                src="/images/contents/everWorks/bg-EverWorks-07.png"
-                alt="글로벌 협업 툴"
-                fill
-                className="object-contain"
-              />
-            </div>
-          </div>
-
-          {/* Card 4 */}
-          <div className="bg-[#e8f8f3] rounded-2xl p-6 border border-[#c8f0e8]">
-            <div className="mb-4">
-              <span className="inline-block px-3 py-1 bg-[#00cc99] text-white text-xs font-semibold rounded-full">
-                사용자 중심 화면 (UI/UX)
-              </span>
-            </div>
-            <div className="relative h-[200px]">
-              <Image
-                src="/images/contents/everWorks/bg-EverWorks-08.png"
-                alt="사용자 중심 화면"
-                fill
-                className="object-contain"
-              />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
