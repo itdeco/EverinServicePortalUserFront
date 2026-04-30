@@ -35,16 +35,10 @@ export default function HeroSection() {
             <p className="text-gray-600 text-base md:text-lg mb-4">
               근태나 급여관리 엑셀로 수기 관리하시나요?
             </p>
-            <h1 className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-2 text-[38px] sm:text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 leading-tight mb-6">
-              <span>HR 솔루션×AI= </span>
-
-              <span className="relative inline-block w-[190px] h-[72px] sm:w-[220px] sm:h-[90px] md:w-[260px] md:h-[110px] lg:w-[300px] lg:h-[120px] -ml-1">
-                <Image
-                    src="/images/main/icons/hero/everein-wordmark.png"
-                    alt="에버인"
-                    fill
-                    className="object-contain object-left"
-                />
+            <h1 className="flex flex-row items-center gap-2 text-[28px] sm:text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 leading-tight mb-6 whitespace-nowrap">
+              <span className="whitespace-nowrap">HR 솔루션×AI=</span>
+              <span className="relative inline-block w-[140px] h-[50px] sm:w-[220px] sm:h-[90px] md:w-[260px] md:h-[110px] lg:w-[300px] lg:h-[120px]">
+                <Image src="/images/main/icons/hero/everein-wordmark.png" alt="에버인" fill className="object-contain object-left"/>
               </span>
             </h1>
             <p className="text-gray-500 text-base leading-relaxed mb-8">
