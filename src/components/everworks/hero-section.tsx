@@ -3,8 +3,16 @@ import Image from "next/image";
 export default function HeroSection() {
   return (
     <section className="relative w-full overflow-hidden py-16 md:py-24">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#c8e0e8] via-[#d8ede8] to-[#a8e6d0]" />
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/contents/everWorks/bg-EverWorks-hero-00.png"
+          alt="에버웍스 배경"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+      </div>
       
       <div className="relative mx-auto max-w-[1400px] px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
