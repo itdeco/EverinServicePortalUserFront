@@ -1,20 +1,20 @@
 "use client"
 
-import {useEffect, useRef, useState} from "react"
-import {cn} from "@/lib/utils"
+import { useState } from "react"
+import { cn } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
 
 const tabs = [
-  {id: "hr", label: "인사관리"},
-  {id: "culture", label: "기업문화"},
-  {id: "groupware", label: "그룹웨어"},
+  { id: "hr", label: "인사관리" },
+  { id: "culture", label: "기업문화" },
+  { id: "groupware", label: "그룹웨어" },
 ]
 
 /* ─── 인사관리 탭 데이터 ─── */
 const hrMainCard = {
   title: "에버타임 스탠다드",
-  desc: "복잡한 근로기준법\n더 이상 걱정하지 마세요.\n실시간 모니터링으로 \n법적 리스크를 0% 로",
+  desc: "복잡한 근로기준법, 더 이상 걱정하지 마세요.\n실시간 모니터링으로 법적 리스크를 0%로",
   img: "/images/main/solutions/tab1/tab1-solutions-01.png",
   href: "/",
 }
@@ -28,7 +28,7 @@ const hrSubCards = [
   },
   {
     title: "인사관리",
-    desc: "인사정보, 전자근로계약서, 보안\n ",
+    desc: "인사정보, 전자근로계약서, 보안",
     img: "/images/main/solutions/tab1/tab1-solutions-03.png",
     href: "/",
   },
@@ -71,217 +71,114 @@ const groupwareSubCard = {
   href: "/",
 }
 
-const blurDataURL =
-    "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzYwJyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPjxyZWN0IHdpZHRoPScxMDAnIGhlaWdodD0nNjAnIGZpbGw9JyNmM2Y0ZjYnLz48L3N2Zz4="
-
-function handleCardMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-  if (window.innerWidth < 768) return
-  const card = e.currentTarget
-  const rect = card.getBoundingClientRect()
-
-  const x = e.clientX - rect.left
-  const y = e.clientY - rect.top
-
-  const rotateX = ((y / rect.height) - 0.5) * -8
-  const rotateY = ((x / rect.width) - 0.5) * 8
-
-  card.style.setProperty("--mouse-x", `${x}px`)
-  card.style.setProperty("--mouse-y", `${y}px`)
-  card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.015)`
-}
-
-function handleCardMouseLeave(e: React.MouseEvent<HTMLDivElement>) {
-  const card = e.currentTarget
-  card.style.transform = ""
-}
-
 export function SolutionsSection() {
   const [activeTab, setActiveTab] = useState("hr")
 
-
-  const sectionRef = useRef<HTMLDivElement | null>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true)
-            observer.disconnect()
-          }
-        },
-        {threshold: 0.2}
-    )
-
-    if (sectionRef.current) observer.observe(sectionRef.current)
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
+    <section className="py-20 lg:py-28 bg-white">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
 
-          {/* Header */}
-          <div className="mb-3">
-            <p className="text-sm text-emerald-500 font-semibold mb-2">에버인 솔루션</p>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug">
-              반복 업무는 줄이고,<br/>
-              진짜 가치 있는 일에 집중하는 HR 솔루션을 경험하세요.
-            </h2>
+        {/* Header */}
+        <div className="mb-3">
+          <p className="text-sm text-emerald-500 font-semibold mb-2">에버인 솔루션</p>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug">
+            반복 업무는 줄이고,<br />
+            진짜 가치 있는 일에 집중하는 HR 솔루션을 경험하세요.
+          </h2>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex justify-center gap-3 mt-8 mb-10">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={cn(
+                "px-7 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 border",
+                activeTab === tab.id
+                  ? "bg-[#00dcaa] text-white border-[#00dcaa] shadow-sm"
+                  : "bg-white text-gray-600 border-gray-300 hover:border-[#00dcaa] hover:text-[#00dcaa]"
+              )}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* ─── 인사관리 Tab ─── */}
+        <div className={cn(activeTab === "hr" ? "block" : "hidden")}>
+
+          {/* Main big card (full width) */}
+          <div className="rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden mb-5 flex flex-col md:flex-row items-stretch min-h-[260px]">
+            <div className="flex flex-col justify-center px-8 py-8 md:py-10 md:w-[38%] shrink-0">
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{hrMainCard.title}</h3>
+              <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-6">{hrMainCard.desc}</p>
+              <Link
+                href={hrMainCard.href}
+                className="inline-flex items-center justify-center w-fit px-5 py-2 rounded-full border border-gray-300 text-gray-700 text-sm font-medium hover:border-[#00dcaa] hover:text-[#00dcaa] transition-colors"
+              >
+                자세히 보기
+              </Link>
+            </div>
+            <div className="relative flex-1 min-h-[220px]">
+              <Image
+                src={hrMainCard.img}
+                alt={hrMainCard.title}
+                fill
+                className="object-cover object-left-top"
+              />
+            </div>
           </div>
 
-          {/* Tabs */}
-          <div className="flex justify-center gap-3 mt-8 mb-10">
-            {tabs.map((tab) => (
-                <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={cn(
-                        "px-7 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 border cursor-pointer hover:shadow-md active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#00dcaa]/40",
-                        activeTab === tab.id
-                            ? "bg-[#00dcaa] text-white border-[#00dcaa] shadow-sm"
-                            : "bg-white text-gray-600 border-gray-300 hover:border-[#00dcaa] hover:text-[#00dcaa]"
-                    )}
-                >
-                  {tab.label}
-                </button>
+          {/* Sub cards: 에버웰커밍 / 인사관리 / PC-OFF — 3열 한 줄 */}
+          <div className="grid grid-cols-10 gap-5">
+            {hrSubCards.map((card, i) => (
+              <div 
+                key={i} 
+                className={`rounded-2xl bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col ${
+                  i === 1 ? 'col-span-4 h-[420px]' : 'col-span-3 h-[380px]'
+                }`}
+              >
+                {/* 텍스트 영역 */}
+                <div className="px-6 pt-6 pb-3 shrink-0">
+                  <h3 className="text-base font-bold text-gray-900 mb-1.5">{card.title}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4">{card.desc}</p>
+                  <Link
+                    href={card.href}
+                    className="inline-flex items-center justify-center w-fit px-4 py-1.5 rounded-full border border-gray-300 text-gray-700 text-xs font-medium hover:border-[#00dcaa] hover:text-[#00dcaa] transition-colors"
+                  >
+                    자세히 보기
+                  </Link>
+                </div>
+                {/* 이미지 영역 — 남은 공간 꽉 채우기 */}
+                <div className="relative flex-1 mx-3 mb-3 rounded-xl overflow-hidden">
+                  <Image
+                    src={card.img}
+                    alt={card.title}
+                    fill
+                    className="object-cover object-top"
+                  />
+                </div>
+              </div>
             ))}
           </div>
-
-          {/* ─── 인사관리 Tab ─── */}
-          <div
-              ref={sectionRef}
-              className={cn(
-                  activeTab === "hr" ? "block animate-tab-fade-slide" : "hidden"
-              )}
-          >
-
-            {/* Main big card (full width) */}
-            <div
-                onMouseMove={handleCardMouseMove}
-                onMouseLeave={handleCardMouseLeave}
-                className={cn(
-                    "rounded-2xl group relative cursor-pointer will-change-transform bg-[#f7f8fa] border border-gray-100 overflow-hidden mb-5 flex flex-col md:flex-row items-stretch min-h-88",
-                    "transition-[box-shadow,opacity,transform] duration-700 ease-out",
-                    "after:absolute after:inset-0 after:pointer-events-none after:opacity-0 after:transition-opacity after:duration-200",
-                    "after:bg-[radial-gradient(circle_at_var(--mouse-x)_var(--mouse-y),rgba(79,124,255,0.35),transparent_40%)]",
-                    "md:hover:after:opacity-100 hover:shadow-xl",
-                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
-                )}
-            >
-              <div className="flex flex-col justify-items-start px-8 py-8 md:py-10 md:w-[19%] shrink-0">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{hrMainCard.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-6">{hrMainCard.desc}</p>
-                <Link
-                    href={hrMainCard.href}
-                    className="relative z-10 inline-flex items-center justify-center w-fit px-5 py-2 rounded-full border border-gray-300 bg-white/80 text-gray-700 text-sm font-semibold shadow-sm transition-[box-shadow] duration-200 hover:border-[#00dcaa] hover:bg-[#00dcaa] hover:text-white hover:shadow-lg hover:shadow-[#00dcaa]/25 active:scale-95 cursor-pointer"
-                >
-                  자세히 보기
-                </Link>
-              </div>
-              <div className="relative flex-1 min-h-55">
-                <Image
-                    src={hrMainCard.img}
-                    alt={hrMainCard.title}
-                    fill
-                    loading="lazy"
-                    placeholder="blur"
-                    blurDataURL={blurDataURL}
-                    className="object-contain object-top-right transition-all duration-300 group-hover:scale-105"
-                />
-              </div>
-            </div>
-
-            {/* Sub cards: 에버웰커밍 / 인사관리 / PC-OFF — 3열 한 줄 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-10 gap-5 items-end">
-              {hrSubCards.map((card, i) => (
-                  <div
-                      key={i}
-                      onMouseMove={handleCardMouseMove}
-                      onMouseLeave={handleCardMouseLeave}
-                      className={cn(
-                          "rounded-2xl group relative cursor-pointer will-change-transform bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col",
-                          "after:absolute after:inset-0 after:pointer-events-none after:opacity-0 after:transition-opacity after:duration-300",
-                          "after:bg-[radial-gradient(circle_at_var(--mouse-x)_var(--mouse-y),rgba(79,124,255,0.35),transparent_40%)]",
-                          "md:hover:after:opacity-100",
-                          "col-span-1 h-[460px] md:col-span-1",
-                          "transition-[box-shadow,opacity,transform] duration-700 ease-out",
-                          "hover:shadow-xl",
-                          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
-                          i === 0 && "delay-100",
-                          i === 1 && "delay-200",
-                          i === 2 && "delay-300",
-                          i === 1
-                              ? "lg:col-span-4 lg:h-[460px]"
-                              : "lg:col-span-3 lg:h-[460px]"
-                      )}
-                  >
-                    {/* 텍스트 영역 */}
-                    <div className="px-6 pt-6 pb-3 shrink-0">
-                      <h3 className="text-base font-bold text-gray-900 mb-1.5">{card.title}</h3>
-                      <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4">{card.desc}</p>
-                      <Link
-                          href={card.href}
-                          className="relative z-10 inline-flex items-center justify-center w-fit px-4 py-1.5 rounded-full border border-gray-300 bg-white/80 text-gray-700 text-xs font-semibold shadow-sm transition-all duration-300 hover:border-[#00dcaa] hover:bg-[#00dcaa] hover:text-white hover:shadow-md hover:shadow-[#00dcaa]/25 active:scale-95 cursor-pointer"
-                      >
-                        자세히 보기
-                      </Link>
-                    </div>
-                    {/* 이미지 영역 — 남은 공간 꽉 채우기 */}
-                    <div className="relative flex-1 mx-3 mb-3 rounded-xl overflow-hidden">
-                      <Image
-                          src={card.img}
-                          alt={card.title}
-                          fill
-                          loading="lazy"
-                          placeholder="blur"
-                          blurDataURL={blurDataURL}
-                          className="object-cover object-top-left transition-all duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                  </div>
-              ))}
-            </div>
-          </div>
-
-          {/* ─── 기업문화 Tab ─── */}
-          <div className={cn(
-              activeTab === "culture" ? "block animate-tab-fade-slide" : "hidden"
-          )}>
-            <div className="py-20 text-center text-gray-400">
-              준비 중입니다.
-            </div>
-          </div>
-
-          {/* ─── 그룹웨어 Tab ─── */}
-          <div className={cn(
-              activeTab === "groupware" ? "block animate-tab-fade-slide" : "hidden"
-          )}>
-            <div className="py-20 text-center text-gray-400">
-              준비 중입니다.
-            </div>
-          </div>
-
         </div>
-        <style jsx>
-          {`
-                    @keyframes tabFadeSlide {
-                        from {
-                            opacity: 0;
-                            transform: translateY(16px);
-                        }
-                        to {
-                            opacity: 1;
-                            transform: translateY(0);
-                        }
-                    }
 
-                    .animate-tab-fade-slide {
-                        animation: tabFadeSlide 0.35s ease-out both;
-                    }
-                `}
-        </style>
-      </section>
+        {/* ─── 기업문화 Tab ─── */}
+        <div className={cn(activeTab === "culture" ? "block" : "hidden")}>
+          <div className="py-20 text-center text-gray-400">
+            준비 중입니다.
+          </div>
+        </div>
+
+        {/* ─── 그룹웨어 Tab ─── */}
+        <div className={cn(activeTab === "groupware" ? "block" : "hidden")}>
+          <div className="py-20 text-center text-gray-400">
+            준비 중입니다.
+          </div>
+        </div>
+
+      </div>
+    </section>
   )
 }

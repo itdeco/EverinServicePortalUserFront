@@ -33,51 +33,51 @@ const faqs = [
 
 export function FaqSection() {
   return (
-      <section className="py-20 lg:py-28 bg-gray-50">
-        <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
-          <div className="max-w-3xl mx-auto">
+    <section className="py-20 lg:py-28 bg-gray-50">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
+        <div className="max-w-3xl mx-auto">
 
-            {/* Header */}
-            <div className="text-center mb-10">
-              <p className="text-xl text-[#00dcaa] font-semibold tracking-widest uppercase mb-3">FAQ</p>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-                더 궁금한 점이 있으신가요?
-              </h2>
-              <p className="text-gray-400 text-sm">
-                자주 묻는 질문을 확인해보세요.
-              </p>
-            </div>
-
-            {/* Accordion */}
-            <Accordion type="single" collapsible className="space-y-2">
-              {faqs.map((faq, i) => (
-                  <AccordionItem
-                      key={i}
-                      value={`item-${i}`}
-                      className="bg-white rounded-xl border border-gray-200 px-6 data-[state=open]:shadow-sm"
-                  >
-                    <AccordionTrigger className="text-left font-medium text-gray-900 hover:no-underline py-4 text-sm md:text-base">
-                      {faq.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-gray-500 pb-5 text-sm leading-relaxed">
-                      {faq.a}
-                    </AccordionContent>
-                  </AccordionItem>
-              ))}
-            </Accordion>
-
-            {/* Bottom link */}
-            <div className="text-center mt-8">
-              <Link
-                  href="/support/faq"
-                  className="text-sm text-[#00dcaa] hover:text-[#00c9a1] font-medium underline underline-offset-2"
-              >
-                더 많은 FAQ 보기 &rarr;
-              </Link>
-            </div>
-
+          {/* Header */}
+          <div className="text-center mb-10">
+            <p className="text-xs text-[#00dcaa] font-semibold tracking-widest uppercase mb-3">FAQ</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+              더 궁금한 점이 있으신가요?
+            </h2>
+            <p className="text-gray-400 text-sm">
+              자주 묻는 질문을 확인해보세요.
+            </p>
           </div>
+
+          {/* Accordion */}
+          <Accordion type="single" collapsible className="space-y-2">
+            {faqs.map((faq, i) => (
+              <AccordionItem
+                key={i}
+                value={`item-${i}`}
+                className="bg-white rounded-xl border border-gray-200 px-6 data-[state=open]:shadow-sm"
+              >
+                <AccordionTrigger className="text-left font-medium text-gray-900 hover:no-underline py-4 text-sm md:text-base">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-500 pb-5 text-sm leading-relaxed">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
+          {/* Bottom link */}
+          <div className="text-center mt-8">
+            <Link
+              href="/support/faq"
+              className="text-sm text-[#00dcaa] hover:text-[#00c9a1] font-medium underline underline-offset-2"
+            >
+              더 많은 FAQ 보기 &rarr;
+            </Link>
+          </div>
+
         </div>
-      </section>
+      </div>
+    </section>
   )
 }
