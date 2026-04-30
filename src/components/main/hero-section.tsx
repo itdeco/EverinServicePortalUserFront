@@ -35,10 +35,10 @@ export default function HeroSection() {
             <p className="text-gray-600 text-base md:text-lg mb-4">
               근태나 급여관리 엑셀로 수기 관리하시나요?
             </p>
-            <h1 className="flex items-center gap-x-2 whitespace-nowrap text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 leading-tight mb-6">
+            <h1 className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-2 text-[38px] sm:text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 leading-tight mb-6">
               <span>HR 솔루션×AI= </span>
 
-              <span className="relative inline-block w-[220px] h-[90px] md:w-[260px] md:h-[110px] lg:w-[300px] lg:h-[120px] -ml-1">
+              <span className="relative inline-block w-[190px] h-[72px] sm:w-[220px] sm:h-[90px] md:w-[260px] md:h-[110px] lg:w-[300px] lg:h-[120px] -ml-1">
                 <Image
                     src="/images/main/icons/hero/everein-wordmark.png"
                     alt="에버인"
@@ -71,7 +71,7 @@ export default function HeroSection() {
           </div>
 
           {/* Right: 에버人 Circular Diagram */}
-          <div className="flex-shrink-0 relative w-[420px] h-[420px] lg:w-[560px] lg:h-[560px]">
+          <div className="flex-shrink-0 relative w-[400px] h-[400px] sm:w-[420px] sm:h-[420px] lg:w-[560px] lg:h-[560px]">
 
             {/* 가장 바깥: bg-hero-03 점선 원 (녹색 점들 포함) */}
             <div className="absolute inset-0 z-10 hero-rotate-reverse">
@@ -96,7 +96,7 @@ export default function HeroSection() {
             </div>
 
             {/* bg-hero-02: 아이콘 링과 중앙 원 사이 - 흰색 glow 분리 효과 */}
-            <div className="absolute inset-[22%] z-25">
+            <div className="absolute inset-[25%] z-25">
               <Image
                 src="/images/main/backgrounds/bg-hero-02.png"
                 alt=""
@@ -107,7 +107,7 @@ export default function HeroSection() {
             </div>
 
             {/* 중앙: 흰색 원 + 에버人 워드마크 이미지 */}
-            <div className="absolute inset-[27%] bg-white rounded-full shadow-2xl flex items-center justify-center z-30 hero-soft-pulse">
+            <div className="absolute inset-[33%] bg-white rounded-full shadow-2xl flex items-center justify-center z-30 hero-soft-pulse">
               <div className="relative w-[60%] h-[40%]">
                 <Image
                   src="/images/main/icons/hero/everein-wordmark.png"
