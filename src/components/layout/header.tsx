@@ -58,7 +58,7 @@ const peopleMenuColumns = [
       { title: "연동서비스", href: "#" },
       { title: "출입관리시스템", href: "#" },
       { title: "SetUp/추가개발", href: "#" },
-      { title: "그룹웨어", subtitle: "에버웍스", href: "#" },
+      { title: "그룹웨어", subtitle: "에버웍스", href: "/everworks", highlight: true },
     ],
   },
 ]
@@ -618,7 +618,7 @@ export default function Header() {
                   <p className="text-lg font-bold text-primary">02-2093-3226</p>
                   <p className="text-xs text-muted-foreground mt-1">
                     평일 오전 9시 ~ 오후 6시<br />
-                    토요일 및 공휴일 제외
+                    ��요일 및 공휴일 제외
                   </p>
                 </div>
               </nav>
