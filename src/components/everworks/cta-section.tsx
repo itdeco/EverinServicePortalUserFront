@@ -1,4 +1,5 @@
-import { SmartLink } from "@/src/components/ui/smart-link";
+
+import SmartLink from "@/components/common/SmartLink"
 
 export default function CtaSection() {
   return (

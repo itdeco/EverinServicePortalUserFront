@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { SmartLink } from "@/src/components/ui/smart-link";
+import SmartLink from "@/components/common/SmartLink";
 
 export default function HeroSection() {
   return (
