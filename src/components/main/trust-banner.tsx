@@ -98,7 +98,7 @@ export function TrustBanner() {
 
         {/* Section label */}
         <div className="text-center mb-14">
-          <span className="inline-block text-xl font-semibold tracking-widest text-[#00dcaa] uppercase mb-4">
+          <span className="inline-block text-xs font-semibold tracking-widest text-[#00dcaa] uppercase mb-4">
             Why 에버인
           </span>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug">
@@ -108,36 +108,22 @@ export function TrustBanner() {
         </div>
 
         {/* Stats row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 md:gap-10 max-w-3xl mx-auto mb-16">
+        <div className="grid grid-cols-3 gap-6 md:gap-10 max-w-3xl mx-auto mb-16">
           <StatItem value={33} suffix="년" label="ERP 업력" />
           <StatItem value={3000} suffix="+" label="고객 기업" highlight />
           <StatItem value={3} suffix="년 연속" label="품질경쟁력 1위" />
         </div>
 
-        <div className="relative flex justify-center mb-16">
+        {/* Divider + description */}
+        <div className="relative mb-16">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-200" />
           </div>
-
-          <div className="relative bg-white px-10 py-6 rounded-full shadow-md border border-gray-100">
-            <p className="text-center text-gray-600 text-base md:text-lg leading-loose font-medium max-w-md">
-
-      <span className="block">
-        영림인소프트랩은{" "}
-        <span className="font-semibold text-gray-900">
-          2,300여개의 ERP 구축 경험
-        </span>
-        을 통한
-      </span>
-
-              <span className="block mt-1">
-        <span className="text-[#00dcaa] font-bold tracking-tight">
-          성능·보안·패치 안정성
-        </span>
-        을 보장합니다.
-      </span>
-
-            </p>
+          <div className="relative flex justify-center">
+            <span className="bg-[#f8f9fc] px-6 text-center text-gray-600 text-sm md:text-base leading-relaxed max-w-xl">
+              영림인소프트랩은 2,300여개의 중대형 ERP 구축 및 유지보수 경험을 통한{" "}
+              <strong className="text-[#00dcaa] font-semibold">성능·보안·패치 안정성</strong>을 보장합니다.
+            </span>
           </div>
         </div>
 
