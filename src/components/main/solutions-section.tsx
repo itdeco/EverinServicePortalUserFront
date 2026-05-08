@@ -138,11 +138,13 @@ export function SolutionsSection() {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={cn(
-                        "px-7 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 border cursor-pointer hover:shadow-md active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#00dcaa]/40",
-                        activeTab === tab.id
-                            ? "bg-[#00dcaa] text-white border-[#00dcaa] shadow-sm"
-                            : "bg-white text-gray-600 border-gray-300 hover:border-[#00dcaa] hover:text-[#00dcaa]"
-                    )}
+                        "px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap",
+                      "transition-all duration-200 border cursor-pointer hover:shadow-md active:scale-95",
+                      "focus:outline-none focus:ring-2 focus:ring-[#00dcaa]/40",
+                      activeTab === tab.id
+                      ? "bg-[#00dcaa] text-white border-[#00dcaa] shadow-sm"
+                      : "bg-white text-gray-600 border-gray-300 hover:border-[#00dcaa] hover:text-[#00dcaa]"
+                      )}
                 >
                   {tab.label}
                 </button>
@@ -156,17 +158,18 @@ export function SolutionsSection() {
                   activeTab === "hr" ? "block animate-tab-fade-slide" : "hidden"
               )}
           >
-
+            <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 md:block md:overflow-visible md:snap-none md:mx-0 md:px-0">
             {/* Main big card (full width) */}
             <div
                 onMouseMove={handleCardMouseMove}
                 onMouseLeave={handleCardMouseLeave}
                 className={cn(
-                    "rounded-2xl group relative cursor-pointer will-change-transform bg-[#f7f8fa] border border-gray-100 overflow-hidden mb-5 flex flex-col md:flex-row items-stretch min-h-88",
+                    "min-w-[88%] snap-center md:min-w-0 rounded-2xl group relative cursor-pointer will-change-transform bg-[#f7f8fa] border border-gray-100 overflow-hidden mb-5 flex flex-col md:flex-row items-stretch min-h-88",
                     "transition-[box-shadow,opacity,transform] duration-700 ease-out",
                     "after:absolute after:inset-0 after:pointer-events-none after:opacity-0 after:transition-opacity after:duration-200",
                     "after:bg-[radial-gradient(circle_at_var(--mouse-x)_var(--mouse-y),rgba(79,124,255,0.35),transparent_40%)]",
                     "md:hover:after:opacity-100 hover:shadow-xl",
+                    "col-span-1 h-[430px] md:h-[460px] md:col-span-1",
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
                 )}
             >
@@ -194,18 +197,18 @@ export function SolutionsSection() {
             </div>
 
             {/* Sub cards: 에버웰커밍 / 인사관리 / PC-OFF — 3열 한 줄 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-10 gap-5 items-end">
+              <div className="contents md:grid md:grid-cols-2 md:gap-5 lg:grid-cols-10 lg:items-end">
               {hrSubCards.map((card, i) => (
                   <div
                       key={i}
                       onMouseMove={handleCardMouseMove}
                       onMouseLeave={handleCardMouseLeave}
                       className={cn(
-                          "rounded-2xl group relative cursor-pointer will-change-transform bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col",
+                          "min-w-[82%] sm:min-w-[68%] md:min-w-0 snap-center rounded-2xl group relative cursor-pointer will-change-transform bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col",
                           "after:absolute after:inset-0 after:pointer-events-none after:opacity-0 after:transition-opacity after:duration-300",
                           "after:bg-[radial-gradient(circle_at_var(--mouse-x)_var(--mouse-y),rgba(79,124,255,0.35),transparent_40%)]",
                           "md:hover:after:opacity-100",
-                          "col-span-1 h-[460px] md:col-span-1",
+                          "col-span-1 h-[430px] md:h-[460px] md:col-span-1",
                           "transition-[box-shadow,opacity,transform] duration-700 ease-out",
                           "hover:shadow-xl",
                           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
@@ -242,6 +245,7 @@ export function SolutionsSection() {
                     </div>
                   </div>
               ))}
+            </div>
             </div>
           </div>
 

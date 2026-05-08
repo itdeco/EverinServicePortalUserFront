@@ -38,11 +38,11 @@ export function MissionSection() {
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
         {/* Quote */}
         <div className="text-center mb-16">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a2e] mb-5">
+          <h2 className="font-bold text-[#1a1a2e] mb-3 text-lg sm:text-2xl md:text-3xl lg:text-4xl whitespace-nowrap overflow-hidden text-ellipsis">
             &ldquo;고객기업이 인적 자원 관리를 더 잘하게&rdquo;
           </h2>
-          <p className="text-gray-500 text-base md:text-lg">33년 영림원의 미션</p>
-          <p className="text-gray-500 text-base md:text-lg">이제 그 본질을 HR 로 부터 시작하겠습니다.</p>
+          <p className="text-gray-500 text-sm sm:text-base md:text-lg whitespace-nowrap overflow-hidden text-ellipsis">33년 영림원의 미션</p>
+          <p className="text-gray-500 text-sm sm:text-base md:text-lg whitespace-nowrap overflow-hidden text-ellipsis">이제 그 본질을 HR 로 부터 시작하겠습니다.</p>
         </div>
 
         {/* Cards */}
@@ -66,9 +66,9 @@ export function MissionSection() {
 
               {/* Card text - bottom aligned */}
               <div className="text-center mt-auto">
-                <p className="text-[#1a1a2e] font-bold text-lg leading-snug">
+                <p className="text-[#1a1a2e] text-base sm:text-lg leading-snug whitespace-nowrap overflow-hidden text-ellipsis">
                   {card.title}<br />
-                  <span className="text-[#1a1a2e]">{card.titleBold}</span>
+                  <span className="text-[#1a1a2e] font-bold">{card.titleBold}</span>
                 </p>
                 <div className="mt-3">
                   <p className="text-gray-600 text-sm">{card.sub1}</p>

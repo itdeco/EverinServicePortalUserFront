@@ -438,7 +438,7 @@ export default function SignUpStep3Page() {
                                             id="phone"
                                             value={phone}
                                             onChange={(e) => {
-                                                setPhone(e.target.value);
+                                                setPhone(CommonUtil.formatPhoneNumber(e.target.value));
                                                 if (status === ValidationStatus.InvalidPhone) setStatus(ValidationStatus.Valid);
                                             }}
                                             disabled={isFromTrial}

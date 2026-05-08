@@ -89,7 +89,7 @@ export default function SignUpStep4Page() {
                                 className="flex-1 h-12 rounded-xl"
                                 asChild
                             >
-                                <Link href="/">
+                                <Link href="/public">
                                     <Home className="mr-2 h-5 w-5" />
                                     메인으로 이동
                                 </Link>

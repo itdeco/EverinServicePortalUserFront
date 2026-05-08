@@ -47,18 +47,20 @@ export function PersonaSection() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header - 좌측 정렬 */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-black text-gray-900 mb-4">HR, 다시 중요한 곳으로</h2>
-            <p className="text-lg text-gray-600">
-              반복 업무를 줄이고, 진짜 가치 있는 일에 집중하는 HR을 만드세요.
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 whitespace-pre-line break-keep overflow-hidden text-ellipsis">
+              HR, <br />다시 중요한 곳으로
+            </h2>
+            <p className="text-sm sm:text-lg text-gray-600 whitespace-pre-line break-keep overflow-hidden text-ellipsis">
+              반복 업무를 줄이고, <br />진짜 가치 있는 일에 집중하는 HR을 만드세요.
             </p>
           </div>
 
           {/* Cards Grid */}
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="md:grid md:grid-cols-3 md:gap-6 flex md:flex-none gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4">
             {personas.map((persona, idx) => (
                 <div
                     key={idx}
-                    className={`bg-white rounded-2xl overflow-hidden shadow-sm border-t-4 ${persona.borderColor} flex flex-col`}
+                    className={`min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center bg-white rounded-2xl overflow-hidden shadow-sm border-t-4 ${persona.borderColor} flex flex-col`}
                 >
                   {/* Content Area */}
                   <div className="p-6 flex-1 flex flex-col">
@@ -73,8 +75,12 @@ export function PersonaSection() {
                         />
                       </div>
                       <div>
-                        <h3 className="text-base font-bold text-gray-900">{persona.name}</h3>
-                        <p className="text-sm text-gray-500">{persona.company}</p>
+                        <h3 className="text-sm sm:text-base font-bold text-gray-900 whitespace-pre-line break-keep overflow-hidden text-ellipsis">
+                          {persona.name}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-500 whitespace-pre-line break-keep overflow-hidden text-ellipsis">
+                          {persona.company}
+                        </p>
                       </div>
                     </div>
 
@@ -91,20 +97,20 @@ export function PersonaSection() {
                     </div>
 
                     {/* Quote Text - 컬러 */}
-                    <p className={`text-base leading-relaxed whitespace-pre-line mb-6 font-medium text-center ${persona.quoteColor}`}>
+                    <p className={`text-xs sm:text-base leading-relaxed whitespace-pre-line break-keep overflow-hidden text-ellipsis mb-6 font-medium text-center ${persona.quoteColor}`}>
                       {persona.quote}
                     </p>
 
                     {/* Need Section */}
                     <div className="mb-6 flex-1">
                       <p className="text-sl text-gray-500 mb-2">Need:</p>
-                      <p className="text-sl text-gray-600 leading-relaxed whitespace-pre-line">
+                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed whitespace-pre-line break-keep overflow-hidden text-ellipsis">
                         {persona.need}
                       </p>
                     </div>
 
                     {/* Solution Button - 하단 고정 */}
-                    <button className={`${persona.buttonColor} text-white font-bold py-4 px-6 rounded-xl w-full hover:opacity-80 transition-opacity text-xl whitespace-pre-line leading-tight`}>
+                    <button className={`${persona.buttonColor} text-white font-bold py-4 px-4 rounded-xl w-full hover:opacity-80 transition-opacity text-sm sm:text-xl whitespace-pre-line break-keep overflow-hidden text-ellipsis leading-tight`}>
                       {persona.solution}
                     </button>
                   </div>

@@ -58,7 +58,7 @@ const peopleMenuColumns = [
       { title: "연동서비스", href: "#" },
       { title: "출입관리시스템", href: "#" },
       { title: "SetUp/추가개발", href: "#" },
-      { title: "그룹웨어", subtitle: "에버웍스", href: "/everworks" },
+      { title: "그룹웨어", subtitle: "에버웍스", href: "/people/everworks" },
     ],
   },
 ]
@@ -87,7 +87,7 @@ const peopleMenu = {
     { title: "연동서비스", href: "#" },
     { title: "출입관리시스템", href: "#" },
     { title: "SetUp/추가개발", href: "#" },
-    { title: "그룹웨어", subtitle: "에버웍스", href: "/everworks" },
+    { title: "그룹웨어", subtitle: "에버웍스", href: "/people/everworks" },
   ],
 }
 
@@ -143,7 +143,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* 상단 프로모션 배너 */}
-      <div className="bg-primary text-primary-foreground py-2.5">
+      <div className="bg-slate-900 text-primary-foreground py-2.5">
         <div className="mx-auto max-w-[1280px] px-4 text-center text-sm">
           <span className="font-medium">AI 빌더를 활용한 강력한 온보딩 솔루션!</span>
           {" "}에버웰커밍 무료 사용 이벤트{" "}

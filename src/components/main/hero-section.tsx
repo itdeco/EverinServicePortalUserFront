@@ -31,21 +31,26 @@ export default function HeroSection() {
         <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
           <div className="flex flex-col lg:flex-row items-center justify-between pt-24 pb-16 lg:pt-32 lg:pb-24 gap-8 lg:gap-4">
             {/* Left: Text Content */}
-            <div className="flex-1 max-w-xl z-10 hero-fade-up">
-              <p className="text-gray-600 text-base md:text-lg mb-4">
+            <div className="flex-1 max-w-xl z-10 hero-fade-up text-center lg:text-left">
+              <p className="text-gray-600 text-base md:text-lg mb-4 text-center lg:text-left">
                 근태나 급여관리 엑셀로 수기 관리하시나요?
               </p>
-              <h1 className="flex flex-row items-center gap-2 text-[28px] sm:text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 leading-tight mb-6 whitespace-nowrap">
+              <h1 className="flex flex-row items-center justify-center lg:justify-start gap-2 text-[28px] sm:text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 leading-none mb-6 whitespace-nowrap">
                 <span className="whitespace-nowrap">HR 솔루션×AI=</span>
-                <span className="relative inline-block w-[140px] h-[50px] sm:w-[220px] sm:h-[90px] md:w-[260px] md:h-[110px] lg:w-[300px] lg:h-[120px]">
-                <Image src="/images/main/icons/hero/everein-wordmark.png" alt="에버인" fill className="object-contain object-left"/>
-              </span>
+                <span className="relative inline-block w-[92px] h-[30px] sm:w-[145px] sm:h-[50px] md:w-[180px] md:h-[62px] lg:w-[205px] lg:h-[72px]">
+                  <Image
+                      src="/images/main/icons/hero/everein-wordmark.png"
+                      alt="에버인"
+                      fill
+                      className="object-contain object-left scale-[0.92]"
+                  />
+                </span>
               </h1>
               <p className="text-gray-500 text-base leading-relaxed mb-8">
-                에버인의 AI 기반 통합 HR 솔루션으로 인사.근태.급여를 한 번에 OK<br />
+                에버인의 AI 기반 통합 HR 솔루션으로<br />인사.근태.급여를 한 번에 OK<br />
                 야근지옥에서 이제 탈출시켜드립니다.
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                 <Button
                     asChild
                     size="lg"

@@ -1,3 +1,4 @@
+@import "pretendard/dist/web/variable/pretendardvariable.css";
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -75,8 +76,16 @@
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback';
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-sans:
+          "Pretendard Variable",
+          "Pretendard",
+          -apple-system,
+          BlinkMacSystemFont,
+          system-ui,
+          sans-serif;
+  --font-mono:
+          "Pretendard Variable",
+          monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -119,17 +128,29 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-feature-settings:
+            "cv05",
+            "cv08",
+            "ss01";
   }
-  
-  /* Container max-width 설정 - 1280px */
-  @media (width >= 1280px) {
-    .container {
-      max-width: 1280px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  a {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"],
+  input:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
   }
 }
 
