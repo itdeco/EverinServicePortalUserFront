@@ -44,9 +44,11 @@ export default function HrFeaturesSection() {
     const handleScroll = () => {
       const el = wrapperRef.current
       if (!el) return
-      const { top, height } = el.getBoundingClientRect()
-      const scrolled = -top // how many px we've scrolled past the top of this section
-      const stepHeight = height / features.length
+      const { top } = el.getBoundingClientRect()
+      const scrolled = -top
+      // 스크롤 가능 거리: (features.length * 100vh) 에서 sticky 패널 높이(100vh) 제외
+      const scrollableHeight = features.length * window.innerHeight
+      const stepHeight = scrollableHeight / features.length
       const idx = Math.min(
         features.length - 1,
         Math.max(0, Math.floor(scrolled / stepHeight))
@@ -63,7 +65,7 @@ export default function HrFeaturesSection() {
     <div
       ref={wrapperRef}
       className="relative w-full bg-white"
-      style={{ height: `${features.length * SECTION_HEIGHT}vh` }}
+      style={{ height: `${(features.length + 1) * SECTION_HEIGHT}vh` }}
     >
       {/* 고정 패널 - 데스크탑 */}
       <div className="hidden lg:flex sticky top-0 h-screen items-center bg-white">
