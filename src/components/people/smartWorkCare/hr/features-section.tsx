@@ -134,9 +134,9 @@ export default function HrFeaturesSection() {
       </div>
 
       {/* 모바일: 일반 세로 스택 */}
-      <section className="flex lg:hidden flex-col gap-12 w-full bg-white py-16 px-6">
+      <section className="flex lg:hidden flex-col gap-16 w-full bg-white py-16 px-6">
         {features.map((feature) => (
-          <div key={feature.id} className="flex flex-col gap-4">
+          <div key={feature.id} className="flex flex-col items-center text-center gap-5">
             <div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">
                 {feature.title}
