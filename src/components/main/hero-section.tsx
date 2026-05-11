@@ -51,7 +51,7 @@ export default function HeroSection() {
                 야근지옥에서 이제 탈출시켜드립니다.
               </p>
               {/* CTA 버튼 */}
-              <div className="flex flex-wrap gap-4 justify-center">
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                 <Button
                   asChild
                   size="lg"

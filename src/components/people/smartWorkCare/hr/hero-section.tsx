@@ -38,7 +38,7 @@ export default function HrHeroSection() {
           </p>
 
           {/* CTA 버튼 */}
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
             <Button
               asChild
               size="lg"
