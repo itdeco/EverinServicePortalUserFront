@@ -99,9 +99,9 @@ export default function EvertimeFeaturesSection() {
       {/* 고정 패널 - 데스크탑 */}
       <div className="hidden lg:flex sticky top-0 h-screen items-center bg-white">
         <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-          <div className="flex items-center gap-16">
+          <div className="flex items-center gap-8">
             {/* 왼쪽 텍스트 - 그룹 단위로 전환 */}
-            <div className="w-[420px] shrink-0 relative h-[200px]">
+            <div className="w-[340px] shrink-0 relative h-[200px] ml-16">
               {featureGroups.map((group, gi) => (
                 <div
                   key={group.id}

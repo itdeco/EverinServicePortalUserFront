@@ -107,28 +107,26 @@ export default function HrFeaturesSection() {
               ))}
             </div>
 
-            {/* 오른쪽 이미지 */}
-            <div className="flex-1 flex flex-col items-center justify-center gap-3">
-              <div className="relative w-80 h-[480px]">
-                {features.map((feature, idx) => (
-                  <div
-                    key={feature.id}
-                    className="absolute inset-0"
-                    style={{
-                      opacity: activeIndex === idx ? 1 : 0,
-                      transition: "opacity 0.6s ease-in-out",
-                    }}
-                  >
-                    <Image
-                      src={feature.image}
-                      alt={feature.imageAlt}
-                      fill
-                      className="object-contain object-center"
-                      priority={idx === 0}
-                    />
-                  </div>
-                ))}
-              </div>
+            {/* 오른쪽 이미지 - PC 스크린샷이므로 전체 너비 사용 */}
+            <div className="flex-1 relative h-[480px]">
+              {features.map((feature, idx) => (
+                <div
+                  key={feature.id}
+                  className="absolute inset-0"
+                  style={{
+                    opacity: activeIndex === idx ? 1 : 0,
+                    transition: "opacity 0.6s ease-in-out",
+                  }}
+                >
+                  <Image
+                    src={feature.image}
+                    alt={feature.imageAlt}
+                    fill
+                    className="object-contain object-left-top"
+                    priority={idx === 0}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -174,8 +172,8 @@ export default function HrFeaturesSection() {
             ))}
           </div>
 
-          {/* 이미지 */}
-          <div className="relative w-72 h-[260px]">
+          {/* 이미지 - PC 스크린샷이므로 가로 전체 사용 */}
+          <div className="relative w-full h-[260px]">
             {features.map((feature, idx) => (
               <div
                 key={feature.id}
