@@ -50,21 +50,24 @@ export default function HeroSection() {
                 에버인의 AI 기반 통합 HR 솔루션으로<br />인사.근태.급여를 한 번에 OK<br />
                 야근지옥에서 이제 탈출시켜드립니다.
               </p>
+              {/* CTA 버튼 */}
               <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                 <Button
-                    asChild
-                    size="lg"
-                    className="bg-gradient-to-r from-[#586ffa] to-[#00dcaa] hover:from-[#4a5fd9] hover:to-[#00c9a1] text-white px-8 h-14 text-base font-semibold rounded-lg shadow-lg"
+                  asChild
+                  size="lg"
+                  className="px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
+                  style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
                 >
-                  <Link href="/trial">무료체험 시작하기</Link>
+                  <Link href="/trial">체험하기</Link>
                 </Button>
+
                 <Button
-                    asChild
-                    size="lg"
-                    variant="outline"
-                    className="border-gray-300 bg-white text-gray-700 px-8 h-14 text-base font-semibold rounded-lg hover:bg-gray-50"
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border border-[#00cc99] bg-white text-gray-700 px-10 h-14 text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
                 >
-                  <Link href="/support/inquiry">도입 문의하기</Link>
+                  <Link href="/support/inquiry">도입문의</Link>
                 </Button>
               </div>
             </div>

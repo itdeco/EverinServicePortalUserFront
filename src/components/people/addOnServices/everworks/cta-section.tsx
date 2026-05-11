@@ -6,7 +6,7 @@ export default function CtaSection() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-              src="/images/people/addOnServices/everworks/bg/bg-EverWorks-foot.jpg"
+              src="/images/people/bg/bg-People-foot.jpg"
               alt="CTA 배경"
               fill
               className="object-cover object-center"
