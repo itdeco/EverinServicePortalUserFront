@@ -137,25 +137,44 @@ export default function EvertimeFeaturesSection() {
             </div>
 
             {/* 오른쪽 이미지 - 이미지 단위로 전환 */}
-            <div className="flex-1 relative h-[480px] rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50">
-              {flatImages.map((item, step) => (
-                <div
-                  key={step}
-                  className="absolute inset-0"
-                  style={{
-                    opacity: activeStep === step ? 1 : 0,
-                    transition: "opacity 0.6s ease-in-out",
-                  }}
-                >
-                  <Image
-                    src={featureGroups[item.groupIdx].images[item.imgIdx].src}
-                    alt={featureGroups[item.groupIdx].images[item.imgIdx].alt}
-                    fill
-                    className="object-contain object-center"
-                    priority={step === 0}
-                  />
+            <div className="flex-1 flex flex-col items-center gap-4">
+              {/* 그룹 내 이미지 인디케이터 */}
+              {featureGroups[activeGroupIdx].images.length > 1 && (
+                <div className="flex gap-1.5 items-center">
+                  {featureGroups[activeGroupIdx].images.map((_, imgDotIdx) => (
+                    <span
+                      key={imgDotIdx}
+                      className="block rounded-full"
+                      style={{
+                        width: imgDotIdx === activeImgIdx ? "20px" : "6px",
+                        height: "6px",
+                        backgroundColor: imgDotIdx === activeImgIdx ? "#00cc99" : "#d1d5db",
+                        transition: "width 0.3s ease-in-out, background-color 0.3s ease-in-out",
+                      }}
+                    />
+                  ))}
                 </div>
-              ))}
+              )}
+              <div className="relative w-full h-[480px] rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
+                {flatImages.map((item, step) => (
+                  <div
+                    key={step}
+                    className="absolute inset-0 flex items-center justify-center p-6"
+                    style={{
+                      opacity: activeStep === step ? 1 : 0,
+                      transition: "opacity 0.6s ease-in-out",
+                    }}
+                  >
+                    <Image
+                      src={featureGroups[item.groupIdx].images[item.imgIdx].src}
+                      alt={featureGroups[item.groupIdx].images[item.imgIdx].alt}
+                      fill
+                      className="object-contain object-center"
+                      priority={step === 0}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -201,12 +220,30 @@ export default function EvertimeFeaturesSection() {
             ))}
           </div>
 
+          {/* 그룹 내 이미지 인디케이터 */}
+          {featureGroups[activeGroupIdx].images.length > 1 && (
+            <div className="flex gap-1.5 items-center mb-3">
+              {featureGroups[activeGroupIdx].images.map((_, imgDotIdx) => (
+                <span
+                  key={imgDotIdx}
+                  className="block rounded-full"
+                  style={{
+                    width: imgDotIdx === activeImgIdx ? "20px" : "6px",
+                    height: "6px",
+                    backgroundColor: imgDotIdx === activeImgIdx ? "#00cc99" : "#d1d5db",
+                    transition: "width 0.3s ease-in-out, background-color 0.3s ease-in-out",
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
           {/* 이미지 - 이미지 단위 전환 */}
-          <div className="relative w-full h-[340px] rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50">
+          <div className="relative w-full h-[340px] rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
             {flatImages.map((item, step) => (
               <div
                 key={step}
-                className="absolute inset-0"
+                className="absolute inset-0 flex items-center justify-center"
                 style={{
                   opacity: activeStep === step ? 1 : 0,
                   transition: "opacity 0.6s ease-in-out",
