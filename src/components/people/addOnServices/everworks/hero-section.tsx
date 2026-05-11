@@ -39,7 +39,7 @@ export default function HeroSection() {
                 <Button
                     asChild
                     size="lg"
-                    className="text-white px-8 h-14 text-base font-semibold rounded-full border-0"
+                    className="text-white px-8 h-14 text-base font-semibold rounded-lg border-0"
                     style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
                 >
                   <Link href="/trial">무료체험 시작하기</Link>
@@ -49,7 +49,7 @@ export default function HeroSection() {
                     asChild
                     size="lg"
                     variant="outline"
-                    className="border border-[#00cc99] bg-white text-gray-700 px-8 h-14 text-base font-semibold rounded-full hover:bg-[#f0fdf9]"
+                    className="border border-[#00cc99] bg-white text-gray-700 px-8 h-14 text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
                 >
                   <Link href="/support/inquiry">도입 문의하기</Link>
                 </Button>
