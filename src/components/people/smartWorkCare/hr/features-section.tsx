@@ -133,29 +133,75 @@ export default function HrFeaturesSection() {
         </div>
       </div>
 
-      {/* 모바일: 일반 세로 스택 */}
-      <section className="flex lg:hidden flex-col gap-16 w-full bg-white py-16 px-6">
-        {features.map((feature) => (
-          <div key={feature.id} className="flex flex-col items-center text-center gap-5">
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                {feature.description}
-              </p>
+      {/* 모바일 sticky scroll */}
+      <div
+        className="flex lg:hidden flex-col w-full bg-white"
+        style={{ height: `${features.length * SECTION_HEIGHT}vh` }}
+      >
+        {/* 고정 패널 */}
+        <div className="sticky top-0 h-screen flex flex-col items-center justify-center bg-white">
+          <div className="w-full max-w-sm px-6 flex flex-col items-center text-center">
+            {/* 인디케이터 점 */}
+            <div className="flex gap-2 mb-8">
+              {features.map((_, dotIdx) => (
+                <span
+                  key={dotIdx}
+                  className="block h-1.5 rounded-full"
+                  style={{
+                    width: dotIdx === activeIndex ? "24px" : "6px",
+                    backgroundColor: dotIdx === activeIndex ? "#00cc99" : "#e5e7eb",
+                    transition: "width 0.4s ease-in-out, background-color 0.4s ease-in-out",
+                  }}
+                />
+              ))}
             </div>
-            <div className="relative w-full h-[220px] rounded-xl overflow-hidden shadow-md border border-gray-100">
-              <Image
-                src={feature.image}
-                alt={feature.imageAlt}
-                fill
-                className="object-cover object-left-top"
-              />
+
+            {/* 텍스트 */}
+            <div className="relative h-[120px] w-full mb-8">
+              {features.map((feature, idx) => (
+                <div
+                  key={feature.id}
+                  className="absolute inset-0 flex flex-col items-center text-center"
+                  style={{
+                    opacity: activeIndex === idx ? 1 : 0,
+                    transition: "opacity 0.6s ease-in-out",
+                    pointerEvents: activeIndex === idx ? "auto" : "none",
+                  }}
+                >
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* 이미지 */}
+            <div className="relative w-full h-[280px] rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50">
+              {features.map((feature, idx) => (
+                <div
+                  key={feature.id}
+                  className="absolute inset-0"
+                  style={{
+                    opacity: activeIndex === idx ? 1 : 0,
+                    transition: "opacity 0.6s ease-in-out",
+                  }}
+                >
+                  <Image
+                    src={feature.image}
+                    alt={feature.imageAlt}
+                    fill
+                    className="object-cover object-left-top"
+                    priority={idx === 0}
+                  />
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </section>
+        </div>
+      </div>
     </>
   )
 }
