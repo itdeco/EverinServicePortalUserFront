@@ -18,7 +18,7 @@ export default function HrHeroSection() {
 
           {/* 브랜드 태그 */}
           <p className="text-[#00cc99] text-xl font-semibold mb-3 tracking-wide">
-            EverTime
+            인사·조직·발령
           </p>
 
           {/* 서브 타이틀 */}
