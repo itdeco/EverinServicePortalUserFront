@@ -42,7 +42,8 @@ export default function EvertimeHeroSection() {
             <Button
               asChild
               size="lg"
-              className="bg-[#1a1a2e] hover:bg-[#16213e] text-white px-10 h-12 text-base font-semibold rounded-lg"
+              className="px-10 h-12 text-base font-semibold rounded-lg text-white border-0"
+              style={{ background: "linear-gradient(135deg, #00cc99 0%, #00a87a 100%)" }}
             >
               <Link href="/trial">체험하기</Link>
             </Button>
@@ -51,7 +52,7 @@ export default function EvertimeHeroSection() {
               asChild
               size="lg"
               variant="outline"
-              className="border-gray-300 bg-white text-gray-700 px-10 h-12 text-base font-semibold rounded-lg hover:bg-gray-50"
+              className="border border-gray-200 bg-white text-gray-700 px-10 h-12 text-base font-semibold rounded-lg hover:bg-gray-50"
             >
               <Link href="/support/inquiry">도입문의</Link>
             </Button>

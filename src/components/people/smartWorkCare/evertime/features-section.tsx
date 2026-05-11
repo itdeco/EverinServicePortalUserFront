@@ -163,9 +163,9 @@ export default function EvertimeFeaturesSection() {
 
       {/* 고정 패널 - 모바일 */}
       <div className="flex lg:hidden sticky top-0 h-screen flex-col items-center justify-center bg-white px-6">
-        <div className="w-full max-w-sm flex flex-col items-center text-center">
+        <div className="w-full max-w-xs flex flex-col items-center text-center">
           {/* 인디케이터 점 - 그룹 기준 */}
-          <div className="flex gap-2 mb-8">
+          <div className="flex gap-2 mb-5">
             {featureGroups.map((_, dotIdx) => (
               <span
                 key={dotIdx}
@@ -180,7 +180,7 @@ export default function EvertimeFeaturesSection() {
           </div>
 
           {/* 텍스트 - 그룹 단위 전환 */}
-          <div className="relative h-[120px] w-full mb-8">
+          <div className="relative h-[90px] w-full mb-5">
             {featureGroups.map((group, gi) => (
               <div
                 key={group.id}
@@ -191,10 +191,10 @@ export default function EvertimeFeaturesSection() {
                   pointerEvents: activeGroupIdx === gi ? "auto" : "none",
                 }}
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-lg font-bold text-gray-900 mb-1.5">
                   {group.title}
                 </h3>
-                <p className="text-sm text-gray-500 leading-relaxed whitespace-pre-line">
+                <p className="text-xs text-gray-500 leading-relaxed whitespace-pre-line">
                   {group.description}
                 </p>
               </div>
@@ -202,7 +202,7 @@ export default function EvertimeFeaturesSection() {
           </div>
 
           {/* 이미지 - 이미지 단위 전환 */}
-          <div className="relative w-full h-[280px] rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50">
+          <div className="relative w-full h-[340px] rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50">
             {flatImages.map((item, step) => (
               <div
                 key={step}
