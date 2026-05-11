@@ -72,26 +72,33 @@ export default function HrFeaturesSection() {
           <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
             <div className="flex items-center gap-16">
               {/* 왼쪽 텍스트 */}
-              <div className="w-[320px] shrink-0">
+              <div className="w-[320px] shrink-0 relative h-[180px]">
                 {features.map((feature, idx) => (
                   <div
                     key={feature.id}
-                    className={`transition-all duration-300 ${
-                      activeIndex === idx
-                        ? "block opacity-100"
-                        : "hidden opacity-0"
-                    }`}
+                    className="absolute inset-0"
+                    style={{
+                      opacity: activeIndex === idx ? 1 : 0,
+                      transform: activeIndex === idx
+                        ? "translateY(0px)"
+                        : activeIndex > idx
+                        ? "translateY(-24px)"
+                        : "translateY(24px)",
+                      transition: "opacity 0.5s ease-in-out, transform 0.5s ease-in-out",
+                      pointerEvents: activeIndex === idx ? "auto" : "none",
+                    }}
                   >
                     {/* 인디케이터 점 */}
                     <div className="flex gap-2 mb-6">
                       {features.map((_, dotIdx) => (
                         <span
                           key={dotIdx}
-                          className={`block h-1.5 rounded-full transition-all duration-300 ${
-                            dotIdx === activeIndex
-                              ? "w-6 bg-[#00cc99]"
-                              : "w-1.5 bg-gray-200"
-                          }`}
+                          className="block h-1.5 rounded-full"
+                          style={{
+                            width: dotIdx === activeIndex ? "24px" : "6px",
+                            backgroundColor: dotIdx === activeIndex ? "#00cc99" : "#e5e7eb",
+                            transition: "width 0.4s ease-in-out, background-color 0.4s ease-in-out",
+                          }}
                         />
                       ))}
                     </div>
@@ -110,9 +117,16 @@ export default function HrFeaturesSection() {
                 {features.map((feature, idx) => (
                   <div
                     key={feature.id}
-                    className={`absolute inset-0 transition-opacity duration-300 ${
-                      activeIndex === idx ? "opacity-100" : "opacity-0"
-                    }`}
+                    className="absolute inset-0"
+                    style={{
+                      opacity: activeIndex === idx ? 1 : 0,
+                      transform: activeIndex === idx
+                        ? "scale(1) translateY(0px)"
+                        : activeIndex > idx
+                        ? "scale(0.97) translateY(-16px)"
+                        : "scale(0.97) translateY(16px)",
+                      transition: "opacity 0.5s ease-in-out, transform 0.5s ease-in-out",
+                    }}
                   >
                     <Image
                       src={feature.image}

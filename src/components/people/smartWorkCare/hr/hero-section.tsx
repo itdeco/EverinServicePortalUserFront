@@ -17,7 +17,7 @@ export default function HrHeroSection() {
         <div className="flex flex-col items-center justify-center pt-28 pb-20 lg:pt-36 lg:pb-28 text-center hero-fade-up">
 
           {/* 브랜드 태그 */}
-          <p className="text-[#00cc99] text-sm font-semibold mb-3 tracking-wide">
+          <p className="text-[#00cc99] text-xl font-semibold mb-3 tracking-wide">
             EverTime
           </p>
 
