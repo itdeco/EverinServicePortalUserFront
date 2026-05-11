@@ -79,12 +79,7 @@ export default function HrFeaturesSection() {
                     className="absolute inset-0"
                     style={{
                       opacity: activeIndex === idx ? 1 : 0,
-                      transform: activeIndex === idx
-                        ? "translateY(0px)"
-                        : activeIndex > idx
-                        ? "translateY(-24px)"
-                        : "translateY(24px)",
-                      transition: "opacity 0.5s ease-in-out, transform 0.5s ease-in-out",
+                      transition: "opacity 0.6s ease-in-out",
                       pointerEvents: activeIndex === idx ? "auto" : "none",
                     }}
                   >
@@ -120,12 +115,7 @@ export default function HrFeaturesSection() {
                     className="absolute inset-0"
                     style={{
                       opacity: activeIndex === idx ? 1 : 0,
-                      transform: activeIndex === idx
-                        ? "scale(1) translateY(0px)"
-                        : activeIndex > idx
-                        ? "scale(0.97) translateY(-16px)"
-                        : "scale(0.97) translateY(16px)",
-                      transition: "opacity 0.5s ease-in-out, transform 0.5s ease-in-out",
+                      transition: "opacity 0.6s ease-in-out",
                     }}
                   >
                     <Image
