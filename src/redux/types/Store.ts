@@ -1,4 +1,4 @@
-import {PlanDetailDto} from "@/types/Plans";
+import {PlanDetailDto} from "@/types/subscribe";
 import {CorporationDto, CreditCardDto, UserPreferenceDto} from "@/types/Users";
 import {SubscriptionDto} from "@/types/Subscriptions";
 import {SiteType} from "@/types/SiteType";

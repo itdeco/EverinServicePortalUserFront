@@ -14,7 +14,7 @@ import { usePlans } from "@/redux/selectors/Plans";
 import { UserActions } from "@/redux/actions/Users";
 import { PaymentLogDto, PaymentLogStatusType } from "@/types/Payments";
 import { SubscriptionDto, SubscriptionChartDataDto, SubscriptionLogDto } from "@/types/Subscriptions";
-import { PlanDetailDto } from "@/types/Plans";
+import { PlanDetailDto } from "@/types/subscribe";
 import DateUtil from "@/utils/dateUtil";
 
 const DEFAULT_PAY_DAY = 5;
@@ -40,6 +40,19 @@ function InvoiceContent() {
   const amount = paymentLog?.amount || 0;
   const vat = paymentLog?.vat || 0;
   const amountWithVat = Math.round(amount + vat);
+
+  const amounts = chartData?.amounts ?? [];
+  const userCounts = chartData?.userCounts ?? [];
+
+  const maxAmount =
+      amounts.length > 0
+          ? Math.max(...amounts.map((a: any) => a.value))
+          : 1;
+
+  const maxUserCount =
+      userCounts.length > 0
+          ? Math.max(...userCounts.map((a: any) => a.value))
+          : 1;
 
   const loadPaymentDetail = async () => {
     if (!paymentId) return;
@@ -272,21 +285,21 @@ function InvoiceContent() {
             {/* 요금 현황 차트 */}
             <div className="p-4 border rounded-lg">
               <h4 className="text-sm font-medium text-center mb-4">최근 4개월 요금 현황</h4>
-              {chartData?.amounts && chartData.amounts.length > 0 ? (
-                <div className="h-48 flex items-end justify-around gap-2">
-                  {chartData.amounts.map((item: any, index: number) => (
-                    <div key={index} className="flex flex-col items-center gap-2">
-                      <div
-                        className="w-12 bg-primary rounded-t"
-                        style={{
-                          height: `${Math.max((item.value / Math.max(...chartData.amounts.map((a: any) => a.value))) * 150, 20)}px`,
-                        }}
-                      />
-                      <span className="text-xs text-muted-foreground">{item.month}월</span>
-                      <span className="text-xs font-medium">₩{(item.value / 1000).toFixed(0)}K</span>
-                    </div>
-                  ))}
-                </div>
+              {amounts.length > 0 ? (
+                  <div className="h-48 flex items-end justify-around gap-2">
+                    {amounts.map((item: any, index: number) => (
+                        <div key={index} className="flex flex-col items-center gap-2">
+                          <div
+                              className="w-12 bg-primary rounded-t"
+                              style={{
+                                height: `${Math.max((item.value / maxAmount) * 150, 20)}px`,
+                              }}
+                          />
+                          <span className="text-xs text-muted-foreground">{item.month}월</span>
+                          <span className="text-xs font-medium">₩{(item.value / 1000).toFixed(0)}K</span>
+                        </div>
+                    ))}
+                  </div>
               ) : (
                 <div className="h-48 flex items-center justify-center text-muted-foreground">
                   <p>데이터가 없습니다</p>
@@ -297,21 +310,21 @@ function InvoiceContent() {
             {/* 사용자 수 추이 차트 */}
             <div className="p-4 border rounded-lg">
               <h4 className="text-sm font-medium text-center mb-4">최근 4개월 사용자 계정 수 추이</h4>
-              {chartData?.userCounts && chartData.userCounts.length > 0 ? (
-                <div className="h-48 flex items-end justify-around gap-2">
-                  {chartData.userCounts.map((item: any, index: number) => (
-                    <div key={index} className="flex flex-col items-center gap-2">
-                      <div
-                        className="w-12 bg-primary rounded-t"
-                        style={{
-                          height: `${Math.max((item.value / Math.max(...chartData.userCounts.map((a: any) => a.value))) * 150, 20)}px`,
-                        }}
-                      />
-                      <span className="text-xs text-muted-foreground">{item.month}월</span>
-                      <span className="text-xs font-medium">{item.value}명</span>
-                    </div>
-                  ))}
-                </div>
+              {userCounts.length > 0 ? (
+                  <div className="h-48 flex items-end justify-around gap-2">
+                    {userCounts.map((item: any, index: number) => (
+                        <div key={index} className="flex flex-col items-center gap-2">
+                          <div
+                              className="w-12 bg-primary rounded-t"
+                              style={{
+                                height: `${Math.max((item.value / maxUserCount) * 150, 20)}px`,
+                              }}
+                          />
+                          <span className="text-xs text-muted-foreground">{item.month}월</span>
+                          <span className="text-xs font-medium">{item.value}명</span>
+                        </div>
+                    ))}
+                  </div>
               ) : (
                 <div className="h-48 flex items-center justify-center text-muted-foreground">
                   <p>데이터가 없습니다</p>

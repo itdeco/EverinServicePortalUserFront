@@ -19,12 +19,36 @@ import { useLoginStatus, useUserProfile } from "@/redux/selectors/Users"
 import { UserActions } from "@/redux/actions/Users"
 import TokenUtil from "@/utils/tokenUtil"
 
+type MenuItem = {
+  title: string;
+  subtitle?: string;
+  href: string;
+  badge?: string;
+  external?: boolean;
+  highlight?: boolean;
+};
+
+type PeopleMenuTwoColumn = {
+  label: string;
+  col1: MenuItem[];
+  col2: MenuItem[];
+  items?: never;
+};
+
+type PeopleMenuSingleColumn = {
+  label: string;
+  items: MenuItem[];
+  col1?: never;
+  col2?: never;
+};
+
+type PeopleMenuColumn = PeopleMenuTwoColumn | PeopleMenuSingleColumn;
+
 // People 메뉴 데이터 (이미지 기준)
 // col: 스마트 워크케어는 2열로 나눔
-const peopleMenuColumns = [
+const peopleMenuColumns: PeopleMenuColumn[] = [
   {
     label: "스마트 워크케어",
-    // 2열로 분리
     col1: [
       { title: "인사·조직·발령", href: "#" },
       { title: "온보딩", subtitle: "에버웰커밍", href: "#", badge: "무료" },
@@ -47,9 +71,7 @@ const peopleMenuColumns = [
   },
   {
     label: "평가관리",
-    items: [
-      { title: "업적·역량·다면", subtitle: "에버평가", href: "#" },
-    ],
+    items: [{ title: "업적·역량·다면", subtitle: "에버평가", href: "#" }],
   },
   {
     label: "부가서비스",
@@ -61,10 +83,10 @@ const peopleMenuColumns = [
       { title: "그룹웨어", subtitle: "에버웍스", href: "/people/everworks" },
     ],
   },
-]
+];
 
 // Culture 메뉴는 기존 유지 (모바일에서 사용)
-const peopleMenu = {
+const peopleMenu: Record<string, MenuItem[]> = {
   "스마트 워크케어": [
     { title: "인사·조직·발령", href: "#" },
     { title: "근태관리", subtitle: "에버타임", href: "#", badge: "7개월 무료" },
@@ -79,9 +101,7 @@ const peopleMenu = {
     { title: "신고", href: "#" },
     { title: "연말정산", href: "#" },
   ],
-  평가관리: [
-    { title: "업적·역량·다면", subtitle: "에버평가", href: "#" },
-  ],
+  평가관리: [{ title: "업적·역량·다면", subtitle: "에버평가", href: "#" }],
   부가서비스: [
     { title: "전자계약", href: "#" },
     { title: "연동서비스", href: "#" },
@@ -89,20 +109,30 @@ const peopleMenu = {
     { title: "SetUp/추가개발", href: "#" },
     { title: "그룹웨어", subtitle: "에버웍스", href: "/people/everworks" },
   ],
-}
+};
 
 // Culture 메뉴 데이터 (이미지2 기준 - 파란톤)
-const cultureMenu = {
+const cultureMenu: Record<string, MenuItem[]> = {
   솔루션: [
-    { title: "소통", subtitle: "에버레스크", href: "https://www.everin.co.kr/?section=EverAsk", external: true },
-    { title: "인성", subtitle: "에버온사람", href: "https://www.everin.co.kr/?section=EverOnSaram", external: true },
+    {
+      title: "소통",
+      subtitle: "에버레스크",
+      href: "https://www.everin.co.kr/?section=EverAsk",
+      external: true,
+    },
+    {
+      title: "인성",
+      subtitle: "에버온사람",
+      href: "https://www.everin.co.kr/?section=EverOnSaram",
+      external: true,
+    },
     { title: "OKR", subtitle: "에버그로잉", href: "#" },
   ],
   컨설팅: [
     { title: "진단", href: "#" },
     { title: "제도수립", href: "#" },
   ],
-}
+};
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -210,7 +240,7 @@ export default function Header() {
                                 {/* 카테고리 타이틀 - 초록색 */}
                                 <div className="text-sm font-semibold text-primary whitespace-nowrap">{col.label}</div>
                                 {/* 스마트 워크케어는 2열 */}
-                                {"col1" in col ? (
+                                {col.col1 ? (
                                   <div className="flex gap-4">
                                     <div className="flex flex-col gap-1.5">
                                       {col.col1.map((item) => (
@@ -249,7 +279,7 @@ export default function Header() {
                                   </div>
                                 ) : (
                                   <div className="flex flex-col gap-1.5">
-                                    {"items" in col && col.items?.map((item) => (
+                                    {col.items.map((item) => (
                                       <SmartLink
                                         key={item.title}
                                         href={item.href}
@@ -325,7 +355,7 @@ export default function Header() {
                 )}
               </div>
 
-              <SmartLink href="/pricing" className="inline-flex h-10 items-center justify-center rounded-md px-2 xl:px-4 py-2 text-xs xl:text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
+              <SmartLink href="/subscribe" className="inline-flex h-10 items-center justify-center rounded-md px-2 xl:px-4 py-2 text-xs xl:text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
                 요금제
               </SmartLink>
               <SmartLink href="/support" className="inline-flex h-10 items-center justify-center rounded-md px-2 xl:px-4 py-2 text-xs xl:text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
@@ -534,7 +564,7 @@ export default function Header() {
                 {/* 퀵 링크 */}
                 <div className="flex gap-2 pb-4 border-b">
                   <SmartLink
-                    href="/pricing"
+                    href="/subscribe"
                     onClick={() => setIsOpen(false)}
                     className="flex-1 text-center py-2 px-3 text-sm font-medium rounded-lg bg-muted/50 hover:bg-muted transition-colors"
                   >
@@ -618,7 +648,7 @@ export default function Header() {
                   <p className="text-lg font-bold text-primary">02-2093-3226</p>
                   <p className="text-xs text-muted-foreground mt-1">
                     평일 오전 9시 ~ 오후 6시<br />
-                    ��요일 및 공휴일 제외
+                    토요일 및 공휴일 제외
                   </p>
                 </div>
               </nav>

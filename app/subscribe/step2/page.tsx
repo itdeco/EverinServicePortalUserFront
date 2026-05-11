@@ -16,7 +16,7 @@ import { checkApiResult } from "@/utils/apiUtil";
 import { useLoginStatus, useUserCorporations, useUserCards, useUserSubscriptions, useUserProfile } from "@/redux/selectors/Users";
 import { usePlans } from "@/redux/selectors/Plans";
 import { UserActions } from "@/redux/actions/Users";
-import { PlanDetailDto, PlanPriceType } from "@/types/Plans";
+import { PlanDetailDto, PlanPriceType } from "@/types/subscribe";
 import { CorporationDto, CorporationType, CreditCardDto, UserCorporationCardDto, UserStatusType } from "@/types/Users";
 import { SubscriptionDto, SubscriptionType, SubscriptionWithCorporationDto } from "@/types/Subscriptions";
 import { alertMessage, confirmMessage } from "@/utils/messageBox";

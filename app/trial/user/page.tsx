@@ -15,7 +15,7 @@ import { Badge } from "@/components/ui/badge"
 import { Loader2, Building2, Shield, Clock, CheckCircle2, Sparkles, Gift, ArrowRight, ExternalLink, Link2 } from "lucide-react"
 import { Api } from "@/api"
 import { checkApiResult } from "@/utils/apiUtil"
-import { PlanDto } from "@/types/Plans"
+import { PlanDto } from "@/types/subscribe"
 import { TrialRequestDto } from "@/types/Trials"
 
 const EVER_TIME_URL = process.env.NEXT_PUBLIC_EVERTIME_APP_URL || "https://evertimebasic.web.flextudio.com"

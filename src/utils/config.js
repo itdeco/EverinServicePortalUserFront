@@ -3,6 +3,7 @@ const Config = {
     everTimeGATrackingId: process.env.NEXT_PUBLIC_EVERTIME_GA_TRACKING_ID,
     payrollGATrackingId: process.env.NEXT_PUBLIC_PAYROLL_GA_TRACKING_ID,
     apiServer: process.env.NEXT_PUBLIC_API_SERVER,
+    bmsServer: process.env.NEXT_PUBLIC_BMS_SERVER,
     frontServer: process.env.NEXT_PUBLIC_FRONT_SERVER,
     editorImageUploadUrl: process.env.NEXT_PUBLIC_API_SERVER + "/api/v1/files/inline",
     everTimeUrl: process.env.NEXT_PUBLIC_EVERTIME_URL || "https://www.evertime.co.kr",

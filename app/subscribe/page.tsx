@@ -20,134 +20,125 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-
-type Plan = {
-  id: string;
-  label: string;
-  price: number;
-  allowedChildren?: string[];
-  quoteOnly?: boolean;
-};
-
-type SubService = {
-  id: string;
-  name: string;
-  description?: string;
-  price: number;
-  quoteOnly?: boolean;
-};
-
-type Service = {
-  id: string;
-  name: string;
-  description?: string;
-  price?: number;
-  defaultHeadcount?: number;
-  plans?: Plan[];
-  subServices?: SubService[];
-  quoteOnly?: boolean;
-};
-
-type Category = {
-  id: string;
-  name: string;
-  services: Service[];
-};
+import ApiSubscribe from "@/api/Subscribe";
+import { ApiResponse } from "@/types/Common";
+import {
+  Category,
+  Service,
+  Plan as PlanItem,
+} from "@/types/subscribe";
 
 type SelectedState = Record<string, boolean>;
 type PlanState = Record<string, string>;
 type HeadcountState = Record<string, number>;
 type OpenState = Record<string, boolean>;
 
-const serviceConfig: Category[] = [
+const fallbackServiceConfig: Category[] = [
   {
-    id: "smartcare",
-    name: "스마트케어",
+    categoryId: "smartcare",
+    categoryName: "스마트케어",
+    sortOrder: 1,
     services: [
       {
-        id: "welcoming",
-        name: "에버웰커밍",
+        serviceId: "welcoming",
+        serviceName: "에버웰커밍",
         description: "신규 입사자 온보딩 자동화",
         price: 1500,
-        defaultHeadcount: 30,
+        defaultUsercount: 30,
+        sortOrder: 1,
       },
       {
-        id: "evertime",
-        name: "에버타임",
+        serviceId: "evertime",
+        serviceName: "에버타임",
         description: "근태관리 통합 솔루션",
-        defaultHeadcount: 30,
+        defaultUsercount: 30,
+        sortOrder: 2,
         plans: [
           {
-            id: "standard",
-            label: "스탠다드",
+            planId: "standard",
+            planName: "스탠다드",
             price: 2500,
+            sortOrder: 1,
             allowedChildren: ["pcoff"],
           },
           {
-            id: "enterprise",
-            label: "엔터프라이즈",
+            planId: "enterprise",
+            planName: "엔터프라이즈",
             price: 0,
             quoteOnly: true,
+            sortOrder: 2,
             allowedChildren: ["pcoff", "access", "setup"],
           },
         ],
         subServices: [
           {
-            id: "pcoff",
-            name: "PC-OFF",
+            serviceId: "pcoff",
+            serviceName: "PC-OFF",
             description: "퇴근 시 PC 자동 종료",
             price: 1000,
+            defaultUsercount: 30,
+            sortOrder: 1,
           },
           {
-            id: "access",
-            name: "출입시스템",
+            serviceId: "access",
+            serviceName: "출입시스템",
             description: "출입게이트/보안장비 연동",
             price: 1200,
+            defaultUsercount: 30,
+            sortOrder: 2,
           },
           {
-            id: "setup",
-            name: "근태셋업",
+            serviceId: "setup",
+            serviceName: "근태셋업",
             description: "교대근무/탄력근무 초기 구축",
             price: 800,
+            defaultUsercount: 30,
+            sortOrder: 3,
           },
         ],
       },
       {
-        id: "hr",
-        name: "인사관리",
+        serviceId: "hr",
+        serviceName: "인사관리",
         description: "인사정보 통합 관리",
         price: 1800,
-        defaultHeadcount: 30,
+        defaultUsercount: 30,
+        sortOrder: 3,
       },
       {
-        id: "benefit",
-        name: "복리후생",
+        serviceId: "benefit",
+        serviceName: "복리후생",
         description: "복리후생 포인트 관리",
         price: 1200,
-        defaultHeadcount: 30,
+        defaultUsercount: 30,
+        sortOrder: 4,
       },
     ],
   },
   {
-    id: "payroll-category",
-    name: "급여",
+    categoryId: "payroll-category",
+    categoryName: "급여",
+    sortOrder: 2,
     services: [
       {
-        id: "payroll",
-        name: "에버페이롤",
+        serviceId: "payroll",
+        serviceName: "에버페이롤",
         description: "급여 계산 및 지급 관리",
-        defaultHeadcount: 30,
+        defaultUsercount: 30,
+        sortOrder: 1,
         plans: [
           {
-            id: "self",
-            label: "자체운영",
+            planId: "self",
+            planName: "자체운영",
             price: 4500,
+            sortOrder: 1,
             allowedChildren: ["payroll-setup-self"],
           },
           {
-            id: "outsourcing",
-            label: "아웃소싱",
+            planId: "outsourcing",
+            planName: "아웃소싱",
             price: 6000,
+            sortOrder: 2,
             allowedChildren: [
               "payroll-report",
               "payroll-yearend",
@@ -155,9 +146,10 @@ const serviceConfig: Category[] = [
             ],
           },
           {
-            id: "erp-outsourcing",
-            label: "ERP아웃소싱",
+            planId: "erp-outsourcing",
+            planName: "ERP아웃소싱",
             price: 6000,
+            sortOrder: 3,
             allowedChildren: [
               "payroll-report-erp",
               "payroll-yearend-erp",
@@ -167,144 +159,191 @@ const serviceConfig: Category[] = [
         ],
         subServices: [
           {
-            id: "payroll-setup-self",
-            name: "급여셋업",
+            serviceId: "payroll-setup-self",
+            serviceName: "급여셋업",
             description: "급여 규칙/수당/공제 설정",
             price: 1000,
+            defaultUsercount: 30,
+            sortOrder: 1,
           },
           {
-            id: "payroll-report",
-            name: "신고서비스",
+            serviceId: "payroll-report",
+            serviceName: "신고서비스",
             description: "급여 신고 대행",
             price: 0,
             quoteOnly: true,
+            sortOrder: 2,
           },
           {
-            id: "payroll-yearend",
-            name: "연말정산서비스",
+            serviceId: "payroll-yearend",
+            serviceName: "연말정산서비스",
             description: "연말정산 대행",
             price: 0,
             quoteOnly: true,
+            sortOrder: 3,
           },
           {
-            id: "payroll-setup-out",
-            name: "급여셋업",
+            serviceId: "payroll-setup-out",
+            serviceName: "급여셋업",
             description: "아웃소싱 급여셋업",
             price: 0,
             quoteOnly: true,
+            sortOrder: 4,
           },
           {
-            id: "payroll-report-erp",
-            name: "신고서비스",
+            serviceId: "payroll-report-erp",
+            serviceName: "신고서비스",
             description: "ERP 급여 신고",
             price: 0,
             quoteOnly: true,
+            sortOrder: 5,
           },
           {
-            id: "payroll-yearend-erp",
-            name: "연말정산서비스",
+            serviceId: "payroll-yearend-erp",
+            serviceName: "연말정산서비스",
             description: "ERP 연말정산",
             price: 0,
             quoteOnly: true,
+            sortOrder: 6,
           },
           {
-            id: "payroll-setup-erp",
-            name: "급여셋업",
+            serviceId: "payroll-setup-erp",
+            serviceName: "급여셋업",
             description: "ERP 급여셋업",
             price: 0,
             quoteOnly: true,
+            sortOrder: 7,
           },
         ],
       },
     ],
   },
   {
-    id: "evaluation-category",
-    name: "평가",
+    categoryId: "evaluation-category",
+    categoryName: "평가",
+    sortOrder: 3,
     services: [
       {
-        id: "evaluation",
-        name: "에버평가",
+        serviceId: "evaluation",
+        serviceName: "에버평가",
         description: "성과 평가 및 목표 관리",
         price: 2200,
-        defaultHeadcount: 30,
+        defaultUsercount: 30,
+        sortOrder: 1,
       },
     ],
   },
   {
-    id: "addons",
-    name: "부가서비스",
+    categoryId: "addons",
+    categoryName: "부가서비스",
+    sortOrder: 4,
     services: [
       {
-        id: "contract",
-        name: "전자계약서",
+        serviceId: "contract",
+        serviceName: "전자계약서",
         description: "전자서명 기반 계약 관리",
         price: 900,
-        defaultHeadcount: 30,
+        defaultUsercount: 30,
+        sortOrder: 1,
       },
       {
-        id: "custom",
-        name: "추가개발",
+        serviceId: "custom",
+        serviceName: "추가개발",
         description: "고객사 맞춤 기능 개발",
         price: 0,
         quoteOnly: true,
+        sortOrder: 2,
       },
     ],
   },
 ];
 
 const currency = (n: number) => `${Math.round(n).toLocaleString("ko-KR")}원`;
-const perPerson = (n: number) => `${Math.round(n).toLocaleString("ko-KR")}원/인`;
 
-const getServiceUnitPrice = (service: Service, plan?: Plan) => {
+const perPerson = (n: number) =>
+    `${Math.round(n).toLocaleString("ko-KR")}원/인`;
+
+const getServiceUnitPrice = (service: Service, plan?: PlanItem) => {
   if (service.quoteOnly) return 0;
   return plan?.price ?? service.price ?? 0;
 };
 
-function buildInitialSelected(): SelectedState {
+const sortServiceConfig = (data: Category[]): Category[] => {
+  return [...data]
+      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+      .map((category) => ({
+        ...category,
+        services: [...(category.services ?? [])]
+            .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+            .map((service) => ({
+              ...service,
+              plans: [...(service.plans ?? [])].sort(
+                  (a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0)
+              ),
+              subServices: [...(service.subServices ?? [])].sort(
+                  (a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0)
+              ),
+            })),
+      }));
+};
+
+function buildInitialSelected(config: Category[]): SelectedState {
   const acc: SelectedState = {};
-  serviceConfig.forEach((cat) => {
+
+  config.forEach((cat) => {
     cat.services.forEach((svc) => {
-      acc[svc.id] = false;
+      acc[svc.serviceId] = false;
+
       svc.subServices?.forEach((sub) => {
-        acc[sub.id] = false;
+        acc[sub.serviceId] = false;
       });
     });
   });
+
   return acc;
 }
 
-function buildInitialPlans(): PlanState {
+function buildInitialPlans(config: Category[]): PlanState {
   const acc: PlanState = {};
-  serviceConfig.forEach((cat) => {
+
+  config.forEach((cat) => {
     cat.services.forEach((svc) => {
-      if (svc.plans?.length) acc[svc.id] = svc.plans[0].id;
+      if (svc.plans?.length) {
+        acc[svc.serviceId] = svc.plans[0].planId;
+      }
     });
   });
+
   return acc;
 }
 
-function buildInitialHeadcount(): HeadcountState {
+function buildInitialHeadcount(config: Category[]): HeadcountState {
   const acc: HeadcountState = {};
-  serviceConfig.forEach((cat) => {
+
+  config.forEach((cat) => {
     cat.services.forEach((svc) => {
-      acc[svc.id] = svc.defaultHeadcount ?? 30;
+      acc[svc.serviceId] = svc.defaultUsercount ?? 30;
+
       svc.subServices?.forEach((sub) => {
-        acc[sub.id] = svc.defaultHeadcount ?? 30;
+        acc[sub.serviceId] = sub.defaultUsercount ?? svc.defaultUsercount ?? 30;
       });
     });
   });
+
   return acc;
 }
 
-function buildInitialOpen(): OpenState {
+function buildInitialOpen(config: Category[]): OpenState {
   const acc: OpenState = {};
-  serviceConfig.forEach((cat) => {
-    acc[cat.id] = true;
+
+  config.forEach((cat) => {
+    acc[cat.categoryId] = true;
+
     cat.services.forEach((svc) => {
-      acc[svc.id] = true;
+      acc[svc.serviceId] = true;
     });
   });
+
   return acc;
 }
 
@@ -376,7 +415,10 @@ function RollingDigit({ digit }: { digit: string }) {
           transition={{ type: "spring", stiffness: 200, damping: 22 }}
       >
         {digits.map((value) => (
-            <span key={value} className="h-[1.05em] leading-[1.05em] text-center">
+            <span
+                key={value}
+                className="h-[1.05em] leading-[1.05em] text-center"
+            >
             {value}
           </span>
         ))}
@@ -387,12 +429,15 @@ function RollingDigit({ digit }: { digit: string }) {
 
 function RollingPrice({ value }: { value: number }) {
   const formatted = Math.max(0, Math.round(value)).toLocaleString("ko-KR");
+
   return (
       <span className="inline-flex items-center gap-0.5 text-3xl font-bold tracking-tight text-foreground">
       {formatted.split("").map((digit, index) => (
           <RollingDigit key={`${digit}-${index}`} digit={digit} />
       ))}
-        <span className="ml-1 text-lg font-semibold text-muted-foreground">원</span>
+        <span className="ml-1 text-lg font-semibold text-muted-foreground">
+        원
+      </span>
     </span>
   );
 }
@@ -418,16 +463,21 @@ function ServiceRow({
   onChangeHeadcount: (id: string, value: number) => void;
   onToggleOpen: (id: string) => void;
 }) {
-  const isSelected = selected[service.id];
-  const currentPlanId = plans[service.id];
-  const currentPlan = service.plans?.find((p) => p.id === currentPlanId);
+  const serviceId = service.serviceId;
+  const isSelected = !!selected[serviceId];
+
+  const currentPlanId = plans[serviceId];
+  const currentPlan = service.plans?.find((p) => p.planId === currentPlanId);
+
   const allowedSubServices = currentPlan?.allowedChildren || [];
   const visibleSubServices =
-      service.subServices?.filter((sub) => allowedSubServices.includes(sub.id)) || [];
+      service.subServices?.filter((sub) =>
+          allowedSubServices.includes(sub.serviceId)
+      ) || [];
 
   const hasSubServices = visibleSubServices.length > 0;
   const unitPrice = getServiceUnitPrice(service, currentPlan);
-  const headcount = headcounts[service.id] || 0;
+  const headcount = headcounts[serviceId] || 0;
 
   const isQuoteOnlyPlan = !!currentPlan?.quoteOnly;
   const isQuoteOnlyService = !!service.quoteOnly || isQuoteOnlyPlan;
@@ -438,8 +488,8 @@ function ServiceRow({
     serviceTotal = unitPrice * headcount;
 
     visibleSubServices.forEach((sub) => {
-      if (selected[sub.id] && !sub.quoteOnly) {
-        serviceTotal += sub.price * (headcounts[sub.id] || headcount);
+      if (selected[sub.serviceId] && !sub.quoteOnly) {
+        serviceTotal += sub.price * (headcounts[sub.serviceId] || headcount);
       }
     });
   }
@@ -459,14 +509,14 @@ function ServiceRow({
               <div className="pt-0.5">
                 <NativeCheckbox
                     checked={isSelected}
-                    onChange={(checked) => onToggleSelected(service.id, checked)}
-                    ariaLabel={`${service.name} 선택`}
+                    onChange={(checked) => onToggleSelected(serviceId, checked)}
+                    ariaLabel={`${service.serviceName} 선택`}
                 />
               </div>
 
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-bold text-lg">{service.name}</span>
+                  <span className="text-lg font-bold">{service.serviceName}</span>
 
                   {service.quoteOnly && (
                       <Badge variant="outline" className="text-muted-foreground">
@@ -475,7 +525,9 @@ function ServiceRow({
                   )}
 
                   {isSelected && !isQuoteOnlyService && (
-                      <Badge className="bg-primary text-primary-foreground">선택됨</Badge>
+                      <Badge className="bg-primary text-primary-foreground">
+                        선택됨
+                      </Badge>
                   )}
                 </div>
 
@@ -487,36 +539,40 @@ function ServiceRow({
 
                 {service.plans && service.plans.length > 0 && (
                     <div className="mt-4">
-                      <Label className="text-xs text-muted-foreground mb-2 block">
+                      <Label className="mb-2 block text-xs text-muted-foreground">
                         플랜 선택
                       </Label>
 
                       <div className="flex flex-wrap gap-2">
                         {service.plans.map((plan) => {
-                          const isCurrentPlan = currentPlanId === plan.id;
+                          const isCurrentPlan = currentPlanId === plan.planId;
 
                           return (
                               <Label
-                                  key={plan.id}
-                                  htmlFor={`${service.id}-${plan.id}`}
+                                  key={plan.planId}
+                                  htmlFor={`${serviceId}-${plan.planId}`}
                                   className={`flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm transition ${
                                       isCurrentPlan
                                           ? "border-primary bg-primary/10 text-primary"
                                           : "border-border bg-background text-foreground hover:border-primary/30"
-                                  } ${!isSelected ? "cursor-not-allowed opacity-50" : ""}`}
+                                  } ${
+                                      !isSelected ? "cursor-not-allowed opacity-50" : ""
+                                  }`}
                               >
                                 <NativeRadio
-                                    id={`${service.id}-${plan.id}`}
-                                    name={`plan-${service.id}`}
-                                    value={plan.id}
+                                    id={`${serviceId}-${plan.planId}`}
+                                    name={`plan-${serviceId}`}
+                                    value={plan.planId}
                                     checked={isCurrentPlan}
                                     disabled={!isSelected}
-                                    onChange={(value) => onChangePlan(service.id, value)}
+                                    onChange={(value) => onChangePlan(serviceId, value)}
                                 />
-                                <span className="font-medium">{plan.label}</span>
+                                <span className="font-medium">{plan.planName}</span>
                                 <span className="text-muted-foreground">
-                                  {plan.quoteOnly ? "별도견적" : perPerson(plan.price)}
-                                </span>
+                            {plan.quoteOnly
+                                ? "별도견적"
+                                : perPerson(plan.price)}
+                          </span>
                               </Label>
                           );
                         })}
@@ -545,7 +601,10 @@ function ServiceRow({
                             value={headcount}
                             disabled={!isSelected}
                             onChange={(e) =>
-                                onChangeHeadcount(service.id, Number(e.target.value || 0))
+                                onChangeHeadcount(
+                                    serviceId,
+                                    Number(e.target.value || 0)
+                                )
                             }
                             className="mt-1 h-9"
                         />
@@ -559,14 +618,14 @@ function ServiceRow({
               <div className="text-right">
                 <div className="text-xl font-bold">
                   {isQuoteOnlyService ? (
-                      <span className="text-primary font-bold">견적요청</span>
+                      <span className="font-bold text-primary">견적요청</span>
                   ) : (
                       currency(serviceTotal)
                   )}
                 </div>
 
                 {isSelected && hasSubServices && !isQuoteOnlyService && (
-                    <div className="text-xs text-muted-foreground mt-1">
+                    <div className="mt-1 text-xs text-muted-foreground">
                       하위 서비스 포함
                     </div>
                 )}
@@ -575,14 +634,14 @@ function ServiceRow({
               {hasSubServices && (
                   <button
                       type="button"
-                      onClick={() => onToggleOpen(service.id)}
-                      className="rounded-full p-2 hover:bg-muted transition"
+                      onClick={() => onToggleOpen(serviceId)}
+                      className="rounded-full p-2 transition hover:bg-muted"
                       aria-label="하위 서비스 열기"
                   >
-                    {open[service.id] ? (
-                        <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                    {open[serviceId] ? (
+                        <ChevronDown className="h-5 w-5 text-muted-foreground" />
                     ) : (
-                        <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
                     )}
                   </button>
               )}
@@ -592,7 +651,7 @@ function ServiceRow({
 
         {hasSubServices && (
             <AnimatePresence initial={false}>
-              {open[service.id] && (
+              {open[serviceId] && (
                   <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
@@ -600,19 +659,22 @@ function ServiceRow({
                       transition={{ duration: 0.2 }}
                       className="overflow-hidden"
                   >
-                    <div className="border-t border-border bg-muted/30 p-4 space-y-3">
-                      <div className="text-xs font-medium text-muted-foreground mb-2">
+                    <div className="space-y-3 border-t border-border bg-muted/30 p-4">
+                      <div className="mb-2 text-xs font-medium text-muted-foreground">
                         선택 가능한 하위 서비스
                       </div>
 
                       {visibleSubServices.map((sub) => {
-                        const isSubSelected = selected[sub.id];
-                        const subHeadcount = headcounts[sub.id] || headcount;
-                        const subTotal = sub.quoteOnly ? 0 : sub.price * subHeadcount;
+                        const subId = sub.serviceId;
+                        const isSubSelected = !!selected[subId];
+                        const subHeadcount = headcounts[subId] || headcount;
+                        const subTotal = sub.quoteOnly
+                            ? 0
+                            : sub.price * subHeadcount;
 
                         return (
                             <div
-                                key={sub.id}
+                                key={subId}
                                 className={`rounded-xl border p-3 transition ${
                                     isSubSelected
                                         ? "border-primary/30 bg-primary/5"
@@ -624,15 +686,17 @@ function ServiceRow({
                                   <NativeCheckbox
                                       checked={isSubSelected}
                                       onChange={(checked) =>
-                                          onToggleSelected(sub.id, checked)
+                                          onToggleSelected(subId, checked)
                                       }
-                                      ariaLabel={`${sub.name} 선택`}
+                                      ariaLabel={`${sub.serviceName} 선택`}
                                       disabled={!isSelected}
                                   />
 
                                   <div>
                                     <div className="flex items-center gap-2">
-                                      <span className="font-medium">{sub.name}</span>
+                              <span className="font-medium">
+                                {sub.serviceName}
+                              </span>
 
                                       {sub.quoteOnly && (
                                           <Badge variant="outline" className="text-xs">
@@ -641,20 +705,20 @@ function ServiceRow({
                                       )}
 
                                       {isSubSelected && !sub.quoteOnly && (
-                                          <Badge className="bg-primary/80 text-primary-foreground text-xs">
+                                          <Badge className="bg-primary/80 text-xs text-primary-foreground">
                                             선택됨
                                           </Badge>
                                       )}
                                     </div>
 
                                     {sub.description && (
-                                        <p className="text-xs text-muted-foreground mt-0.5">
+                                        <p className="mt-0.5 text-xs text-muted-foreground">
                                           {sub.description}
                                         </p>
                                     )}
 
                                     {!sub.quoteOnly && (
-                                        <div className="text-xs text-muted-foreground mt-1">
+                                        <div className="mt-1 text-xs text-muted-foreground">
                                           {perPerson(sub.price)}
                                         </div>
                                     )}
@@ -671,13 +735,13 @@ function ServiceRow({
                                             disabled={!isSelected || !isSubSelected}
                                             onChange={(e) =>
                                                 onChangeHeadcount(
-                                                    sub.id,
+                                                    subId,
                                                     Number(e.target.value || 0)
                                                 )
                                             }
                                             className="h-8 w-20 text-sm"
                                         />
-                                        <span className="text-sm font-medium min-w-[80px] text-right">
+                                        <span className="min-w-[80px] text-right text-sm font-medium">
                                 {currency(subTotal)}
                               </span>
                                       </div>
@@ -703,38 +767,88 @@ function ServiceRow({
 function SubscribeContent() {
   const router = useRouter();
 
-  const [selected, setSelected] = useState<SelectedState>(buildInitialSelected);
-  const [plans, setPlans] = useState<PlanState>(buildInitialPlans);
-  const [headcounts, setHeadcounts] =
-      useState<HeadcountState>(buildInitialHeadcount);
-  const [open, setOpen] = useState<OpenState>(buildInitialOpen);
+  const initialConfig = sortServiceConfig(fallbackServiceConfig);
+
+  const [serviceConfig, setserviceConfig] = useState<Category[]>(initialConfig);
+
+  const [selected, setSelected] = useState<SelectedState>(() =>
+      buildInitialSelected(initialConfig)
+  );
+
+  const [plans, setPlans] = useState<PlanState>(() =>
+      buildInitialPlans(initialConfig)
+  );
+
+  const [headcounts, setHeadcounts] = useState<HeadcountState>(() =>
+      buildInitialHeadcount(initialConfig)
+  );
+
+  const [open, setOpen] = useState<OpenState>(() =>
+      buildInitialOpen(initialConfig)
+  );
+
   const [displayTotal, setDisplayTotal] = useState(0);
-  const [activeCategoryId, setActiveCategoryId] = useState(serviceConfig[0].id);
+  const [activeCategoryId, setActiveCategoryId] = useState(
+      initialConfig[0].categoryId
+  );
+
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        const api = new ApiSubscribe();
+        const json = await api.getSubscribeServices();
+
+        if (!json.data || json.data.length === 0) {
+          return;
+        }
+
+        const nextConfig = sortServiceConfig(json.data);
+
+        setserviceConfig(nextConfig);
+        setSelected(buildInitialSelected(nextConfig));
+        setPlans(buildInitialPlans(nextConfig));
+        setHeadcounts(buildInitialHeadcount(nextConfig));
+        setOpen(buildInitialOpen(nextConfig));
+        setActiveCategoryId(nextConfig[0].categoryId);
+      } catch (error) {
+        console.error("플랜 API 호출 실패", error);
+      }
+    };
+
+    loadServices();
+  }, []);
 
   const activeCategory =
-      serviceConfig.find((cat) => cat.id === activeCategoryId) ?? serviceConfig[0];
+      serviceConfig.find((cat) => cat.categoryId === activeCategoryId) ??
+      serviceConfig[0];
 
   const total = useMemo(() => {
     let sum = 0;
 
     serviceConfig.forEach((cat) => {
       cat.services.forEach((svc) => {
-        if (selected[svc.id] && !svc.quoteOnly) {
-          const plan = svc.plans?.find((p) => p.id === plans[svc.id]);
-          const unitPrice = getServiceUnitPrice(svc, plan);
-          const headcount = headcounts[svc.id] || 0;
+        if (selected[svc.serviceId] && !svc.quoteOnly) {
+          const plan = svc.plans?.find(
+              (p) => p.planId === plans[svc.serviceId]
+          );
 
-          sum += unitPrice * headcount;
+          const unitPrice = getServiceUnitPrice(svc, plan);
+          const headcount = headcounts[svc.serviceId] || 0;
+          const isQuoteOnlyService = svc.quoteOnly || plan?.quoteOnly;
+
+          if (!isQuoteOnlyService) {
+            sum += unitPrice * headcount;
+          }
 
           const allowedSubs = plan?.allowedChildren || [];
 
           svc.subServices?.forEach((sub) => {
             if (
-                allowedSubs.includes(sub.id) &&
-                selected[sub.id] &&
+                allowedSubs.includes(sub.serviceId) &&
+                selected[sub.serviceId] &&
                 !sub.quoteOnly
             ) {
-              sum += sub.price * (headcounts[sub.id] || headcount);
+              sum += sub.price * (headcounts[sub.serviceId] || headcount);
             }
           });
         }
@@ -742,7 +856,7 @@ function SubscribeContent() {
     });
 
     return sum;
-  }, [selected, plans, headcounts]);
+  }, [serviceConfig, selected, plans, headcounts]);
 
   useEffect(() => {
     let frame = 0;
@@ -754,11 +868,16 @@ function SubscribeContent() {
     const animate = (time: number) => {
       const progress = Math.min(1, (time - startAt) / duration);
       const eased = 1 - Math.pow(1 - progress, 3);
+
       setDisplayTotal(Math.round(start + (end - start) * eased));
-      if (progress < 1) frame = requestAnimationFrame(animate);
+
+      if (progress < 1) {
+        frame = requestAnimationFrame(animate);
+      }
     };
 
     frame = requestAnimationFrame(animate);
+
     return () => cancelAnimationFrame(frame);
   }, [total]);
 
@@ -767,26 +886,32 @@ function SubscribeContent() {
 
     serviceConfig.forEach((cat) => {
       cat.services.forEach((svc) => {
-        if (selected[svc.id]) {
-          const plan = svc.plans?.find((p) => p.id === plans[svc.id]);
+        if (selected[svc.serviceId]) {
+          const plan = svc.plans?.find(
+              (p) => p.planId === plans[svc.serviceId]
+          );
+
           const unitPrice = getServiceUnitPrice(svc, plan);
-          const headcount = headcounts[svc.id] || 0;
+          const headcount = headcounts[svc.serviceId] || 0;
 
           items.push({
-            name: plan ? `${svc.name} (${plan.label})` : svc.name,
-            price: svc.quoteOnly || plan?.quoteOnly ? 0 : unitPrice * headcount,
+            name: plan
+                ? `${svc.serviceName} (${plan.planName})`
+                : svc.serviceName,
+            price:
+                svc.quoteOnly || plan?.quoteOnly ? 0 : unitPrice * headcount,
             quoteOnly: svc.quoteOnly || plan?.quoteOnly,
           });
 
           const allowedSubs = plan?.allowedChildren || [];
 
           svc.subServices?.forEach((sub) => {
-            if (allowedSubs.includes(sub.id) && selected[sub.id]) {
+            if (allowedSubs.includes(sub.serviceId) && selected[sub.serviceId]) {
               items.push({
-                name: `└ ${sub.name}`,
+                name: `└ ${sub.serviceName}`,
                 price: sub.quoteOnly
                     ? 0
-                    : sub.price * (headcounts[sub.id] || headcount),
+                    : sub.price * (headcounts[sub.serviceId] || headcount),
                 quoteOnly: sub.quoteOnly,
               });
             }
@@ -796,7 +921,7 @@ function SubscribeContent() {
     });
 
     return items;
-  }, [selected, plans, headcounts]);
+  }, [serviceConfig, selected, plans, headcounts]);
 
   const hasQuoteOnly = selectedItems.some((item) => item.quoteOnly);
 
@@ -809,19 +934,19 @@ function SubscribeContent() {
 
     const service = serviceConfig
         .flatMap((category) => category.services)
-        .find((svc) => svc.id === serviceId);
+        .find((svc) => svc.serviceId === serviceId);
 
     if (!service?.subServices) return;
 
-    const nextPlan = service.plans?.find((plan) => plan.id === planId);
+    const nextPlan = service.plans?.find((plan) => plan.planId === planId);
     const allowedSubs = nextPlan?.allowedChildren || [];
 
     setSelected((prev) => {
       const updated = { ...prev };
 
       service.subServices?.forEach((sub) => {
-        if (!allowedSubs.includes(sub.id)) {
-          updated[sub.id] = false;
+        if (!allowedSubs.includes(sub.serviceId)) {
+          updated[sub.serviceId] = false;
         }
       });
 
@@ -838,33 +963,36 @@ function SubscribeContent() {
     setOpen((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleSubmit = () => {
+  const handleEstimateRequest = () => {
     const params = new URLSearchParams();
+
     params.set("total", total.toString());
     params.set("hasQuoteOnly", hasQuoteOnly.toString());
-    router.push(`/subscribe/step2?${params.toString()}`);
+
+    router.push(`/plan/step2?${params.toString()}`);
   };
 
   return (
-      <div className="min-h-screen flex flex-col bg-background">
+      <div className="flex min-h-screen flex-col bg-background">
         <Header />
 
         <main className="flex-1">
-          <div className="px-4 py-6 md:px-8 md:py-8 max-w-[1280px] mx-auto">
-            <div className="rounded-2xl border border-primary/20 bg-white p-5 mb-6 shadow-sm">
+          <div className="mx-auto max-w-[1280px] px-4 py-6 md:px-8 md:py-8">
+            <div className="mb-6 rounded-2xl border border-primary/20 bg-white p-5 shadow-sm">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary mb-2">
-                    <Sparkles className="w-4 h-4" />
-                    서비스 견적 시뮬레이터
+                  <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
+                    <Sparkles className="h-4 w-4" />
+                    플랜 견적 시뮬레이터
                   </div>
 
-                  <h1 className="text-2xl md:text-3xl font-bold">
-                    에버 HR 통합 견적
+                  <h1 className="text-2xl font-bold md:text-3xl">
+                    에버 HR 통합 플랜
                   </h1>
 
-                  <p className="text-muted-foreground mt-1">
-                    서비스, 플랜, 하위 서비스, 인원을 선택하면 총 견적이 실시간으로 반영됩니다.
+                  <p className="mt-1 text-muted-foreground">
+                    서비스, 플랜, 하위 서비스, 인원을 선택하면 총 견적이
+                    실시간으로 반영됩니다.
                   </p>
                 </div>
 
@@ -879,16 +1007,16 @@ function SubscribeContent() {
                 <div className="flex flex-wrap gap-2 rounded-2xl border border-border bg-white p-2 shadow-sm">
                   {serviceConfig.map((category) => (
                       <button
-                          key={category.id}
+                          key={category.categoryId}
                           type="button"
-                          onClick={() => setActiveCategoryId(category.id)}
+                          onClick={() => setActiveCategoryId(category.categoryId)}
                           className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
-                              activeCategoryId === category.id
+                              activeCategoryId === category.categoryId
                                   ? "bg-primary text-primary-foreground shadow-sm"
                                   : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
                           }`}
                       >
-                        {category.name}
+                        {category.categoryName}
                       </button>
                   ))}
                 </div>
@@ -896,7 +1024,9 @@ function SubscribeContent() {
                 <div>
                   <div className="mb-4 flex items-center gap-2">
                     <div className="h-8 w-1 rounded-full bg-primary" />
-                    <h2 className="text-xl font-bold">{activeCategory.name}</h2>
+                    <h2 className="text-xl font-bold">
+                      {activeCategory.categoryName}
+                    </h2>
                     <Badge variant="secondary" className="ml-2">
                       {activeCategory.services.length}개 서비스
                     </Badge>
@@ -904,7 +1034,7 @@ function SubscribeContent() {
 
                   <AnimatePresence mode="wait">
                     <motion.div
-                        key={activeCategory.id}
+                        key={activeCategory.categoryId}
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
@@ -913,7 +1043,7 @@ function SubscribeContent() {
                     >
                       {activeCategory.services.map((service) => (
                           <ServiceRow
-                              key={service.id}
+                              key={service.serviceId}
                               service={service}
                               selected={selected}
                               plans={plans}
@@ -941,8 +1071,8 @@ function SubscribeContent() {
                     </CardTitle>
                   </CardHeader>
 
-                  <CardContent className="p-5 space-y-5">
-                    <div className="rounded-2xl border border-border p-5 text-center bg-gradient-to-b from-background to-muted/30">
+                  <CardContent className="space-y-5 p-5">
+                    <div className="rounded-2xl border border-border bg-gradient-to-b from-background to-muted/30 p-5 text-center">
                       <div className="mb-2 text-sm font-medium text-muted-foreground">
                         예상 월 과금
                       </div>
@@ -972,7 +1102,8 @@ function SubscribeContent() {
 
                     {hasQuoteOnly && (
                         <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm text-foreground">
-                          견적요청 항목이 포함되어 있습니다. 담당자가 별도로 연락드립니다.
+                          견적요청 항목이 포함되어 있습니다. 담당자가 별도로
+                          연락드립니다.
                         </div>
                     )}
 
@@ -980,7 +1111,7 @@ function SubscribeContent() {
 
                     <div>
                       <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
-                        <Calculator className="w-4 h-4 text-primary" />
+                        <Calculator className="h-4 w-4 text-primary" />
                         선택 상세
                       </div>
 
@@ -996,7 +1127,7 @@ function SubscribeContent() {
                                       key={idx}
                                       className={`flex items-center justify-between rounded-xl border p-3 ${
                                           item.name.startsWith("└")
-                                              ? "border-border bg-muted/30 ml-4"
+                                              ? "ml-4 border-border bg-muted/30"
                                               : "border-primary/20 bg-primary/5"
                                       }`}
                                   >
@@ -1004,7 +1135,9 @@ function SubscribeContent() {
                                 {item.name}
                               </span>
                                     <span className="text-sm font-semibold">
-                                {item.quoteOnly ? "견적요청" : currency(item.price)}
+                                {item.quoteOnly
+                                    ? "견적요청"
+                                    : currency(item.price)}
                               </span>
                                   </div>
                               ))
@@ -1020,15 +1153,18 @@ function SubscribeContent() {
                           className="w-full"
                           size="lg"
                           disabled={selectedItems.length === 0 || hasQuoteOnly}
-                          onClick={() => router.push(`/subscribe/checkout?total=${total}`)}
+                          onClick={() =>
+                              router.push(`/plan/checkout?total=${total}`)
+                          }
                       >
                         구독하기
-                        <ArrowRight className="w-4 h-4 ml-2" />
+                        <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
 
                       {hasQuoteOnly && (
-                          <p className="text-xs text-center text-muted-foreground">
-                            견적요청 항목이 포함되어 구독하기를 바로 진행할 수 없습니다.
+                          <p className="text-center text-xs text-muted-foreground">
+                            견적요청 항목이 포함되어 구독하기를 바로 진행할 수
+                            없습니다.
                           </p>
                       )}
 
@@ -1036,7 +1172,7 @@ function SubscribeContent() {
                           variant="outline"
                           className="w-full"
                           size="lg"
-                          onClick={handleSubmit}
+                          onClick={handleEstimateRequest}
                           disabled={selectedItems.length === 0}
                       >
                         견적 요청하기
@@ -1047,7 +1183,7 @@ function SubscribeContent() {
                           className="w-full"
                           onClick={() => router.push("/support/contact")}
                       >
-                        <Building2 className="w-4 h-4 mr-2" />
+                        <Building2 className="mr-2 h-4 w-4" />
                         도입 상담 요청
                       </Button>
                     </div>
@@ -1067,10 +1203,10 @@ export default function SubscribePage() {
   return (
       <Suspense
           fallback={
-            <div className="flex items-center justify-center min-h-screen">
+            <div className="flex min-h-screen items-center justify-center">
               <div className="text-center">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin" />
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                  <div className="h-8 w-8 animate-spin rounded-full border-3 border-primary border-t-transparent" />
                 </div>
                 <p className="text-muted-foreground">로딩 중...</p>
               </div>

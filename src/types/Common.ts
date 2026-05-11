@@ -1,3 +1,9 @@
+export type ApiResponse<T> = {
+    statusCode: string;
+    statusMessage: string;
+    data: T;
+}
+
 export enum MyPageStatus {
     None = -1,
     ExpireFreePlan = 1,

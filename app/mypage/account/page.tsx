@@ -14,7 +14,7 @@ import { useLoginStatus, useUserProfile, useUserCards, useUserSubscriptions } fr
 import { usePlans } from "@/redux/selectors/Plans";
 import { UserActions } from "@/redux/actions/Users";
 import { CreditCardDto, UserStatusType } from "@/types/Users";
-import { PlanPriceType } from "@/types/Plans";
+import { PlanPriceType } from "@/types/subscribe";
 import { alertMessage, confirmMessage } from "@/utils/messageBox";
 import CommonUtil from "@/utils/commonUtil";
 

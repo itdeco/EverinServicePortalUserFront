@@ -8,6 +8,7 @@ import ApiPosts from "@/api/Posts";
 import ApiFile from "@/api/Files";
 import ApiFiles from "@/api/Files";
 import ApiProducts from "@/api/Products";
+import ApiSubscribe from "@/api/Subscribe";
 import ApiSubscriptions from "@/api/Subscriptions";
 import ApiSms from "@/api/Sms";
 import ApiPopups from "@/api/Popup";
@@ -25,6 +26,7 @@ export default class ApiClient {
     private _users: ApiUsers | undefined;
     private _plans: ApiPlans | undefined;
     private _public: ApiPublic | undefined;
+    private _subscribe: ApiSubscribe | undefined;
     private _subscription: ApiSubscriptions | undefined;
     private _payments: ApiPayments | undefined;
     private _common: ApiCommon | undefined;
@@ -151,5 +153,13 @@ export default class ApiClient {
         }
 
         return this._trials;
+    }
+
+    get Subscribe(): ApiSubscribe {
+        if (!this._subscribe) {
+            this._subscribe = new ApiSubscribe();
+        }
+
+        return this._subscribe;
     }
 }

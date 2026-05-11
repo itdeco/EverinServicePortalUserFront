@@ -1,3 +1,42 @@
+export type Category = {
+    categoryId: string;
+    categoryName: string;
+    sortOrder?: number;
+    services: Service[];
+};
+
+export type Service = {
+    serviceId: string;
+    serviceName: string;
+    description?: string;
+    price?: number;
+    defaultUsercount?: number;
+    quoteOnly?: boolean;
+    sortOrder?: number;
+    plans?: Plan[];
+    subServices?: SubService[];
+};
+
+export type Plan = {
+    planId: string;
+    planName: string;
+    price: number;
+    quoteOnly?: boolean;
+    sortOrder?: number;
+    allowedChildren?: string[];
+};
+
+export type SubService = {
+    serviceId: string;
+    serviceName: string;
+    description?: string;
+    price: number;
+    defaultUsercount?: number;
+    quoteOnly?: boolean;
+    sortOrder?: number;
+};
+
+// OLD
 export enum PlanType {
     Normal,
     Each,

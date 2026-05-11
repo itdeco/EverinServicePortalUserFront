@@ -1,6 +1,6 @@
 import {PlanState} from "@/redux/types/Store";
 import {PlanActionType} from "@/redux/types/PlanAction";
-import {PlanDetailDto} from "@/types/Plans";
+import {PlanDetailDto} from "@/types/subscribe";
 
 const setPlans = (plans: PlanDetailDto[] | null) => {
     return {
