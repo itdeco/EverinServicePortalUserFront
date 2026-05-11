@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { useEffect, useRef, useState } from "react"
 
 const features = [
   {
@@ -25,34 +28,108 @@ const features = [
   {
     id: 4,
     title: "HR 데이터 분석",
-    description: "복잡한 서류나 해석 없이 앱에서 즉시 신청하고 터치 한 번으로 승인까지! 모든 근태 결재를 가장 빠르게 처리하세요.",
+    description: "복잡한 데이터를 직관적인 대시보드로 한눈에 파악하고 의사결정에 바로 활용하세요.",
     image: "/images/people/smartWorkCare/hr/hr-4-1.png",
     imageAlt: "HR 데이터 분석 화면",
   },
 ]
 
 export default function HrFeaturesSection() {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = []
+
+    itemRefs.current.forEach((el, idx) => {
+      if (!el) return
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveIndex(idx)
+            }
+          })
+        },
+        {
+          rootMargin: "-40% 0px -40% 0px",
+          threshold: 0,
+        }
+      )
+      observer.observe(el)
+      observers.push(observer)
+    })
+
+    return () => {
+      observers.forEach((obs) => obs.disconnect())
+    }
+  }, [])
+
   return (
-    <section className="w-full bg-white">
-      {features.map((feature, idx) => (
-        <div
-          key={feature.id}
-          className="w-full py-12 md:py-16 border-t border-gray-100"
-        >
-          <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
-            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-              {/* 텍스트 - 항상 왼쪽 */}
-              <div className="w-full lg:w-[320px] shrink-0 text-left">
-                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
+    <section className="w-full bg-white py-16 md:py-24">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
+        {/* 데스크탑: Sticky Scroll 레이아웃 */}
+        <div className="hidden lg:flex gap-16 items-start">
+          {/* 왼쪽: 스크롤 텍스트 블록 */}
+          <div className="w-[360px] shrink-0">
+            {features.map((feature, idx) => (
+              <div
+                key={feature.id}
+                ref={(el) => { itemRefs.current[idx] = el }}
+                className="min-h-[40vh] flex flex-col justify-center py-16"
+              >
+                <h3
+                  className={`text-2xl font-bold mb-4 transition-colors duration-300 ${
+                    activeIndex === idx ? "text-gray-900" : "text-gray-300"
+                  }`}
+                >
                   {feature.title}
                 </h3>
-                <p className="text-gray-500 text-sm md:text-base leading-relaxed">
+                <p
+                  className={`text-base leading-relaxed transition-colors duration-300 ${
+                    activeIndex === idx ? "text-gray-500" : "text-gray-200"
+                  }`}
+                >
                   {feature.description}
                 </p>
               </div>
+            ))}
+          </div>
 
-              {/* 이미지 - 오른쪽 */}
-              <div className="relative w-full lg:flex-1 h-[220px] sm:h-[280px] lg:h-[360px] rounded-xl overflow-hidden shadow-md border border-gray-100">
+          {/* 오른쪽: Sticky 이미지 패널 */}
+          <div className="flex-1 sticky top-24 h-[480px] rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+            {features.map((feature, idx) => (
+              <div
+                key={feature.id}
+                className={`absolute inset-0 transition-opacity duration-500 ${
+                  activeIndex === idx ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <Image
+                  src={feature.image}
+                  alt={feature.imageAlt}
+                  fill
+                  className="object-cover object-left-top"
+                  priority={idx === 0}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 모바일: 일반 세로 스택 */}
+        <div className="flex lg:hidden flex-col gap-12">
+          {features.map((feature) => (
+            <div key={feature.id} className="flex flex-col gap-4">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+              <div className="relative w-full h-[220px] rounded-xl overflow-hidden shadow-md border border-gray-100">
                 <Image
                   src={feature.image}
                   alt={feature.imageAlt}
@@ -61,9 +138,9 @@ export default function HrFeaturesSection() {
                 />
               </div>
             </div>
-          </div>
+          ))}
         </div>
-      ))}
+      </div>
     </section>
   )
 }
