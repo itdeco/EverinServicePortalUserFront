@@ -9,7 +9,7 @@ export default function HeroSection() {
       <section
           className="relative overflow-hidden min-h-[760px] lg:min-h-175"
           style={{
-            backgroundImage: `url('/images/people/addOnServices/everworks/bg/bg-EverWorks-hero-00.png')`,
+            backgroundImage: `url('/images/people/bg/bg-people-hero-00.png')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}

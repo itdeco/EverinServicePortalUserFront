@@ -50,7 +50,7 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
   {
     label: "스마트 워크케어",
     col1: [
-      { title: "인사·조직·발령", href: "#" },
+      { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
       { title: "온보딩", subtitle: "에버웰커밍", href: "#", badge: "무료" },
       { title: "교육·경력", href: "#" },
       { title: "복리후생", href: "#" },
@@ -88,7 +88,7 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
 // Culture 메뉴는 기존 유지 (모바일에서 사용)
 const peopleMenu: Record<string, MenuItem[]> = {
   "스마트 워크케어": [
-    { title: "인사·조직·발령", href: "#" },
+    { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
     { title: "근태관리", subtitle: "에버타임", href: "#", badge: "7개월 무료" },
     { title: "PC-OFF", href: "#" },
     { title: "온보딩", subtitle: "에버웰커밍", href: "#", badge: "무료" },
