@@ -101,7 +101,7 @@ export default function EvertimeFeaturesSection() {
         <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
           <div className="flex items-center gap-16">
             {/* 왼쪽 텍스트 - 그룹 단위로 전환 */}
-            <div className="w-[320px] shrink-0 relative h-[200px]">
+            <div className="w-[420px] shrink-0 relative h-[200px]">
               {featureGroups.map((group, gi) => (
                 <div
                   key={group.id}
@@ -126,10 +126,10 @@ export default function EvertimeFeaturesSection() {
                       />
                     ))}
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h3 className="text-3xl font-bold text-gray-900 mb-4">
                     {group.title}
                   </h3>
-                  <p className="text-base text-gray-500 leading-relaxed whitespace-pre-line">
+                  <p className="text-base text-gray-600 leading-relaxed whitespace-pre-line">
                     {group.description}
                   </p>
                 </div>
@@ -201,7 +201,7 @@ export default function EvertimeFeaturesSection() {
           </div>
 
           {/* 텍스트 - 그룹 단위 전환 */}
-          <div className="relative h-[90px] w-full mb-5">
+          <div className="relative h-[110px] w-full mb-5">
             {featureGroups.map((group, gi) => (
               <div
                 key={group.id}
@@ -212,10 +212,10 @@ export default function EvertimeFeaturesSection() {
                   pointerEvents: activeGroupIdx === gi ? "auto" : "none",
                 }}
               >
-                <h3 className="text-lg font-bold text-gray-900 mb-1.5">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {group.title}
                 </h3>
-                <p className="text-xs text-gray-500 leading-relaxed whitespace-pre-line">
+                <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
                   {group.description}
                 </p>
               </div>

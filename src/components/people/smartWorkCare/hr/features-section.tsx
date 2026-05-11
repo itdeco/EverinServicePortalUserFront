@@ -72,7 +72,7 @@ export default function HrFeaturesSection() {
         <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
           <div className="flex items-center gap-16">
             {/* 왼쪽 텍스트 */}
-            <div className="w-[320px] shrink-0 relative h-[180px]">
+            <div className="w-[420px] shrink-0 relative h-[180px]">
               {features.map((feature, idx) => (
                 <div
                   key={feature.id}
@@ -97,10 +97,10 @@ export default function HrFeaturesSection() {
                       />
                     ))}
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h3 className="text-3xl font-bold text-gray-900 mb-4">
                     {feature.title}
                   </h3>
-                  <p className="text-base text-gray-500 leading-relaxed">
+                  <p className="text-base text-gray-600 leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -153,7 +153,7 @@ export default function HrFeaturesSection() {
           </div>
 
           {/* 텍스트 */}
-          <div className="relative h-[100px] w-full mb-8">
+          <div className="relative h-[110px] w-full mb-8">
             {features.map((feature, idx) => (
               <div
                 key={feature.id}
@@ -164,10 +164,10 @@ export default function HrFeaturesSection() {
                   pointerEvents: activeIndex === idx ? "auto" : "none",
                 }}
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-sm text-gray-500 leading-relaxed">
+                <p className="text-sm text-gray-600 leading-relaxed">
                   {feature.description}
                 </p>
               </div>
