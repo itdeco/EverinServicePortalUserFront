@@ -101,7 +101,7 @@ export default function EvertimeFeaturesSection() {
         <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
           <div className="flex items-center gap-8">
             {/* 왼쪽 텍스트 - 그룹 단위로 전환 */}
-            <div className="w-[340px] shrink-0 relative h-[200px] ml-16">
+            <div className="w-[340px] shrink-0 relative h-[200px] ml-70">
               {featureGroups.map((group, gi) => (
                 <div
                   key={group.id}
@@ -137,7 +137,7 @@ export default function EvertimeFeaturesSection() {
             </div>
 
             {/* 오른쪽 이미지 - 이미지 단위로 전환 */}
-            <div className="flex-1 flex flex-col items-center justify-center gap-3">
+            <div className="flex-1 flex flex-col items-center justify-center -ml-50 gap-3">
               <div className="relative w-80 h-[480px]">
                 {flatImages.map((item, step) => (
                   <div
