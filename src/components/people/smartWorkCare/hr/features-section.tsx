@@ -109,7 +109,7 @@ export default function HrFeaturesSection() {
 
             {/* 오른쪽 이미지 */}
             <div className="flex-1 flex flex-col items-center justify-center gap-3">
-              <div className="relative w-80 h-[480px] rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
+              <div className="relative w-80 h-[480px]">
                 {features.map((feature, idx) => (
                   <div
                     key={feature.id}
@@ -175,7 +175,7 @@ export default function HrFeaturesSection() {
           </div>
 
           {/* 이미지 */}
-          <div className="relative w-72 h-[260px] rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
+          <div className="relative w-72 h-[260px]">
             {features.map((feature, idx) => (
               <div
                 key={feature.id}
