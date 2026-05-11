@@ -35,21 +35,22 @@ export default function HeroSection() {
                 EverWorks
               </p>
 
-              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+              {/* CTA 버튼 */}
+              <div className="flex flex-wrap gap-4 justify-center">
                 <Button
-                    asChild
-                    size="lg"
-                    className="text-white px-8 h-14 text-base font-semibold rounded-lg border-0"
-                    style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
+                  asChild
+                  size="lg"
+                  className="px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
+                  style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
                 >
                   <Link href="/trial">체험하기</Link>
                 </Button>
 
                 <Button
-                    asChild
-                    size="lg"
-                    variant="outline"
-                    className="border border-[#00cc99] bg-white text-gray-700 px-8 h-14 text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border border-[#00cc99] bg-white text-gray-700 px-10 h-14 text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
                 >
                   <Link href="/support/inquiry">도입문의</Link>
                 </Button>
