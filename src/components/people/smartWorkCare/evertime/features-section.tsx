@@ -137,8 +137,8 @@ export default function EvertimeFeaturesSection() {
             </div>
 
             {/* 오른쪽 이미지 - 이미지 단위로 전환 */}
-            <div className="flex-1 flex flex-col items-center gap-3">
-              <div className="relative w-full h-[480px] rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
+            <div className="flex-1 flex flex-col items-center justify-center gap-3">
+              <div className="relative w-80 h-[480px] rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
                 {flatImages.map((item, step) => (
                   <div
                     key={step}
@@ -223,7 +223,7 @@ export default function EvertimeFeaturesSection() {
           </div>
 
           {/* 이미지 - 이미지 단위 전환 */}
-          <div className="relative w-full h-[340px] rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
+          <div className="relative w-72 h-[340px] rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
             {flatImages.map((item, step) => (
               <div
                 key={step}

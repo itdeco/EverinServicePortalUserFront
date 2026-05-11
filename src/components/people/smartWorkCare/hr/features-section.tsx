@@ -108,25 +108,27 @@ export default function HrFeaturesSection() {
             </div>
 
             {/* 오른쪽 이미지 */}
-            <div className="flex-1 relative h-[480px] rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50">
-              {features.map((feature, idx) => (
-                <div
-                  key={feature.id}
-                  className="absolute inset-0"
-                  style={{
-                    opacity: activeIndex === idx ? 1 : 0,
-                    transition: "opacity 0.6s ease-in-out",
-                  }}
-                >
-                  <Image
-                    src={feature.image}
-                    alt={feature.imageAlt}
-                    fill
-                    className="object-cover object-left-top"
-                    priority={idx === 0}
-                  />
-                </div>
-              ))}
+            <div className="flex-1 flex flex-col items-center justify-center gap-3">
+              <div className="relative w-80 h-[480px] rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
+                {features.map((feature, idx) => (
+                  <div
+                    key={feature.id}
+                    className="absolute inset-0"
+                    style={{
+                      opacity: activeIndex === idx ? 1 : 0,
+                      transition: "opacity 0.6s ease-in-out",
+                    }}
+                  >
+                    <Image
+                      src={feature.image}
+                      alt={feature.imageAlt}
+                      fill
+                      className="object-contain object-center"
+                      priority={idx === 0}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -173,7 +175,7 @@ export default function HrFeaturesSection() {
           </div>
 
           {/* 이미지 */}
-          <div className="relative w-full h-[260px] rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50">
+          <div className="relative w-72 h-[260px] rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-white">
             {features.map((feature, idx) => (
               <div
                 key={feature.id}
@@ -187,7 +189,7 @@ export default function HrFeaturesSection() {
                   src={feature.image}
                   alt={feature.imageAlt}
                   fill
-                  className="object-cover object-left-top"
+                  className="object-contain object-center"
                   priority={idx === 0}
                 />
               </div>
