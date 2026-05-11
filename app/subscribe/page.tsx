@@ -811,7 +811,7 @@ function SubscribeContent() {
         setOpen(buildInitialOpen(nextConfig));
         setActiveCategoryId(nextConfig[0].categoryId);
       } catch (error) {
-        console.error("플랜 API 호출 실패", error);
+        console.error("서비스 견적 API 호출 실패", error);
       }
     };
 
@@ -969,7 +969,7 @@ function SubscribeContent() {
     params.set("total", total.toString());
     params.set("hasQuoteOnly", hasQuoteOnly.toString());
 
-    router.push(`/plan/step2?${params.toString()}`);
+    router.push(`/subscribe/step2?${params.toString()}`);
   };
 
   return (
@@ -983,11 +983,11 @@ function SubscribeContent() {
                 <div>
                   <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
                     <Sparkles className="h-4 w-4" />
-                    플랜 견적 시뮬레이터
+                    서비스 견적 시뮬레이터
                   </div>
 
                   <h1 className="text-2xl font-bold md:text-3xl">
-                    에버 HR 통합 플랜
+                    에버 HR 통합 서비스
                   </h1>
 
                   <p className="mt-1 text-muted-foreground">
@@ -1154,7 +1154,7 @@ function SubscribeContent() {
                           size="lg"
                           disabled={selectedItems.length === 0 || hasQuoteOnly}
                           onClick={() =>
-                              router.push(`/plan/checkout?total=${total}`)
+                              router.push(`/subscribe/checkout?total=${total}`)
                           }
                       >
                         구독하기
