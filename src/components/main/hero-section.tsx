@@ -199,6 +199,33 @@ export default function HeroSection() {
         .hero-soft-pulse {
           animation: softPulse 3.5s ease-in-out infinite;
         }
+        @keyframes iconFlyIn {
+          0% {
+            opacity: 0;
+            transform: translate(
+              calc(-50% + var(--from-x)),
+              calc(-50% + var(--from-y))
+            ) scale(0.4);
+            filter: blur(6px);
+          }
+
+          70% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.08);
+            filter: blur(0);
+          }
+
+          100% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            filter: blur(0);
+          }
+        }
+
+        .hero-circle-icon {
+          animation: iconFlyIn 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+          will-change: transform, opacity, filter;
+        }
       `}</style>
       </section>
   )
