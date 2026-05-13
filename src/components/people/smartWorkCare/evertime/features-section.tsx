@@ -277,9 +277,9 @@ export default function EvertimeFeaturesSection() {
       {/* 고정 패널 - 데스크탑 */}
       <div className="hidden lg:flex sticky top-20 h-[calc(100vh-5rem)] items-center bg-white">
         <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center justify-center gap-16">
             {/* 왼쪽 텍스트 - 그룹 단위로 전환 */}
-            <div className="w-[340px] shrink-0 relative h-[200px] ml-32">
+            <div className="w-[320px] shrink-0 relative h-[200px]">
               {featureGroups.map((group, gi) => (
                 <div
                   key={group.id}
@@ -315,7 +315,7 @@ export default function EvertimeFeaturesSection() {
             </div>
 
             {/* 오른쪽 - 가로 슬라이더 */}
-            <div className="flex-1 flex items-center justify-center">
+            <div className="flex items-center justify-center" style={{ width: 500 }}>
               <div className="relative">
                 {featureGroups.map((group, gi) => (
                   <div
@@ -332,9 +332,9 @@ export default function EvertimeFeaturesSection() {
                       imgIdx={activeGroupIdx === gi ? activeImgIdx : 0}
                       onIndexChange={activeGroupIdx === gi ? handleManualIndexChange : undefined}
                       height="480px"
-                      itemWidth={280}
-                      peekAmount={40}
-                      isMobile={false}
+                      itemWidth={320}
+                      peekAmount={60}
+                      isMobile={true}
                     />
                   </div>
                 ))}
@@ -344,9 +344,9 @@ export default function EvertimeFeaturesSection() {
                     group={featureGroups[0]}
                     imgIdx={0}
                     height="480px"
-                    itemWidth={280}
-                    peekAmount={40}
-                    isMobile={false}
+                    itemWidth={320}
+                    peekAmount={60}
+                    isMobile={true}
                   />
                 </div>
               </div>
