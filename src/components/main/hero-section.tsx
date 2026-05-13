@@ -6,16 +6,16 @@ import { Button } from "@/components/ui/button"
 
 // 원형 배치 아이콘 데이터 - 시계 방향으로 12시부터 시작
 const circleIcons = [
-  { label: "평가", icon: "/images/main/icons/hero/icon-hero-01.svg", angle: -72 },
-  { label: "신고", icon: "/images/main/icons/hero/icon-hero-02.svg", angle: -36 },
-  { label: "연말정산", icon: "/images/main/icons/hero/icon-hero-04.svg", angle: 0 },
-  { label: "급여관리", icon: "/images/main/icons/hero/icon-hero-06.svg", angle: 36 },
-  { label: "근태관리", icon: "/images/main/icons/hero/icon-hero-10.svg", angle: 72 },
-  { label: "인사관리", icon: "/images/main/icons/hero/icon-hero-02.svg", angle: 108 },
-  { label: "PC-OFF", icon: "/images/main/icons/hero/icon-hero-09.svg", angle: 144 },
-  { label: "온보딩", icon: "/images/main/icons/hero/icon-hero-03.svg", angle: 180 },
-  { label: "복리후생", icon: "/images/main/icons/hero/icon-hero-05.svg", angle: -144 },
-  { label: "연동", icon: "/images/main/icons/hero/icon-hero-03.svg", angle: -108 },
+  { label: "복리후생", icon: "/images/main/icons/hero/icon-hero-08.svg", angle: -144 },
+  { label: "연동", icon: "/images/main/icons/hero/icon-hero-09.svg", angle: -108 },
+  { label: "평가", icon: "/images/main/icons/hero/icon-hero-10.svg", angle: -72 },
+  { label: "신고", icon: "/images/main/icons/hero/icon-hero-01.svg", angle: -36 },
+  { label: "연말정산", icon: "/images/main/icons/hero/icon-hero-02.svg", angle: 0 },
+  { label: "급여관리", icon: "/images/main/icons/hero/icon-hero-03.svg", angle: 36 },
+  { label: "근태관리", icon: "/images/main/icons/hero/icon-hero-04.svg", angle: 72 },
+  { label: "인사관리", icon: "/images/main/icons/hero/icon-hero-05.svg", angle: 108 },
+  { label: "PC-OFF", icon: "/images/main/icons/hero/icon-hero-06.svg", angle: 144 },
+  { label: "온보딩", icon: "/images/main/icons/hero/icon-hero-07.svg", angle: 180 },
 ]
 
 export default function HeroSection() {
@@ -76,46 +76,46 @@ export default function HeroSection() {
             <div className="flex-shrink-0 relative w-[400px] h-[400px] sm:w-[420px] sm:h-[420px] lg:w-[560px] lg:h-[560px]">
 
               {/* 가장 바깥: bg-hero-03 점선 원 (녹색 점들 포함) */}
-              <div className="absolute inset-0 z-10 hero-rotate-reverse">
+              <div className="absolute inset-[1%] z-10">
                 <Image
-                    src="/images/main/backgrounds/bg-hero-03.png"
+                    src="/images/main/backgrounds/bg-hero-03.svg"
                     alt=""
                     fill
-                    className="object-contain opacity-90"
+                    className="object-contain opacity-90 hero-ring-03"
                     priority
                 />
               </div>
 
               {/* 안쪽: bg-hero-01 그라데이션 원형 */}
-              <div className="absolute inset-[6%] z-20 hero-rotate-slow">
+              <div className="absolute inset-[6%] z-20">
                 <Image
-                    src="/images/main/backgrounds/bg-hero-01.png"
+                    src="/images/main/backgrounds/bg-hero-01.svg"
                     alt=""
                     fill
-                    className="object-contain"
+                    className="object-contain hero-ring-01"
                     priority
                 />
               </div>
 
               {/* bg-hero-02: 아이콘 링과 중앙 원 사이 - 흰색 glow 분리 효과 */}
-              <div className="absolute inset-[25%] z-25">
+              <div className="absolute inset-[26%] z-25">
                 <Image
-                    src="/images/main/backgrounds/bg-hero-02.png"
+                    src="/images/main/backgrounds/bg-hero-02.svg"
                     alt=""
                     fill
-                    className="object-contain opacity-60"
+                    className="object-contain opacity-60 hero-ring-02"
                     priority
                 />
               </div>
 
               {/* 중앙: 흰색 원 + 에버人 워드마크 이미지 */}
-              <div className="absolute inset-[33%] bg-white rounded-full shadow-2xl flex items-center justify-center z-30 hero-soft-pulse">
+              <div className="absolute inset-[33%] bg-white rounded-full shadow-2xl flex items-center justify-center z-30 hero-center-core">
                 <div className="relative w-[60%] h-[40%]">
                   <Image
                       src="/images/main/icons/hero/everein-wordmark.png"
                       alt="에버인"
                       fill
-                      className="object-contain"
+                      className="object-contain hero-ring-00"
                       priority
                   />
                 </div>
@@ -123,7 +123,7 @@ export default function HeroSection() {
 
               {/* 아이콘들: bg-hero-01 위에 배치 (radius 35%) */}
               {circleIcons.map((item, idx) => {
-                const radius = 35 // bg-hero-01 링 위에 배치
+                const radius = 33
                 const angleRad = (item.angle * Math.PI) / 180
                 const x = 50 + radius * Math.cos(angleRad)
                 const y = 50 + radius * Math.sin(angleRad)
@@ -131,11 +131,12 @@ export default function HeroSection() {
                 return (
                     <div
                         key={idx}
-                        className="absolute flex flex-col items-center gap-1.5 z-40 transition-all duration-300 hover:scale-110"
+                        className="absolute flex flex-col items-center gap-1.5 z-40 hero-circle-icon"
                         style={{
                           left: `${x}%`,
                           top: `${y}%`,
                           transform: "translate(-50%, -50%)",
+                          animationDelay: `${0.45 + idx * 0.07}s`,
                         }}
                     >
                       <div className="absolute w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-white/35 blur-md" />
@@ -153,8 +154,8 @@ export default function HeroSection() {
                       />
 
                       <span className="relative z-10 text-xs lg:text-sm text-white font-bold whitespace-nowrap drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
-                      {item.label}
-                    </span>
+                        {item.label}
+                      </span>
                     </div>
                 )
               })}
@@ -162,16 +163,6 @@ export default function HeroSection() {
           </div>
         </div>
         <style jsx>{`
-        @keyframes slowRotate {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      
-        @keyframes reverseSlowRotate {
-          from { transform: rotate(360deg); }
-          to { transform: rotate(0deg); }
-        }
-      
         @keyframes softPulse {
           0%, 100% {
             transform: scale(1);
@@ -198,16 +189,107 @@ export default function HeroSection() {
           animation: fadeUp 0.8s ease-out both;
         }
       
-        .hero-rotate-slow {
-          animation: slowRotate 38s linear infinite;
-        }
-      
-        .hero-rotate-reverse {
-          animation: reverseSlowRotate 55s linear infinite;
-        }
-      
         .hero-soft-pulse {
           animation: softPulse 3.5s ease-in-out infinite;
+        }
+        @keyframes iconBloomIn {
+          0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.15) rotate(-12deg);
+            filter: blur(8px);
+          }
+
+          55% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.18) rotate(3deg);
+            filter: blur(0);
+          }
+
+          78% {
+            transform: translate(-50%, -50%) scale(0.96) rotate(-1deg);
+          }
+
+          100% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            filter: blur(0);
+          }
+        }
+
+        .hero-circle-icon {
+          opacity: 0;
+          animation: iconBloomIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+          will-change: transform, opacity, filter;
+          transition: transform 0.25s ease;
+        }
+
+        .hero-circle-icon:hover {
+          transform: translate(-50%, -50%) scale(1.08) !important;
+        }
+
+        @keyframes centerCoreReveal {
+          0% {
+            opacity: 0;
+            transform: scale(0.4);
+            filter: blur(14px);
+          }
+
+          60% {
+            opacity: 1;
+            transform: scale(1.08);
+            filter: blur(0);
+          }
+
+          100% {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+          }
+        }
+
+        .hero-center-core {
+          animation:
+            centerCoreReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) both,
+            softPulse 3.5s ease-in-out 1.1s infinite;
+        }
+        @keyframes ringReveal {
+          0% {
+            opacity: 0;
+            transform: scale(0.7) rotate(-8deg);
+            filter: blur(10px);
+          }
+
+          60% {
+            opacity: 1;
+            transform: scale(1.04) rotate(1deg);
+            filter: blur(0);
+          }
+
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+            filter: blur(0);
+          }
+        }
+
+        .hero-ring-03 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0s forwards;
+        }
+
+        .hero-ring-01 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0.2s forwards;
+        }
+
+        .hero-ring-00 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0.3s forwards;
+        }
+
+        .hero-ring-02 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0.45s forwards;
         }
       `}</style>
       </section>

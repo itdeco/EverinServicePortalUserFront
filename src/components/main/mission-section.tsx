@@ -54,12 +54,12 @@ export function MissionSection() {
             >
               {/* Icon area - centered and large */}
               <div className="flex-1 flex items-center justify-center py-6">
-                <div className="relative w-32 h-32 drop-shadow-lg">
+                <div className="relative w-40 h-40 drop-shadow-lg">
                   <Image
                     src={card.icon}
                     alt={card.title}
                     fill
-                    className="object-contain"
+                    className="object-center"
                   />
                 </div>
               </div>
