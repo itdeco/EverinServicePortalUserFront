@@ -115,7 +115,7 @@ export default function HeroSection() {
                       src="/images/main/icons/hero/everein-wordmark.png"
                       alt="에버인"
                       fill
-                      className="object-contain"
+                      className="object-contain hero-ring-00"
                       priority
                   />
                 </div>
@@ -251,6 +251,45 @@ export default function HeroSection() {
           animation:
             centerCoreReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) both,
             softPulse 3.5s ease-in-out 1.1s infinite;
+        }
+        @keyframes ringReveal {
+          0% {
+            opacity: 0;
+            transform: scale(0.7) rotate(-8deg);
+            filter: blur(10px);
+          }
+
+          60% {
+            opacity: 1;
+            transform: scale(1.04) rotate(1deg);
+            filter: blur(0);
+          }
+
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+            filter: blur(0);
+          }
+        }
+
+        .hero-ring-03 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0s forwards;
+        }
+
+        .hero-ring-01 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0.2s forwards;
+        }
+
+        .hero-ring-00 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0.3s forwards;
+        }
+
+        .hero-ring-02 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0.45s forwards;
         }
       `}</style>
       </section>
