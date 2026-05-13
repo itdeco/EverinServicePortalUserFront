@@ -46,27 +46,25 @@ export function MissionSection() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto overflow-visible pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto pt-12">
           {cards.map((card, i) => (
             <div 
               key={i} 
-              className={`${card.bgGradient} rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col p-6 min-h-[340px] overflow-visible`}
+              className={`${card.bgGradient} rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col p-6 min-h-[280px] relative pt-20`}
             >
-              {/* Icon area - centered and large */}
-              <div className="flex-1 flex items-center justify-center py-6 overflow-visible">
-                <div className="relative w-36 h-36 drop-shadow-lg">
-                  <Image
-                    src={card.icon}
-                    alt={card.title}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
+              {/* Icon area - positioned above card */}
+              <div className="absolute -top-14 left-1/2 transform -translate-x-1/2 w-32 h-32">
+                <Image
+                  src={card.icon}
+                  alt={card.title}
+                  fill
+                  className="object-contain drop-shadow-lg"
+                />
               </div>
 
               {/* Card text - bottom aligned */}
               <div className="text-center mt-auto">
-                <p className="text-[#1a1a2e] text-base sm:text-lg leading-snug whitespace-nowrap overflow-hidden text-ellipsis">
+                <p className="text-[#1a1a2e] text-base sm:text-lg leading-snug">
                   {card.title}<br />
                   <span className="text-[#1a1a2e] font-bold">{card.titleBold}</span>
                 </p>
