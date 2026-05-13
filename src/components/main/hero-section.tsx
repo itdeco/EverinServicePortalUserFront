@@ -81,7 +81,7 @@ export default function HeroSection() {
                     src="/images/main/backgrounds/bg-hero-03.svg"
                     alt=""
                     fill
-                    className="object-contain opacity-90"
+                    className="object-contain opacity-85"
                     priority
                 />
               </div>
@@ -98,7 +98,7 @@ export default function HeroSection() {
               </div>
 
               {/* bg-hero-02: 아이콘 링과 중앙 원 사이 - 흰색 glow 분리 효과 */}
-              <div className="absolute inset-[25%] z-25">
+              <div className="absolute inset-[26%] z-25">
                 <Image
                     src="/images/main/backgrounds/bg-hero-02.svg"
                     alt=""
@@ -123,7 +123,7 @@ export default function HeroSection() {
 
               {/* 아이콘들: bg-hero-01 위에 배치 (radius 35%) */}
               {circleIcons.map((item, idx) => {
-                const radius = 35 // bg-hero-01 링 위에 배치
+                const radius = 33 // bg-hero-01 링 위에 배치
                 const angleRad = (item.angle * Math.PI) / 180
                 const x = 50 + radius * Math.cos(angleRad)
                 const y = 50 + radius * Math.sin(angleRad)
