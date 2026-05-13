@@ -81,7 +81,7 @@ export default function HeroSection() {
                     src="/images/main/backgrounds/bg-hero-03.svg"
                     alt=""
                     fill
-                    className="object-contain opacity-90"
+                    className="object-contain opacity-90 hero-ring-03"
                     priority
                 />
               </div>
@@ -92,7 +92,7 @@ export default function HeroSection() {
                     src="/images/main/backgrounds/bg-hero-01.svg"
                     alt=""
                     fill
-                    className="object-contain"
+                    className="object-contain hero-ring-01"
                     priority
                 />
               </div>
@@ -103,7 +103,7 @@ export default function HeroSection() {
                     src="/images/main/backgrounds/bg-hero-02.svg"
                     alt=""
                     fill
-                    className="object-contain opacity-60"
+                    className="object-contain opacity-60 hero-ring-02"
                     priority
                 />
               </div>
