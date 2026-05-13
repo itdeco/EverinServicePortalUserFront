@@ -128,22 +128,15 @@ export default function HeroSection() {
                 const x = 50 + radius * Math.cos(angleRad)
                 const y = 50 + radius * Math.sin(angleRad)
 
-                // 각 아이콘의 출발 방향: 자신의 각도 기준 바깥쪽
-                const fromX = Math.cos(angleRad) * 120
-                const fromY = Math.sin(angleRad) * 120
-
                 return (
                     <div
                         key={idx}
-                        className="absolute flex flex-col items-center gap-1.5 z-40 hero-circle-icon hover:scale-110"
+                        className="absolute flex flex-col items-center gap-1.5 z-40 hero-circle-icon"
                         style={{
                           left: `${x}%`,
                           top: `${y}%`,
                           transform: "translate(-50%, -50%)",
-                          animationDelay: `${0.35 + idx * 0.08}s`,
-                          // CSS 변수로 출발 좌표 전달
-                          ["--from-x" as string]: `${fromX}px`,
-                          ["--from-y" as string]: `${fromY}px`,
+                          animationDelay: `${0.45 + idx * 0.07}s`,
                         }}
                     >
                       <div className="absolute w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-white/35 blur-md" />
@@ -199,32 +192,38 @@ export default function HeroSection() {
         .hero-soft-pulse {
           animation: softPulse 3.5s ease-in-out infinite;
         }
-        @keyframes iconFlyIn {
+        @keyframes iconBloomIn {
           0% {
             opacity: 0;
-            transform: translate(
-              calc(-50% + var(--from-x)),
-              calc(-50% + var(--from-y))
-            ) scale(0.4);
-            filter: blur(6px);
+            transform: translate(-50%, -50%) scale(0.15) rotate(-12deg);
+            filter: blur(8px);
           }
 
-          70% {
+          55% {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1.08);
+            transform: translate(-50%, -50%) scale(1.18) rotate(3deg);
             filter: blur(0);
+          }
+
+          78% {
+            transform: translate(-50%, -50%) scale(0.96) rotate(-1deg);
           }
 
           100% {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
             filter: blur(0);
           }
         }
 
         .hero-circle-icon {
-          animation: iconFlyIn 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+          opacity: 0;
+          animation: iconBloomIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
           will-change: transform, opacity, filter;
+        }
+        .hero-circle-icon:hover {
+          transform: translate(-50%, -50%) scale(1.08);
+          transition: transform 0.25s ease;
         }
       `}</style>
       </section>
