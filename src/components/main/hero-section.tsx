@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 
 // 원형 배치 아이콘 데이터 - 시계 방향으로 12시부터 시작
 const circleIcons = [
+  { label: "복리후생", icon: "/images/main/icons/hero/icon-hero-08.svg", angle: -144 },
+  { label: "연동", icon: "/images/main/icons/hero/icon-hero-09.svg", angle: -108 },
   { label: "평가", icon: "/images/main/icons/hero/icon-hero-10.svg", angle: -72 },
   { label: "신고", icon: "/images/main/icons/hero/icon-hero-01.svg", angle: -36 },
   { label: "연말정산", icon: "/images/main/icons/hero/icon-hero-02.svg", angle: 0 },
@@ -14,8 +16,6 @@ const circleIcons = [
   { label: "인사관리", icon: "/images/main/icons/hero/icon-hero-05.svg", angle: 108 },
   { label: "PC-OFF", icon: "/images/main/icons/hero/icon-hero-06.svg", angle: 144 },
   { label: "온보딩", icon: "/images/main/icons/hero/icon-hero-07.svg", angle: 180 },
-  { label: "복리후생", icon: "/images/main/icons/hero/icon-hero-08.svg", angle: -144 },
-  { label: "연동", icon: "/images/main/icons/hero/icon-hero-09.svg", angle: -108 },
 ]
 
 export default function HeroSection() {
