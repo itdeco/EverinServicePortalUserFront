@@ -135,7 +135,7 @@ export default function HeroSection() {
                 return (
                     <div
                         key={idx}
-                        className="absolute flex flex-col items-center gap-1.5 z-40 hover:scale-110"
+                        className="absolute flex flex-col items-center gap-1.5 z-40 hero-circle-icon hover:scale-110"
                         style={{
                           left: `${x}%`,
                           top: `${y}%`,
