@@ -6,16 +6,16 @@ import { Button } from "@/components/ui/button"
 
 // 원형 배치 아이콘 데이터 - 시계 방향으로 12시부터 시작
 const circleIcons = [
-  { label: "평가", icon: "/images/main/icons/hero/icon-hero-01.svg", angle: -72 },
-  { label: "신고", icon: "/images/main/icons/hero/icon-hero-02.svg", angle: -36 },
-  { label: "연말정산", icon: "/images/main/icons/hero/icon-hero-04.svg", angle: 0 },
-  { label: "급여관리", icon: "/images/main/icons/hero/icon-hero-06.svg", angle: 36 },
-  { label: "근태관리", icon: "/images/main/icons/hero/icon-hero-10.svg", angle: 72 },
-  { label: "인사관리", icon: "/images/main/icons/hero/icon-hero-02.svg", angle: 108 },
-  { label: "PC-OFF", icon: "/images/main/icons/hero/icon-hero-09.svg", angle: 144 },
-  { label: "온보딩", icon: "/images/main/icons/hero/icon-hero-03.svg", angle: 180 },
-  { label: "복리후생", icon: "/images/main/icons/hero/icon-hero-05.svg", angle: -144 },
-  { label: "연동", icon: "/images/main/icons/hero/icon-hero-03.svg", angle: -108 },
+  { label: "평가", icon: "/images/main/icons/hero/icon-hero-10.svg", angle: -72 },
+  { label: "신고", icon: "/images/main/icons/hero/icon-hero-01.svg", angle: -36 },
+  { label: "연말정산", icon: "/images/main/icons/hero/icon-hero-02.svg", angle: 0 },
+  { label: "급여관리", icon: "/images/main/icons/hero/icon-hero-03.svg", angle: 36 },
+  { label: "근태관리", icon: "/images/main/icons/hero/icon-hero-04.svg", angle: 72 },
+  { label: "인사관리", icon: "/images/main/icons/hero/icon-hero-05.svg", angle: 108 },
+  { label: "PC-OFF", icon: "/images/main/icons/hero/icon-hero-06.svg", angle: 144 },
+  { label: "온보딩", icon: "/images/main/icons/hero/icon-hero-07.svg", angle: 180 },
+  { label: "복리후생", icon: "/images/main/icons/hero/icon-hero-08.svg", angle: -144 },
+  { label: "연동", icon: "/images/main/icons/hero/icon-hero-09.svg", angle: -108 },
 ]
 
 export default function HeroSection() {
@@ -123,19 +123,28 @@ export default function HeroSection() {
 
               {/* 아이콘들: bg-hero-01 위에 배치 (radius 35%) */}
               {circleIcons.map((item, idx) => {
-                const radius = 33 // bg-hero-01 링 위에 배치
+                const radius = 33
                 const angleRad = (item.angle * Math.PI) / 180
                 const x = 50 + radius * Math.cos(angleRad)
                 const y = 50 + radius * Math.sin(angleRad)
 
+                // 각 아이콘의 출발 방향: 자신의 각도 기준 바깥쪽
+                const fromX = Math.cos(angleRad) * 120
+                const fromY = Math.sin(angleRad) * 120
+
                 return (
                     <div
                         key={idx}
-                        className="absolute flex flex-col items-center gap-1.5 z-40 transition-all duration-300 hover:scale-110"
+                        className="absolute flex flex-col items-center gap-1.5 z-40 hover:scale-110"
                         style={{
                           left: `${x}%`,
                           top: `${y}%`,
                           transform: "translate(-50%, -50%)",
+                          animation: `iconFlyIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both`,
+                          animationDelay: `${0.3 + idx * 0.08}s`,
+                          // CSS 변수로 출발 좌표 전달
+                          ["--from-x" as string]: `${fromX}px`,
+                          ["--from-y" as string]: `${fromY}px`,
                         }}
                     >
                       <div className="absolute w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-white/35 blur-md" />
@@ -153,8 +162,8 @@ export default function HeroSection() {
                       />
 
                       <span className="relative z-10 text-xs lg:text-sm text-white font-bold whitespace-nowrap drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
-                      {item.label}
-                    </span>
+                        {item.label}
+                      </span>
                     </div>
                 )
               })}
