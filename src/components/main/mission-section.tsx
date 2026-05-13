@@ -50,16 +50,16 @@ export function MissionSection() {
           {cards.map((card, i) => (
             <div 
               key={i} 
-              className={`${card.bgGradient} rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col p-6 min-h-[340px]`}
+              className={`${card.bgGradient} rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col p-6 min-h-[340px]`}
             >
               {/* Icon area - centered and large */}
-              <div className="flex-1 flex items-center justify-center py-6">
-                <div className="relative w-32 h-32 drop-shadow-lg">
+              <div className="flex-1 flex items-center justify-center py-6 overflow-visible">
+                <div className="relative w-40 h-40 drop-shadow-lg -my-8">
                   <Image
                     src={card.icon}
                     alt={card.title}
                     fill
-                    className="object-center"
+                    className="object-contain"
                   />
                 </div>
               </div>
