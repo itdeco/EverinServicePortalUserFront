@@ -3,8 +3,6 @@
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 
-// 앞번호(group)가 같으면 텍스트 동일 - 이미지만 변경
-// 앞번호가 다르면 텍스트도 변경
 const featureGroups = [
   {
     id: 1,
@@ -27,7 +25,7 @@ const featureGroups = [
   {
     id: 3,
     title: "유연근무 자동계산",
-    description: "주 52시간 근무에 완벽한 가이드,\n복잡한 유연·고대론무도 법적 테두리 안에서\n안전하게 관리하세요.",
+    description: "주 52시간 근무에 완벽한 가이드,\n복잡한 유연·고대근무도 법적 테두리 안에서\n안전하게 관리하세요.",
     images: [
       { src: "/images/people/smartWorkCare/evertime/EverTime-3-1.png", alt: "유연근무 자동계산 화면 1" },
       { src: "/images/people/smartWorkCare/evertime/EverTime-3-2.png", alt: "유연근무 자동계산 화면 2" },
@@ -48,17 +46,76 @@ const featureGroups = [
   },
 ]
 
-// 전체 이미지 수: 2 + 2 + 3 + 5 = 12
 const totalImages = featureGroups.reduce((sum, g) => sum + g.images.length, 0)
-const SECTION_HEIGHT = 100 // vh per image step
+const SECTION_HEIGHT = 100
 
-// 전체 이미지 플랫 리스트 (스크롤 step과 매핑)
+// 전체 이미지 플랫 리스트
 const flatImages: { groupIdx: number; imgIdx: number }[] = []
 featureGroups.forEach((group, gi) => {
   group.images.forEach((_, ii) => {
     flatImages.push({ groupIdx: gi, imgIdx: ii })
   })
 })
+
+// 가로 슬라이더 컴포넌트
+function ImageCarousel({
+  group,
+  imgIdx,
+  height,
+  width,
+}: {
+  group: (typeof featureGroups)[0]
+  imgIdx: number
+  height: string
+  width: string
+}) {
+  const total = group.images.length
+
+  return (
+    <div className="relative flex flex-col items-center gap-2">
+      {/* 카운터 */}
+      {total > 1 && (
+        <div className="self-end text-sm font-semibold text-gray-400 tabular-nums pr-1">
+          <span className="text-gray-800">{imgIdx + 1}</span>
+          <span className="mx-0.5">/</span>
+          <span>{total}</span>
+        </div>
+      )}
+
+      {/* 슬라이더 트랙 - overflow-hidden으로 좌우 peek */}
+      <div
+        className="relative overflow-hidden rounded-2xl"
+        style={{ width, height }}
+      >
+        {/* 트랙: 이미지들을 가로로 나열 */}
+        <div
+          className="flex h-full"
+          style={{
+            width: `${total * 100}%`,
+            transform: `translateX(-${(imgIdx / total) * 100}%)`,
+            transition: "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
+          }}
+        >
+          {group.images.map((img, i) => (
+            <div
+              key={i}
+              className="relative h-full flex-shrink-0"
+              style={{ width: `${100 / total}%` }}
+            >
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                className="object-contain object-center"
+                priority={i === 0}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function EvertimeFeaturesSection() {
   const [activeStep, setActiveStep] = useState(0)
@@ -87,7 +144,6 @@ export default function EvertimeFeaturesSection() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // 인디케이터: 그룹 단위
   const groupDots = featureGroups.map((_, gi) => gi === activeGroupIdx)
 
   return (
@@ -101,7 +157,7 @@ export default function EvertimeFeaturesSection() {
         <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
           <div className="flex items-center gap-8">
             {/* 왼쪽 텍스트 - 그룹 단위로 전환 */}
-            <div className="w-[340px] shrink-0 relative h-[200px] ml-70">
+            <div className="w-[340px] shrink-0 relative h-[200px] ml-16">
               {featureGroups.map((group, gi) => (
                 <div
                   key={group.id}
@@ -112,9 +168,9 @@ export default function EvertimeFeaturesSection() {
                     pointerEvents: activeGroupIdx === gi ? "auto" : "none",
                   }}
                 >
-                  {/* 인디케이터 점 - 그룹 기준 */}
+                  {/* 그룹 인디케이터 */}
                   <div className="flex gap-2 mb-6">
-                    {groupDots.map((active, dotIdx) => (
+                    {groupDots.map((_, dotIdx) => (
                       <span
                         key={dotIdx}
                         className="block h-1.5 rounded-full"
@@ -136,46 +192,36 @@ export default function EvertimeFeaturesSection() {
               ))}
             </div>
 
-            {/* 오른쪽 이미지 - 이미지 단위로 전환 */}
-            <div className="flex-1 flex flex-col items-center justify-center -ml-50 gap-3">
-              <div className="relative w-80 h-[480px]">
-                {flatImages.map((item, step) => (
+            {/* 오른쪽 - 가로 슬라이더 */}
+            <div className="flex-1 flex items-center justify-center">
+              <div className="relative">
+                {featureGroups.map((group, gi) => (
                   <div
-                    key={step}
-                    className="absolute inset-0 flex items-center justify-center"
+                    key={group.id}
+                    className="absolute inset-0"
                     style={{
-                      opacity: activeStep === step ? 1 : 0,
-                      transition: "opacity 0.6s ease-in-out",
+                      opacity: activeGroupIdx === gi ? 1 : 0,
+                      transition: "opacity 0.5s ease-in-out",
+                      pointerEvents: activeGroupIdx === gi ? "auto" : "none",
                     }}
                   >
-                    <Image
-                      src={featureGroups[item.groupIdx].images[item.imgIdx].src}
-                      alt={featureGroups[item.groupIdx].images[item.imgIdx].alt}
-                      fill
-                      className="object-contain object-center"
-                      priority={step === 0}
+                    <ImageCarousel
+                      group={group}
+                      imgIdx={activeGroupIdx === gi ? activeImgIdx : 0}
+                      height="480px"
+                      width="320px"
                     />
                   </div>
                 ))}
-              </div>
-              {/* 그룹 내 이미지 인디케이터 - 이미지 아래 */}
-              <div className="h-4 flex items-center">
-                {featureGroups[activeGroupIdx].images.length > 1 && (
-                  <div className="flex gap-1.5 items-center">
-                    {featureGroups[activeGroupIdx].images.map((_, imgDotIdx) => (
-                      <span
-                        key={imgDotIdx}
-                        className="block rounded-full"
-                        style={{
-                          width: imgDotIdx === activeImgIdx ? "20px" : "6px",
-                          height: "6px",
-                          backgroundColor: imgDotIdx === activeImgIdx ? "#00cc99" : "#d1d5db",
-                          transition: "width 0.3s ease-in-out, background-color 0.3s ease-in-out",
-                        }}
-                      />
-                    ))}
-                  </div>
-                )}
+                {/* 현재 그룹 (항상 렌더) - 크기 잡기용 */}
+                <div style={{ visibility: "hidden" }}>
+                  <ImageCarousel
+                    group={featureGroups[0]}
+                    imgIdx={0}
+                    height="480px"
+                    width="320px"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -185,7 +231,7 @@ export default function EvertimeFeaturesSection() {
       {/* 고정 패널 - 모바일 */}
       <div className="flex lg:hidden sticky top-16 h-[calc(100vh-4rem)] flex-col items-center justify-center bg-white px-6">
         <div className="w-full max-w-xs flex flex-col items-center text-center">
-          {/* 인디케이터 점 - 그룹 기준 */}
+          {/* 그룹 인디케이터 */}
           <div className="flex gap-2 mb-5">
             {featureGroups.map((_, dotIdx) => (
               <span
@@ -222,46 +268,35 @@ export default function EvertimeFeaturesSection() {
             ))}
           </div>
 
-          {/* 이미지 - 이미지 단위 전환 */}
-          <div className="relative w-72 h-[340px]">
-            {flatImages.map((item, step) => (
+          {/* 이미지 - 가로 슬라이더 */}
+          <div className="relative w-full">
+            {featureGroups.map((group, gi) => (
               <div
-                key={step}
-                className="absolute inset-0 flex items-center justify-center"
+                key={group.id}
+                className="absolute inset-0"
                 style={{
-                  opacity: activeStep === step ? 1 : 0,
-                  transition: "opacity 0.6s ease-in-out",
+                  opacity: activeGroupIdx === gi ? 1 : 0,
+                  transition: "opacity 0.5s ease-in-out",
+                  pointerEvents: activeGroupIdx === gi ? "auto" : "none",
                 }}
               >
-                <Image
-                  src={featureGroups[item.groupIdx].images[item.imgIdx].src}
-                  alt={featureGroups[item.groupIdx].images[item.imgIdx].alt}
-                  fill
-                  className="object-contain object-center"
-                  priority={step === 0}
+                <ImageCarousel
+                  group={group}
+                  imgIdx={activeGroupIdx === gi ? activeImgIdx : 0}
+                  height="340px"
+                  width="100%"
                 />
               </div>
             ))}
-          </div>
-
-          {/* 그룹 내 이미지 인디케이터 - 이미지 아래 */}
-          <div className="h-4 flex items-center">
-            {featureGroups[activeGroupIdx].images.length > 1 && (
-              <div className="flex gap-1.5 items-center">
-                {featureGroups[activeGroupIdx].images.map((_, imgDotIdx) => (
-                  <span
-                    key={imgDotIdx}
-                    className="block rounded-full"
-                    style={{
-                      width: imgDotIdx === activeImgIdx ? "20px" : "6px",
-                      height: "6px",
-                      backgroundColor: imgDotIdx === activeImgIdx ? "#00cc99" : "#d1d5db",
-                      transition: "width 0.3s ease-in-out, background-color 0.3s ease-in-out",
-                    }}
-                  />
-                ))}
-              </div>
-            )}
+            {/* 크기 잡기용 */}
+            <div style={{ visibility: "hidden" }}>
+              <ImageCarousel
+                group={featureGroups[0]}
+                imgIdx={0}
+                height="340px"
+                width="100%"
+              />
+            </div>
           </div>
         </div>
       </div>
