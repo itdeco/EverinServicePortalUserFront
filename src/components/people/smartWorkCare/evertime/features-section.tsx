@@ -332,7 +332,7 @@ export default function EvertimeFeaturesSection() {
                       imgIdx={activeGroupIdx === gi ? activeImgIdx : 0}
                       onIndexChange={activeGroupIdx === gi ? handleManualIndexChange : undefined}
                       height="480px"
-                      itemWidth={320}
+                      itemWidth={300}
                       peekAmount={60}
                       isMobile={true}
                     />
@@ -344,7 +344,7 @@ export default function EvertimeFeaturesSection() {
                     group={featureGroups[0]}
                     imgIdx={0}
                     height="480px"
-                    itemWidth={320}
+                    itemWidth={300}
                     peekAmount={60}
                     isMobile={true}
                   />
