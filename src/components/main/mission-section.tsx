@@ -34,8 +34,8 @@ const cards = [
 
 export function MissionSection() {
   return (
-    <section className="py-20 lg:py-28 bg-white">
-      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
+    <section className="py-20 lg:py-28 bg-white overflow-visible">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12 overflow-visible">
         {/* Quote */}
         <div className="text-center mb-16">
           <h2 className="font-bold text-[#1a1a2e] mb-3 text-lg sm:text-2xl md:text-3xl lg:text-4xl whitespace-nowrap overflow-hidden text-ellipsis">
@@ -46,14 +46,15 @@ export function MissionSection() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto pt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto pt-16 overflow-visible">
           {cards.map((card, i) => (
             <div 
               key={i} 
-              className={`${card.bgGradient} rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col p-6 min-h-[280px] relative pt-20`}
+              className={`${card.bgGradient} rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col p-6 min-h-[280px] relative`}
+              style={{ paddingTop: '5rem' }}
             >
               {/* Icon area - positioned above card */}
-              <div className="absolute -top-14 left-1/2 transform -translate-x-1/2 w-32 h-32">
+              <div className="absolute w-32 h-32 -translate-x-1/2 pointer-events-none" style={{ top: '-3rem', left: '50%' }}>
                 <Image
                   src={card.icon}
                   alt={card.title}
