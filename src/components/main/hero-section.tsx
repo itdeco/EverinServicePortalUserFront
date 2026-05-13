@@ -220,11 +220,13 @@ export default function HeroSection() {
           opacity: 0;
           animation: iconBloomIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
           will-change: transform, opacity, filter;
-        }
-        .hero-circle-icon:hover {
-          transform: translate(-50%, -50%) scale(1.08);
           transition: transform 0.25s ease;
         }
+
+        .hero-circle-icon:hover {
+          transform: translate(-50%, -50%) scale(1.08) !important;
+        }
+
         @keyframes centerCoreReveal {
           0% {
             opacity: 0;
