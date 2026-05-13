@@ -214,8 +214,8 @@ export default function PcOffFeaturesSection() {
 
   // PC 이미지: 가로형이라 높이를 낮게, 모바일 이미지: 세로형이라 높이 높게
   const desktopHeight = activeGroup?.isPC ? "360px" : "480px"
-  const desktopItemWidth = activeGroup?.isPC ? 480 : 320
-  const desktopPeek = activeGroup?.isPC ? 50 : 60
+  const desktopItemWidth = activeGroup?.isPC ? 580 : 320
+  const desktopPeek = activeGroup?.isPC ? 60 : 60
 
   return (
     <div
@@ -270,9 +270,9 @@ export default function PcOffFeaturesSection() {
             >
               <div className="relative">
                 {featureGroups.map((group, gi) => {
-                  const h = group.isPC ? "360px" : "480px"
-                  const w = group.isPC ? 480 : 320
-                  const pk = group.isPC ? 50 : 60
+                  const h = group.isPC ? "420px" : "480px"
+                  const w = group.isPC ? 580 : 320
+                  const pk = group.isPC ? 60 : 60
                   return (
                     <div
                       key={group.id}
@@ -301,9 +301,9 @@ export default function PcOffFeaturesSection() {
                   <ImageCarousel
                     group={featureGroups[0]}
                     imgIdx={0}
-                    height="480px"
-                    itemWidth={480}
-                    peekAmount={50}
+                    height="420px"
+                    itemWidth={580}
+                    peekAmount={60}
                     isMobile={true}
                     isPC={true}
                   />
