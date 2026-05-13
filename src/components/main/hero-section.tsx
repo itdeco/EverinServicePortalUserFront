@@ -109,7 +109,7 @@ export default function HeroSection() {
               </div>
 
               {/* 중앙: 흰색 원 + 에버人 워드마크 이미지 */}
-              <div className="absolute inset-[33%] bg-white rounded-full shadow-2xl flex items-center justify-center z-30 hero-soft-pulse">
+              <div className="absolute inset-[33%] bg-white rounded-full shadow-2xl flex items-center justify-center z-30 hero-center-core">
                 <div className="relative w-[60%] h-[40%]">
                   <Image
                       src="/images/main/icons/hero/everein-wordmark.png"
@@ -224,6 +224,31 @@ export default function HeroSection() {
         .hero-circle-icon:hover {
           transform: translate(-50%, -50%) scale(1.08);
           transition: transform 0.25s ease;
+        }
+        @keyframes centerCoreReveal {
+          0% {
+            opacity: 0;
+            transform: scale(0.4);
+            filter: blur(14px);
+          }
+
+          60% {
+            opacity: 1;
+            transform: scale(1.08);
+            filter: blur(0);
+          }
+
+          100% {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+          }
+        }
+
+        .hero-center-core {
+          animation:
+            centerCoreReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) both,
+            softPulse 3.5s ease-in-out 1.1s infinite;
         }
       `}</style>
       </section>
