@@ -76,7 +76,7 @@ export default function HeroSection() {
             <div className="flex-shrink-0 relative w-[400px] h-[400px] sm:w-[420px] sm:h-[420px] lg:w-[560px] lg:h-[560px]">
 
               {/* 가장 바깥: bg-hero-03 점선 원 (녹색 점들 포함) */}
-              <div className="absolute inset-0 z-10 hero-rotate-reverse">
+              <div className="absolute inset-0 z-10">
                 <Image
                     src="/images/main/backgrounds/bg-hero-03.svg"
                     alt=""
@@ -87,7 +87,7 @@ export default function HeroSection() {
               </div>
 
               {/* 안쪽: bg-hero-01 그라데이션 원형 */}
-              <div className="absolute inset-[6%] z-20 hero-rotate-slow">
+              <div className="absolute inset-[6%] z-20">
                 <Image
                     src="/images/main/backgrounds/bg-hero-01.svg"
                     alt=""
@@ -162,16 +162,6 @@ export default function HeroSection() {
           </div>
         </div>
         <style jsx>{`
-        @keyframes slowRotate {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      
-        @keyframes reverseSlowRotate {
-          from { transform: rotate(360deg); }
-          to { transform: rotate(0deg); }
-        }
-      
         @keyframes softPulse {
           0%, 100% {
             transform: scale(1);
@@ -196,14 +186,6 @@ export default function HeroSection() {
       
         .hero-fade-up {
           animation: fadeUp 0.8s ease-out both;
-        }
-      
-        .hero-rotate-slow {
-          animation: slowRotate 38s linear infinite;
-        }
-      
-        .hero-rotate-reverse {
-          animation: reverseSlowRotate 55s linear infinite;
         }
       
         .hero-soft-pulse {
