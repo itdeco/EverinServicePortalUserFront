@@ -78,7 +78,7 @@ export default function HeroSection() {
               {/* 가장 바깥: bg-hero-03 점선 원 (녹색 점들 포함) */}
               <div className="absolute inset-0 z-10 hero-rotate-reverse">
                 <Image
-                    src="/images/main/backgrounds/bg-hero-03.png"
+                    src="/images/main/backgrounds/bg-hero-03.svg"
                     alt=""
                     fill
                     className="object-contain opacity-90"
@@ -89,7 +89,7 @@ export default function HeroSection() {
               {/* 안쪽: bg-hero-01 그라데이션 원형 */}
               <div className="absolute inset-[6%] z-20 hero-rotate-slow">
                 <Image
-                    src="/images/main/backgrounds/bg-hero-01.png"
+                    src="/images/main/backgrounds/bg-hero-01.svg"
                     alt=""
                     fill
                     className="object-contain"
@@ -100,7 +100,7 @@ export default function HeroSection() {
               {/* bg-hero-02: 아이콘 링과 중앙 원 사이 - 흰색 glow 분리 효과 */}
               <div className="absolute inset-[25%] z-25">
                 <Image
-                    src="/images/main/backgrounds/bg-hero-02.png"
+                    src="/images/main/backgrounds/bg-hero-02.svg"
                     alt=""
                     fill
                     className="object-contain opacity-60"
