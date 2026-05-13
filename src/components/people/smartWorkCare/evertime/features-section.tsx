@@ -196,6 +196,7 @@ function ImageCarousel({
               className="relative h-full flex-shrink-0"
               style={{ 
                 width: itemWidth,
+                padding: "0 6px",
                 opacity: i === imgIdx ? 1 : 0.5,
                 transition: "opacity 0.3s ease",
               }}
@@ -206,6 +207,7 @@ function ImageCarousel({
                 alt={img.alt}
                 fill
                 className="object-contain object-center pointer-events-none"
+                style={{ padding: "0 6px" }}
                 priority={i === 0}
                 draggable={false}
               />
@@ -332,7 +334,7 @@ export default function EvertimeFeaturesSection() {
                       imgIdx={activeGroupIdx === gi ? activeImgIdx : 0}
                       onIndexChange={activeGroupIdx === gi ? handleManualIndexChange : undefined}
                       height="480px"
-                      itemWidth={300}
+                      itemWidth={320}
                       peekAmount={60}
                       isMobile={true}
                     />
@@ -344,7 +346,7 @@ export default function EvertimeFeaturesSection() {
                     group={featureGroups[0]}
                     imgIdx={0}
                     height="480px"
-                    itemWidth={300}
+                    itemWidth={320}
                     peekAmount={60}
                     isMobile={true}
                   />
