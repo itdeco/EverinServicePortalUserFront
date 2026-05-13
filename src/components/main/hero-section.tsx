@@ -140,8 +140,7 @@ export default function HeroSection() {
                           left: `${x}%`,
                           top: `${y}%`,
                           transform: "translate(-50%, -50%)",
-                          animation: `iconFlyIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both`,
-                          animationDelay: `${0.3 + idx * 0.08}s`,
+                          animationDelay: `${0.35 + idx * 0.08}s`,
                           // CSS 변수로 출발 좌표 전달
                           ["--from-x" as string]: `${fromX}px`,
                           ["--from-y" as string]: `${fromY}px`,
