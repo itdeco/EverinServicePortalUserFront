@@ -73,15 +73,6 @@ function ImageCarousel({
 
   return (
     <div className="relative flex flex-col items-center gap-2">
-      {/* 카운터 */}
-      {total > 1 && (
-        <div className="self-end text-sm font-semibold text-gray-400 tabular-nums pr-1">
-          <span className="text-gray-800">{imgIdx + 1}</span>
-          <span className="mx-0.5">/</span>
-          <span>{total}</span>
-        </div>
-      )}
-
       {/* 슬라이더 트랙 - overflow-hidden으로 좌우 peek */}
       <div
         className="relative overflow-hidden rounded-2xl"
@@ -113,6 +104,15 @@ function ImageCarousel({
           ))}
         </div>
       </div>
+
+      {/* 카운터 - 이미지 아래 가운데 */}
+      {total > 1 && (
+        <div className="text-sm font-semibold text-gray-400 tabular-nums text-center">
+          <span className="text-gray-800">{imgIdx + 1}</span>
+          <span className="mx-0.5">/</span>
+          <span>{total}</span>
+        </div>
+      )}
     </div>
   )
 }
@@ -157,7 +157,7 @@ export default function EvertimeFeaturesSection() {
         <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
           <div className="flex items-center gap-8">
             {/* 왼쪽 텍스트 - 그룹 단위로 전환 */}
-            <div className="w-[340px] shrink-0 relative h-[200px] ml-16">
+            <div className="w-[340px] shrink-0 relative h-[200px] ml-32">
               {featureGroups.map((group, gi) => (
                 <div
                   key={group.id}
