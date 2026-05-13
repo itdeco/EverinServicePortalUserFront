@@ -5,7 +5,7 @@ import Image from "next/image"
 const cards = [
   {
     bgGradient: "bg-gradient-to-br from-[#00dcaa]/20 via-[#00dcaa]/10 to-[#00dcaa]/5",
-    icon: "/images/main/icons/cards/icon-card-01.png",
+    icon: "/images/main/icons/cards/icon-card-01.svg",
     title: "보안과 품질 절대",
     titleBold: "타협하지 않습니다!",
     sub1: "ISO 27001 인증 획득",
@@ -14,7 +14,7 @@ const cards = [
   },
   {
     bgGradient: "bg-gradient-to-br from-[#2bd67c]/20 via-[#2bd67c]/10 to-[#2bd67c]/5",
-    icon: "/images/main/icons/cards/icon-card-02.png",
+    icon: "/images/main/icons/cards/icon-card-02.svg",
     title: "영림원이 만들면",
     titleBold: "다릅니다!",
     sub1: "3000+ 구축사례",
@@ -23,7 +23,7 @@ const cards = [
   },
   {
     bgGradient: "bg-gradient-to-br from-[#586ffa]/20 via-[#586ffa]/10 to-[#586ffa]/5",
-    icon: "/images/main/icons/cards/icon-card-03.png",
+    icon: "/images/main/icons/cards/icon-card-03.svg",
     title: "에버인으로 아웃소싱하고",
     titleBold: "HR 본질에 집중하세요!",
     sub1: "무결점 클라우드형",
@@ -59,7 +59,7 @@ export function MissionSection() {
                     src={card.icon}
                     alt={card.title}
                     fill
-                    className="object-contain"
+                    className="object-center"
                   />
                 </div>
               </div>

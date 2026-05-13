@@ -171,17 +171,6 @@ export default function HeroSection() {
           </div>
         </div>
         <style jsx>{`
-        @keyframes iconFlyIn {
-          from {
-            opacity: 0;
-            transform: translate(calc(-50% + var(--from-x)), calc(-50% + var(--from-y))) scale(0.4);
-          }
-          to {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-          }
-        }
-
         @keyframes softPulse {
           0%, 100% {
             transform: scale(1);
