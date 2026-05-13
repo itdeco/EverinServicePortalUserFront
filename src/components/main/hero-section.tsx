@@ -76,7 +76,7 @@ export default function HeroSection() {
             <div className="flex-shrink-0 relative w-[400px] h-[400px] sm:w-[420px] sm:h-[420px] lg:w-[560px] lg:h-[560px]">
 
               {/* 가장 바깥: bg-hero-03 점선 원 (녹색 점들 포함) */}
-              <div className="absolute inset-[8%] z-10">
+              <div className="absolute inset-[1%] z-10">
                 <Image
                     src="/images/main/backgrounds/bg-hero-03.svg"
                     alt=""
