@@ -81,7 +81,7 @@ export default function HeroSection() {
                     src="/images/main/backgrounds/bg-hero-03.svg"
                     alt=""
                     fill
-                    className="object-contain opacity-85"
+                    className="object-contain opacity-90"
                     priority
                 />
               </div>
