@@ -46,15 +46,15 @@ export function MissionSection() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto overflow-visible pt-4">
           {cards.map((card, i) => (
             <div 
               key={i} 
-              className={`${card.bgGradient} rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col p-6 min-h-[340px]`}
+              className={`${card.bgGradient} rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col p-6 min-h-[340px] overflow-visible`}
             >
               {/* Icon area - centered and large */}
               <div className="flex-1 flex items-center justify-center py-6 overflow-visible">
-                <div className="relative w-40 h-40 drop-shadow-lg -my-8">
+                <div className="relative w-36 h-36 drop-shadow-lg">
                   <Image
                     src={card.icon}
                     alt={card.title}
