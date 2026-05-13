@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 
 const featureGroups = [
   {
@@ -57,48 +57,157 @@ featureGroups.forEach((group, gi) => {
   })
 })
 
-// 가로 슬라이더 컴포넌트
+// 가로 슬라이더 컴포넌트 - 드래그/스와이프 지원, 좌우 peek
 function ImageCarousel({
   group,
   imgIdx,
+  onIndexChange,
   height,
-  width,
+  itemWidth,
+  peekAmount = 0,
+  isMobile = false,
 }: {
   group: (typeof featureGroups)[0]
   imgIdx: number
+  onIndexChange?: (newIdx: number) => void
   height: string
-  width: string
+  itemWidth: number
+  peekAmount?: number
+  isMobile?: boolean
 }) {
   const total = group.images.length
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [currentTranslate, setCurrentTranslate] = useState(0)
+  const [prevTranslate, setPrevTranslate] = useState(0)
+
+  // 현재 인덱스 기준 translateX 계산
+  const getTranslateX = useCallback((index: number) => {
+    return -(index * itemWidth) + peekAmount
+  }, [itemWidth, peekAmount])
+
+  useEffect(() => {
+    const translateX = getTranslateX(imgIdx)
+    setCurrentTranslate(translateX)
+    setPrevTranslate(translateX)
+  }, [imgIdx, getTranslateX])
+
+  const handleDragStart = (clientX: number) => {
+    setIsDragging(true)
+    setStartX(clientX)
+  }
+
+  const handleDragMove = (clientX: number) => {
+    if (!isDragging) return
+    const diff = clientX - startX
+    setCurrentTranslate(prevTranslate + diff)
+  }
+
+  const handleDragEnd = () => {
+    if (!isDragging) return
+    setIsDragging(false)
+    
+    const diff = currentTranslate - prevTranslate
+    const threshold = itemWidth * 0.2
+    
+    let newIndex = imgIdx
+    if (diff < -threshold && imgIdx < total - 1) {
+      newIndex = imgIdx + 1
+    } else if (diff > threshold && imgIdx > 0) {
+      newIndex = imgIdx - 1
+    }
+    
+    if (onIndexChange && newIndex !== imgIdx) {
+      onIndexChange(newIndex)
+    } else {
+      // 원래 위치로 복귀
+      setCurrentTranslate(getTranslateX(imgIdx))
+      setPrevTranslate(getTranslateX(imgIdx))
+    }
+  }
+
+  // Mouse events
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault()
+    handleDragStart(e.clientX)
+  }
+  
+  const handleMouseMove = (e: React.MouseEvent) => {
+    handleDragMove(e.clientX)
+  }
+  
+  const handleMouseUp = () => {
+    handleDragEnd()
+  }
+  
+  const handleMouseLeave = () => {
+    if (isDragging) handleDragEnd()
+  }
+
+  // Touch events
+  const handleTouchStart = (e: React.TouchEvent) => {
+    handleDragStart(e.touches[0].clientX)
+  }
+  
+  const handleTouchMove = (e: React.TouchEvent) => {
+    handleDragMove(e.touches[0].clientX)
+  }
+  
+  const handleTouchEnd = () => {
+    handleDragEnd()
+  }
+
+  // 이미지 클릭 시 해당 인덱스로 이동
+  const handleImageClick = (index: number) => {
+    if (onIndexChange && index !== imgIdx) {
+      onIndexChange(index)
+    }
+  }
+
+  const containerWidth = isMobile ? itemWidth + (peekAmount * 2) : itemWidth
 
   return (
-    <div className="relative flex flex-col items-center gap-2">
-      {/* 슬라이더 트랙 - overflow-hidden으로 좌우 peek */}
+    <div className="relative flex flex-col items-center gap-3">
+      {/* 슬라이더 컨테이너 */}
       <div
-        className="relative overflow-hidden rounded-2xl"
-        style={{ width, height }}
+        className="relative overflow-hidden"
+        style={{ width: containerWidth, height }}
       >
-        {/* 트랙: 이미지들을 가로로 나열 */}
+        {/* 트랙 */}
         <div
-          className="flex h-full"
+          ref={trackRef}
+          className="flex h-full cursor-grab active:cursor-grabbing select-none"
           style={{
-            width: `${total * 100}%`,
-            transform: `translateX(-${(imgIdx / total) * 100}%)`,
-            transition: "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
+            transform: `translateX(${currentTranslate}px)`,
+            transition: isDragging ? "none" : "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           {group.images.map((img, i) => (
             <div
               key={i}
               className="relative h-full flex-shrink-0"
-              style={{ width: `${100 / total}%` }}
+              style={{ 
+                width: itemWidth,
+                opacity: i === imgIdx ? 1 : 0.5,
+                transition: "opacity 0.3s ease",
+              }}
+              onClick={() => handleImageClick(i)}
             >
               <Image
                 src={img.src}
                 alt={img.alt}
                 fill
-                className="object-contain object-center"
+                className="object-contain object-center pointer-events-none"
                 priority={i === 0}
+                draggable={false}
               />
             </div>
           ))}
@@ -119,10 +228,16 @@ function ImageCarousel({
 
 export default function EvertimeFeaturesSection() {
   const [activeStep, setActiveStep] = useState(0)
+  const [manualOverride, setManualOverride] = useState<number | null>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   const activeGroupIdx = flatImages[activeStep]?.groupIdx ?? 0
-  const activeImgIdx = flatImages[activeStep]?.imgIdx ?? 0
+  const activeImgIdx = manualOverride ?? (flatImages[activeStep]?.imgIdx ?? 0)
+
+  // 수동 오버라이드 핸들러
+  const handleManualIndexChange = (newImgIdx: number) => {
+    setManualOverride(newImgIdx)
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -136,13 +251,20 @@ export default function EvertimeFeaturesSection() {
         totalImages - 1,
         Math.max(0, Math.floor(scrolled / stepHeight))
       )
+      
+      // 그룹이 바뀌면 수동 오버라이드 리셋
+      const newGroupIdx = flatImages[step]?.groupIdx ?? 0
+      if (newGroupIdx !== activeGroupIdx) {
+        setManualOverride(null)
+      }
+      
       setActiveStep(step)
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
     handleScroll()
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [activeGroupIdx])
 
   const groupDots = featureGroups.map((_, gi) => gi === activeGroupIdx)
 
@@ -208,18 +330,23 @@ export default function EvertimeFeaturesSection() {
                     <ImageCarousel
                       group={group}
                       imgIdx={activeGroupIdx === gi ? activeImgIdx : 0}
+                      onIndexChange={activeGroupIdx === gi ? handleManualIndexChange : undefined}
                       height="480px"
-                      width="320px"
+                      itemWidth={280}
+                      peekAmount={40}
+                      isMobile={false}
                     />
                   </div>
                 ))}
-                {/* 현재 그룹 (항상 렌더) - 크기 잡기용 */}
+                {/* 크기 잡기용 */}
                 <div style={{ visibility: "hidden" }}>
                   <ImageCarousel
                     group={featureGroups[0]}
                     imgIdx={0}
                     height="480px"
-                    width="320px"
+                    itemWidth={280}
+                    peekAmount={40}
+                    isMobile={false}
                   />
                 </div>
               </div>
@@ -229,8 +356,8 @@ export default function EvertimeFeaturesSection() {
       </div>
 
       {/* 고정 패널 - 모바일 */}
-      <div className="flex lg:hidden sticky top-16 h-[calc(100vh-4rem)] flex-col items-center justify-center bg-white px-6">
-        <div className="w-full max-w-xs flex flex-col items-center text-center">
+      <div className="flex lg:hidden sticky top-16 h-[calc(100vh-4rem)] flex-col items-center justify-center bg-white px-4">
+        <div className="w-full max-w-sm flex flex-col items-center text-center">
           {/* 그룹 인디케이터 */}
           <div className="flex gap-2 mb-5">
             {featureGroups.map((_, dotIdx) => (
@@ -247,7 +374,7 @@ export default function EvertimeFeaturesSection() {
           </div>
 
           {/* 텍스트 - 그룹 단위 전환 */}
-          <div className="relative h-[110px] w-full mb-5">
+          <div className="relative h-[100px] w-full mb-4">
             {featureGroups.map((group, gi) => (
               <div
                 key={group.id}
@@ -268,12 +395,12 @@ export default function EvertimeFeaturesSection() {
             ))}
           </div>
 
-          {/* 이미지 - 가로 슬라이더 */}
-          <div className="relative w-full">
+          {/* 이미지 - 가로 슬라이더 (모바일: 좌우 peek + 더 큰 이미지) */}
+          <div className="relative w-full flex justify-center">
             {featureGroups.map((group, gi) => (
               <div
                 key={group.id}
-                className="absolute inset-0"
+                className="absolute inset-0 flex justify-center"
                 style={{
                   opacity: activeGroupIdx === gi ? 1 : 0,
                   transition: "opacity 0.5s ease-in-out",
@@ -283,8 +410,11 @@ export default function EvertimeFeaturesSection() {
                 <ImageCarousel
                   group={group}
                   imgIdx={activeGroupIdx === gi ? activeImgIdx : 0}
-                  height="340px"
-                  width="100%"
+                  onIndexChange={activeGroupIdx === gi ? handleManualIndexChange : undefined}
+                  height="420px"
+                  itemWidth={240}
+                  peekAmount={30}
+                  isMobile={true}
                 />
               </div>
             ))}
@@ -293,8 +423,10 @@ export default function EvertimeFeaturesSection() {
               <ImageCarousel
                 group={featureGroups[0]}
                 imgIdx={0}
-                height="340px"
-                width="100%"
+                height="420px"
+                itemWidth={240}
+                peekAmount={30}
+                isMobile={true}
               />
             </div>
           </div>

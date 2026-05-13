@@ -158,9 +158,19 @@ export function SolutionsSection() {
                   activeTab === "hr" ? "block animate-tab-fade-slide" : "hidden"
               )}
           >
-            <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 md:block md:overflow-visible md:snap-none md:mx-0 md:px-0">
+            <div 
+              className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 md:block md:overflow-visible md:snap-none md:mx-0 md:px-0 scroll-smooth"
+              onClick={(e) => {
+                const target = e.target as HTMLElement
+                const card = target.closest('[data-card-index]') as HTMLElement
+                if (card && window.innerWidth < 768) {
+                  card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+                }
+              }}
+            >
             {/* Main big card (full width) */}
             <div
+                data-card-index="0"
                 onMouseMove={handleCardMouseMove}
                 onMouseLeave={handleCardMouseLeave}
                 className={cn(
@@ -180,7 +190,7 @@ export function SolutionsSection() {
                     href={hrMainCard.href}
                     className="relative z-10 inline-flex items-center justify-center w-fit px-5 py-2 rounded-full border border-gray-300 bg-white/80 text-gray-700 text-sm font-semibold shadow-sm transition-[box-shadow] duration-200 hover:border-[#00dcaa] hover:bg-[#00dcaa] hover:text-white hover:shadow-lg hover:shadow-[#00dcaa]/25 active:scale-95 cursor-pointer"
                 >
-                  자세히 보기
+                  자세히 ��기
                 </Link>
               </div>
               <div className="relative flex-1 min-h-55">
@@ -201,6 +211,7 @@ export function SolutionsSection() {
               {hrSubCards.map((card, i) => (
                   <div
                       key={i}
+                      data-card-index={i + 1}
                       onMouseMove={handleCardMouseMove}
                       onMouseLeave={handleCardMouseLeave}
                       className={cn(

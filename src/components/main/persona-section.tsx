@@ -56,10 +56,20 @@ export function PersonaSection() {
           </div>
 
           {/* Cards Grid */}
-          <div className="md:grid md:grid-cols-3 md:gap-6 flex md:flex-none gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4">
+          <div 
+            className="md:grid md:grid-cols-3 md:gap-6 flex md:flex-none gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 scroll-smooth"
+            onClick={(e) => {
+              const target = e.target as HTMLElement
+              const card = target.closest('[data-persona-index]') as HTMLElement
+              if (card && window.innerWidth < 768) {
+                card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+              }
+            }}
+          >
             {personas.map((persona, idx) => (
                 <div
                     key={idx}
+                    data-persona-index={idx}
                     className={`min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center bg-white rounded-2xl overflow-hidden shadow-sm border-t-4 ${persona.borderColor} flex flex-col`}
                 >
                   {/* Content Area */}
