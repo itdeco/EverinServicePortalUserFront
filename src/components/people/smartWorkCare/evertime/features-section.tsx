@@ -97,7 +97,7 @@ export default function EvertimeFeaturesSection() {
       style={{ height: `${(totalImages + 1) * SECTION_HEIGHT}vh` }}
     >
       {/* 고정 패널 - 데스크탑 */}
-      <div className="hidden lg:flex sticky top-0 h-screen items-center bg-white">
+      <div className="hidden lg:flex sticky top-20 h-[calc(100vh-5rem)] items-center bg-white">
         <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
           <div className="flex items-center gap-8">
             {/* 왼쪽 텍스트 - 그룹 단위로 전환 */}
@@ -183,7 +183,7 @@ export default function EvertimeFeaturesSection() {
       </div>
 
       {/* 고정 패널 - 모바일 */}
-      <div className="flex lg:hidden sticky top-0 h-screen flex-col items-center justify-center bg-white px-6">
+      <div className="flex lg:hidden sticky top-16 h-[calc(100vh-4rem)] flex-col items-center justify-center bg-white px-6">
         <div className="w-full max-w-xs flex flex-col items-center text-center">
           {/* 인디케이터 점 - 그룹 기준 */}
           <div className="flex gap-2 mb-5">
