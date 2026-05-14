@@ -57,7 +57,7 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
     ],
     col2: [
       { title: "근태관리", subtitle: "에버타임", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
-      { title: "PC-OFF", href: "#" },
+      { title: "PC-OFF", href: "/people/smartWorkCare/pcoff" },
     ],
   },
   {
@@ -90,7 +90,7 @@ const peopleMenu: Record<string, MenuItem[]> = {
   "스마트 워크케어": [
     { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
     { title: "근태관리", subtitle: "에버타임", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
-    { title: "PC-OFF", href: "#" },
+    { title: "PC-OFF", href: "/people/smartWorkCare/pcoff" },
     { title: "온보딩", subtitle: "에버웰커밍", href: "#", badge: "무료" },
     { title: "교육·경력", href: "#" },
     { title: "복리후생", href: "#" },

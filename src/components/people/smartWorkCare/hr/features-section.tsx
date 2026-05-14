@@ -8,6 +8,7 @@ const features = [
     id: 1,
     title: "인사정보 통합관리",
     description: "마스터 데이터 중앙화, 부서, 직급, 직책 실시간 연동",
+    icon: "/images/main/icons/hero/icon-hero-05.svg",
     image: "/images/people/smartWorkCare/hr/hr-1-1.png",
     imageAlt: "인사정보 통합관리 화면",
   },
@@ -15,6 +16,7 @@ const features = [
     id: 2,
     title: "조직도 자동화",
     description: "조직 개편 즉시 반영, 시각화 조직도 실시간 업데이트",
+    icon: "/images/main/icons/hero/icon-hero-05.svg",
     image: "/images/people/smartWorkCare/hr/hr-2-1.png",
     imageAlt: "조직도 자동화 화면",
   },
@@ -22,6 +24,7 @@ const features = [
     id: 3,
     title: "발령 자동화",
     description: "인사발령 공문 원클릭생성, 전자결재 즉시 연계",
+    icon: "/images/main/icons/hero/icon-hero-05.svg",
     image: "/images/people/smartWorkCare/hr/hr-3-1.png",
     imageAlt: "발령 자동화 화면",
   },
@@ -29,6 +32,7 @@ const features = [
     id: 4,
     title: "HR 데이터 분석",
     description: "복잡한 데이터를 직관적인 대시보드로 한눈에 파악하고 의사결정에 바로 활용하세요.",
+    icon: "/images/main/icons/hero/icon-hero-05.svg",
     image: "/images/people/smartWorkCare/hr/hr-4-1.png",
     imageAlt: "HR 데이터 분석 화면",
   },
@@ -97,6 +101,16 @@ export default function HrFeaturesSection() {
                       />
                     ))}
                   </div>
+                  {/* 아이콘 */}
+                  <div className="mb-6 flex justify-center">
+                    <Image
+                      src={feature.icon}
+                      alt={feature.title}
+                      width={56}
+                      height={56}
+                      className="w-14 h-14"
+                    />
+                  </div>
                   <h3 className="text-3xl font-bold text-gray-900 mb-4">
                     {feature.title}
                   </h3>
@@ -162,6 +176,16 @@ export default function HrFeaturesSection() {
                   pointerEvents: activeIndex === idx ? "auto" : "none",
                 }}
               >
+                {/* 아이콘 */}
+                <div className="mb-4 flex justify-center">
+                  <Image
+                    src={feature.icon}
+                    alt={feature.title}
+                    width={48}
+                    height={48}
+                    className="w-12 h-12"
+                  />
+                </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {feature.title}
                 </h3>
