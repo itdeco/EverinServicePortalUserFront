@@ -217,8 +217,8 @@ export default function PcOffFeaturesSection() {
 
   // PC 이미지: 가로형이라 높이를 낮게, 모바일 이미지: 세로형이라 높이 높게
   const desktopHeight = activeGroup?.isPC ? "360px" : "480px"
-  const desktopItemWidth = activeGroup?.isPC ? 700 : 320
-  const desktopPeek = activeGroup?.isPC ? 80 : 60
+  const desktopItemWidth = activeGroup?.isPC ? 900 : 320
+  const desktopPeek = activeGroup?.isPC ? 120 : 60
 
   return (
     <div
@@ -229,10 +229,9 @@ export default function PcOffFeaturesSection() {
       {/* 데스크탑 고정 패널 */}
       <div className="hidden lg:flex sticky top-20 h-[calc(100vh-5rem)] items-center bg-white">
         <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-          <div className="flex items-center justify-start gap-8">
-
+          <div className="flex items-center gap-3">
             {/* 왼쪽 텍스트 */}
-            <div className="w-[320px] shrink-0 relative h-[220px]">
+            <div className="w-[260px] shrink-0 relative h-[220px]">
               {featureGroups.map((group, gi) => (
                 <div
                   key={group.id}
@@ -268,14 +267,14 @@ export default function PcOffFeaturesSection() {
 
             {/* 오른쪽 이미지 슬라이더 */}
             <div
-              className="flex items-center justify-center flex-1 ml-8"
+              className="flex items-center justify-center flex-1"
               style={{ minWidth: 720 }}
             >
               <div className="relative">
                 {featureGroups.map((group, gi) => {
                   const h = group.isPC ? "420px" : "480px"
-                  const w = group.isPC ? 700 : 320
-                  const pk = group.isPC ? 80 : 60
+                  const w = group.isPC ? 900 : 320
+                  const pk = group.isPC ? 120 : 60
                   return (
                     <div
                       key={group.id}
@@ -305,8 +304,8 @@ export default function PcOffFeaturesSection() {
                     group={featureGroups[0]}
                     imgIdx={0}
                     height="420px"
-                    itemWidth={700}
-                    peekAmount={80}
+                    itemWidth={900}
+                    peekAmount={120}
                     isMobile={true}
                     isPC={true}
                   />
