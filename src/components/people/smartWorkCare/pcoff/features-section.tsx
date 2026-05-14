@@ -217,8 +217,8 @@ export default function PcOffFeaturesSection() {
 
   // PC 이미지: 가로형이라 높이를 낮게, 모바일 이미지: 세로형이라 높이 높게
   const desktopHeight = activeGroup?.isPC ? "360px" : "480px"
-  const desktopItemWidth = activeGroup?.isPC ? 700 : 320
-  const desktopPeek = activeGroup?.isPC ? 80 : 60
+  const desktopItemWidth = activeGroup?.isPC ? 580 : 320
+  const desktopPeek = activeGroup?.isPC ? 60 : 60
 
   return (
     <div
@@ -228,7 +228,7 @@ export default function PcOffFeaturesSection() {
     >
       {/* 데스크탑 고정 패널 */}
       <div className="hidden lg:flex sticky top-20 h-[calc(100vh-5rem)] items-center bg-white">
-        <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
+        <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12">
           <div className="flex items-center justify-start gap-8">
 
             {/* 왼쪽 텍스트 */}
@@ -274,7 +274,7 @@ export default function PcOffFeaturesSection() {
               <div className="relative">
                 {featureGroups.map((group, gi) => {
                   const h = group.isPC ? "420px" : "480px"
-                  const w = group.isPC ? 700 : 320
+                  const w = group.isPC ? 640 : 320
                   const pk = group.isPC ? 80 : 60
                   return (
                     <div
@@ -305,7 +305,7 @@ export default function PcOffFeaturesSection() {
                     group={featureGroups[0]}
                     imgIdx={0}
                     height="420px"
-                    itemWidth={700}
+                    itemWidth={640}
                     peekAmount={80}
                     isMobile={true}
                     isPC={true}
