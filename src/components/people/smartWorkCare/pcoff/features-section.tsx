@@ -229,7 +229,7 @@ export default function PcOffFeaturesSection() {
       {/* 데스크탑 고정 패널 */}
       <div className="hidden lg:flex sticky top-20 h-[calc(100vh-5rem)] items-center bg-white">
         <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-          <div className="flex items-center justify-center gap-16">
+          <div className="flex items-center justify-start gap-8">
 
             {/* 왼쪽 텍스트 */}
             <div className="w-[320px] shrink-0 relative h-[220px]">
@@ -268,8 +268,8 @@ export default function PcOffFeaturesSection() {
 
             {/* 오른쪽 이미지 슬라이더 */}
             <div
-              className="flex items-center justify-center"
-              style={{ width: 720 }}
+              className="flex items-center justify-center flex-1 ml-8"
+              style={{ minWidth: 720 }}
             >
               <div className="relative">
                 {featureGroups.map((group, gi) => {
