@@ -8,6 +8,7 @@ const featureGroups = [
     id: 1,
     title: "PC-OFF 현황 모니터링",
     description: "관리자가 전 직원의 PC 사용 현황을\n실시간으로 한눈에 확인할 수 있습니다.\n초과 근무 발생 즉시 알림으로 선제 대응하세요.",
+    icon: "/images/main/icons/hero/icon-hero-06.svg",
     isPC: true,
     images: [
       { src: "/images/people/smartWorkCare/pcoff/pcOff-1-1.png", alt: "PC-OFF 현황 모니터링 화면 1" },
@@ -18,6 +19,7 @@ const featureGroups = [
     id: 2,
     title: "자동 PC 종료 설정",
     description: "부서별·직급별 근무 종료 시간을 설정하면\nPC가 자동으로 종료됩니다.\n불필요한 야근을 구조적으로 차단하세요.",
+    icon: "/images/main/icons/hero/icon-hero-06.svg",
     isPC: true,
     images: [
       { src: "/images/people/smartWorkCare/pcoff/pcOff-2-1.png", alt: "자동 PC 종료 설정 화면 1" },
@@ -28,6 +30,7 @@ const featureGroups = [
     id: 3,
     title: "모바일 연동 알림",
     description: "PC 종료 전 모바일로 사전 알림을 발송하여\n직원이 마무리 작업을 준비할 수 있습니다.\n자연스러운 퇴근 문화를 만들어보세요.",
+    icon: "/images/main/icons/hero/icon-hero-06.svg",
     isPC: false,
     images: [
       { src: "/images/people/smartWorkCare/pcoff/pcOff-3-1.png", alt: "모바일 연동 알림 화면 1" },
@@ -253,6 +256,16 @@ export default function PcOffFeaturesSection() {
                       />
                     ))}
                   </div>
+                  {/* 아이콘 */}
+                  <div className="mb-6 flex justify-center">
+                    <Image
+                      src={group.icon}
+                      alt={group.title}
+                      width={56}
+                      height={56}
+                      className="w-14 h-14"
+                    />
+                  </div>
                   <h3 className="text-3xl font-bold text-gray-900 mb-4">
                     {group.title}
                   </h3>
@@ -344,6 +357,16 @@ export default function PcOffFeaturesSection() {
                   pointerEvents: activeGroupIdx === gi ? "auto" : "none",
                 }}
               >
+                {/* 아이콘 */}
+                <div className="mb-4 flex justify-center">
+                  <Image
+                    src={group.icon}
+                    alt={group.title}
+                    width={48}
+                    height={48}
+                    className="w-12 h-12"
+                  />
+                </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {group.title}
                 </h3>

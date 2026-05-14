@@ -8,6 +8,7 @@ const featureGroups = [
     id: 1,
     title: "실시간 근태 모니터링",
     description: "연장, 휴일근무부터 휴가 잔여 일수까지,\n복잡한 내역을 앱에서 실시간으로 투명하게 확인하세요.",
+    icon: "/images/main/icons/hero/icon-hero-04.svg",
     images: [
       { src: "/images/people/smartWorkCare/evertime/EverTime-1-1.png", alt: "실시간 근태 모니터링 화면 1" },
       { src: "/images/people/smartWorkCare/evertime/EverTime-1-2.png", alt: "실시간 근태 모니터링 화면 2" },
@@ -17,6 +18,7 @@ const featureGroups = [
     id: 2,
     title: "모바일 출퇴근",
     description: "GPS, Wi-Fi는 물론 NFC 인증까지 지원하여,\n우리 회사의 보안 수준과 현장 상황에 최적화된\n인증 환경을 구축할 수 있습니다.",
+    icon: "/images/main/icons/hero/icon-hero-04.svg",
     images: [
       { src: "/images/people/smartWorkCare/evertime/EverTime-2-1.png", alt: "모바일 출퇴근 화면 1" },
       { src: "/images/people/smartWorkCare/evertime/EverTime-2-2.png", alt: "모바일 출퇴근 화면 2" },
@@ -26,6 +28,7 @@ const featureGroups = [
     id: 3,
     title: "유연근무 자동계산",
     description: "주 52시간 근무에 완벽한 가이드,\n복잡한 유연·고대근무도 법적 테두리 안에서\n안전하게 관리하세요.",
+    icon: "/images/main/icons/hero/icon-hero-04.svg",
     images: [
       { src: "/images/people/smartWorkCare/evertime/EverTime-3-1.png", alt: "유연근무 자동계산 화면 1" },
       { src: "/images/people/smartWorkCare/evertime/EverTime-3-2.png", alt: "유연근무 자동계산 화면 2" },
@@ -36,6 +39,7 @@ const featureGroups = [
     id: 4,
     title: "간편한 모바일 결재",
     description: "복잡한 서류나 해석 없이 앱에서 즉시 신청하고\n터치 한 번으로 승인까지!\n모든 근태 결재를 가장 빠르게 처리하세요.",
+    icon: "/images/main/icons/hero/icon-hero-04.svg",
     images: [
       { src: "/images/people/smartWorkCare/evertime/EverTime-4-1.png", alt: "간편한 모바일 결재 화면 1" },
       { src: "/images/people/smartWorkCare/evertime/EverTime-4-2.png", alt: "간편한 모바일 결재 화면 2" },
@@ -306,6 +310,16 @@ export default function EvertimeFeaturesSection() {
                       />
                     ))}
                   </div>
+                  {/* 아이콘 */}
+                  <div className="mb-6 flex justify-center">
+                    <Image
+                      src={group.icon}
+                      alt={group.title}
+                      width={56}
+                      height={56}
+                      className="w-14 h-14"
+                    />
+                  </div>
                   <h3 className="text-3xl font-bold text-gray-900 mb-4">
                     {group.title}
                   </h3>
@@ -387,6 +401,16 @@ export default function EvertimeFeaturesSection() {
                   pointerEvents: activeGroupIdx === gi ? "auto" : "none",
                 }}
               >
+                {/* 아이콘 */}
+                <div className="mb-4 flex justify-center">
+                  <Image
+                    src={group.icon}
+                    alt={group.title}
+                    width={48}
+                    height={48}
+                    className="w-12 h-12"
+                  />
+                </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {group.title}
                 </h3>

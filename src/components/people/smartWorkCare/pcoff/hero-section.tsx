@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 
 export default function PcOffHeroSection() {
@@ -16,17 +15,6 @@ export default function PcOffHeroSection() {
     >
       <div className="mx-auto max-w-[1280px] px-4 lg:px-12">
         <div className="flex flex-col items-center justify-center pt-28 pb-20 lg:pt-36 lg:pb-28 text-center hero-fade-up">
-
-          {/* 아이콘 */}
-          <div className="mb-4">
-            <Image
-              src="/images/main/icons/hero/icon-hero-06.svg"
-              alt="PC-OFF 아이콘"
-              width={64}
-              height={64}
-              className="mx-auto"
-            />
-          </div>
 
           {/* 브랜드 태그 */}
           <p className="text-[#00cc99] text-xl font-semibold mb-3 tracking-wide">
