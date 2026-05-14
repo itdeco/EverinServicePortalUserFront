@@ -269,13 +269,13 @@ export default function PcOffFeaturesSection() {
             {/* 오른쪽 이미지 슬라이더 */}
             <div
               className="flex items-center justify-center"
-              style={{ width: desktopItemWidth + desktopPeek * 2 }}
+              style={{ width: 720 }}
             >
               <div className="relative">
                 {featureGroups.map((group, gi) => {
                   const h = group.isPC ? "420px" : "480px"
-                  const w = group.isPC ? 580 : 320
-                  const pk = group.isPC ? 60 : 60
+                  const w = group.isPC ? 640 : 320
+                  const pk = group.isPC ? 80 : 60
                   return (
                     <div
                       key={group.id}
@@ -305,8 +305,8 @@ export default function PcOffFeaturesSection() {
                     group={featureGroups[0]}
                     imgIdx={0}
                     height="420px"
-                    itemWidth={580}
-                    peekAmount={60}
+                    itemWidth={640}
+                    peekAmount={80}
                     isMobile={true}
                     isPC={true}
                   />
