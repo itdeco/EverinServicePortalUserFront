@@ -228,7 +228,7 @@ export default function PcOffFeaturesSection() {
     >
       {/* 데스크탑 고정 패널 */}
       <div className="hidden lg:flex sticky top-20 h-[calc(100vh-5rem)] items-center bg-white">
-        <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 ml-[250px]">
+        <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 ml-[280px]">
           <div className="flex items-center justify-start gap-8">
 
             {/* 왼쪽 텍스트 */}
