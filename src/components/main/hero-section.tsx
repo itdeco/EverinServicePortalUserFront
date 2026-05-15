@@ -46,21 +46,22 @@ export default function HeroSection() {
 
             {/* CTA 버튼 */}
             <div className="flex flex-wrap gap-4">
-              <Button
-                asChild
-                size="lg"
-                className="px-8 h-12 text-base font-semibold rounded-full text-white border-0 bg-gradient-to-r from-[#00cc99] to-[#00a885] hover:from-[#00b386] hover:to-[#008f6f]"
+              <a
+                href="/trial"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
+                style={{
+                  background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)",
+                }}
               >
-                <Link href="/trial">에버인 맛보기</Link>
-              </Button>
+                에버인 맛보기
+              </a>
 
-              <Button
-                asChild
-                size="lg"
-                className="px-8 h-12 text-base font-semibold rounded-full text-black bg-white border-2 border-[#00cc99] hover:bg-[#f0fffe]"
+              <a
+                href="/support/inquiry"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-10 h-14 text-base font-semibold rounded-lg text-gray-700 bg-white border-2 border-[#00cc99] hover:bg-[#f0fdf9]"
               >
-                <Link href="/support/inquiry">도입 문의</Link>
-              </Button>
+                도입 문의
+              </a>
             </div>
           </div>
 
