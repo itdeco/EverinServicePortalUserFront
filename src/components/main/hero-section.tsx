@@ -65,13 +65,13 @@ export default function HeroSection() {
           </div>
 
           {/* 오른쪽: 방사형 다이어그램 */}
-          <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center">
+          <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full">
             <svg
-              width="100%"
-              height="100%"
+              width="500"
+              height="500"
               viewBox="0 0 500 500"
-              className="absolute inset-0"
-              style={{ maxWidth: "480px", maxHeight: "480px" }}
+              className="absolute"
+              style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
             >
               {/* 연결선들 - 중앙에서 각 모듈로 */}
               {radialModules.map((module, idx) => {
@@ -99,56 +99,29 @@ export default function HeroSection() {
                 )
               })}
 
-              {/* 중앙 원 */}
-              <circle cx="250" cy="250" r="50" fill="white" stroke="#00cc99" strokeWidth="3" />
-              <text
-                x="250"
-                y="245"
-                textAnchor="middle"
-                fill="#3d5a80"
-                fontSize="14"
-                fontWeight="bold"
-              >
-                클라우드 HR
-              </text>
-              <text
-                x="250"
-                y="265"
-                textAnchor="middle"
-                fill="#00cc99"
-                fontSize="18"
-                fontWeight="900"
-              >
-                에버인
-              </text>
-            </svg>
-
-            {/* 각 모듈 박스 */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              {radialModules.map((module, idx) => {
-                const angle = (module.angle * Math.PI) / 180
-                const radius = 140
-                const x = 250 + radius * Math.cos(angle)
-                const y = 250 + radius * Math.sin(angle)
-
-                return (
-                  <div
-                    key={idx}
-                    className="absolute w-28 h-12 flex items-center justify-center rounded-lg text-white font-semibold text-sm shadow-md hover:shadow-lg transition-shadow cursor-pointer"
-                    style={{
-                      backgroundColor: module.color,
-                      left: `${(x / 500) * 100}%`,
-                      top: `${(y / 500) * 100}%`,
-                      transform: "translate(-50%, -50%)",
-                      pointerEvents: "auto",
-                    }}
-                  >
-                    {module.label}
-                  </div>
-                )
-              })}
-            </div>
-          </div>
+            {/* 중앙 원 */}
+            <circle cx="250" cy="250" r="50" fill="white" stroke="#00cc99" strokeWidth="3" />
+            <text
+              x="250"
+              y="245"
+              textAnchor="middle"
+              fill="#3d5a80"
+              fontSize="14"
+              fontWeight="bold"
+            >
+              클라우드 HR
+            </text>
+            <text
+              x="250"
+              y="265"
+              textAnchor="middle"
+              fill="#00cc99"
+              fontSize="16"
+              fontWeight="bold"
+            >
+              에버인
+            </text>
+          </svg>
         </div>
       </div>
     </section>
