@@ -31,14 +31,12 @@ export function StrategySection() {
           </div>
 
           {/* 오른쪽: 대시보드 이미지 */}
-          <div className="relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-xl">
-              <img
-                src="/images/main/heroes/strategy-dashboard-ui.jpg"
-                alt="Everin Strategy Dashboard"
-                className="w-full h-auto object-cover"
-              />
-            </div>
+          <div className="relative rounded-2xl overflow-hidden shadow-xl">
+            <img
+              src="/images/main/heroes/strategy-dashboard-ui.jpg"
+              alt="Everin Strategy Dashboard"
+              className="w-full h-auto object-cover"
+            />
           </div>
         </div>
       </div>
