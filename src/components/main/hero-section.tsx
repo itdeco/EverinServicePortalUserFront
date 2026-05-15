@@ -5,15 +5,15 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 
 // 중앙의 "클라우드 HR 에버인"을 중심으로 방사형으로 배치된 모듈들
+// 원본 이미지 기준: 그룹웨어(상단), 온보딩(우상단), 급여(우측), 평가(우하단), 근태(하단), 기업문화(좌하단), PC OFF(좌측)
 const radialModules = [
-  { label: "그룹웨어", angle: -90, color: "#3d5a80" },
-  { label: "온보딩", angle: -45, color: "#3d5a80" },
-  { label: "급여", angle: 0, color: "#3d5a80" },
-  { label: "평가", angle: 45, color: "#3d5a80" },
-  { label: "근태", angle: 90, color: "#3d5a80" },
-  { label: "기업문화", angle: 135, color: "#3d5a80" },
-  { label: "PC OFF", angle: 180, color: "#3d5a80" },
-  { label: "온보딩", angle: 225, color: "#3d5a80" },
+  { label: "그룹웨어", angle: -70, color: "#3d5a80" },   // 상단 (살짝 우측)
+  { label: "온보딩", angle: -25, color: "#3d5a80" },    // 우상단
+  { label: "급여", angle: 25, color: "#3d5a80" },       // 우측
+  { label: "평가", angle: 70, color: "#3d5a80" },       // 우하단
+  { label: "근태", angle: 110, color: "#3d5a80" },      // 하단
+  { label: "기업문화", angle: 150, color: "#3d5a80" },  // 좌하단
+  { label: "PC OFF", angle: -120, color: "#3d5a80" },   // 좌측
 ]
 
 export default function HeroSection() {
