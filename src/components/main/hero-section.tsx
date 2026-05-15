@@ -130,33 +130,20 @@ export default function HeroSection() {
                 const radius = 140
                 const x = 250 + radius * Math.cos(angle)
                 const y = 250 + radius * Math.sin(angle)
-                const offsetX = x - 250
-                const offsetY = y - 250
 
                 return (
                   <div
                     key={idx}
-                    className="absolute"
+                    className="absolute w-28 h-12 flex items-center justify-center rounded-lg text-white font-semibold text-sm shadow-md hover:shadow-lg transition-shadow cursor-pointer"
                     style={{
-                      width: "480px",
-                      height: "480px",
-                      left: "50%",
-                      top: "50%",
+                      backgroundColor: module.color,
+                      left: `${(x / 500) * 100}%`,
+                      top: `${(y / 500) * 100}%`,
                       transform: "translate(-50%, -50%)",
-                      pointerEvents: "none",
+                      pointerEvents: "auto",
                     }}
                   >
-                    <div
-                      className="absolute w-28 h-12 flex items-center justify-center rounded-lg text-white font-semibold text-sm shadow-md hover:shadow-lg transition-shadow cursor-pointer"
-                      style={{
-                        backgroundColor: module.color,
-                        left: `calc(50% + ${offsetX}px - 56px)`,
-                        top: `calc(50% + ${offsetY}px - 24px)`,
-                        pointerEvents: "auto",
-                      }}
-                    >
-                      {module.label}
-                    </div>
+                    {module.label}
                   </div>
                 )
               })}
