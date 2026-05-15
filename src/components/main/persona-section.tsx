@@ -9,7 +9,7 @@ const personas = [
     name: "박은숙 과장, 34세",
     company: "(중소기업 HR 1인 담당자)",
     quote: "신규입사 = 나의 야근지옥",
-    need: "나 대신 | 온보딩 해줄 자동화\n(온보딩만 전담해줄 인력필요)",
+    need: "나 대신 온보딩 해줄 자동화\n(온보딩만 전담해줄 인력필요)",
     solution: "해결책 : 에버웰커밍",
     borderColor: "border-[#00dcaa]",
     buttonColor: "bg-[#00dcaa]",
