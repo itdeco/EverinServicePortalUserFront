@@ -38,7 +38,7 @@ export default function HeroSection() {
             </h2>
 
             <p className="text-gray-700 text-base md:text-lg mb-8 leading-relaxed">
-              운보딩, 근태, 급여, 평가, 기업문화까지 모든 비즈니스는 그맞<br />
+              온보당, 근태, 급여, 평가, 기업문화, 그룹웨어가 따로 노는 비효율은 그만!<br />
               에버인 하나로 모든 HR 업무가 완벽하게 연결됩니다.
             </p>
 
