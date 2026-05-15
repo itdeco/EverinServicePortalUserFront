@@ -9,10 +9,11 @@ export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const totalSlides = 3
 
+  // 자동 슬라이드 전환 (2초마다)
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % totalSlides)
-    }, 3000)
+    }, 2000)
     return () => clearInterval(timer)
   }, [])
 
@@ -30,79 +31,116 @@ export default function HeroSection() {
 
   return (
     <section className="relative w-full overflow-hidden">
-      {/* 배경 */}
+      {/* 배경 이미지 */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/main/backgrounds/bg-hero-00.jpg"
-          alt="hero background"
+          alt="배경"
           fill
           className="object-cover"
           priority
         />
-        {/* 오버레이 그래디언트 - 텍스트 가독성을 위한 어두운 오버레이 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
       </div>
 
-      {/* 슬라이드 컨테이너 */}
-      <div className="relative z-10 w-full min-h-[600px] md:min-h-[700px] lg:min-h-[800px]">
+      <div className="relative z-10 w-full min-h-[600px] md:min-h-[700px]">
+        {/* 슬라이드 컨테이너 */}
         <div
-          className="flex transition-transform duration-1000 ease-in-out h-full"
+          className="flex transition-transform duration-700 ease-in-out h-full"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
           {/* 슬라이드 1: HR 솔루션 통합 */}
-          <div className="w-full flex-shrink-0 min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center">
-            <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12 py-16 md:py-24">
+          <div className="w-full flex-shrink-0 min-h-[600px] md:min-h-[700px]">
+            <div className="mx-auto max-w-[1280px] px-6 lg:px-12 py-16 md:py-24">
               <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
                 {/* 왼쪽 텍스트 */}
-                <div className="flex-1 text-center lg:text-left text-white">
-                  <div className="inline-block bg-[#00cc99]/20 border border-[#00cc99]/50 rounded-full px-4 py-2 mb-6">
-                    <p className="text-sm font-semibold text-[#00cc99]">HR 통합 솔루션</p>
-                  </div>
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-                    HR 솔루션이 혹시<br />
-                    <span className="text-[#00cc99]">5개 이상?</span>
+                <div className="flex-1 text-center lg:text-left">
+                  {/* 큰 따옴표 */}
+                  <span className="text-[#e53935] text-6xl md:text-7xl font-serif leading-none">{`"`}</span>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#e53935] mb-6 leading-tight">
+                    HR 솔루션이 혹시 5개 이상?<br />
+                    이제 하나로 통합해보세요.
                   </h2>
-                  <p className="text-base md:text-lg text-gray-200 mb-8 leading-relaxed max-w-lg">
-                    온보딩, 근태, 급여, 평가, 기업문화, 그룹웨어가 따로 노는 비효율은 그만! 에버인 하나로 모든 HR 업무가 완벽하게 연결됩니다.
+                  <p className="text-gray-600 text-base md:text-lg mb-8 leading-relaxed">
+                    온보딩, 근태, 급여, 평가, 기업문화, 그룹웨어가 따로 노는 비효율은 그만!<br />
+                    <span className="text-[#00cc99] underline">에버인</span> 하나로 모든 HR 업무가 완벽하게 연결됩니다.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
-                    <Button asChild className="bg-[#00cc99] hover:bg-[#00b386] text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all">
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
+                    <Button asChild className="bg-[#00cc99] hover:bg-[#00b386] text-white px-8 py-3 rounded-full text-base font-medium">
                       <Link href="/people/smartWorkCare/hr">에버인 맛보기</Link>
                     </Button>
-                    <Button asChild variant="outline" className="border-2 border-white text-white hover:bg-white/10 px-8 py-3 rounded-lg font-semibold">
+                    <Button asChild variant="outline" className="border-2 border-[#00cc99] text-[#00cc99] hover:bg-[#00cc99]/10 px-8 py-3 rounded-full text-base font-medium bg-white">
                       <Link href="/contact">도입 문의</Link>
                     </Button>
                   </div>
-                  <div className="inline-block bg-[#1a5fb4]/80 backdrop-blur-sm text-white px-5 py-3 rounded-lg text-sm font-medium">
-                    <p className="font-semibold">에버웰커밍, 에버타임</p>
-                    <p className="text-xs text-gray-200">스탠다드만 맛보기</p>
+                  <div className="inline-block bg-[#2d5a87] text-white px-5 py-3 rounded-lg text-sm leading-relaxed">
+                    에버웰커밍, 에버타임<br />
+                    스탠다드만 맛보기
                   </div>
                 </div>
 
-                {/* 오른쪽 다이어그램 */}
-                <div className="flex-1 flex justify-center hidden lg:flex">
-                  <div className="relative bg-gradient-to-br from-[#1e3a5f] to-[#0f2334] rounded-2xl p-10 w-full max-w-[500px] shadow-2xl border border-[#00cc99]/20">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#00cc99]/10 to-transparent opacity-50"></div>
-                    <div className="relative flex flex-col items-center space-y-4">
-                      <div className="bg-[#2d5a87] text-white px-6 py-3 rounded-lg text-center font-semibold">
+                {/* 오른쪽 다이어그램 - 흰색 둥근 박스 */}
+                <div className="flex-1 flex justify-center">
+                  <div className="relative bg-white/95 rounded-3xl shadow-2xl p-8 md:p-10 w-full max-w-[520px]">
+                    {/* 상단 - 그룹웨어 */}
+                    <div className="flex justify-center mb-4">
+                      <div className="bg-[#2d5a87] text-white px-8 py-3 rounded-lg text-center font-medium shadow-md">
                         그룹웨어
                       </div>
-                      <div className="flex items-center justify-center gap-6">
-                        <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg font-medium">온보딩</div>
-                        <div className="bg-gradient-to-br from-[#00cc99] to-[#00a876] text-white px-8 py-8 rounded-xl text-center font-bold shadow-lg">
-                          <div>클라우드</div>
-                          <div className="text-lg">HR</div>
-                          <div>에버인</div>
+                    </div>
+
+                    {/* 중간 섹션 */}
+                    <div className="flex items-center justify-center gap-3 mb-4">
+                      {/* 온보딩 */}
+                      <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg text-center font-medium shadow-md">
+                        온보딩
+                      </div>
+
+                      {/* 화살표 + 중앙 + 화살표 */}
+                      <div className="flex items-center gap-2">
+                        <svg className="w-6 h-6 text-[#00cc99]" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M10 17l5-5-5-5v10z"/>
+                        </svg>
+                      </div>
+
+                      {/* 중앙 클라우드 HR 에버인 */}
+                      <div className="relative">
+                        <div className="bg-gradient-to-br from-[#e8faf5] to-[#d0f5eb] border-2 border-[#00cc99] text-gray-800 px-6 py-5 rounded-xl text-center font-bold shadow-lg">
+                          <span className="text-sm">클라우드 HR</span><br />
+                          <span className="text-lg text-[#00cc99]">에버인</span>
                         </div>
-                        <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg font-medium">급여</div>
+                        {/* 빛나는 효과 */}
+                        <div className="absolute -inset-2 bg-[#00cc99]/20 rounded-2xl blur-md -z-10"></div>
                       </div>
-                      <div className="flex items-center justify-center gap-6">
-                        <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg font-medium">근태</div>
-                        <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg font-medium">평가</div>
+
+                      <div className="flex items-center gap-2">
+                        <svg className="w-6 h-6 text-[#00cc99] rotate-180" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M10 17l5-5-5-5v10z"/>
+                        </svg>
                       </div>
-                      <div className="flex items-center justify-center gap-6">
-                        <div className="bg-white text-[#1e3a5f] px-6 py-3 rounded-lg font-semibold">PC OFF</div>
-                        <div className="bg-white text-[#1e3a5f] px-6 py-3 rounded-lg font-semibold">기업문화</div>
+
+                      {/* 급여 */}
+                      <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg text-center font-medium shadow-md">
+                        급여
+                      </div>
+                    </div>
+
+                    {/* 하단 행 - 근태, 평가 */}
+                    <div className="flex items-center justify-center gap-16 mb-6">
+                      <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg text-center font-medium shadow-md">
+                        근태
+                      </div>
+                      <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg text-center font-medium shadow-md">
+                        평가
+                      </div>
+                    </div>
+
+                    {/* 최하단 - PC OFF, 기업문화 */}
+                    <div className="flex items-center justify-center gap-4">
+                      <div className="bg-white border-2 border-[#2d5a87] text-[#2d5a87] px-6 py-3 rounded-lg font-medium shadow-sm">
+                        PC OFF
+                      </div>
+                      <div className="bg-white border-2 border-[#2d5a87] text-[#2d5a87] px-6 py-3 rounded-lg font-medium shadow-sm">
+                        기업문화
                       </div>
                     </div>
                   </div>
@@ -112,67 +150,60 @@ export default function HeroSection() {
           </div>
 
           {/* 슬라이드 2: AI 온보딩 */}
-          <div className="w-full flex-shrink-0 min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center">
-            <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12 py-16 md:py-24">
+          <div className="w-full flex-shrink-0 min-h-[600px] md:min-h-[700px]">
+            <div className="mx-auto max-w-[1280px] px-6 lg:px-12 py-16 md:py-24">
               <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
                 {/* 왼쪽 텍스트 */}
-                <div className="lg:w-1/3 text-center lg:text-left text-white">
-                  <div className="inline-block bg-[#00cc99]/20 border border-[#00cc99]/50 rounded-full px-4 py-2 mb-6">
-                    <p className="text-sm font-semibold text-[#00cc99]">AI 온보딩</p>
-                  </div>
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-                    귀사의 신입사원은<br />
-                    <span className="text-[#00cc99]">오늘 안녕하신가요?</span>
+                <div className="lg:w-[30%] text-center lg:text-left">
+                  <span className="text-[#e53935] text-6xl md:text-7xl font-serif leading-none">{`"`}</span>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#e53935] mb-4 leading-tight">
+                    귀사의 신입사원은<br />오늘 안녕하신가요?
                   </h2>
-                  <p className="text-base md:text-lg text-gray-200 mb-8 leading-relaxed">
-                    신규 입사자 온보딩을 AI빌더로 혁신적으로 운영해보세요. 에버웰커밍이 대한민국 모든 HRer를 응원합니다!
+                  <p className="text-gray-600 text-base md:text-lg mb-8 leading-relaxed">
+                    신규 입사자 온보딩. AI빌더를 활용하여 혁신적으로 운영해보세요!<br />
+                    에버웰커밍이 대한민국 모든 HRer 를 존경하고 응원합니다!
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <Button asChild className="bg-[#00cc99] hover:bg-[#00b386] text-white px-8 py-3 rounded-lg font-semibold shadow-lg">
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                    <Button asChild className="bg-[#00cc99] hover:bg-[#00b386] text-white px-6 py-3 rounded-full">
                       <Link href="/people/smartWorkCare/hr">AI 온보딩 맛보기</Link>
                     </Button>
-                    <Button asChild variant="outline" className="border-2 border-white text-white hover:bg-white/10 px-8 py-3 rounded-lg font-semibold">
+                    <Button asChild variant="outline" className="border-2 border-[#00cc99] text-[#00cc99] hover:bg-[#00cc99]/10 px-6 py-3 rounded-full bg-white">
                       <Link href="/contact">평생 무료 사용</Link>
                     </Button>
                   </div>
                 </div>
-
-                {/* 중앙 영역 */}
-                <div className="lg:w-1/3 flex justify-center">
-                  <div className="bg-gradient-to-br from-[#6b9bd1]/80 to-[#4a7aad]/80 backdrop-blur-sm rounded-2xl w-full max-w-[380px] h-[300px] flex flex-col items-center justify-center text-white p-8 shadow-xl border border-white/20">
-                    <div className="text-center">
-                      <p className="text-lg font-semibold mb-3">실제 AI 빌더 활용해서</p>
-                      <p className="text-lg font-semibold mb-4">영림원 온보딩 콘텐츠가</p>
-                      <p className="text-lg font-semibold">나오는 영상</p>
-                      <p className="text-sm text-gray-100 mt-6">(예시, 영림원 제공)</p>
-                    </div>
+                {/* 중앙 비디오 영역 */}
+                <div className="lg:w-[40%] flex justify-center">
+                  <div className="bg-[#6b9bd1] rounded-xl w-full max-w-[420px] h-[260px] flex flex-col items-center justify-center text-white shadow-xl">
+                    <p className="text-center text-lg font-medium mb-2">실제 AI 빌더 활용해서</p>
+                    <p className="text-center text-lg font-medium mb-2">영림원 온보딩 콘텐츠 나오는 영상</p>
+                    <p className="text-center text-sm mt-4 opacity-80">(예시, 영림원 제공)</p>
                   </div>
                 </div>
-
-                {/* 오른쪽 모바일 */}
-                <div className="lg:w-1/3 flex justify-center hidden lg:flex">
-                  <div className="relative w-[240px] h-[480px] bg-gradient-to-br from-gray-200 to-gray-100 rounded-[44px] border-8 border-gray-300 overflow-hidden shadow-2xl">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-7 bg-gray-300 rounded-b-3xl z-10"></div>
+                {/* 오른쪽 모바일 화면 */}
+                <div className="lg:w-[30%] flex justify-center">
+                  <div className="relative w-[220px] h-[450px] bg-gray-100 rounded-[40px] border-4 border-gray-800 overflow-hidden shadow-2xl">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-gray-800 rounded-b-xl"></div>
                     <div className="p-4 pt-10 h-full overflow-hidden bg-white">
-                      <div className="bg-gradient-to-r from-[#e8faf5] to-[#d0f0e8] rounded-xl p-4 mb-3 shadow-sm">
-                        <p className="text-sm font-semibold text-gray-800">안녕하세요, 김영인님</p>
-                        <p className="text-xs text-gray-600 mt-1">무엇을 도와드릴까요?</p>
+                      <div className="bg-[#f8f9fa] rounded-xl p-3 mb-3">
+                        <p className="text-sm text-gray-800 font-medium">안녕하세요, 김영인님</p>
+                        <p className="text-xs text-gray-500 mt-1">무엇을 도와드릴까요?</p>
                       </div>
-                      <div className="bg-gray-50 rounded-xl p-4 mb-3 shadow-sm">
-                        <p className="text-xs font-semibold text-gray-800 mb-3">자주 찾는 기능</p>
+                      <div className="bg-[#f8f9fa] rounded-xl p-3 mb-3">
+                        <p className="text-xs font-bold text-gray-800 mb-2">자주 찾는 기능</p>
                         <div className="grid grid-cols-2 gap-2">
-                          <div className="bg-[#00cc99]/10 rounded-lg p-2 text-center border border-[#00cc99]/30">
-                            <p className="text-xs font-medium text-gray-700">외근보고</p>
+                          <div className="bg-white rounded-lg p-2 text-center shadow-sm">
+                            <p className="text-xs text-gray-700">외근보고</p>
                           </div>
-                          <div className="bg-[#00cc99]/10 rounded-lg p-2 text-center border border-[#00cc99]/30">
-                            <p className="text-xs font-medium text-gray-700">현황</p>
+                          <div className="bg-white rounded-lg p-2 text-center shadow-sm">
+                            <p className="text-xs text-gray-700">외근보고현황</p>
                           </div>
                         </div>
                       </div>
-                      <div className="bg-gray-50 rounded-xl p-4 shadow-sm">
-                        <p className="text-xs font-semibold text-gray-800 mb-2">오늘의 일정</p>
-                        <p className="text-xs text-gray-700">AI ERP 전략</p>
-                        <p className="text-xs text-gray-500 mt-1">10:00 - 12:00</p>
+                      <div className="bg-[#f8f9fa] rounded-xl p-3">
+                        <p className="text-xs font-bold text-gray-800 mb-1">일정</p>
+                        <p className="text-xs text-gray-600">AI ERP의 3대 혁신전략</p>
+                        <p className="text-xs text-gray-400">10:00 - 12:00</p>
                       </div>
                     </div>
                   </div>
@@ -181,43 +212,37 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* 슬라이드 3: 근태관리 */}
-          <div className="w-full flex-shrink-0 min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center">
-            <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12 py-16 md:py-24">
+          {/* 슬라이드 3: 근태관리 1 hr */}
+          <div className="w-full flex-shrink-0 min-h-[600px] md:min-h-[700px]">
+            <div className="mx-auto max-w-[1280px] px-6 lg:px-12 py-16 md:py-24">
               <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
                 {/* 왼쪽 텍스트 */}
                 <div className="flex-1 text-center lg:text-left">
-                  <div className="inline-block bg-[#00cc99]/20 border border-[#00cc99]/50 rounded-full px-4 py-2 mb-6">
-                    <p className="text-sm font-semibold text-[#00cc99]">근태관리</p>
-                  </div>
-                  <div className="text-7xl md:text-8xl lg:text-9xl font-black text-white drop-shadow-lg mb-4 leading-none">
+                  <div className="text-[100px] md:text-[150px] lg:text-[180px] font-bold text-[#0088cc] leading-none mb-2">
                     1 hr
                   </div>
-                  <p className="text-xl md:text-2xl font-bold text-[#00cc99] mb-6">
+                  <p className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
                     시간단위 연차도 완벽 대응
                   </p>
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-8 leading-tight">
+                  <span className="text-[#e53935] text-5xl md:text-6xl font-serif leading-none">{`"`}</span>
+                  <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#00cc99] mb-6 leading-tight">
                     복잡해지는 근태관리,<br />
-                    <span className="text-[#00cc99]">에버타임이 답을 드립니다</span>
+                    에버타임이 답을 드립니다
                   </h2>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <Button asChild className="bg-[#00cc99] hover:bg-[#00b386] text-white px-8 py-3 rounded-lg font-semibold shadow-lg">
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                    <Button asChild className="bg-[#00cc99] hover:bg-[#00b386] text-white px-6 py-3 rounded-full">
                       <Link href="/people/smartWorkCare/evertime">에버타임 맛보기</Link>
                     </Button>
-                    <Button asChild variant="outline" className="border-2 border-white text-white hover:bg-white/10 px-8 py-3 rounded-lg font-semibold">
-                      <Link href="/contact">7개월 무료 사용</Link>
+                    <Button asChild variant="outline" className="border-2 border-[#00cc99] text-[#00cc99] hover:bg-[#00cc99]/10 px-6 py-3 rounded-full bg-white">
+                      <Link href="/contact">에버타임 7개월 무료 사용</Link>
                     </Button>
                   </div>
                 </div>
-
                 {/* 오른쪽 정보 박스 */}
-                <div className="flex-1 flex justify-center hidden lg:flex">
-                  <div className="bg-gradient-to-br from-[#6b9bd1]/80 to-[#4a7aad]/80 backdrop-blur-sm rounded-2xl w-full max-w-[450px] h-[320px] flex flex-col items-center justify-center text-white p-10 shadow-2xl border border-white/20">
-                    <div className="text-center">
-                      <p className="text-lg font-semibold mb-3">동양여자 1시간 연차 써서</p>
-                      <p className="text-lg font-semibold mb-8">상쾌하게 퇴근하는</p>
-                      <p className="text-lg font-semibold">행복한 모습 이미지</p>
-                    </div>
+                <div className="flex-1 flex justify-center">
+                  <div className="bg-[#6b9bd1] rounded-xl w-full max-w-[480px] h-[300px] flex flex-col items-center justify-center text-white p-8 shadow-xl">
+                    <p className="text-center text-lg font-medium mb-2">동양여자 1시간 연차 써서 퇴근</p>
+                    <p className="text-center text-lg font-medium">리프레쉬 되는 행복한 모습 이미지</p>
                   </div>
                 </div>
               </div>
@@ -225,24 +250,24 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* 좌측 화살표 */}
+        {/* 왼쪽 화살표 */}
         <button
           onClick={goToPrev}
-          className="absolute left-6 top-1/2 z-40 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl"
+          className="absolute left-4 top-1/2 z-40 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all shadow-lg hover:scale-105"
           aria-label="이전 슬라이드"
         >
-          <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
-        {/* 우측 화살표 */}
+        {/* 오른쪽 화살표 */}
         <button
           onClick={goToNext}
-          className="absolute right-6 top-1/2 z-40 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl"
+          className="absolute right-4 top-1/2 z-40 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all shadow-lg hover:scale-105"
           aria-label="다음 슬라이드"
         >
-          <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -255,8 +280,8 @@ export default function HeroSection() {
               onClick={() => goToSlide(idx)}
               className={`rounded-full transition-all ${
                 idx === currentSlide
-                  ? "w-10 h-2.5 bg-[#00cc99] shadow-lg"
-                  : "w-2.5 h-2.5 bg-white/50 hover:bg-white/70"
+                  ? "w-10 h-3 bg-[#00cc99]"
+                  : "w-3 h-3 bg-gray-400 hover:bg-gray-500"
               }`}
               aria-label={`슬라이드 ${idx + 1}`}
             />
