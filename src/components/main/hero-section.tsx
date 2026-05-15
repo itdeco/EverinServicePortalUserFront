@@ -9,11 +9,11 @@ export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const totalSlides = 3
 
-  // 자동 슬라이드 전환 (2초마다)
+  // 자동 슬라이드 전환 (5초마다)
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % totalSlides)
-    }, 2000)
+    }, 5000)
     return () => clearInterval(timer)
   }, [])
 
@@ -80,66 +80,63 @@ export default function HeroSection() {
 
                 {/* 오른쪽 다이어그램 - 흰색 둥근 박스 */}
                 <div className="flex-1 flex justify-center">
-                  <div className="relative bg-white/95 rounded-3xl shadow-2xl p-8 md:p-10 w-full max-w-[520px]">
+                  <div className="relative bg-white rounded-[32px] shadow-xl p-6 md:p-8 w-full max-w-[480px]">
                     {/* 상단 - 그룹웨어 */}
-                    <div className="flex justify-center mb-4">
-                      <div className="bg-[#2d5a87] text-white px-8 py-3 rounded-lg text-center font-medium shadow-md">
+                    <div className="flex justify-center mb-3">
+                      <div className="bg-[#3d5a80] text-white px-10 py-2.5 rounded-lg text-sm font-medium">
                         그룹웨어
                       </div>
                     </div>
 
-                    {/* 중간 섹션 */}
-                    <div className="flex items-center justify-center gap-3 mb-4">
+                    {/* 중간 섹션 - 온보딩, 중앙, 급여 */}
+                    <div className="flex items-center justify-center gap-2 mb-3">
                       {/* 온보딩 */}
-                      <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg text-center font-medium shadow-md">
+                      <div className="bg-[#3d5a80] text-white px-6 py-2.5 rounded-lg text-sm font-medium">
                         온보딩
                       </div>
 
-                      {/* 화살표 + 중앙 + 화살표 */}
-                      <div className="flex items-center gap-2">
-                        <svg className="w-6 h-6 text-[#00cc99]" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M10 17l5-5-5-5v10z"/>
-                        </svg>
-                      </div>
+                      {/* 화살표 */}
+                      <svg className="w-5 h-5 text-[#00cc99] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
 
                       {/* 중앙 클라우드 HR 에버인 */}
-                      <div className="relative">
-                        <div className="bg-gradient-to-br from-[#e8faf5] to-[#d0f5eb] border-2 border-[#00cc99] text-gray-800 px-6 py-5 rounded-xl text-center font-bold shadow-lg">
-                          <span className="text-sm">클라우드 HR</span><br />
-                          <span className="text-lg text-[#00cc99]">에버인</span>
+                      <div className="relative mx-1">
+                        <div className="bg-white border-2 border-[#00cc99] px-5 py-4 rounded-xl text-center shadow-sm">
+                          <span className="text-xs text-gray-700 block">클라우드 HR</span>
+                          <span className="text-base font-bold text-[#00cc99]">에버인</span>
                         </div>
-                        {/* 빛나는 효과 */}
-                        <div className="absolute -inset-2 bg-[#00cc99]/20 rounded-2xl blur-md -z-10"></div>
+                        {/* 글로우 효과 */}
+                        <div className="absolute inset-0 bg-[#00cc99]/10 rounded-xl blur-lg -z-10 scale-110"></div>
                       </div>
 
-                      <div className="flex items-center gap-2">
-                        <svg className="w-6 h-6 text-[#00cc99] rotate-180" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M10 17l5-5-5-5v10z"/>
-                        </svg>
-                      </div>
+                      {/* 화살표 */}
+                      <svg className="w-5 h-5 text-[#00cc99] flex-shrink-0 rotate-180" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
 
                       {/* 급여 */}
-                      <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg text-center font-medium shadow-md">
+                      <div className="bg-[#3d5a80] text-white px-6 py-2.5 rounded-lg text-sm font-medium">
                         급여
                       </div>
                     </div>
 
                     {/* 하단 행 - 근태, 평가 */}
-                    <div className="flex items-center justify-center gap-16 mb-6">
-                      <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg text-center font-medium shadow-md">
+                    <div className="flex items-center justify-center gap-12 mb-4">
+                      <div className="bg-[#3d5a80] text-white px-6 py-2.5 rounded-lg text-sm font-medium">
                         근태
                       </div>
-                      <div className="bg-[#2d5a87] text-white px-5 py-3 rounded-lg text-center font-medium shadow-md">
+                      <div className="bg-[#3d5a80] text-white px-6 py-2.5 rounded-lg text-sm font-medium">
                         평가
                       </div>
                     </div>
 
                     {/* 최하단 - PC OFF, 기업문화 */}
-                    <div className="flex items-center justify-center gap-4">
-                      <div className="bg-white border-2 border-[#2d5a87] text-[#2d5a87] px-6 py-3 rounded-lg font-medium shadow-sm">
+                    <div className="flex items-center justify-center gap-3">
+                      <div className="bg-white border border-gray-300 text-gray-700 px-6 py-2.5 rounded-lg text-sm font-medium">
                         PC OFF
                       </div>
-                      <div className="bg-white border-2 border-[#2d5a87] text-[#2d5a87] px-6 py-3 rounded-lg font-medium shadow-sm">
+                      <div className="bg-white border border-gray-300 text-gray-700 px-6 py-2.5 rounded-lg text-sm font-medium">
                         기업문화
                       </div>
                     </div>
