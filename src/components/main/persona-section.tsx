@@ -6,7 +6,7 @@ const personas = [
   {
     profile: "/images/main/profiles/profile-pro-01.png",
     bigQuoteMark: "/images/main/profiles/profile-01.jpg",
-    name: "박은숙 과장, 34세",
+    name: "박인사 과장, 34세",
     company: "(중소기업 HR 1인 담당자)",
     quote: "신규입사 = 나의 야근지옥",
     need: "나 대신 온보딩 해줄 자동화\n(온보딩만 전담해줄 인력필요)",

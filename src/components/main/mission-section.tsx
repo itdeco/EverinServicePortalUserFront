@@ -146,7 +146,7 @@ export function MissionSection() {
             </p>
 
             {/* 뱃지 */}
-            <div className="relative z-10 mt-auto">
+            <div className="relative z-10 mt-auto flex flex-col gap-2.5">
               <span className="inline-flex items-center gap-2 bg-gradient-to-r from-[#4b6bf5] to-[#00cc99] text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-lg shadow-[#4b6bf5]/20">
                 <svg className="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
