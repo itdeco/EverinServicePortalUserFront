@@ -2,6 +2,7 @@ import Header from "@/components/layout/header"
 import HeroSection from "@/components/main/hero-section"
 import { ClientLogos } from "@/components/main/client-logos"
 import { MissionSection } from "@/components/main/mission-section"
+import { StrategySection } from "@/components/main/strategy-section"
 import { PersonaSection } from "@/components/main/persona-section"
 import { SolutionsSection } from "@/components/main/solutions-section"
 import { TrustBanner } from "@/components/main/trust-banner"
@@ -16,6 +17,7 @@ export default function Home() {
       <HeroSection />
       <ClientLogos />
       <MissionSection />
+      <StrategySection />
       <PersonaSection />
       <SolutionsSection />
       <TrustBanner />
