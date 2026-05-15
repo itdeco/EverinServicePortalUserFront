@@ -26,8 +26,6 @@ export default function HeroSection() {
         backgroundPosition: "center",
       }}
     >
-      {/* 오버레이 그래디언트 - 더 짙게 */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/70 to-[#f0f9f7]/60" />
 
       <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-12 lg:py-20">
