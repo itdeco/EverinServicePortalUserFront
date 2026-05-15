@@ -13,6 +13,7 @@ const radialModules = [
   { label: "근태", angle: 90, color: "#3d5a80" },
   { label: "기업문화", angle: 135, color: "#3d5a80" },
   { label: "PC OFF", angle: 180, color: "#3d5a80" },
+  { label: "온보딩", angle: 225, color: "#3d5a80" },
 ]
 
 export default function HeroSection() {
@@ -25,8 +26,8 @@ export default function HeroSection() {
         backgroundPosition: "center",
       }}
     >
-      {/* 오버레이 그래디언트 */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-transparent" />
+      {/* 오버레이 그래디언트 - 더 짙게 */}
+      <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/70 to-[#f0f9f7]/60" />
 
       <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-12 lg:py-20">
@@ -48,7 +49,7 @@ export default function HeroSection() {
               <Button
                 asChild
                 size="lg"
-                className="px-8 h-12 text-base font-semibold rounded-full text-white border-0 bg-[#00cc99] hover:bg-[#00b386]"
+                className="px-8 h-12 text-base font-semibold rounded-full text-white border-0 bg-gradient-to-r from-[#00cc99] to-[#00a885] hover:from-[#00b386] hover:to-[#008f6f]"
               >
                 <Link href="/trial">에버인 맛보기</Link>
               </Button>
@@ -56,7 +57,7 @@ export default function HeroSection() {
               <Button
                 asChild
                 size="lg"
-                className="px-8 h-12 text-base font-semibold rounded-full text-white border-0 bg-[#00cc99] hover:bg-[#00b386]"
+                className="px-8 h-12 text-base font-semibold rounded-full text-black bg-white border-2 border-[#00cc99] hover:bg-[#f0fffe]"
               >
                 <Link href="/support/inquiry">도입 문의</Link>
               </Button>
