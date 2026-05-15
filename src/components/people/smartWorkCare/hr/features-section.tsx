@@ -101,16 +101,6 @@ export default function HrFeaturesSection() {
                       />
                     ))}
                   </div>
-                  {/* 아이콘 */}
-                  <div className="mb-6 flex justify-center">
-                    <Image
-                      src={feature.icon}
-                      alt={feature.title}
-                      width={56}
-                      height={56}
-                      className="w-14 h-14"
-                    />
-                  </div>
                   <h3 className="text-3xl font-bold text-gray-900 mb-4">
                     {feature.title}
                   </h3>
@@ -176,16 +166,6 @@ export default function HrFeaturesSection() {
                   pointerEvents: activeIndex === idx ? "auto" : "none",
                 }}
               >
-                {/* 아이콘 */}
-                <div className="mb-4 flex justify-center">
-                  <Image
-                    src={feature.icon}
-                    alt={feature.title}
-                    width={48}
-                    height={48}
-                    className="w-12 h-12"
-                  />
-                </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {feature.title}
                 </h3>
@@ -196,7 +176,7 @@ export default function HrFeaturesSection() {
             ))}
           </div>
 
-          {/* 이미지 - PC 스크린샷이므로 가로 전체 사용 */}
+          {/* 이미지 - PC 스���린샷이므로 가로 전체 사용 */}
           <div className="relative w-full h-[260px]">
             {features.map((feature, idx) => (
               <div

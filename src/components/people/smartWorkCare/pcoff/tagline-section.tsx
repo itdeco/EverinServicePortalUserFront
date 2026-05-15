@@ -1,15 +1,17 @@
+import Image from "next/image"
+
 export default function PcOffTaglineSection() {
   return (
     <section className="w-full bg-white py-20 md:py-28">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12 flex flex-col items-center text-center">
         {/* 아이콘 */}
-        <div className="mb-8 w-16 h-16 rounded-2xl bg-[#e8faf5] flex items-center justify-center">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect x="3" y="5" width="26" height="18" rx="2.5" stroke="#00cc99" strokeWidth="2.5"/>
-            <path d="M10 27H22" stroke="#00cc99" strokeWidth="2.5" strokeLinecap="round"/>
-            <path d="M16 23V27" stroke="#00cc99" strokeWidth="2.5" strokeLinecap="round"/>
-            <path d="M11 14L15 18L21 11" stroke="#00cc99" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+        <div className="mb-8">
+          <Image
+            src="/images/main/icons/hero/icon-hero-06.svg"
+            alt="PC-OFF 아이콘"
+            width={64}
+            height={64}
+          />
         </div>
 
         {/* 헤드라인 */}

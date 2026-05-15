@@ -310,16 +310,6 @@ export default function EvertimeFeaturesSection() {
                       />
                     ))}
                   </div>
-                  {/* 아이콘 */}
-                  <div className="mb-6 flex justify-center">
-                    <Image
-                      src={group.icon}
-                      alt={group.title}
-                      width={56}
-                      height={56}
-                      className="w-14 h-14"
-                    />
-                  </div>
                   <h3 className="text-3xl font-bold text-gray-900 mb-4">
                     {group.title}
                   </h3>
@@ -401,16 +391,6 @@ export default function EvertimeFeaturesSection() {
                   pointerEvents: activeGroupIdx === gi ? "auto" : "none",
                 }}
               >
-                {/* 아이콘 */}
-                <div className="mb-4 flex justify-center">
-                  <Image
-                    src={group.icon}
-                    alt={group.title}
-                    width={48}
-                    height={48}
-                    className="w-12 h-12"
-                  />
-                </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {group.title}
                 </h3>

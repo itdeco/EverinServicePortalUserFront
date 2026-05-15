@@ -228,8 +228,8 @@ export default function PcOffFeaturesSection() {
     >
       {/* 데스크탑 고정 패널 */}
       <div className="hidden lg:flex sticky top-20 h-[calc(100vh-5rem)] items-center bg-white">
-        <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-          <div className="flex items-center justify-center gap-16">
+        <div className="mx-auto w-full max-w-[1800px] px-6 lg:px-12 ml-[280px]">
+          <div className="flex items-center justify-start gap-8">
 
             {/* 왼쪽 텍스트 */}
             <div className="w-[320px] shrink-0 relative h-[220px]">
@@ -256,16 +256,6 @@ export default function PcOffFeaturesSection() {
                       />
                     ))}
                   </div>
-                  {/* 아이콘 */}
-                  <div className="mb-6 flex justify-center">
-                    <Image
-                      src={group.icon}
-                      alt={group.title}
-                      width={56}
-                      height={56}
-                      className="w-14 h-14"
-                    />
-                  </div>
                   <h3 className="text-3xl font-bold text-gray-900 mb-4">
                     {group.title}
                   </h3>
@@ -278,14 +268,14 @@ export default function PcOffFeaturesSection() {
 
             {/* 오른쪽 이미지 슬라이더 */}
             <div
-              className="flex items-center justify-center"
-              style={{ width: desktopItemWidth + desktopPeek * 2 }}
+              className="flex items-center justify-center flex-1 ml-8"
+              style={{ minWidth: 720 }}
             >
               <div className="relative">
                 {featureGroups.map((group, gi) => {
                   const h = group.isPC ? "420px" : "480px"
-                  const w = group.isPC ? 580 : 320
-                  const pk = group.isPC ? 60 : 60
+                  const w = group.isPC ? 640 : 320
+                  const pk = group.isPC ? 80 : 60
                   return (
                     <div
                       key={group.id}
@@ -315,8 +305,8 @@ export default function PcOffFeaturesSection() {
                     group={featureGroups[0]}
                     imgIdx={0}
                     height="420px"
-                    itemWidth={580}
-                    peekAmount={60}
+                    itemWidth={640}
+                    peekAmount={80}
                     isMobile={true}
                     isPC={true}
                   />
@@ -357,16 +347,6 @@ export default function PcOffFeaturesSection() {
                   pointerEvents: activeGroupIdx === gi ? "auto" : "none",
                 }}
               >
-                {/* 아이콘 */}
-                <div className="mb-4 flex justify-center">
-                  <Image
-                    src={group.icon}
-                    alt={group.title}
-                    width={48}
-                    height={48}
-                    className="w-12 h-12"
-                  />
-                </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {group.title}
                 </h3>
