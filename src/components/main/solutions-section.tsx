@@ -190,7 +190,7 @@ export function SolutionsSection() {
                     href={hrMainCard.href}
                     className="relative z-10 inline-flex items-center justify-center w-fit px-5 py-2 rounded-full border border-gray-300 bg-white/80 text-gray-700 text-sm font-semibold shadow-sm transition-[box-shadow] duration-200 hover:border-[#00dcaa] hover:bg-[#00dcaa] hover:text-white hover:shadow-lg hover:shadow-[#00dcaa]/25 active:scale-95 cursor-pointer"
                 >
-                  자세히 ��기
+                  자세히 보기
                 </Link>
               </div>
               <div className="relative flex-1 min-h-55">
