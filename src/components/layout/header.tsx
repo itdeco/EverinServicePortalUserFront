@@ -368,6 +368,38 @@ export default function Header() {
                 고객센터
               </SmartLink>
 
+              {/* 구분선 */}
+              <div className="h-6 w-px bg-border mx-2" />
+
+              {/* 외부 사이트 링크 */}
+              <a
+                href="https://www.ksystem.co.kr/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-10 items-center justify-center rounded-md px-3 py-2 transition-colors hover:bg-accent"
+              >
+                <Image
+                  src="/images/header/younglimwon-logo.png"
+                  alt="영림원소프트랩"
+                  width={100}
+                  height={24}
+                  className="object-contain h-auto"
+                />
+              </a>
+              <a
+                href="https://everin.co.kr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-10 items-center justify-center rounded-md px-3 py-2 transition-colors hover:bg-accent"
+              >
+                <Image
+                  src="/images/header/everein-culture-logo.png"
+                  alt="Ever人 기업문화"
+                  width={90}
+                  height={24}
+                  className="object-contain h-auto"
+                />
+              </a>
             </nav>
           </div>
 

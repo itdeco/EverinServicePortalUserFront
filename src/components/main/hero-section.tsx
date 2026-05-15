@@ -1,290 +1,297 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 
+// 원형 배치 아이콘 데이터 - 시계 방향으로 12시부터 시작
+const circleIcons = [
+  { label: "복리후생", icon: "/images/main/icons/hero/icon-hero-08.svg", angle: -144 },
+  { label: "연동", icon: "/images/main/icons/hero/icon-hero-09.svg", angle: -108 },
+  { label: "평가", icon: "/images/main/icons/hero/icon-hero-10.svg", angle: -72 },
+  { label: "신고", icon: "/images/main/icons/hero/icon-hero-01.svg", angle: -36 },
+  { label: "연말정산", icon: "/images/main/icons/hero/icon-hero-02.svg", angle: 0 },
+  { label: "급여관리", icon: "/images/main/icons/hero/icon-hero-03.svg", angle: 36 },
+  { label: "근태관리", icon: "/images/main/icons/hero/icon-hero-04.svg", angle: 72 },
+  { label: "인사관리", icon: "/images/main/icons/hero/icon-hero-05.svg", angle: 108 },
+  { label: "PC-OFF", icon: "/images/main/icons/hero/icon-hero-06.svg", angle: 144 },
+  { label: "온보딩", icon: "/images/main/icons/hero/icon-hero-07.svg", angle: 180 },
+]
+
 export default function HeroSection() {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const totalSlides = 3
-
-  // 자동 슬라이드 전환 (5초마다)
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % totalSlides)
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [])
-
-  const goToSlide = useCallback((index: number) => {
-    setCurrentSlide(index)
-  }, [])
-
-  const goToPrev = useCallback(() => {
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides)
-  }, [])
-
-  const goToNext = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % totalSlides)
-  }, [])
-
   return (
-    <section className="relative w-full overflow-hidden">
-      {/* 배경 이미지 */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/main/backgrounds/bg-hero-00.jpg"
-          alt="배경"
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
+      <section
+          className="relative overflow-hidden min-h-175"
+          style={{
+            backgroundImage: `url('/images/main/backgrounds/bg-hero-00.jpg')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+      >
+        <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
+          <div className="flex flex-col lg:flex-row items-center justify-between pt-24 pb-16 lg:pt-32 lg:pb-24 gap-8 lg:gap-4">
+            {/* Left: Text Content */}
+            <div className="flex-1 max-w-xl z-10 hero-fade-up text-center lg:text-left">
+              <p className="text-gray-600 text-base md:text-lg mb-4 text-center lg:text-left">
+                근태나 급여관리 엑셀로 수기 관리하시나요?
+              </p>
+              <h1 className="flex flex-row items-center justify-center lg:justify-start gap-2 text-[28px] sm:text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 leading-none mb-6 whitespace-nowrap">
+                <span className="whitespace-nowrap">HR 솔루션×AI=</span>
+                <span className="relative inline-block w-[92px] h-[30px] sm:w-[145px] sm:h-[50px] md:w-[180px] md:h-[62px] lg:w-[205px] lg:h-[72px]">
+                  <Image
+                      src="/images/main/icons/hero/everein-wordmark.png"
+                      alt="에버인"
+                      fill
+                      className="object-contain object-left scale-[0.92]"
+                  />
+                </span>
+              </h1>
+              <p className="text-gray-500 text-base leading-relaxed mb-8">
+                에버인의 AI 기반 통합 HR 솔루션으로<br />인사.근태.급여를 한 번에 OK<br />
+                야근지옥에서 이제 탈출시켜드립니다.
+              </p>
+              {/* CTA 버튼 */}
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                <Button
+                  asChild
+                  size="lg"
+                  className="px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
+                  style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
+                >
+                  <Link href="/trial">체험하기</Link>
+                </Button>
 
-      <div className="relative z-10 w-full min-h-[600px] md:min-h-[700px]">
-        {/* 슬라이드 컨테이너 */}
-        <div
-          className="flex transition-transform duration-700 ease-in-out h-full"
-          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-        >
-          {/* 슬라이드 1: HR 솔루션 통합 */}
-          <div className="w-full flex-shrink-0 min-h-[600px] md:min-h-[700px]">
-            <div className="mx-auto max-w-[1280px] px-6 lg:px-12 py-16 md:py-24">
-              <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-                {/* 왼쪽 텍스트 */}
-                <div className="flex-1 text-center lg:text-left">
-                  {/* 큰 따옴표 */}
-                  <span className="text-[#e53935] text-6xl md:text-7xl font-serif leading-none">{`"`}</span>
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#e53935] mb-6 leading-tight">
-                    HR 솔루션이 혹시 5개 이상?<br />
-                    이제 하나로 통합해보세요.
-                  </h2>
-                  <p className="text-gray-600 text-base md:text-lg mb-8 leading-relaxed">
-                    온보딩, 근태, 급여, 평가, 기업문화, 그룹웨어가 따로 노는 비효율은 그만!<br />
-                    <span className="text-[#00cc99] underline">에버인</span> 하나로 모든 HR 업무가 완벽하게 연결됩니다.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
-                    <Button asChild className="bg-[#00cc99] hover:bg-[#00b386] text-white px-8 py-3 rounded-full text-base font-medium">
-                      <Link href="/people/smartWorkCare/hr">에버인 맛보기</Link>
-                    </Button>
-                    <Button asChild variant="outline" className="border-2 border-[#00cc99] text-[#00cc99] hover:bg-[#00cc99]/10 px-8 py-3 rounded-full text-base font-medium bg-white">
-                      <Link href="/contact">도입 문의</Link>
-                    </Button>
-                  </div>
-                  <div className="inline-block bg-[#2d5a87] text-white px-5 py-3 rounded-lg text-sm leading-relaxed">
-                    에버웰커밍, 에버타임<br />
-                    스탠다드만 맛보기
-                  </div>
-                </div>
-
-                {/* 오른쪽 다이어그램 - 흰색 둥근 박스 */}
-                <div className="flex-1 flex justify-center">
-                  <div className="relative bg-white rounded-[32px] shadow-xl p-6 md:p-8 w-full max-w-[480px]">
-                    {/* 상단 - 그룹웨어 */}
-                    <div className="flex justify-center mb-3">
-                      <div className="bg-[#3d5a80] text-white px-10 py-2.5 rounded-lg text-sm font-medium">
-                        그룹웨어
-                      </div>
-                    </div>
-
-                    {/* 중간 섹션 - 온보딩, 중앙, 급여 */}
-                    <div className="flex items-center justify-center gap-2 mb-3">
-                      {/* 온보딩 */}
-                      <div className="bg-[#3d5a80] text-white px-6 py-2.5 rounded-lg text-sm font-medium">
-                        온보딩
-                      </div>
-
-                      {/* 화살표 */}
-                      <svg className="w-5 h-5 text-[#00cc99] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-
-                      {/* 중앙 클라우드 HR 에버인 */}
-                      <div className="relative mx-1">
-                        <div className="bg-white border-2 border-[#00cc99] px-5 py-4 rounded-xl text-center shadow-sm">
-                          <span className="text-xs text-gray-700 block">클라우드 HR</span>
-                          <span className="text-base font-bold text-[#00cc99]">에버인</span>
-                        </div>
-                        {/* 글로우 효과 */}
-                        <div className="absolute inset-0 bg-[#00cc99]/10 rounded-xl blur-lg -z-10 scale-110"></div>
-                      </div>
-
-                      {/* 화살표 */}
-                      <svg className="w-5 h-5 text-[#00cc99] flex-shrink-0 rotate-180" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-
-                      {/* 급여 */}
-                      <div className="bg-[#3d5a80] text-white px-6 py-2.5 rounded-lg text-sm font-medium">
-                        급여
-                      </div>
-                    </div>
-
-                    {/* 하단 행 - 근태, 평가 */}
-                    <div className="flex items-center justify-center gap-12 mb-4">
-                      <div className="bg-[#3d5a80] text-white px-6 py-2.5 rounded-lg text-sm font-medium">
-                        근태
-                      </div>
-                      <div className="bg-[#3d5a80] text-white px-6 py-2.5 rounded-lg text-sm font-medium">
-                        평가
-                      </div>
-                    </div>
-
-                    {/* 최하단 - PC OFF, 기업문화 */}
-                    <div className="flex items-center justify-center gap-3">
-                      <div className="bg-white border border-gray-300 text-gray-700 px-6 py-2.5 rounded-lg text-sm font-medium">
-                        PC OFF
-                      </div>
-                      <div className="bg-white border border-gray-300 text-gray-700 px-6 py-2.5 rounded-lg text-sm font-medium">
-                        기업문화
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border border-[#00cc99] bg-white text-gray-700 px-10 h-14 text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
+                >
+                  <Link href="/support/inquiry">도입문의</Link>
+                </Button>
               </div>
             </div>
-          </div>
 
-          {/* 슬라이드 2: AI 온보딩 */}
-          <div className="w-full flex-shrink-0 min-h-[600px] md:min-h-[700px]">
-            <div className="mx-auto max-w-[1280px] px-6 lg:px-12 py-16 md:py-24">
-              <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-                {/* 왼쪽 텍스트 */}
-                <div className="lg:w-[30%] text-center lg:text-left">
-                  <span className="text-[#e53935] text-6xl md:text-7xl font-serif leading-none">{`"`}</span>
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#e53935] mb-4 leading-tight">
-                    귀사의 신입사원은<br />오늘 안녕하신가요?
-                  </h2>
-                  <p className="text-gray-600 text-base md:text-lg mb-8 leading-relaxed">
-                    신규 입사자 온보딩. AI빌더를 활용하여 혁신적으로 운영해보세요!<br />
-                    에버웰커밍이 대한민국 모든 HRer 를 존경하고 응원합니다!
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-                    <Button asChild className="bg-[#00cc99] hover:bg-[#00b386] text-white px-6 py-3 rounded-full">
-                      <Link href="/people/smartWorkCare/hr">AI 온보딩 맛보기</Link>
-                    </Button>
-                    <Button asChild variant="outline" className="border-2 border-[#00cc99] text-[#00cc99] hover:bg-[#00cc99]/10 px-6 py-3 rounded-full bg-white">
-                      <Link href="/contact">평생 무료 사용</Link>
-                    </Button>
-                  </div>
+            {/* Right: 에버人 Circular Diagram */}
+            <div className="flex-shrink-0 relative w-[400px] h-[400px] sm:w-[420px] sm:h-[420px] lg:w-[560px] lg:h-[560px]">
+
+              {/* 가장 바깥: bg-hero-03 점선 원 (녹색 점들 포함) */}
+              <div className="absolute inset-[1%] z-10">
+                <Image
+                    src="/images/main/backgrounds/bg-hero-03.svg"
+                    alt=""
+                    fill
+                    className="object-contain opacity-90 hero-ring-03"
+                    priority
+                />
+              </div>
+
+              {/* 안쪽: bg-hero-01 그라데이션 원형 */}
+              <div className="absolute inset-[6%] z-20">
+                <Image
+                    src="/images/main/backgrounds/bg-hero-01.svg"
+                    alt=""
+                    fill
+                    className="object-contain hero-ring-01"
+                    priority
+                />
+              </div>
+
+              {/* bg-hero-02: 아이콘 링과 중앙 원 사이 - 흰색 glow 분리 효과 */}
+              <div className="absolute inset-[26%] z-25">
+                <Image
+                    src="/images/main/backgrounds/bg-hero-02.svg"
+                    alt=""
+                    fill
+                    className="object-contain opacity-60 hero-ring-02"
+                    priority
+                />
+              </div>
+
+              {/* 중앙: 흰색 원 + 에버人 워드마크 이미지 */}
+              <div className="absolute inset-[33%] bg-white rounded-full shadow-2xl flex items-center justify-center z-30 hero-center-core">
+                <div className="relative w-[60%] h-[40%]">
+                  <Image
+                      src="/images/main/icons/hero/everein-wordmark.png"
+                      alt="에버인"
+                      fill
+                      className="object-contain hero-ring-00"
+                      priority
+                  />
                 </div>
-                {/* 중앙 비디오 영역 */}
-                <div className="lg:w-[40%] flex justify-center">
-                  <div className="bg-[#6b9bd1] rounded-xl w-full max-w-[420px] h-[260px] flex flex-col items-center justify-center text-white shadow-xl">
-                    <p className="text-center text-lg font-medium mb-2">실제 AI 빌더 활용해서</p>
-                    <p className="text-center text-lg font-medium mb-2">영림원 온보딩 콘텐츠 나오는 영상</p>
-                    <p className="text-center text-sm mt-4 opacity-80">(예시, 영림원 제공)</p>
-                  </div>
-                </div>
-                {/* 오른쪽 모바일 화면 */}
-                <div className="lg:w-[30%] flex justify-center">
-                  <div className="relative w-[220px] h-[450px] bg-gray-100 rounded-[40px] border-4 border-gray-800 overflow-hidden shadow-2xl">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-gray-800 rounded-b-xl"></div>
-                    <div className="p-4 pt-10 h-full overflow-hidden bg-white">
-                      <div className="bg-[#f8f9fa] rounded-xl p-3 mb-3">
-                        <p className="text-sm text-gray-800 font-medium">안녕하세요, 김영인님</p>
-                        <p className="text-xs text-gray-500 mt-1">무엇을 도와드릴까요?</p>
-                      </div>
-                      <div className="bg-[#f8f9fa] rounded-xl p-3 mb-3">
-                        <p className="text-xs font-bold text-gray-800 mb-2">자주 찾는 기능</p>
-                        <div className="grid grid-cols-2 gap-2">
-                          <div className="bg-white rounded-lg p-2 text-center shadow-sm">
-                            <p className="text-xs text-gray-700">외근보고</p>
-                          </div>
-                          <div className="bg-white rounded-lg p-2 text-center shadow-sm">
-                            <p className="text-xs text-gray-700">외근보고현황</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="bg-[#f8f9fa] rounded-xl p-3">
-                        <p className="text-xs font-bold text-gray-800 mb-1">일정</p>
-                        <p className="text-xs text-gray-600">AI ERP의 3대 혁신전략</p>
-                        <p className="text-xs text-gray-400">10:00 - 12:00</p>
-                      </div>
+              </div>
+
+              {/* 아이콘들: bg-hero-01 위에 배치 (radius 35%) */}
+              {circleIcons.map((item, idx) => {
+                const radius = 33
+                const angleRad = (item.angle * Math.PI) / 180
+                const x = 50 + radius * Math.cos(angleRad)
+                const y = 50 + radius * Math.sin(angleRad)
+
+                return (
+                    <div
+                        key={idx}
+                        className="absolute flex flex-col items-center gap-1.5 z-40 hero-circle-icon"
+                        style={{
+                          left: `${x}%`,
+                          top: `${y}%`,
+                          transform: "translate(-50%, -50%)",
+                          animationDelay: `${0.45 + idx * 0.07}s`,
+                        }}
+                    >
+                      <div className="absolute w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-white/35 blur-md" />
+
+                      <Image
+                          src={item.icon}
+                          alt={item.label}
+                          width={36}
+                          height={36}
+                          className="relative z-10 w-8 h-8 lg:w-9 lg:h-9"
+                          style={{
+                            filter:
+                                "drop-shadow(0 3px 8px rgba(0,0,0,0.25)) drop-shadow(0 0 18px rgba(255,255,255,0.95))",
+                          }}
+                      />
+
+                      <span className="relative z-10 text-xs lg:text-sm text-white font-bold whitespace-nowrap drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
+                        {item.label}
+                      </span>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 슬라이드 3: 근태관리 1 hr */}
-          <div className="w-full flex-shrink-0 min-h-[600px] md:min-h-[700px]">
-            <div className="mx-auto max-w-[1280px] px-6 lg:px-12 py-16 md:py-24">
-              <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-                {/* 왼쪽 텍스트 */}
-                <div className="flex-1 text-center lg:text-left">
-                  <div className="text-[100px] md:text-[150px] lg:text-[180px] font-bold text-[#0088cc] leading-none mb-2">
-                    1 hr
-                  </div>
-                  <p className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-                    시간단위 연차도 완벽 대응
-                  </p>
-                  <span className="text-[#e53935] text-5xl md:text-6xl font-serif leading-none">{`"`}</span>
-                  <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#00cc99] mb-6 leading-tight">
-                    복잡해지는 근태관리,<br />
-                    에버타임이 답을 드립니다
-                  </h2>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-                    <Button asChild className="bg-[#00cc99] hover:bg-[#00b386] text-white px-6 py-3 rounded-full">
-                      <Link href="/people/smartWorkCare/evertime">에버타임 맛보기</Link>
-                    </Button>
-                    <Button asChild variant="outline" className="border-2 border-[#00cc99] text-[#00cc99] hover:bg-[#00cc99]/10 px-6 py-3 rounded-full bg-white">
-                      <Link href="/contact">에버타임 7개월 무료 사용</Link>
-                    </Button>
-                  </div>
-                </div>
-                {/* 오른쪽 정보 박스 */}
-                <div className="flex-1 flex justify-center">
-                  <div className="bg-[#6b9bd1] rounded-xl w-full max-w-[480px] h-[300px] flex flex-col items-center justify-center text-white p-8 shadow-xl">
-                    <p className="text-center text-lg font-medium mb-2">동양여자 1시간 연차 써서 퇴근</p>
-                    <p className="text-center text-lg font-medium">리프레쉬 되는 행복한 모습 이미지</p>
-                  </div>
-                </div>
-              </div>
+                )
+              })}
             </div>
           </div>
         </div>
+        <style jsx>{`
+        @keyframes softPulse {
+          0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+          }
+          50% {
+            transform: scale(1.025);
+            box-shadow: 0 28px 70px rgba(0, 220, 170, 0.25);
+          }
+        }
+      
+        @keyframes fadeUp {
+          from {
+            opacity: 0;
+            transform: translateY(24px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      
+        .hero-fade-up {
+          animation: fadeUp 0.8s ease-out both;
+        }
+      
+        .hero-soft-pulse {
+          animation: softPulse 3.5s ease-in-out infinite;
+        }
+        @keyframes iconBloomIn {
+          0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.15) rotate(-12deg);
+            filter: blur(8px);
+          }
 
-        {/* 왼쪽 화살표 */}
-        <button
-          onClick={goToPrev}
-          className="absolute left-4 top-1/2 z-40 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all shadow-lg hover:scale-105"
-          aria-label="이전 슬라이드"
-        >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
+          55% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.18) rotate(3deg);
+            filter: blur(0);
+          }
 
-        {/* 오른쪽 화살표 */}
-        <button
-          onClick={goToNext}
-          className="absolute right-4 top-1/2 z-40 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all shadow-lg hover:scale-105"
-          aria-label="다음 슬라이드"
-        >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
+          78% {
+            transform: translate(-50%, -50%) scale(0.96) rotate(-1deg);
+          }
 
-        {/* 하단 인디케이터 */}
-        <div className="absolute bottom-8 left-1/2 z-40 -translate-x-1/2 flex gap-3">
-          {[0, 1, 2].map((idx) => (
-            <button
-              key={idx}
-              onClick={() => goToSlide(idx)}
-              className={`rounded-full transition-all ${
-                idx === currentSlide
-                  ? "w-10 h-3 bg-[#00cc99]"
-                  : "w-3 h-3 bg-gray-400 hover:bg-gray-500"
-              }`}
-              aria-label={`슬라이드 ${idx + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
+          100% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            filter: blur(0);
+          }
+        }
+
+        .hero-circle-icon {
+          opacity: 0;
+          animation: iconBloomIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+          will-change: transform, opacity, filter;
+          transition: transform 0.25s ease;
+        }
+
+        .hero-circle-icon:hover {
+          transform: translate(-50%, -50%) scale(1.08) !important;
+        }
+
+        @keyframes centerCoreReveal {
+          0% {
+            opacity: 0;
+            transform: scale(0.4);
+            filter: blur(14px);
+          }
+
+          60% {
+            opacity: 1;
+            transform: scale(1.08);
+            filter: blur(0);
+          }
+
+          100% {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+          }
+        }
+
+        .hero-center-core {
+          animation:
+            centerCoreReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) both,
+            softPulse 3.5s ease-in-out 1.1s infinite;
+        }
+        @keyframes ringReveal {
+          0% {
+            opacity: 0;
+            transform: scale(0.7) rotate(-8deg);
+            filter: blur(10px);
+          }
+
+          60% {
+            opacity: 1;
+            transform: scale(1.04) rotate(1deg);
+            filter: blur(0);
+          }
+
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+            filter: blur(0);
+          }
+        }
+
+        .hero-ring-03 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0s forwards;
+        }
+
+        .hero-ring-01 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0.2s forwards;
+        }
+
+        .hero-ring-00 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0.3s forwards;
+        }
+
+        .hero-ring-02 {
+          opacity: 0;
+          animation: ringReveal 0.9s ease-out 0.45s forwards;
+        }
+      `}</style>
+      </section>
   )
 }
