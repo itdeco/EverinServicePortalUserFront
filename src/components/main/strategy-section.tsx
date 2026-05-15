@@ -32,18 +32,13 @@ export function StrategySection() {
 
           {/* 오른쪽: 대시보드 이미지 */}
           <div className="relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
+            <div className="relative rounded-2xl overflow-hidden shadow-xl">
               <img
                 src="/images/main/heroes/strategy-dashboard-ui.jpg"
                 alt="Everin Strategy Dashboard"
                 className="w-full h-auto object-cover"
               />
-              {/* 미묘한 오버레이 */}
-              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/5" />
             </div>
-
-            {/* 배경 장식: 흐릿한 그래디언트 */}
-            <div className="absolute -inset-8 bg-gradient-to-r from-[#00cc99]/5 via-[#4b6bf5]/5 to-[#00cc99]/5 rounded-3xl -z-10 blur-3xl" />
           </div>
         </div>
       </div>
