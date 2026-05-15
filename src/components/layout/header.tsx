@@ -368,11 +368,6 @@ export default function Header() {
                 고객센터
               </SmartLink>
 
-              {/* 구분선 */}
-              <div className="h-6 w-px bg-border mx-2" />
-
-              {/* 외부 사이트 링크 */}
-              </a>
             </nav>
           </div>
 
