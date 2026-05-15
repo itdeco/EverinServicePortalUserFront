@@ -11,7 +11,7 @@ const radialModules = [
   { label: "온보딩", angle: -25, color: "#3d5a80" },    // 우상단
   { label: "급여", angle: 25, color: "#3d5a80" },       // 우측
   { label: "평가", angle: 70, color: "#3d5a80" },       // 우하단
-  { label: "근태", angle: 110, color: "#3d5a80" },      // 하단
+  { label: "근태", angle: 120, color: "#3d5a80" },      // 하단
   { label: "기업문화", angle: 150, color: "#3d5a80" },  // 좌하단
   { label: "PC OFF", angle: -120, color: "#3d5a80" },   // 좌측
 ]
@@ -38,7 +38,7 @@ export default function HeroSection() {
             </h2>
 
             <p className="text-gray-700 text-base md:text-lg mb-8 leading-relaxed">
-              운보딩, 근태, 급여, 평가, 기업문화까지 모든 비즈니스는 그맞<br />
+              온보딩, 근태, 급여, 평가, 기업문화, 그룹웨어가 따로 노는 비효율은 그만!<br />
               에버인 하나로 모든 HR 업무가 완벽하게 연결됩니다.
             </p>
 
