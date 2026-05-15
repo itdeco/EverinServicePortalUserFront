@@ -297,75 +297,13 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              {/* 오른쪽: 근태관리 일러스트 */}
-              <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full">
-                <div className="relative w-full max-w-[480px] h-full flex items-center justify-center">
-                  {/* 메인 카드 */}
-                  <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 w-[380px]">
-                    {/* 헤더 */}
-                    <div className="flex items-center justify-between mb-6">
-                      <div>
-                        <p className="text-sm text-gray-500 mb-1">이번 달 연차 현황</p>
-                        <p className="text-2xl font-black text-gray-900">15일 중 <span className="text-[#00cc99]">8일</span> 사용</p>
-                      </div>
-                      <div
-                        className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg"
-                        style={{ background: "linear-gradient(135deg, #4b6bf5 0%, #00cc99 100%)" }}
-                      >
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* 진행 바 */}
-                    <div className="w-full bg-gray-100 rounded-full h-3 mb-6">
-                      <div
-                        className="h-3 rounded-full"
-                        style={{
-                          width: "53%",
-                          background: "linear-gradient(135deg, #4b6bf5 0%, #00cc99 100%)",
-                        }}
-                      />
-                    </div>
-
-                    {/* 연차 유형 목록 */}
-                    <div className="space-y-3">
-                      {[
-                        { type: "연차", days: "15일", used: "8일", color: "#4b6bf5" },
-                        { type: "시간 연차", days: "무제한", used: "3시간", color: "#00cc99" },
-                        { type: "반차", days: "무제한", used: "2회", color: "#3d5a80" },
-                      ].map((item) => (
-                        <div key={item.type} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                          <div className="flex items-center gap-3">
-                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-                            <span className="text-gray-700 font-medium">{item.type}</span>
-                          </div>
-                          <div className="text-right">
-                            <span className="text-sm text-gray-400">{item.days} /</span>
-                            <span className="text-sm font-bold ml-1" style={{ color: item.color }}>{item.used} 사용</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* 플로팅 요소: 1시간 연차 승인 알림 */}
-                  <div
-                    className="absolute -right-4 -top-4 bg-white rounded-2xl shadow-xl p-3 flex items-center gap-2 animate-bounce"
-                    style={{ animationDuration: "3s" }}
-                  >
-                    <div className="w-8 h-8 rounded-full bg-[#00cc99] flex items-center justify-center">
-                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">연차 신청</p>
-                      <p className="text-sm font-bold text-gray-900">1시간 승인됨</p>
-                    </div>
-                  </div>
-                </div>
+              {/* 오른쪽: 행복한 퇴근 이미지 */}
+              <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full overflow-hidden rounded-3xl shadow-2xl">
+                <img
+                  src="/images/main/heroes/evertime-happy-woman.jpg"
+                  alt="1시간 연차로 행복하게 퇴근하는 여성"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
