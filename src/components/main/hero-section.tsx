@@ -32,7 +32,7 @@ export default function HeroSection() {
           {/* 왼쪽: 텍스트 및 CTA */}
           <div className="flex flex-col justify-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-tight">
-              HR 솔루션이 혹시 <span className="text-red-600">5개 이상</span>?
+              HR 솔루션이 혹시 5개 이상</span>?
               <br />
               <span className="text-red-600">이제 하나로 통합해보세요.</span>
             </h2>
