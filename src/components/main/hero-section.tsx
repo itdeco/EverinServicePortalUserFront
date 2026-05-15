@@ -32,13 +32,13 @@ export default function HeroSection() {
           {/* 왼쪽: 텍스트 및 CTA */}
           <div className="flex flex-col justify-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-tight">
-              HR 솔루션이 혹시 5개 이상</span>?
+              HR 솔루션이 혹시 <span className="text-red-600">5개 이상</span>?
               <br />
               <span className="text-red-600">이제 하나로 통합해보세요.</span>
             </h2>
 
             <p className="text-gray-700 text-base md:text-lg mb-8 leading-relaxed">
-              온보당, 근태, 급여, 평가, 기업문화, 그룹웨어가 따로 노는 비효율은 그만!<br />
+              운보딩, 근태, 급여, 평가, 기업문화까지 모든 비즈니스는 그맞<br />
               에버인 하나로 모든 HR 업무가 완벽하게 연결됩니다.
             </p>
 
