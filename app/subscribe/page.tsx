@@ -508,9 +508,10 @@ function ServiceRow({
           }`}
       >
         <div className="p-4">
-          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div className="flex min-w-0 flex-1 gap-3">
-              <div className="pt-0.5">
+          <div className="flex items-center gap-4 justify-between">
+            {/* Left: Checkbox + Service Info */}
+            <div className="flex min-w-0 flex-1 gap-3 items-center">
+              <div className="pt-0.5 flex-shrink-0">
                 <NativeCheckbox
                     checked={isSelected}
                     onChange={(checked) => onToggleSelected(serviceId, checked)}
@@ -518,119 +519,108 @@ function ServiceRow({
                 />
               </div>
 
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-lg font-bold">{service.serviceName}</span>
+              {/* Service Name + Badge */}
+              <div className="min-w-0 flex-shrink-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-base font-bold text-slate-900">{service.serviceName}</span>
 
                   {service.quoteOnly && (
-                      <Badge variant="outline" className="text-slate-500 border-slate-300">
+                      <Badge variant="outline" className="text-slate-500 border-slate-300 text-xs">
                         별도견적
                       </Badge>
                   )}
 
                   {isSelected && !isQuoteOnlyService && (
-                      <Badge className="text-white border-0" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
+                      <Badge className="text-white border-0 text-xs" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
                         선택됨
                       </Badge>
                   )}
                 </div>
+              </div>
+            </div>
 
-                {service.description && (
-                    <p className="mt-1 text-sm text-slate-500">
-                      {service.description}
-                    </p>
-                )}
+            {/* Middle: Plans + Pricing Info */}
+            <div className="flex items-center gap-4 flex-wrap">
+              {/* Plans */}
+              {service.plans && service.plans.length > 0 && (
+                  <div className="flex gap-2">
+                    {service.plans.map((plan) => {
+                      const isCurrentPlan = currentPlanId === plan.planId;
 
-                {service.plans && service.plans.length > 0 && (
-                    <div className="mt-4">
-                      <Label className="mb-2 block text-xs text-slate-500">
-                        플랜 선택
-                      </Label>
-
-                      <div className="flex flex-wrap gap-2">
-                        {service.plans.map((plan) => {
-                          const isCurrentPlan = currentPlanId === plan.planId;
-
-                          return (
-                              <Label
-                                  key={plan.planId}
-                                  htmlFor={`${serviceId}-${plan.planId}`}
-                                  className={`flex cursor-pointer items-center gap-2 rounded-full border-2 px-4 py-2 text-sm transition ${
-                                      isCurrentPlan
-                                          ? "border-primary bg-primary/10 text-primary"
-                                          : "border-slate-200 bg-slate-50 text-slate-700 hover:border-primary/40"
-                                  } ${
-                                      !isSelected ? "cursor-not-allowed opacity-50" : ""
-                                  }`}
-                              >
-                                <NativeRadio
-                                    id={`${serviceId}-${plan.planId}`}
-                                    name={`plan-${serviceId}`}
-                                    value={plan.planId}
-                                    checked={isCurrentPlan}
-                                    disabled={!isSelected}
-                                    onChange={(value) => onChangePlan(serviceId, value)}
-                                />
-                                <span className="font-medium">{plan.planName}</span>
-                                <span className="text-slate-500">
+                      return (
+                          <Label
+                              key={plan.planId}
+                              htmlFor={`${serviceId}-${plan.planId}`}
+                              className={`flex cursor-pointer items-center gap-1 rounded-full border-2 px-3 py-1.5 text-xs transition flex-shrink-0 ${
+                                  isCurrentPlan
+                                      ? "border-primary bg-primary/10 text-primary"
+                                      : "border-slate-200 bg-slate-50 text-slate-700 hover:border-primary/40"
+                              } ${
+                                  !isSelected ? "cursor-not-allowed opacity-50" : ""
+                              }`}
+                          >
+                            <NativeRadio
+                                id={`${serviceId}-${plan.planId}`}
+                                name={`plan-${serviceId}`}
+                                value={plan.planId}
+                                checked={isCurrentPlan}
+                                disabled={!isSelected}
+                                onChange={(value) => onChangePlan(serviceId, value)}
+                            />
+                            <span className="font-medium">{plan.planName}</span>
+                            <span className="text-slate-500">
                             {plan.quoteOnly
                                 ? "별도견적"
                                 : perPerson(plan.price)}
                           </span>
-                              </Label>
-                          );
-                        })}
-                      </div>
-                    </div>
-                )}
+                          </Label>
+                      );
+                    })}
+                  </div>
+              )}
 
-                {!isQuoteOnlyService && (
-                    <div className="mt-3 flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5">
-                      <span className="text-xs font-medium text-slate-500 whitespace-nowrap">요금 기준</span>
-                      <span className="text-sm font-semibold text-slate-900 whitespace-nowrap">{perPerson(unitPrice)}</span>
-                      <div className="h-4 w-px bg-slate-300 mx-1" />
-                      <span className="text-xs font-medium text-slate-500 whitespace-nowrap">인원</span>
-                      <Input
-                          type="number"
-                          min={0}
-                          value={headcount}
-                          disabled={!isSelected}
-                          onChange={(e) =>
-                              onChangeHeadcount(
-                                  serviceId,
-                                  Number(e.target.value || 0)
-                              )
-                          }
-                          className="h-8 w-20 border-slate-200 bg-white text-sm"
-                      />
-                      <span className="text-xs text-slate-500">명</span>
-                    </div>
-                )}
-              </div>
+              {/* Pricing Info */}
+              {!isQuoteOnlyService && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-medium text-slate-500 whitespace-nowrap">요금 기준</span>
+                    <span className="text-xs font-semibold text-slate-900 whitespace-nowrap">{perPerson(unitPrice)}</span>
+                    <div className="h-3 w-px bg-slate-300" />
+                    <span className="text-xs font-medium text-slate-500 whitespace-nowrap">인원</span>
+                    <Input
+                        type="number"
+                        min={0}
+                        value={headcount}
+                        disabled={!isSelected}
+                        onChange={(e) =>
+                            onChangeHeadcount(
+                                serviceId,
+                                Number(e.target.value || 0)
+                            )
+                        }
+                        className="h-7 w-16 border-slate-200 bg-white text-xs"
+                    />
+                    <span className="text-xs text-slate-500 whitespace-nowrap">명</span>
+                  </div>
+              )}
             </div>
 
-            <div className="flex items-center gap-3 md:pl-4">
-              <div className="text-right">
-                <div className="text-xl font-bold text-slate-900">
+            {/* Right: Total Price + Chevron */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="text-right min-w-24">
+                <div className="text-lg font-bold text-slate-900">
                   {isQuoteOnlyService ? (
-                      <span className="font-bold" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"}}>견적요청</span>
+                      <span className="font-bold text-sm" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"}}>견적요청</span>
                   ) : (
                       currency(serviceTotal)
                   )}
                 </div>
-
-                {isSelected && hasSubServices && !isQuoteOnlyService && (
-                    <div className="mt-1 text-xs text-slate-500">
-                      하위 서비스 포함
-                    </div>
-                )}
               </div>
 
               {hasSubServices && (
                   <button
                       type="button"
                       onClick={() => onToggleOpen(serviceId)}
-                      className="rounded-full p-2 transition hover:bg-slate-100"
+                      className="rounded-full p-1.5 transition hover:bg-slate-100 flex-shrink-0"
                       aria-label="하위 서비스 열기"
                   >
                     {open[serviceId] ? (
