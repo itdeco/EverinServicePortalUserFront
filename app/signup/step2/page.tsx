@@ -174,16 +174,26 @@ export default function SignUpStep2Page() {
                         {/* 중앙 메시지 */}
                         <div className="flex-1 flex flex-col justify-center max-w-lg pt-16">
                             <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-6">
-                                회원가입
-                                <br />
+                                지금 시작하면<br />
                                 <span className="bg-gradient-to-r from-[#00cc99] to-[#4b6bf5] bg-clip-text text-transparent">
-                                    계속하기
+                                    6개월 무료!
                                 </span>
                             </h1>
                             <p className="text-lg text-gray-400 leading-relaxed">
-                                이메일로 발송된 인증 코드를<br />
-                                입력하여 본인임을 확인해주세요.
+                                급여, 근태, 평가, 온보딩까지<br />
+                                하나의 플랫폼에서 모든 HR 업무를 관리하세요.
                             </p>
+                            {/* 혜택 */}
+                            <div className="grid grid-cols-2 gap-6 mt-12 pt-8 border-t border-white/10">
+                                <div>
+                                    <p className="text-3xl font-bold text-[#00cc99]">6개월</p>
+                                    <p className="text-sm text-gray-500 mt-1">무료 체험</p>
+                                </div>
+                                <div>
+                                    <p className="text-3xl font-bold text-[#4b6bf5]">100%</p>
+                                    <p className="text-sm text-gray-500 mt-1">전 기능</p>
+                                </div>
+                            </div>
                         </div>
 
                         {/* 하단: 영림원소프트랩 로고 */}

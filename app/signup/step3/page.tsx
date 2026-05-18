@@ -337,14 +337,12 @@ export default function SignUpStep3Page() {
             {/* 최대 너비 컨테이너 */}
             <div className="flex flex-col lg:flex-row w-full lg:max-w-7xl lg:mx-auto">
                 {/* 왼쪽: 브랜딩 영역 */}
-                <div
-                    className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]">
+                <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]">
                     {/* 배경 블러 */}
                     <div className="absolute inset-0 opacity-20">
-                        <div className="absolute top-20 left-20 w-72 h-72 bg-[#00cc99] rounded-full blur-[120px]"/>
-                        <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#4b6bf5] rounded-full blur-[150px]"/>
-                        <div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#00cc99]/50 rounded-full blur-[100px]"/>
+                        <div className="absolute top-20 left-20 w-72 h-72 bg-[#00cc99] rounded-full blur-[120px]" />
+                        <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#4b6bf5] rounded-full blur-[150px]" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#00cc99]/50 rounded-full blur-[100px]" />
                     </div>
                     {/* 그리드 패턴 */}
                     <div
@@ -372,17 +370,26 @@ export default function SignUpStep3Page() {
                         {/* 중앙 메시지 */}
                         <div className="flex-1 flex flex-col justify-center max-w-lg pt-16">
                             <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-6">
-                                프로필
-                                <br/>
-                                <span
-                                    className="bg-gradient-to-r from-[#00cc99] to-[#4b6bf5] bg-clip-text text-transparent">
-                                    설정하기
+                                지금 시작하면<br />
+                                <span className="bg-gradient-to-r from-[#00cc99] to-[#4b6bf5] bg-clip-text text-transparent">
+                                    6개월 무료!
                                 </span>
                             </h1>
                             <p className="text-lg text-gray-400 leading-relaxed">
-                                프로필 세부내역을 입력하시면<br/>
-                                회원가입이 완료됩니다.
+                                급여, 근태, 평가, 온보딩까지<br />
+                                하나의 플랫폼에서 모든 HR 업무를 관리하세요.
                             </p>
+                            {/* 혜택 */}
+                            <div className="grid grid-cols-2 gap-6 mt-12 pt-8 border-t border-white/10">
+                                <div>
+                                    <p className="text-3xl font-bold text-[#00cc99]">6개월</p>
+                                    <p className="text-sm text-gray-500 mt-1">무료 체험</p>
+                                </div>
+                                <div>
+                                    <p className="text-3xl font-bold text-[#4b6bf5]">100%</p>
+                                    <p className="text-sm text-gray-500 mt-1">전 기능</p>
+                                </div>
+                            </div>
                         </div>
 
                         {/* 하단: 영림원소프트랩 로고 */}

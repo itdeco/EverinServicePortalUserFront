@@ -21,7 +21,7 @@ const ComingSoonOverlay = ({ children }: { children: React.ReactNode }) => {
       <div className="relative">
         {children}
 
-        <div className="absolute inset-0 z-30 flex items-center justify-center rounded-[2rem] bg-white/55 backdrop-blur-[3px] border border-white/60">
+        <div className="absolute inset-0 z-30 flex items-center justify-center rounded-[2rem] bg-white/20 backdrop-blur-[3px] border border-white/20">
           <div className="px-8 py-4 rounded-full bg-gray-900/70 text-white text-2xl md:text-3xl font-black tracking-tight shadow-xl">
             변경예정
           </div>
