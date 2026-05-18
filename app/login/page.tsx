@@ -558,7 +558,7 @@ export default function LoginPage() {
                     {/* 하단: 영림원소프트랩 로고 */}
                     <div>
                         <Image
-                            src="/public/images/main/softlab-logo-light.svg"
+                            src="/images/main/softlab-logo-light.svg"
                             alt="영림원소프트랩"
                             width={160}
                             height={32}
