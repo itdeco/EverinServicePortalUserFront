@@ -516,7 +516,7 @@ export default function LoginPage() {
 
                 <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full h-full">
                     {/* 로고 - 전체 너비 흰색 배경 */}
-                    <div className="absolute top-0 left-0 right-0 bg-white/5 backdrop-blur-sm border-b border-white/10 px-12 xl:px-16 py-6">
+                    <div className="absolute top-0 left-0 right-0 bg-white/20 border-b border-white/20 px-12 xl:px-16 py-6">
                         <Link href="/" className="w-fit">
                             <Image
                                 src="/images/header/ever-person-logo.png"
@@ -598,7 +598,7 @@ export default function LoginPage() {
                             <p className="text-muted-foreground">에버人 서비스에 로그인하세요</p>
                         </div>
 
-                        {/* 폼 영역 */}
+                        {/* ��� 영역 */}
                         <div className="space-y-5">
                             {/* Email Field */}
                             <div className="space-y-2">
