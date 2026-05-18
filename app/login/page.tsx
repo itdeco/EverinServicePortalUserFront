@@ -453,7 +453,7 @@ export default function LoginPage() {
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between py-3">
-                                        <span className="text-sm font-medium text-muted-foreground">���면 계정 처리일</span>
+                                        <span className="text-sm font-medium text-muted-foreground">�����면 계정 처리일</span>
                                         <span className="text-sm font-semibold text-foreground">
                                             {profile?.dormantDate
                                                 ? DateUtil.formattedDate(profile.dormantDate.toLocaleString(), true)
@@ -516,17 +516,15 @@ export default function LoginPage() {
 
                 <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full h-full">
                     {/* 로고 - 헤더와 동일한 이미지 */}
-                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 w-fit">
-                        <Link href="/">
-                            <Image
-                                src="/images/header/ever-person-logo.png"
-                                alt="에버人 로고"
-                                width={140}
-                                height={40}
-                                className="h-10 w-auto"
-                            />
-                        </Link>
-                    </div>
+                    <Link href="/" className="w-fit">
+                        <Image
+                            src="/images/header/ever-person-logo.png"
+                            alt="에버人 로고"
+                            width={140}
+                            height={40}
+                            className="h-10 w-auto"
+                        />
+                    </Link>
 
                     {/* 중앙 메시지 */}
                     <div className="flex-1 flex flex-col justify-center max-w-lg">
@@ -744,7 +742,7 @@ export default function LoginPage() {
                             </Button>
                         </div>
 
-                        {/* 보안/속도/지원 */}
+                        {/* 보안/속도 */}
                         <div className="mt-8 pt-6 border-t border-border flex items-center justify-center gap-8">
                             <div className="flex items-center gap-1.5 text-muted-foreground">
                                 <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -757,12 +755,6 @@ export default function LoginPage() {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                                 </svg>
                                 <span className="text-xs">빠른 속도</span>
-                            </div>
-                            <div className="flex items-center gap-1.5 text-muted-foreground">
-                                <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
-                                <span className="text-xs">24/7 지원</span>
                             </div>
                         </div>
                     </div>
