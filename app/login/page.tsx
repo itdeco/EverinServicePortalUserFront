@@ -515,24 +515,19 @@ export default function LoginPage() {
                 />
 
                 <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full h-full">
-                    {/* 로고 - 전체 너비 흰색 배경 */}
-                    <div className="absolute top-0 left-0 right-0 bg-white/20 border-b border-white/20 px-12 xl:px-16 py-6">
-                        <Link href="/" className="w-fit">
-                            <Image
-                                src="/images/header/ever-person-logo.png"
-                                alt="에버人 로고"
-                                width={140}
-                                height={40}
-                                className="h-10 w-auto"
-                            />
-                        </Link>
-                    </div>
-
-                    {/* 콘텐츠 (상단 여백 추가) */}
-                    <div className="pt-20" />
+                    {/* 로고 - 헤더와 동일한 이미지 */}
+                    <Link href="/" className="w-fit">
+                        <Image
+                            src="/images/header/ever-person-logo.png"
+                            alt="에버人 로고"
+                            width={140}
+                            height={40}
+                            className="h-10 w-auto"
+                        />
+                    </Link>
 
                     {/* 중앙 메시지 */}
-                    <div className="flex-1 flex flex-col justify-center max-w-lg pt-16">
+                    <div className="flex-1 flex flex-col justify-center max-w-lg">
                         <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-6">
                             HR의 모든 것,<br />
                             <span className="bg-gradient-to-r from-[#00cc99] to-[#4b6bf5] bg-clip-text text-transparent">
@@ -598,7 +593,7 @@ export default function LoginPage() {
                             <p className="text-muted-foreground">에버人 서비스에 로그인하세요</p>
                         </div>
 
-                        {/* ��� 영역 */}
+                        {/* 폼 영역 */}
                         <div className="space-y-5">
                             {/* Email Field */}
                             <div className="space-y-2">
