@@ -633,7 +633,7 @@ function ServiceRow({
           )}
         </div>
 
-        {hasSubServices && (
+        {hasSubServices && isSelected && (
             <AnimatePresence initial={false}>
               {open[serviceId] && (
                   <motion.div
@@ -993,22 +993,9 @@ function SubscribeContent() {
                     {" "}통합 서비스
                   </span>
                 </h1>
-                <p className="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8">
+                <p className="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
                   서비스, 플랜, 하위 서비스, 인원을 선택하면 총 견적이 실시간으로 반영됩니다.
                 </p>
-                <div className="flex flex-wrap items-center justify-center gap-4">
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <CheckCircle className="h-5 w-5 text-cyan-400" />
-                    <span className="text-sm">실시간 견적 계산</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <CheckCircle className="h-5 w-5 text-cyan-400" />
-                    <span className="text-sm">맞춤형 서비스 구성</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <CheckCircle className="h-5 w-5 text-cyan-400" />
-                    <span className="text-sm">즉시 구독 가능</span>
-                  </div>
                 </div>
               </div>
             </div>
