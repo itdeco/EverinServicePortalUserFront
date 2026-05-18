@@ -796,6 +796,7 @@ export default function LoginPage() {
                                     </span>
                                 )}
                             </Button>
+                            </div>
                         </div>
 
                         {/* Divider */}
