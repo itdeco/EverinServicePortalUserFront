@@ -27,7 +27,7 @@ export default function Footer() {
               className="inline-block w-fit"
             >
               <img 
-                src="https://www.evertime.co.kr/assets/img/softlab-logo-light.svg" 
+                src="/public/images/main/softlab-logo-light.svg" 
                 alt="영림원소프트랩" 
                 className="h-7"
               />

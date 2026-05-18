@@ -453,7 +453,7 @@ export default function LoginPage() {
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between py-3">
-                                        <span className="text-sm font-medium text-muted-foreground">휴면 계정 처리일</span>
+                                        <span className="text-sm font-medium text-muted-foreground">���면 계정 처리일</span>
                                         <span className="text-sm font-semibold text-foreground">
                                             {profile?.dormantDate
                                                 ? DateUtil.formattedDate(profile.dormantDate.toLocaleString(), true)
@@ -558,7 +558,7 @@ export default function LoginPage() {
                     {/* 하단: 영림원소프트랩 로고 */}
                     <div>
                         <Image
-                            src="/assets/img/softlab-logo-light.svg"
+                            src="/public/images/main/softlab-logo-light.svg"
                             alt="영림원소프트랩"
                             width={160}
                             height={32}
