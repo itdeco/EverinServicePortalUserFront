@@ -509,87 +509,82 @@ function ServiceRow({
       >
         <div className="p-4 space-y-3">
           {/* Main Row */}
-          <div className="flex items-center gap-4 justify-between">
-            {/* Left: Checkbox + Service Info */}
-            <div className="flex min-w-0 flex-1 gap-3 items-center">
-              <div className="pt-0.5 flex-shrink-0">
+          <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4 md:justify-between">
+            {/* Top / Left: Checkbox + Service Name + Badge */}
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              <div className="flex-shrink-0">
                 <NativeCheckbox
                     checked={isSelected}
                     onChange={(checked) => onToggleSelected(serviceId, checked)}
                     ariaLabel={`${service.serviceName} 선택`}
                 />
               </div>
-
-              {/* Service Name + Badge */}
-              <div className="min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-base font-bold text-slate-900">{service.serviceName}</span>
-
-                  {service.quoteOnly && (
-                      <Badge variant="outline" className="text-slate-500 border-slate-300 text-xs">
-                        별도견적
-                      </Badge>
-                  )}
-
-                  {isSelected && !isQuoteOnlyService && (
-                      <Badge className="text-white border-0 text-xs" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
-                        선택됨
-                      </Badge>
-                  )}
-                </div>
+              <div className="min-w-0 flex items-center gap-2 flex-wrap">
+                <span className="text-base font-bold text-slate-900">{service.serviceName}</span>
+                {service.quoteOnly && (
+                    <Badge variant="outline" className="text-slate-500 border-slate-300 text-xs">
+                      별도견적
+                    </Badge>
+                )}
+                {isSelected && !isQuoteOnlyService && (
+                    <Badge className="text-white border-0 text-xs" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
+                      선택됨
+                    </Badge>
+                )}
               </div>
             </div>
 
-            {/* Middle: Pricing Info */}
-            {!isQuoteOnlyService && (
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <span className="text-xs font-medium text-slate-500 whitespace-nowrap">요금 기준</span>
-                  <span className="text-xs font-semibold text-slate-900 whitespace-nowrap">{perPerson(unitPrice)}</span>
-                  <div className="h-3 w-px bg-slate-300" />
-                  <span className="text-xs font-medium text-slate-500 whitespace-nowrap">인원</span>
-                  <Input
-                      type="number"
-                      min={0}
-                      value={headcount}
-                      disabled={!isSelected}
-                      onChange={(e) =>
-                          onChangeHeadcount(
-                              serviceId,
-                              Number(e.target.value || 0)
-                          )
-                      }
-                      className="h-7 w-16 border-slate-200 bg-white text-xs"
-                  />
-                  <span className="text-xs text-slate-500 whitespace-nowrap">명</span>
-                </div>
-            )}
-
-            {/* Right: Total Price + Chevron */}
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <div className="text-right min-w-24">
-                <div className="text-lg font-bold text-slate-900">
-                  {isQuoteOnlyService ? (
-                      <span className="font-bold text-sm" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"}}>견적요청</span>
-                  ) : (
-                      currency(serviceTotal)
-                  )}
-                </div>
-              </div>
-
-        {hasSubServices && isSelected && (
-                  <button
-                      type="button"
-                      onClick={() => onToggleOpen(serviceId)}
-                      className="rounded-full p-1.5 transition hover:bg-slate-100 flex-shrink-0"
-                      aria-label="하위 서비스 열기"
-                  >
-                    {open[serviceId] ? (
-                        <ChevronDown className="h-5 w-5 text-slate-500" />
-                    ) : (
-                        <ChevronRight className="h-5 w-5 text-slate-500" />
-                    )}
-                  </button>
+            {/* Bottom(mobile) / Middle(desktop): Pricing Info + Total + Chevron */}
+            <div className="flex items-center gap-2 pl-7 md:pl-0">
+              {!isQuoteOnlyService && (
+                  <div className="flex items-center gap-2 flex-1 md:flex-none flex-wrap">
+                    <span className="text-xs font-medium text-slate-500 whitespace-nowrap">요금 기준</span>
+                    <span className="text-xs font-semibold text-slate-900 whitespace-nowrap">{perPerson(unitPrice)}</span>
+                    <div className="h-3 w-px bg-slate-300" />
+                    <span className="text-xs font-medium text-slate-500 whitespace-nowrap">인원</span>
+                    <Input
+                        type="number"
+                        min={0}
+                        value={headcount}
+                        disabled={!isSelected}
+                        onChange={(e) =>
+                            onChangeHeadcount(
+                                serviceId,
+                                Number(e.target.value || 0)
+                            )
+                        }
+                        className="h-7 w-16 border-slate-200 bg-white text-xs"
+                    />
+                    <span className="text-xs text-slate-500 whitespace-nowrap">명</span>
+                  </div>
               )}
+
+              <div className="flex items-center gap-2 ml-auto flex-shrink-0">
+                <div className="text-right">
+                  <div className="text-lg font-bold text-slate-900 whitespace-nowrap">
+                    {isQuoteOnlyService ? (
+                        <span className="font-bold text-sm" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"}}>견적요청</span>
+                    ) : (
+                        currency(serviceTotal)
+                    )}
+                  </div>
+                </div>
+
+                {hasSubServices && isSelected && (
+                    <button
+                        type="button"
+                        onClick={() => onToggleOpen(serviceId)}
+                        className="rounded-full p-1.5 transition hover:bg-slate-100 flex-shrink-0"
+                        aria-label="하위 서비스 열기"
+                    >
+                      {open[serviceId] ? (
+                          <ChevronDown className="h-5 w-5 text-slate-500" />
+                      ) : (
+                          <ChevronRight className="h-5 w-5 text-slate-500" />
+                      )}
+                    </button>
+                )}
+              </div>
             </div>
           </div>
 
@@ -666,8 +661,8 @@ function ServiceRow({
                                         : "border-slate-200"
                                 }`}
                             >
-                              <div className="flex items-center justify-between gap-3">
-                                {/* Left: checkbox + name/desc/price */}
+                              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between md:gap-3">
+                                {/* Checkbox + name/desc/price */}
                                 <div className="flex items-center gap-3 min-w-0 flex-1">
                                   <NativeCheckbox
                                       checked={isSubSelected}
@@ -677,24 +672,27 @@ function ServiceRow({
                                       ariaLabel={`${sub.serviceName} 선택`}
                                       disabled={!isSelected}
                                   />
-                                  <div className="flex items-center gap-2 min-w-0 flex-1">
-                                    <span className="text-sm font-semibold text-slate-900 whitespace-nowrap">{sub.serviceName}</span>
-                                    {sub.description && (
-                                        <span className="text-xs text-slate-500 whitespace-nowrap">{sub.description}</span>
-                                    )}
-                                    {!sub.quoteOnly && (
-                                        <span className="text-xs text-slate-400 whitespace-nowrap">{perPerson(sub.price)}</span>
-                                    )}
-                                    {sub.quoteOnly && (
-                                        <Badge variant="outline" className="text-xs text-slate-500 border-slate-300 whitespace-nowrap">
-                                          견적요청
-                                        </Badge>
-                                    )}
+                                  {/* Mobile: stacked / Desktop: inline */}
+                                  <div className="min-w-0 flex-1">
+                                    <div className="flex flex-col md:flex-row md:items-center md:gap-2">
+                                      <span className="text-sm font-semibold text-slate-900">{sub.serviceName}</span>
+                                      {sub.description && (
+                                          <span className="text-xs text-slate-500 md:whitespace-nowrap">{sub.description}</span>
+                                      )}
+                                      {!sub.quoteOnly && (
+                                          <span className="text-xs text-slate-400 md:whitespace-nowrap">{perPerson(sub.price)}</span>
+                                      )}
+                                      {sub.quoteOnly && (
+                                          <Badge variant="outline" className="text-xs text-slate-500 border-slate-300 w-fit">
+                                            견적요청
+                                          </Badge>
+                                      )}
+                                    </div>
                                   </div>
                                 </div>
 
                                 {/* Right: headcount + total */}
-                                <div className="flex items-center gap-3 flex-shrink-0">
+                                <div className="flex items-center gap-3 flex-shrink-0 pl-7 md:pl-0">
                                   {!sub.quoteOnly ? (
                                       <>
                                         <Input
