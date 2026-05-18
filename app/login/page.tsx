@@ -590,20 +590,22 @@ export default function LoginPage() {
                 <main className="flex-1 flex items-center justify-center px-6 py-8 lg:px-12 xl:px-16">
                     <div className="w-full max-w-md">
                         {/* Title */}
-                        <div className="mb-8">
-                            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">다시 만나서 반가워요!</h1>
-                            <p className="text-muted-foreground">에버人 서비스에 로그인하세요</p>
+                        <div className="mb-10">
+                            <h1 className="text-3xl font-bold text-foreground mb-3">다시 만나서 반가워요!</h1>
+                            <p className="text-base text-muted-foreground">에버人 서비스에 로그인하세요</p>
                         </div>
 
-                        {/* 폼 영역 */}
-                        <div className="space-y-5">
+                        {/* Form Card */}
+                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+                            {/* 폼 영역 */}
+                            <div className="space-y-5">
                             {/* Email Field */}
                             <div className="space-y-2">
-                                <Label htmlFor="loginId" className="text-sm font-medium text-foreground">
+                                <Label htmlFor="loginId" className="text-sm font-semibold text-gray-700">
                                     이메일
                                 </Label>
                                 <div className="relative">
-                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                                     <Input
                                         type="email"
                                         id="loginId"
@@ -612,10 +614,10 @@ export default function LoginPage() {
                                         onChange={onChangeTextBox}
                                         onKeyDown={onTextKeyDown}
                                         autoComplete="off"
-                                        className={`h-12 pl-12 pr-4 rounded-xl border-2 transition-all ${
+                                        className={`h-11 pl-12 pr-4 rounded-lg border transition-all bg-gray-50 text-sm ${
                                             isEmailInvalid
-                                                ? "border-destructive focus:border-destructive focus:ring-destructive/20"
-                                                : "border-input focus:border-primary focus:ring-primary/20"
+                                                ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10"
+                                                : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
                                         }`}
                                         placeholder="name@example.com"
                                     />
@@ -632,11 +634,11 @@ export default function LoginPage() {
 
                             {/* Password Field */}
                             <div className="space-y-2">
-                                <Label htmlFor="password" className="text-sm font-medium text-foreground">
+                                <Label htmlFor="password" className="text-sm font-semibold text-gray-700">
                                     비밀번호
                                 </Label>
                                 <div className="relative">
-                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                                     <Input
                                         type={showPassword ? "text" : "password"}
                                         id="password"
@@ -645,17 +647,17 @@ export default function LoginPage() {
                                         onChange={onChangeTextBox}
                                         onKeyDown={onTextKeyDown}
                                         autoComplete="new-password"
-                                        className={`h-12 pl-12 pr-12 rounded-xl border-2 transition-all ${
+                                        className={`h-11 pl-12 pr-12 rounded-lg border transition-all bg-gray-50 text-sm ${
                                             passwordNotMatch
-                                                ? "border-destructive focus:border-destructive focus:ring-destructive/20"
-                                                : "border-input focus:border-primary focus:ring-primary/20"
+                                                ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10"
+                                                : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
                                         }`}
                                         placeholder="비밀번호 입력"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                                     >
                                         {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                                     </button>
@@ -671,18 +673,94 @@ export default function LoginPage() {
                             </div>
 
                             {/* Remember Me & Forgot Password */}
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between pt-2">
                                 <div className="flex items-center gap-2">
                                     <Checkbox
                                         id="saveId"
                                         checked={saveId}
                                         onCheckedChange={onChangeSaveID}
-                                        className="rounded"
+                                        className="rounded border-gray-300"
                                     />
-                                    <Label htmlFor="saveId" className="text-sm text-muted-foreground cursor-pointer">
+                                    <Label htmlFor="saveId" className="text-sm text-gray-600 cursor-pointer font-medium">
                                         아이디 저장
                                     </Label>
                                 </div>
+                                <Link
+                                    href={ROUTES.FIND}
+                                    className="text-sm text-primary hover:text-primary/80 font-medium transition-colors"
+                                >
+                                    찾기
+                                </Link>
+                            </div>
+
+                            {/* Login Button */}
+                            <Button
+                                type="button"
+                                onClick={onClickLogin}
+                                disabled={!canLogin || isLoading}
+                                className={`w-full h-11 rounded-lg text-base font-semibold transition-all mt-6 ${
+                                    canLogin
+                                        ? "bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg hover:scale-[1.01]"
+                                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                }`}
+                            >
+                                {isLoading ? (
+                                    <div className="flex items-center gap-2">
+                                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                        </svg>
+                                        로그인 중...
+                                    </div>
+                                ) : (
+                                    <span className="flex items-center justify-center gap-2">
+                                        로그인
+                                        <ArrowRight className="h-5 w-5" />
+                                    </span>
+                                )}
+                            </Button>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="relative my-8">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-gray-200" />
+                            </div>
+                            <div className="relative flex justify-center text-sm">
+                                <span className="px-4 bg-background text-muted-foreground font-medium">또는</span>
+                            </div>
+                        </div>
+
+                        {/* Sign Up CTA */}
+                        <div className="text-center">
+                            <p className="text-muted-foreground mb-4 text-sm">아직 회원이 아니신가요?</p>
+                            <Button
+                                variant="outline"
+                                asChild
+                                className="w-full h-11 rounded-lg text-base font-semibold border-2 border-gray-200 hover:bg-gray-50 transition-all"
+                            >
+                                <Link href={ROUTES.SIGNUP} className="flex items-center justify-center gap-2">
+                                    <CheckCircle2 className="h-5 w-5" />
+                                    무료로 시작하기
+                                </Link>
+                            </Button>
+                        </div>
+
+                        {/* 보안/속도 */}
+                        <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-center gap-6">
+                            <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                <span className="text-xs font-medium">안전한 보안</span>
+                            </div>
+                            <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                <span className="text-xs font-medium">빠른 속도</span>
+                            </div>
+                        </div>
                                 <Link
                                     href={ROUTES.FIND}
                                     className="text-sm text-primary hover:text-primary/80 font-medium transition-colors"
