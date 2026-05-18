@@ -453,7 +453,7 @@ export default function LoginPage() {
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between py-3">
-                                        <span className="text-sm font-medium text-muted-foreground">�����면 계정 처리일</span>
+                                        <span className="text-sm font-medium text-muted-foreground">�������면 계정 처리일</span>
                                         <span className="text-sm font-semibold text-foreground">
                                             {profile?.dormantDate
                                                 ? DateUtil.formattedDate(profile.dormantDate.toLocaleString(), true)
@@ -719,6 +719,7 @@ export default function LoginPage() {
                                     </span>
                                 )}
                             </Button>
+                            </div>
                         </div>
 
                         {/* Divider */}
