@@ -576,7 +576,7 @@ function ServiceRow({
                 </div>
               </div>
 
-              {hasSubServices && (
+        {hasSubServices && isSelected && (
                   <button
                       type="button"
                       onClick={() => onToggleOpen(serviceId)}
