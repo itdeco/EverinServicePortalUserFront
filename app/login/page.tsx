@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -496,15 +497,14 @@ export default function LoginPage() {
         <div className="min-h-screen flex flex-col lg:flex-row">
             {/* 왼쪽: 브랜딩 영역 */}
             <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]">
-                {/* 배경 패턴 */}
+                {/* 배경 블러 */}
                 <div className="absolute inset-0 opacity-20">
                     <div className="absolute top-20 left-20 w-72 h-72 bg-[#00cc99] rounded-full blur-[120px]" />
                     <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#4b6bf5] rounded-full blur-[150px]" />
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#00cc99]/50 rounded-full blur-[100px]" />
                 </div>
-                
                 {/* 그리드 패턴 */}
-                <div 
+                <div
                     className="absolute inset-0 opacity-[0.03]"
                     style={{
                         backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
@@ -512,17 +512,17 @@ export default function LoginPage() {
                     }}
                 />
 
-                {/* 콘텐츠 */}
                 <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
-                    {/* 로고 */}
+                    {/* 로고 - 헤더와 동일한 이미지 */}
                     <div>
-                        <Link href="/" className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00cc99] to-[#4b6bf5] flex items-center justify-center shadow-lg">
-                                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                </svg>
-                            </div>
-                            <span className="text-2xl font-bold text-white">에버人</span>
+                        <Link href="/">
+                            <Image
+                                src="/images/header/ever-person-logo.png"
+                                alt="에버人 로고"
+                                width={140}
+                                height={40}
+                                className="h-10 w-auto"
+                            />
                         </Link>
                     </div>
 
@@ -538,7 +538,6 @@ export default function LoginPage() {
                             급여, 근태, 평가, 온보딩까지<br />
                             하나의 플랫폼에서 모든 HR 업무를 관리하세요.
                         </p>
-
                         {/* 통계 */}
                         <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/10">
                             <div>
@@ -556,9 +555,15 @@ export default function LoginPage() {
                         </div>
                     </div>
 
-                    {/* 하단 문구 */}
-                    <div className="text-sm text-gray-500">
-                        <p>영림원소프트랩 에버人</p>
+                    {/* 하단: 영림원소프트랩 로고 */}
+                    <div>
+                        <Image
+                            src="/assets/img/softlab-logo-light.svg"
+                            alt="영림원소프트랩"
+                            width={160}
+                            height={32}
+                            className="h-8 w-auto opacity-70"
+                        />
                     </div>
                 </div>
             </div>
@@ -570,7 +575,7 @@ export default function LoginPage() {
                     <Header />
                 </div>
 
-                {/* 데스크탑 상단 네비게이션 */}
+                {/* 데스크탑 상단 회원가입 안내 */}
                 <div className="hidden lg:flex justify-end items-center p-6 xl:p-8">
                     <p className="text-sm text-muted-foreground">
                         계정이 없으신가요?{' '}
@@ -588,7 +593,7 @@ export default function LoginPage() {
                             <p className="text-muted-foreground">에버人 서비스에 로그인하세요</p>
                         </div>
 
-                        {/* Login Form */}
+                        {/* 폼 영역 */}
                         <div className="space-y-5">
                             {/* Email Field */}
                             <div className="space-y-2">
@@ -606,8 +611,8 @@ export default function LoginPage() {
                                         onKeyDown={onTextKeyDown}
                                         autoComplete="off"
                                         className={`h-12 pl-12 pr-4 rounded-xl border-2 transition-all ${
-                                            isEmailInvalid 
-                                                ? "border-destructive focus:border-destructive focus:ring-destructive/20" 
+                                            isEmailInvalid
+                                                ? "border-destructive focus:border-destructive focus:ring-destructive/20"
                                                 : "border-input focus:border-primary focus:ring-primary/20"
                                         }`}
                                         placeholder="name@example.com"
@@ -639,8 +644,8 @@ export default function LoginPage() {
                                         onKeyDown={onTextKeyDown}
                                         autoComplete="new-password"
                                         className={`h-12 pl-12 pr-12 rounded-xl border-2 transition-all ${
-                                            passwordNotMatch 
-                                                ? "border-destructive focus:border-destructive focus:ring-destructive/20" 
+                                            passwordNotMatch
+                                                ? "border-destructive focus:border-destructive focus:ring-destructive/20"
                                                 : "border-input focus:border-primary focus:ring-primary/20"
                                         }`}
                                         placeholder="비밀번호 입력"
@@ -676,8 +681,8 @@ export default function LoginPage() {
                                         아이디 저장
                                     </Label>
                                 </div>
-                                <Link 
-                                    href={ROUTES.FIND} 
+                                <Link
+                                    href={ROUTES.FIND}
                                     className="text-sm text-primary hover:text-primary/80 font-medium transition-colors"
                                 >
                                     아이디/비밀번호 찾기
@@ -690,8 +695,8 @@ export default function LoginPage() {
                                 onClick={onClickLogin}
                                 disabled={!canLogin || isLoading}
                                 className={`w-full h-12 rounded-xl text-base font-semibold transition-all ${
-                                    canLogin 
-                                        ? "bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30" 
+                                    canLogin
+                                        ? "bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30"
                                         : "bg-muted text-muted-foreground"
                                 }`}
                             >
@@ -715,15 +720,15 @@ export default function LoginPage() {
                         {/* Divider */}
                         <div className="relative my-8">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-border"></div>
+                                <div className="w-full border-t border-border" />
                             </div>
                             <div className="relative flex justify-center text-sm">
                                 <span className="px-4 bg-background text-muted-foreground">또는</span>
                             </div>
                         </div>
 
-                        {/* Sign Up CTA - Mobile only */}
-                        <div className="lg:hidden text-center">
+                        {/* Sign Up CTA */}
+                        <div className="text-center">
                             <p className="text-muted-foreground mb-4">아직 회원이 아니신가요?</p>
                             <Button
                                 variant="outline"
@@ -737,27 +742,25 @@ export default function LoginPage() {
                             </Button>
                         </div>
 
-                        {/* Features */}
-                        <div className="mt-8 pt-8 border-t border-border">
-                            <div className="flex items-center justify-center gap-8 text-center">
-                                <div className="flex items-center gap-2 text-muted-foreground">
-                                    <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                    </svg>
-                                    <span className="text-xs">안전한 보안</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-muted-foreground">
-                                    <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
-                                    <span className="text-xs">빠른 속도</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-muted-foreground">
-                                    <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                                    </svg>
-                                    <span className="text-xs">24/7 지원</span>
-                                </div>
+                        {/* 보안/속도/지원 */}
+                        <div className="mt-8 pt-6 border-t border-border flex items-center justify-center gap-8">
+                            <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                <span className="text-xs">안전한 보안</span>
+                            </div>
+                            <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                <span className="text-xs">빠른 속도</span>
+                            </div>
+                            <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                                <span className="text-xs">24/7 지원</span>
                             </div>
                         </div>
                     </div>
