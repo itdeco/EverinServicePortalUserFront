@@ -515,8 +515,8 @@ export default function LoginPage() {
                 />
 
                 <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full h-full">
-                    {/* 로고 - 흰색 배경 */}
-                    <div className="bg-white/15 backdrop-blur-sm rounded-2xl px-6 py-5 w-fit mb-8">
+                    {/* 로고 - 좌우 전체 흰색 배경 */}
+                    <div className="absolute top-0 left-0 right-0 bg-white px-12 xl:px-16 py-5">
                         <Link href="/" className="flex items-center">
                             <Image
                                 src="/images/header/ever-person-logo.png"
