@@ -211,7 +211,7 @@ export default function SignUpPage() {
                                 하나의 플랫폼에서 모든 HR 업무를 관리하세요.
                             </p>
                             {/* 혜택 */}
-                            <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/10">
+                            <div className="grid grid-cols-2 gap-6 mt-12 pt-8 border-t border-white/10">
                                 <div>
                                     <p className="text-3xl font-bold text-[#00cc99]">6개월</p>
                                     <p className="text-sm text-gray-500 mt-1">무료 체험</p>
@@ -219,10 +219,6 @@ export default function SignUpPage() {
                                 <div>
                                     <p className="text-3xl font-bold text-[#4b6bf5]">100%</p>
                                     <p className="text-sm text-gray-500 mt-1">전 기능</p>
-                                </div>
-                                <div>
-                                    <p className="text-3xl font-bold text-white">24/7</p>
-                                    <p className="text-sm text-gray-500 mt-1">지원</p>
                                 </div>
                             </div>
                         </div>
