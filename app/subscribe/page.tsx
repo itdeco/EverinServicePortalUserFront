@@ -507,7 +507,8 @@ function ServiceRow({
                   : "border-slate-200 bg-white hover:border-primary/30 hover:shadow-md"
           }`}
       >
-        <div className="p-4">
+        <div className="p-4 space-y-3">
+          {/* Main Row */}
           <div className="flex items-center gap-4 justify-between">
             {/* Left: Checkbox + Service Info */}
             <div className="flex min-w-0 flex-1 gap-3 items-center">
@@ -520,8 +521,8 @@ function ServiceRow({
               </div>
 
               {/* Service Name + Badge */}
-              <div className="min-w-0 flex-shrink-0">
-                <div className="flex items-center gap-2 flex-wrap">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
                   <span className="text-base font-bold text-slate-900">{service.serviceName}</span>
 
                   {service.quoteOnly && (
@@ -539,70 +540,29 @@ function ServiceRow({
               </div>
             </div>
 
-            {/* Middle: Plans + Pricing Info */}
-            <div className="flex items-center gap-4 flex-wrap">
-              {/* Plans */}
-              {service.plans && service.plans.length > 0 && (
-                  <div className="flex gap-2">
-                    {service.plans.map((plan) => {
-                      const isCurrentPlan = currentPlanId === plan.planId;
-
-                      return (
-                          <Label
-                              key={plan.planId}
-                              htmlFor={`${serviceId}-${plan.planId}`}
-                              className={`flex cursor-pointer items-center gap-1 rounded-full border-2 px-3 py-1.5 text-xs transition flex-shrink-0 ${
-                                  isCurrentPlan
-                                      ? "border-primary bg-primary/10 text-primary"
-                                      : "border-slate-200 bg-slate-50 text-slate-700 hover:border-primary/40"
-                              } ${
-                                  !isSelected ? "cursor-not-allowed opacity-50" : ""
-                              }`}
-                          >
-                            <NativeRadio
-                                id={`${serviceId}-${plan.planId}`}
-                                name={`plan-${serviceId}`}
-                                value={plan.planId}
-                                checked={isCurrentPlan}
-                                disabled={!isSelected}
-                                onChange={(value) => onChangePlan(serviceId, value)}
-                            />
-                            <span className="font-medium">{plan.planName}</span>
-                            <span className="text-slate-500">
-                            {plan.quoteOnly
-                                ? "별도견적"
-                                : perPerson(plan.price)}
-                          </span>
-                          </Label>
-                      );
-                    })}
-                  </div>
-              )}
-
-              {/* Pricing Info */}
-              {!isQuoteOnlyService && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium text-slate-500 whitespace-nowrap">요금 기준</span>
-                    <span className="text-xs font-semibold text-slate-900 whitespace-nowrap">{perPerson(unitPrice)}</span>
-                    <div className="h-3 w-px bg-slate-300" />
-                    <span className="text-xs font-medium text-slate-500 whitespace-nowrap">인원</span>
-                    <Input
-                        type="number"
-                        min={0}
-                        value={headcount}
-                        disabled={!isSelected}
-                        onChange={(e) =>
-                            onChangeHeadcount(
-                                serviceId,
-                                Number(e.target.value || 0)
-                            )
-                        }
-                        className="h-7 w-16 border-slate-200 bg-white text-xs"
-                    />
-                    <span className="text-xs text-slate-500 whitespace-nowrap">명</span>
-                  </div>
-              )}
-            </div>
+            {/* Middle: Pricing Info */}
+            {!isQuoteOnlyService && (
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span className="text-xs font-medium text-slate-500 whitespace-nowrap">요금 기준</span>
+                  <span className="text-xs font-semibold text-slate-900 whitespace-nowrap">{perPerson(unitPrice)}</span>
+                  <div className="h-3 w-px bg-slate-300" />
+                  <span className="text-xs font-medium text-slate-500 whitespace-nowrap">인원</span>
+                  <Input
+                      type="number"
+                      min={0}
+                      value={headcount}
+                      disabled={!isSelected}
+                      onChange={(e) =>
+                          onChangeHeadcount(
+                              serviceId,
+                              Number(e.target.value || 0)
+                          )
+                      }
+                      className="h-7 w-16 border-slate-200 bg-white text-xs"
+                  />
+                  <span className="text-xs text-slate-500 whitespace-nowrap">명</span>
+                </div>
+            )}
 
             {/* Right: Total Price + Chevron */}
             <div className="flex items-center gap-2 flex-shrink-0">
@@ -632,6 +592,45 @@ function ServiceRow({
               )}
             </div>
           </div>
+
+          {/* Plans Row - Shows below when selected */}
+          {isSelected && service.plans && service.plans.length > 0 && (
+              <div className="flex items-center gap-3 pl-10 pt-1">
+                <span className="text-xs font-medium text-slate-500 whitespace-nowrap">플랜</span>
+                <div className="flex flex-wrap gap-2">
+                  {service.plans.map((plan) => {
+                    const isCurrentPlan = currentPlanId === plan.planId;
+
+                    return (
+                        <Label
+                            key={plan.planId}
+                            htmlFor={`${serviceId}-${plan.planId}`}
+                            className={`flex cursor-pointer items-center gap-1 rounded-full border-2 px-3 py-1.5 text-xs transition flex-shrink-0 ${
+                                isCurrentPlan
+                                    ? "border-primary bg-primary/10 text-primary"
+                                    : "border-slate-200 bg-slate-50 text-slate-700 hover:border-primary/40"
+                            }`}
+                        >
+                          <NativeRadio
+                              id={`${serviceId}-${plan.planId}`}
+                              name={`plan-${serviceId}`}
+                              value={plan.planId}
+                              checked={isCurrentPlan}
+                              disabled={!isSelected}
+                              onChange={(value) => onChangePlan(serviceId, value)}
+                          />
+                          <span className="font-medium">{plan.planName}</span>
+                          <span className="text-slate-500">
+                          {plan.quoteOnly
+                              ? "별도견적"
+                              : perPerson(plan.price)}
+                        </span>
+                        </Label>
+                    );
+                  })}
+                </div>
+              </div>
+          )}
         </div>
 
         {hasSubServices && (
