@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronDown,
@@ -10,6 +12,8 @@ import {
   Calculator,
   Building2,
   ArrowRight,
+  Zap,
+  CheckCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -431,11 +435,11 @@ function RollingPrice({ value }: { value: number }) {
   const formatted = Math.max(0, Math.round(value)).toLocaleString("ko-KR");
 
   return (
-      <span className="inline-flex items-center gap-0.5 text-3xl font-bold tracking-tight text-foreground">
+      <span className="inline-flex items-center gap-0.5 text-3xl font-bold tracking-tight text-slate-900">
       {formatted.split("").map((digit, index) => (
           <RollingDigit key={`${digit}-${index}`} digit={digit} />
       ))}
-        <span className="ml-1 text-lg font-semibold text-muted-foreground">
+        <span className="ml-1 text-lg font-semibold text-slate-500">
         원
       </span>
     </span>
@@ -497,159 +501,134 @@ function ServiceRow({
   return (
       <motion.div
           layout
-          className={`rounded-2xl border transition-all ${
+          className={`rounded-2xl border-2 transition-all overflow-hidden ${
               isSelected
-                  ? "border-primary/30 bg-primary/5 shadow-sm"
-                  : "border-border bg-card hover:border-primary/20"
+                  ? "border-primary/50 bg-white shadow-lg shadow-primary/10"
+                  : "border-slate-200 bg-white hover:border-primary/30 hover:shadow-md"
           }`}
       >
-        <div className="p-4">
-          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div className="flex min-w-0 flex-1 gap-3">
-              <div className="pt-0.5">
+        <div className="p-4 space-y-3">
+          {/* Main Row */}
+          <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4 md:justify-between">
+            {/* Top / Left: Checkbox + Service Name + Badge */}
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              <div className="flex-shrink-0">
                 <NativeCheckbox
                     checked={isSelected}
                     onChange={(checked) => onToggleSelected(serviceId, checked)}
                     ariaLabel={`${service.serviceName} 선택`}
                 />
               </div>
-
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-lg font-bold">{service.serviceName}</span>
-
-                  {service.quoteOnly && (
-                      <Badge variant="outline" className="text-muted-foreground">
-                        별도견적
-                      </Badge>
-                  )}
-
-                  {isSelected && !isQuoteOnlyService && (
-                      <Badge className="bg-primary text-primary-foreground">
-                        선택됨
-                      </Badge>
-                  )}
-                </div>
-
-                {service.description && (
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {service.description}
-                    </p>
+              <div className="min-w-0 flex items-center gap-2 flex-wrap">
+                <span className="text-base font-bold text-slate-900">{service.serviceName}</span>
+                {service.quoteOnly && (
+                    <Badge variant="outline" className="text-slate-500 border-slate-300 text-xs">
+                      별도견적
+                    </Badge>
                 )}
-
-                {service.plans && service.plans.length > 0 && (
-                    <div className="mt-4">
-                      <Label className="mb-2 block text-xs text-muted-foreground">
-                        플랜 선택
-                      </Label>
-
-                      <div className="flex flex-wrap gap-2">
-                        {service.plans.map((plan) => {
-                          const isCurrentPlan = currentPlanId === plan.planId;
-
-                          return (
-                              <Label
-                                  key={plan.planId}
-                                  htmlFor={`${serviceId}-${plan.planId}`}
-                                  className={`flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm transition ${
-                                      isCurrentPlan
-                                          ? "border-primary bg-primary/10 text-primary"
-                                          : "border-border bg-background text-foreground hover:border-primary/30"
-                                  } ${
-                                      !isSelected ? "cursor-not-allowed opacity-50" : ""
-                                  }`}
-                              >
-                                <NativeRadio
-                                    id={`${serviceId}-${plan.planId}`}
-                                    name={`plan-${serviceId}`}
-                                    value={plan.planId}
-                                    checked={isCurrentPlan}
-                                    disabled={!isSelected}
-                                    onChange={(value) => onChangePlan(serviceId, value)}
-                                />
-                                <span className="font-medium">{plan.planName}</span>
-                                <span className="text-muted-foreground">
-                            {plan.quoteOnly
-                                ? "별도견적"
-                                : perPerson(plan.price)}
-                          </span>
-                              </Label>
-                          );
-                        })}
-                      </div>
-                    </div>
-                )}
-
-                {!isQuoteOnlyService && (
-                    <div className="mt-3 grid gap-3 md:grid-cols-2">
-                      <div className="rounded-xl border border-border bg-background p-3">
-                        <div className="text-xs font-medium text-muted-foreground">
-                          요금 기준
-                        </div>
-                        <div className="mt-1 text-sm font-semibold">
-                          {perPerson(unitPrice)}
-                        </div>
-                      </div>
-
-                      <div className="rounded-xl border border-border bg-background p-3">
-                        <div className="text-xs font-medium text-muted-foreground">
-                          인원
-                        </div>
-                        <Input
-                            type="number"
-                            min={0}
-                            value={headcount}
-                            disabled={!isSelected}
-                            onChange={(e) =>
-                                onChangeHeadcount(
-                                    serviceId,
-                                    Number(e.target.value || 0)
-                                )
-                            }
-                            className="mt-1 h-9"
-                        />
-                      </div>
-                    </div>
+                {isSelected && !isQuoteOnlyService && (
+                    <Badge className="text-white border-0 text-xs" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
+                      선택됨
+                    </Badge>
                 )}
               </div>
             </div>
 
-            <div className="flex items-center gap-3 md:pl-4">
-              <div className="text-right">
-                <div className="text-xl font-bold">
-                  {isQuoteOnlyService ? (
-                      <span className="font-bold text-primary">견적요청</span>
-                  ) : (
-                      currency(serviceTotal)
-                  )}
+            {/* Bottom(mobile) / Middle(desktop): Pricing Info + Total + Chevron */}
+            <div className="flex items-center gap-2 pl-7 md:pl-0">
+              {!isQuoteOnlyService && (
+                  <div className="flex items-center gap-2 flex-1 md:flex-none flex-wrap">
+                    <span className="text-xs font-medium text-slate-500 whitespace-nowrap">요금 기준</span>
+                    <span className="text-xs font-semibold text-slate-900 whitespace-nowrap">{perPerson(unitPrice)}</span>
+                    <div className="h-3 w-px bg-slate-300" />
+                    <span className="text-xs font-medium text-slate-500 whitespace-nowrap">인원</span>
+                    <Input
+                        type="number"
+                        min={0}
+                        value={headcount}
+                        disabled={!isSelected}
+                        onChange={(e) =>
+                            onChangeHeadcount(
+                                serviceId,
+                                Number(e.target.value || 0)
+                            )
+                        }
+                        className="h-7 w-16 border-slate-200 bg-white text-xs"
+                    />
+                    <span className="text-xs text-slate-500 whitespace-nowrap">명</span>
+                  </div>
+              )}
+
+              <div className="flex items-center gap-2 ml-auto flex-shrink-0">
+                <div className="text-right">
+                  <div className="text-lg font-bold text-slate-900 whitespace-nowrap">
+                    {isQuoteOnlyService ? (
+                        <span className="font-bold text-sm" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"}}>견적요청</span>
+                    ) : (
+                        currency(serviceTotal)
+                    )}
+                  </div>
                 </div>
 
-                {isSelected && hasSubServices && !isQuoteOnlyService && (
-                    <div className="mt-1 text-xs text-muted-foreground">
-                      하위 서비스 포함
-                    </div>
+                {hasSubServices && isSelected && (
+                    <button
+                        type="button"
+                        onClick={() => onToggleOpen(serviceId)}
+                        className="rounded-full p-1.5 transition hover:bg-slate-100 flex-shrink-0"
+                        aria-label="하위 서비스 열기"
+                    >
+                      {open[serviceId] ? (
+                          <ChevronDown className="h-5 w-5 text-slate-500" />
+                      ) : (
+                          <ChevronRight className="h-5 w-5 text-slate-500" />
+                      )}
+                    </button>
                 )}
               </div>
-
-              {hasSubServices && (
-                  <button
-                      type="button"
-                      onClick={() => onToggleOpen(serviceId)}
-                      className="rounded-full p-2 transition hover:bg-muted"
-                      aria-label="하위 서비스 열기"
-                  >
-                    {open[serviceId] ? (
-                        <ChevronDown className="h-5 w-5 text-muted-foreground" />
-                    ) : (
-                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                    )}
-                  </button>
-              )}
             </div>
           </div>
+
+          {/* Plans Row - Shows below when selected */}
+          {isSelected && service.plans && service.plans.length > 0 && (
+              <div className="flex items-center gap-3 pl-10 pt-1">
+                <span className="text-xs font-medium text-slate-500 whitespace-nowrap">플랜</span>
+                <div className="flex flex-wrap gap-2">
+                  {service.plans.map((plan) => {
+                    const isCurrentPlan = currentPlanId === plan.planId;
+
+                    return (
+                        <Label
+                            key={plan.planId}
+                            htmlFor={`${serviceId}-${plan.planId}`}
+                            className={`flex cursor-pointer items-center gap-1 rounded-full border-2 px-3 py-1.5 text-xs transition flex-shrink-0 ${
+                                isCurrentPlan
+                                    ? "border-primary bg-primary/10 text-primary"
+                                    : "border-slate-200 bg-slate-50 text-slate-700 hover:border-primary/40"
+                            }`}
+                        >
+                          <NativeRadio
+                              id={`${serviceId}-${plan.planId}`}
+                              name={`plan-${serviceId}`}
+                              value={plan.planId}
+                              checked={isCurrentPlan}
+                              disabled={!isSelected}
+                              onChange={(value) => onChangePlan(serviceId, value)}
+                          />
+                          <span className="font-medium">{plan.planName}</span>
+                          <span className="text-slate-500">
+                          {plan.quoteOnly
+                              ? "별도견적"
+                              : perPerson(plan.price)}
+                        </span>
+                        </Label>
+                    );
+                  })}
+                </div>
+              </div>
+          )}
         </div>
 
-        {hasSubServices && (
+        {hasSubServices && isSelected && (
             <AnimatePresence initial={false}>
               {open[serviceId] && (
                   <motion.div
@@ -659,11 +638,12 @@ function ServiceRow({
                       transition={{ duration: 0.2 }}
                       className="overflow-hidden"
                   >
-                    <div className="space-y-3 border-t border-border bg-muted/30 p-4">
-                      <div className="mb-2 text-xs font-medium text-muted-foreground">
+                    <div className="border-t border-slate-200 bg-slate-50 px-4 pt-3 pb-4">
+                      <div className="mb-3 text-xs font-medium text-slate-400">
                         선택 가능한 하위 서비스
                       </div>
 
+                      <div className="space-y-2">
                       {visibleSubServices.map((sub) => {
                         const subId = sub.serviceId;
                         const isSubSelected = !!selected[subId];
@@ -675,14 +655,15 @@ function ServiceRow({
                         return (
                             <div
                                 key={subId}
-                                className={`rounded-xl border p-3 transition ${
+                                className={`rounded-xl border bg-white p-3 transition ${
                                     isSubSelected
-                                        ? "border-primary/30 bg-primary/5"
-                                        : "border-border bg-background"
+                                        ? "border-primary/40 shadow-sm"
+                                        : "border-slate-200"
                                 }`}
                             >
-                              <div className="flex items-start justify-between gap-3">
-                                <div className="flex gap-3">
+                              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between md:gap-3">
+                                {/* Checkbox + name/desc/price */}
+                                <div className="flex items-center gap-3 min-w-0 flex-1">
                                   <NativeCheckbox
                                       checked={isSubSelected}
                                       onChange={(checked) =>
@@ -691,43 +672,29 @@ function ServiceRow({
                                       ariaLabel={`${sub.serviceName} 선택`}
                                       disabled={!isSelected}
                                   />
-
-                                  <div>
-                                    <div className="flex items-center gap-2">
-                              <span className="font-medium">
-                                {sub.serviceName}
-                              </span>
-
+                                  {/* Mobile: stacked / Desktop: inline */}
+                                  <div className="min-w-0 flex-1">
+                                    <div className="flex flex-col md:flex-row md:items-center md:gap-2">
+                                      <span className="text-sm font-semibold text-slate-900">{sub.serviceName}</span>
+                                      {sub.description && (
+                                          <span className="text-xs text-slate-500 md:whitespace-nowrap">{sub.description}</span>
+                                      )}
+                                      {!sub.quoteOnly && (
+                                          <span className="text-xs text-slate-400 md:whitespace-nowrap">{perPerson(sub.price)}</span>
+                                      )}
                                       {sub.quoteOnly && (
-                                          <Badge variant="outline" className="text-xs">
+                                          <Badge variant="outline" className="text-xs text-slate-500 border-slate-300 w-fit">
                                             견적요청
                                           </Badge>
                                       )}
-
-                                      {isSubSelected && !sub.quoteOnly && (
-                                          <Badge className="bg-primary/80 text-xs text-primary-foreground">
-                                            선택됨
-                                          </Badge>
-                                      )}
                                     </div>
-
-                                    {sub.description && (
-                                        <p className="mt-0.5 text-xs text-muted-foreground">
-                                          {sub.description}
-                                        </p>
-                                    )}
-
-                                    {!sub.quoteOnly && (
-                                        <div className="mt-1 text-xs text-muted-foreground">
-                                          {perPerson(sub.price)}
-                                        </div>
-                                    )}
                                   </div>
                                 </div>
 
-                                <div className="text-right">
+                                {/* Right: headcount + total */}
+                                <div className="flex items-center gap-3 flex-shrink-0 pl-7 md:pl-0">
                                   {!sub.quoteOnly ? (
-                                      <div className="flex items-center gap-2">
+                                      <>
                                         <Input
                                             type="number"
                                             min={0}
@@ -739,22 +706,21 @@ function ServiceRow({
                                                     Number(e.target.value || 0)
                                                 )
                                             }
-                                            className="h-8 w-20 text-sm"
+                                            className="h-8 w-16 text-sm border-slate-200 bg-white text-center"
                                         />
-                                        <span className="min-w-[80px] text-right text-sm font-medium">
-                                {currency(subTotal)}
-                              </span>
-                                      </div>
+                                        <span className="min-w-[80px] text-right text-sm font-semibold text-slate-900 whitespace-nowrap">
+                                          {currency(subTotal)}
+                                        </span>
+                                      </>
                                   ) : (
-                                      <span className="text-sm text-muted-foreground">
-                              견적요청
-                            </span>
+                                      <span className="text-sm text-slate-500 whitespace-nowrap">견적요청</span>
                                   )}
                                 </div>
                               </div>
                             </div>
                         );
                       })}
+                      </div>
                     </div>
                   </motion.div>
               )}
@@ -788,9 +754,6 @@ function SubscribeContent() {
   );
 
   const [displayTotal, setDisplayTotal] = useState(0);
-  const [activeCategoryId, setActiveCategoryId] = useState(
-      initialConfig[0].categoryId
-  );
 
   useEffect(() => {
     const loadServices = async () => {
@@ -818,9 +781,6 @@ function SubscribeContent() {
     loadServices();
   }, []);
 
-  const activeCategory =
-      serviceConfig.find((cat) => cat.categoryId === activeCategoryId) ??
-      serviceConfig[0];
 
   const total = useMemo(() => {
     let sum = 0;
@@ -973,144 +933,100 @@ function SubscribeContent() {
   };
 
   return (
-      <div className="flex min-h-screen flex-col bg-background">
+      <div className="flex min-h-screen flex-col bg-slate-50">
         <Header />
 
         <main className="flex-1">
-          <div className="mx-auto max-w-[1280px] px-4 py-6 md:px-8 md:py-8">
-            <div className="mb-6 rounded-2xl border border-primary/20 bg-white p-5 shadow-sm">
-              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                <div>
-                  <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
-                    <Sparkles className="h-4 w-4" />
-                    서비스 견적 시뮬레이터
-                  </div>
-
-                  <h1 className="text-2xl font-bold md:text-3xl">
-                    에버 HR 통합 서비스
-                  </h1>
-
-                  <p className="mt-1 text-muted-foreground">
-                    서비스, 플랜, 하위 서비스, 인원을 선택하면 총 견적이
-                    실시간으로 반영됩니다.
-                  </p>
-                </div>
-
-                <div className="rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">
-                  실시간 금액 계산중
-                </div>
-              </div>
-            </div>
-
+          <div className="mx-auto max-w-[1280px] px-4 py-8 md:px-8 md:py-12">
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
-              <div className="space-y-5">
-                <div className="flex flex-wrap gap-2 rounded-2xl border border-border bg-white p-2 shadow-sm">
-                  {serviceConfig.map((category) => (
-                      <button
-                          key={category.categoryId}
-                          type="button"
-                          onClick={() => setActiveCategoryId(category.categoryId)}
-                          className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
-                              activeCategoryId === category.categoryId
-                                  ? "bg-primary text-primary-foreground shadow-sm"
-                                  : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
-                          }`}
-                      >
-                        {category.categoryName}
-                      </button>
-                  ))}
-                </div>
+              <div className="space-y-8">
+                {serviceConfig.map((category) => (
+                    <div key={category.categoryId}>
+                      <div className="mb-4 flex items-center gap-3">
+                        <div className="h-10 w-1.5 rounded-full" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}} />
+                        <h2 className="text-2xl font-bold text-slate-900">
+                          {category.categoryName}
+                        </h2>
+                        <Badge className="ml-2 bg-slate-100 text-slate-700 border-slate-200">
+                          {category.services.length}개 서비스
+                        </Badge>
+                      </div>
 
-                <div>
-                  <div className="mb-4 flex items-center gap-2">
-                    <div className="h-8 w-1 rounded-full bg-primary" />
-                    <h2 className="text-xl font-bold">
-                      {activeCategory.categoryName}
-                    </h2>
-                    <Badge variant="secondary" className="ml-2">
-                      {activeCategory.services.length}개 서비스
-                    </Badge>
-                  </div>
-
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                        key={activeCategory.categoryId}
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -8 }}
-                        transition={{ duration: 0.18 }}
-                        className="space-y-3"
-                    >
-                      {activeCategory.services.map((service) => (
-                          <ServiceRow
-                              key={service.serviceId}
-                              service={service}
-                              selected={selected}
-                              plans={plans}
-                              headcounts={headcounts}
-                              open={open}
-                              onToggleSelected={toggleSelected}
-                              onChangePlan={changePlan}
-                              onChangeHeadcount={changeHeadcount}
-                              onToggleOpen={toggleOpen}
-                          />
-                      ))}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
+                      <div className="space-y-4">
+                        {category.services.map((service) => (
+                            <ServiceRow
+                                key={service.serviceId}
+                                service={service}
+                                selected={selected}
+                                plans={plans}
+                                headcounts={headcounts}
+                                open={open}
+                                onToggleSelected={toggleSelected}
+                                onChangePlan={changePlan}
+                                onChangeHeadcount={changeHeadcount}
+                                onToggleOpen={toggleOpen}
+                            />
+                        ))}
+                      </div>
+                    </div>
+                ))}
               </div>
 
+              {/* Summary Card */}
               <div className="lg:sticky lg:top-28 lg:self-start">
-                <Card className="overflow-hidden border-0 shadow-lg">
-                  <CardHeader className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+                <Card className="overflow-hidden border-0 shadow-xl" style={{background: "linear-gradient(to bottom right, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
+                  <CardHeader className="text-white py-3">
                     <CardTitle className="flex items-center justify-between text-xl">
-                      <span>총 견적</span>
-                      <Badge className="bg-white/20 text-white hover:bg-white/20">
+                      <span className="flex items-center gap-2">
+                        <Calculator className="h-5 w-5" />
+                        총 견적
+                      </span>
+                      <Badge className="bg-white/20 text-white hover:bg-white/20 border-white/30">
                         실시간
                       </Badge>
                     </CardTitle>
                   </CardHeader>
 
-                  <CardContent className="space-y-5 p-5">
-                    <div className="rounded-2xl border border-border bg-gradient-to-b from-background to-muted/30 p-5 text-center">
-                      <div className="mb-2 text-sm font-medium text-muted-foreground">
+                  <CardContent className="space-y-5 p-6 bg-white rounded-t-3xl">
+                    <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-6 text-center">
+                      <div className="mb-2 text-sm font-medium text-slate-500">
                         예상 월 과금
                       </div>
 
                       <RollingPrice value={displayTotal} />
 
-                      <div className="mt-2 text-xs text-muted-foreground">
-                        모든 금액은 매월 인당 기준 × 선택 인원으로 계산됩니다.
+                      <div className="mt-3 text-xs text-slate-400">
+                        모든 금액은 매월 인당 기준 x 선택 인원으로 계산됩니다.
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3 text-sm">
-                      <div className="rounded-xl bg-muted/50 p-4">
-                        <div className="text-muted-foreground">선택 서비스</div>
-                        <div className="mt-1 text-2xl font-bold">
+                      <div className="rounded-xl bg-slate-50 border border-slate-100 p-4">
+                        <div className="text-slate-500">선택 서비스</div>
+                        <div className="mt-1 text-2xl font-bold text-slate-900">
                           {selectedItems.length}
                         </div>
                       </div>
 
-                      <div className="rounded-xl bg-muted/50 p-4">
-                        <div className="text-muted-foreground">견적요청 항목</div>
-                        <div className="mt-1 text-2xl font-bold">
+                      <div className="rounded-xl bg-slate-50 border border-slate-100 p-4">
+                        <div className="text-slate-500">견적요청 항목</div>
+                        <div className="mt-1 text-2xl font-bold text-slate-900">
                           {selectedItems.filter((item) => item.quoteOnly).length}
                         </div>
                       </div>
                     </div>
 
                     {hasQuoteOnly && (
-                        <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm text-foreground">
+                        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
                           견적요청 항목이 포함되어 있습니다. 담당자가 별도로
                           연락드립니다.
                         </div>
                     )}
 
-                    <Separator />
+                    <Separator className="bg-slate-200" />
 
                     <div>
-                      <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
+                      <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
                         <Calculator className="h-4 w-4 text-primary" />
                         선택 상세
                       </div>
@@ -1118,7 +1034,7 @@ function SubscribeContent() {
                       <ScrollArea className="h-[280px] pr-3">
                         <div className="space-y-2">
                           {selectedItems.length === 0 ? (
-                              <div className="rounded-xl border border-dashed p-6 text-center text-sm text-muted-foreground">
+                              <div className="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-400">
                                 선택된 서비스가 없습니다.
                               </div>
                           ) : (
@@ -1127,14 +1043,14 @@ function SubscribeContent() {
                                       key={idx}
                                       className={`flex items-center justify-between rounded-xl border p-3 ${
                                           item.name.startsWith("└")
-                                              ? "ml-4 border-border bg-muted/30"
-                                              : "border-primary/20 bg-primary/5"
+                                              ? "ml-4 border-slate-200 bg-slate-50"
+                                              : "border-primary/30 bg-primary/5"
                                       }`}
                                   >
-                              <span className="text-sm font-medium">
+                              <span className="text-sm font-medium text-slate-700">
                                 {item.name}
                               </span>
-                                    <span className="text-sm font-semibold">
+                                    <span className="text-sm font-semibold text-slate-900">
                                 {item.quoteOnly
                                     ? "견적요청"
                                     : currency(item.price)}
@@ -1146,23 +1062,23 @@ function SubscribeContent() {
                       </ScrollArea>
                     </div>
 
-                    <Separator />
+                    <Separator className="bg-slate-200" />
 
                     <div className="space-y-3">
                       <Button
-                          className="w-full"
-                          size="lg"
+                          className="w-full h-12 text-base font-semibold text-white border-0"
+                          style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}
                           disabled={selectedItems.length === 0 || hasQuoteOnly}
                           onClick={() =>
                               router.push(`/subscribe/checkout?total=${total}`)
                           }
                       >
                         구독하기
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                        <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
 
                       {hasQuoteOnly && (
-                          <p className="text-center text-xs text-muted-foreground">
+                          <p className="text-center text-xs text-slate-400">
                             견적요청 항목이 포함되어 구독하기를 바로 진행할 수
                             없습니다.
                           </p>
@@ -1170,8 +1086,7 @@ function SubscribeContent() {
 
                       <Button
                           variant="outline"
-                          className="w-full"
-                          size="lg"
+                          className="w-full h-12 text-base font-semibold border-2 border-slate-200 hover:bg-slate-50"
                           onClick={handleEstimateRequest}
                           disabled={selectedItems.length === 0}
                       >
@@ -1180,7 +1095,7 @@ function SubscribeContent() {
 
                       <Button
                           variant="ghost"
-                          className="w-full"
+                          className="w-full text-slate-600 hover:text-slate-900"
                           onClick={() => router.push("/support/contact")}
                       >
                         <Building2 className="mr-2 h-4 w-4" />
