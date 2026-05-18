@@ -585,34 +585,25 @@ function ServiceRow({
                 )}
 
                 {!isQuoteOnlyService && (
-                    <div className="mt-3 grid gap-3 md:grid-cols-2">
-                      <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                        <div className="text-xs font-medium text-slate-500">
-                          요금 기준
-                        </div>
-                        <div className="mt-1 text-sm font-semibold text-slate-900">
-                          {perPerson(unitPrice)}
-                        </div>
-                      </div>
-
-                      <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                        <div className="text-xs font-medium text-slate-500">
-                          인원
-                        </div>
-                        <Input
-                            type="number"
-                            min={0}
-                            value={headcount}
-                            disabled={!isSelected}
-                            onChange={(e) =>
-                                onChangeHeadcount(
-                                    serviceId,
-                                    Number(e.target.value || 0)
-                                )
-                            }
-                            className="mt-1 h-9 border-slate-200 bg-white"
-                        />
-                      </div>
+                    <div className="mt-3 flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5">
+                      <span className="text-xs font-medium text-slate-500 whitespace-nowrap">요금 기준</span>
+                      <span className="text-sm font-semibold text-slate-900 whitespace-nowrap">{perPerson(unitPrice)}</span>
+                      <div className="h-4 w-px bg-slate-300 mx-1" />
+                      <span className="text-xs font-medium text-slate-500 whitespace-nowrap">인원</span>
+                      <Input
+                          type="number"
+                          min={0}
+                          value={headcount}
+                          disabled={!isSelected}
+                          onChange={(e) =>
+                              onChangeHeadcount(
+                                  serviceId,
+                                  Number(e.target.value || 0)
+                              )
+                          }
+                          className="h-8 w-20 border-slate-200 bg-white text-sm"
+                      />
+                      <span className="text-xs text-slate-500">명</span>
                     </div>
                 )}
               </div>
