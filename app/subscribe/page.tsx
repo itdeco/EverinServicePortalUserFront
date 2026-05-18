@@ -975,7 +975,7 @@ function SubscribeContent() {
               {/* Summary Card */}
               <div className="lg:sticky lg:top-28 lg:self-start">
                 <Card className="overflow-hidden border-0 shadow-xl" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
-                  <CardHeader className="text-white py-6">
+                  <CardHeader className="text-white py-3">
                     <CardTitle className="flex items-center justify-between text-xl">
                       <span className="flex items-center gap-2">
                         <Calculator className="h-5 w-5" />
