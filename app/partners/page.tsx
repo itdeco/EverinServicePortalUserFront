@@ -46,7 +46,7 @@ const partners: Partner[] = [
         contact: '황철현 상무',
         phone: '010-4110-1549',
         address: '서울특별시 상봉중앙로 1길 20 데코BD 2~3F',
-        website: 'http://everdeco.co.kr',
+        website: 'https://everdeco.co.kr',
         logo: '/images/parter_logo/partner-deco-new.png',
     },
     {
