@@ -515,16 +515,18 @@ export default function LoginPage() {
                 />
 
                 <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full h-full">
-                    {/* 로고 - 헤더와 동일한 이미지 */}
-                    <Link href="/" className="w-fit">
-                        <Image
-                            src="/images/header/ever-person-logo.png"
-                            alt="에버人 로고"
-                            width={140}
-                            height={40}
-                            className="h-10 w-auto"
-                        />
-                    </Link>
+                    {/* 로고 - 흰색 배경 */}
+                    <div className="bg-white/15 backdrop-blur-sm rounded-2xl px-6 py-5 w-fit mb-8">
+                        <Link href="/" className="flex items-center">
+                            <Image
+                                src="/images/header/ever-person-logo.png"
+                                alt="에버人 로고"
+                                width={140}
+                                height={40}
+                                className="h-10 w-auto"
+                            />
+                        </Link>
+                    </div>
 
                     {/* 중앙 메시지 */}
                     <div className="flex-1 flex flex-col justify-center max-w-lg">
