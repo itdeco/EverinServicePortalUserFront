@@ -974,8 +974,8 @@ function SubscribeContent() {
 
               {/* Summary Card */}
               <div className="lg:sticky lg:top-28 lg:self-start">
-                <Card className="overflow-hidden border-0 shadow-xl">
-                  <CardHeader className="text-white py-6" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
+                <Card className="overflow-hidden border-0 shadow-xl" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
+                  <CardHeader className="text-white py-6">
                     <CardTitle className="flex items-center justify-between text-xl">
                       <span className="flex items-center gap-2">
                         <Calculator className="h-5 w-5" />
@@ -987,7 +987,7 @@ function SubscribeContent() {
                     </CardTitle>
                   </CardHeader>
 
-                  <CardContent className="space-y-5 p-6 bg-white">
+                  <CardContent className="space-y-5 p-6 bg-white rounded-t-3xl">
                     <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-6 text-center">
                       <div className="mb-2 text-sm font-medium text-slate-500">
                         예상 월 과금
