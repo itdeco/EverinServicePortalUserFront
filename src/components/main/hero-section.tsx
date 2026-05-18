@@ -16,6 +16,20 @@ const radialModules = [
   { label: "PC OFF", angle: -141.43, color: "#3d5a80" },
 ]
 
+const ComingSoonOverlay = ({ children }: { children: React.ReactNode }) => {
+  return (
+      <div className="relative">
+        {children}
+
+        <div className="absolute inset-0 z-30 flex items-center justify-center rounded-[2rem] bg-white/55 backdrop-blur-[3px] border border-white/60">
+          <div className="px-8 py-4 rounded-full bg-gray-900/70 text-white text-2xl md:text-3xl font-black tracking-tight shadow-xl">
+            변경예정
+          </div>
+        </div>
+      </div>
+  )
+}
+
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const totalSlides = 3
@@ -86,6 +100,7 @@ export default function HeroSection() {
               </div>
 
               {/* 오른쪽: 방사형 다이어그램 */}
+              <ComingSoonOverlay>
               <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full">
                 <svg
                   width="500"
@@ -145,6 +160,7 @@ export default function HeroSection() {
                   </text>
                 </svg>
               </div>
+              </ComingSoonOverlay>
             </div>
           </div>
         </div>
@@ -189,6 +205,7 @@ export default function HeroSection() {
               </div>
 
               {/* 오른쪽: AI 온보딩 일러스트 */}
+              <ComingSoonOverlay>
               <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full">
                 <div className="relative w-full max-w-[480px] h-full flex items-center justify-center">
                   {/* AI 온보딩 시각적 요소 */}
@@ -249,6 +266,7 @@ export default function HeroSection() {
                   </div>
                 </div>
               </div>
+              </ComingSoonOverlay>
             </div>
           </div>
         </div>
@@ -298,6 +316,7 @@ export default function HeroSection() {
               </div>
 
               {/* 오른쪽: 행복한 퇴근 이미지 */}
+              <ComingSoonOverlay>
               <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full overflow-hidden rounded-3xl shadow-2xl">
                 <img
                   src="/images/main/heroes/evertime-happy-woman.jpg"
@@ -305,6 +324,7 @@ export default function HeroSection() {
                   className="w-full h-full object-cover"
                 />
               </div>
+              </ComingSoonOverlay>
             </div>
           </div>
         </div>

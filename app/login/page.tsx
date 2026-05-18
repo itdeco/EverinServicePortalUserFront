@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -452,7 +453,7 @@ export default function LoginPage() {
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between py-3">
-                                        <span className="text-sm font-medium text-muted-foreground">휴면 계정 처리일</span>
+                                        <span className="text-sm font-medium text-muted-foreground">�������면 계정 처리일</span>
                                         <span className="text-sm font-semibold text-foreground">
                                             {profile?.dormantDate
                                                 ? DateUtil.formattedDate(profile.dormantDate.toLocaleString(), true)
@@ -493,27 +494,118 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col bg-background">
-            <Header />
+        <div className="min-h-screen flex flex-col lg:flex-row">
+            {/* 최대 너비 컨테이너 */}
+            <div className="flex flex-col lg:flex-row w-full lg:max-w-7xl lg:mx-auto">
+                {/* 왼쪽: 브랜딩 영역 */}
+                <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]">
+                {/* 배경 블러 */}
+                <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-20 left-20 w-72 h-72 bg-[#00cc99] rounded-full blur-[120px]" />
+                    <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#4b6bf5] rounded-full blur-[150px]" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#00cc99]/50 rounded-full blur-[100px]" />
+                </div>
+                {/* 그리드 패턴 */}
+                <div
+                    className="absolute inset-0 opacity-[0.03]"
+                    style={{
+                        backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+                        backgroundSize: '50px 50px'
+                    }}
+                />
 
-            <main className="flex-1 flex items-center justify-center px-4 py-12 md:py-20">
-                <div className="w-full max-w-md">
-                    {/* Title */}
-                    <div className="text-center mb-8">
-                        <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">다시 만나서 반가워요!</h1>
-                        <p className="text-muted-foreground">에버人 서비스에 로그인하세요</p>
+                <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full h-full">
+                    {/* 로고 - 좌우 전체 흰색 배경 */}
+                    <div className="absolute top-10 left-0 right-0 bg-white px-12 xl:px-16 py-5">
+                        <Link href="/" className="flex items-center">
+                            <Image
+                                src="/images/header/ever-person-logo.png"
+                                alt="에버人 로고"
+                                width={140}
+                                height={40}
+                                className="h-10 w-auto"
+                            />
+                        </Link>
                     </div>
 
-                    {/* Login Card */}
-                    <div className="bg-card rounded-3xl border border-border shadow-xl p-6 md:p-8">
-                        <div className="space-y-5">
+                    {/* 중앙 메시지 */}
+                    <div className="flex-1 flex flex-col justify-center max-w-lg">
+                        <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-6">
+                            HR의 모든 것,<br />
+                            <span className="bg-gradient-to-r from-[#00cc99] to-[#4b6bf5] bg-clip-text text-transparent">
+                                에버人과 함께
+                            </span>
+                        </h1>
+                        <p className="text-lg text-gray-400 leading-relaxed">
+                            급여, 근태, 평가, 온보딩까지<br />
+                            하나의 플랫폼에서 모든 HR 업무를 관리하세요.
+                        </p>
+                        {/* 통계 */}
+                        <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/10">
+                            <div>
+                                <p className="text-3xl font-bold text-[#00cc99]">33+</p>
+                                <p className="text-sm text-gray-500 mt-1">Years</p>
+                            </div>
+                            <div>
+                                <p className="text-3xl font-bold text-[#4b6bf5]">3,000+</p>
+                                <p className="text-sm text-gray-500 mt-1">고객사</p>
+                            </div>
+                            <div>
+                                <p className="text-3xl font-bold text-white">No.1</p>
+                                <p className="text-sm text-gray-500 mt-1">품질</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 하단: 영림원소프트랩 로고 */}
+                    <div>
+                        <Image
+                            src="/images/main/softlab-logo-light.svg"
+                            alt="영림원소프트랩"
+                            width={160}
+                            height={32}
+                            className="h-8 w-auto opacity-70"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* 오른쪽: 로그인 폼 */}
+            <div className="flex-1 lg:w-1/2 xl:w-[45%] flex flex-col bg-background">
+                {/* 모바일 헤더 */}
+                <div className="lg:hidden">
+                    <Header />
+                </div>
+
+                {/* 데스크탑 상단 회원가입 안내 */}
+                <div className="hidden lg:flex justify-end items-center p-6 xl:p-8">
+                    <p className="text-sm text-muted-foreground">
+                        계정이 없으신가요?{' '}
+                        <Link href={ROUTES.SIGNUP} className="text-primary font-semibold hover:underline">
+                            무료로 시작하기
+                        </Link>
+                    </p>
+                </div>
+
+                <main className="flex-1 flex items-center justify-center px-6 py-8 lg:px-12 xl:px-16">
+                    <div className="w-full max-w-md">
+                        {/* Title */}
+                        <div className="mb-10">
+                            <h1 className="text-3xl font-bold text-foreground mb-3">다시 만나서 반가워요!</h1>
+                            <p className="text-base text-muted-foreground">에버人 서비스에 로그인하세요</p>
+                        </div>
+
+                        {/* Form Card */}
+                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+                            {/* 폼 영역 */}
+                            <div className="space-y-5">
                             {/* Email Field */}
                             <div className="space-y-2">
-                                <Label htmlFor="loginId" className="text-sm font-medium text-foreground">
+                                <Label htmlFor="loginId" className="text-sm font-semibold text-gray-700">
                                     이메일
                                 </Label>
                                 <div className="relative">
-                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                                     <Input
                                         type="email"
                                         id="loginId"
@@ -522,10 +614,10 @@ export default function LoginPage() {
                                         onChange={onChangeTextBox}
                                         onKeyDown={onTextKeyDown}
                                         autoComplete="off"
-                                        className={`h-12 pl-12 pr-4 rounded-xl border-2 transition-all ${
-                                            isEmailInvalid 
-                                                ? "border-destructive focus:border-destructive focus:ring-destructive/20" 
-                                                : "border-input focus:border-primary focus:ring-primary/20"
+                                        className={`h-11 pl-12 pr-4 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                            isEmailInvalid
+                                                ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10"
+                                                : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
                                         }`}
                                         placeholder="name@example.com"
                                     />
@@ -542,11 +634,11 @@ export default function LoginPage() {
 
                             {/* Password Field */}
                             <div className="space-y-2">
-                                <Label htmlFor="password" className="text-sm font-medium text-foreground">
+                                <Label htmlFor="password" className="text-sm font-semibold text-gray-700">
                                     비밀번호
                                 </Label>
                                 <div className="relative">
-                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                                     <Input
                                         type={showPassword ? "text" : "password"}
                                         id="password"
@@ -555,17 +647,17 @@ export default function LoginPage() {
                                         onChange={onChangeTextBox}
                                         onKeyDown={onTextKeyDown}
                                         autoComplete="new-password"
-                                        className={`h-12 pl-12 pr-12 rounded-xl border-2 transition-all ${
-                                            passwordNotMatch 
-                                                ? "border-destructive focus:border-destructive focus:ring-destructive/20" 
-                                                : "border-input focus:border-primary focus:ring-primary/20"
+                                        className={`h-11 pl-12 pr-12 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                            passwordNotMatch
+                                                ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10"
+                                                : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
                                         }`}
                                         placeholder="비밀번호 입력"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                                     >
                                         {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                                     </button>
@@ -581,23 +673,23 @@ export default function LoginPage() {
                             </div>
 
                             {/* Remember Me & Forgot Password */}
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between pt-2">
                                 <div className="flex items-center gap-2">
                                     <Checkbox
                                         id="saveId"
                                         checked={saveId}
                                         onCheckedChange={onChangeSaveID}
-                                        className="rounded"
+                                        className="rounded border-gray-300"
                                     />
-                                    <Label htmlFor="saveId" className="text-sm text-muted-foreground cursor-pointer">
+                                    <Label htmlFor="saveId" className="text-sm text-gray-600 cursor-pointer font-medium">
                                         아이디 저장
                                     </Label>
                                 </div>
-                                <Link 
-                                    href={ROUTES.FIND} 
+                                <Link
+                                    href={ROUTES.FIND}
                                     className="text-sm text-primary hover:text-primary/80 font-medium transition-colors"
                                 >
-                                    아이디/비밀번호 찾기
+                                    찾기
                                 </Link>
                             </div>
 
@@ -606,10 +698,10 @@ export default function LoginPage() {
                                 type="button"
                                 onClick={onClickLogin}
                                 disabled={!canLogin || isLoading}
-                                className={`w-full h-12 rounded-xl text-base font-semibold transition-all ${
-                                    canLogin 
-                                        ? "bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30" 
-                                        : "bg-muted text-muted-foreground"
+                                className={`w-full h-11 rounded-lg text-base font-semibold transition-all mt-6 ${
+                                    canLogin
+                                        ? "bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg hover:scale-[1.01]"
+                                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
                                 }`}
                             >
                                 {isLoading ? (
@@ -627,25 +719,26 @@ export default function LoginPage() {
                                     </span>
                                 )}
                             </Button>
+                            </div>
                         </div>
 
                         {/* Divider */}
                         <div className="relative my-8">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-border"></div>
+                                <div className="w-full border-t border-gray-200" />
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-4 bg-card text-muted-foreground">또는</span>
+                                <span className="px-4 bg-background text-muted-foreground font-medium">또는</span>
                             </div>
                         </div>
 
                         {/* Sign Up CTA */}
                         <div className="text-center">
-                            <p className="text-muted-foreground mb-4">아직 회원이 아니신가요?</p>
+                            <p className="text-muted-foreground mb-4 text-sm">아직 회원이 아니신가요?</p>
                             <Button
                                 variant="outline"
                                 asChild
-                                className="w-full h-12 rounded-xl text-base font-medium border-2 hover:bg-muted/50"
+                                className="w-full h-11 rounded-lg text-base font-semibold border-2 border-gray-200 hover:bg-gray-50 transition-all"
                             >
                                 <Link href={ROUTES.SIGNUP} className="flex items-center justify-center gap-2">
                                     <CheckCircle2 className="h-5 w-5" />
@@ -653,39 +746,31 @@ export default function LoginPage() {
                                 </Link>
                             </Button>
                         </div>
-                    </div>
 
-                    {/* Features */}
-                    <div className="mt-8 grid grid-cols-3 gap-4 text-center">
-                        <div className="p-3">
-                            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-2">
-                                <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        {/* 보안/속도 */}
+                        <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-center gap-6">
+                            <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
+                                <span className="text-xs font-medium">안전한 보안</span>
                             </div>
-                            <p className="text-xs text-muted-foreground">안전한 보안</p>
-                        </div>
-                        <div className="p-3">
-                            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-2">
-                                <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                                 </svg>
+                                <span className="text-xs font-medium">빠른 속도</span>
                             </div>
-                            <p className="text-xs text-muted-foreground">빠른 속도</p>
-                        </div>
-                        <div className="p-3">
-                            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-2">
-                                <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
-                            </div>
-                            <p className="text-xs text-muted-foreground">24/7 지원</p>
                         </div>
                     </div>
-                </div>
-            </main>
+                </main>
 
-            <Footer />
+                {/* 모바일 푸터 */}
+                <div className="lg:hidden">
+                    <Footer />
+                </div>
+            </div>
+            </div>
         </div>
     );
 }
