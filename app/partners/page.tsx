@@ -24,7 +24,7 @@ interface Partner {
 const partners: Partner[] = [
     {
         id: 1,
-        name: '바른솔텍',
+        name: '(주)바른솔텍',
         contact: '박전성',
         phone: '02-2666-1874',
         address: '서울특별시 금천구 가산디지털2로 144 1418호(가산동, 현대테라타워 가산DK)',
@@ -42,7 +42,7 @@ const partners: Partner[] = [
     },
     {
         id: 3,
-        name: '데코',
+        name: '(주)데코',
         contact: '황철현',
         phone: '010-4110-1549',
         address: '서울특별시 상봉중앙로 1길 20 데코BD 2~3F',
