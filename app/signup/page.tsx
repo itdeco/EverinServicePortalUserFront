@@ -344,9 +344,9 @@ export default function SignUpPage() {
                             <div className="text-center">
                                 <p className="text-muted-foreground mb-4 text-sm">이미 서비스 포털 계정이 있으신가요?</p>
                                 <Button
-                                    variant="outline"
                                     asChild
-                                    className="w-full h-11 rounded-lg text-base font-semibold border-2 border-gray-200 hover:bg-gray-50 transition-all"
+                                    className="w-full h-11 rounded-lg text-base font-semibold text-white border-0 hover:opacity-90 hover:scale-[1.01] transition-all"
+                                    style={{ background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)" }}
                                 >
                                     <Link href={ROUTES.LOGIN}>
                                         로그인하기

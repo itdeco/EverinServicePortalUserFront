@@ -735,16 +735,14 @@ export default function LoginPage() {
                         {/* Sign Up CTA */}
                         <div className="text-center">
                             <p className="text-muted-foreground mb-4 text-sm">아직 회원이 아니신가요?</p>
-                            <Button
-                                variant="outline"
-                                asChild
-                                className="w-full h-11 rounded-lg text-base font-semibold border-2 border-gray-200 hover:bg-gray-50 transition-all"
+                            <Link
+                                href={ROUTES.SIGNUP}
+                                className="flex items-center justify-center gap-2 w-full h-11 rounded-lg text-base font-semibold text-white transition-all hover:opacity-90 hover:scale-[1.01]"
+                                style={{ background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)" }}
                             >
-                                <Link href={ROUTES.SIGNUP} className="flex items-center justify-center gap-2">
-                                    <CheckCircle2 className="h-5 w-5" />
-                                    무료로 시작하기
-                                </Link>
-                            </Button>
+                                <CheckCircle2 className="h-5 w-5" />
+                                무료로 시작하기
+                            </Link>
                         </div>
 
                         {/* 보안/속도 */}
