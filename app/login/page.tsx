@@ -453,7 +453,7 @@ export default function LoginPage() {
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between py-3">
-                                        <span className="text-sm font-medium text-muted-foreground">�����면 계정 처리일</span>
+                                        <span className="text-sm font-medium text-muted-foreground">�������면 계정 처리일</span>
                                         <span className="text-sm font-semibold text-foreground">
                                             {profile?.dormantDate
                                                 ? DateUtil.formattedDate(profile.dormantDate.toLocaleString(), true)
@@ -494,7 +494,20 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col lg:flex-row">
+        <div className="min-h-screen flex flex-col">
+            {/* 상단 프로모션 배너 */}
+            <div className="bg-slate-900 text-primary-foreground py-2.5 w-full">
+                <div className="mx-auto max-w-[1280px] px-4 text-center text-sm">
+                    <span className="font-medium">AI 빌더를 활용한 강력한 온보딩 솔루션!</span>
+                    {" "}에버웰커밍 무료 사용 이벤트{" "}
+                    <Link href="#" className="underline underline-offset-2 font-semibold hover:opacity-80">
+                        확인하기 &gt;
+                    </Link>
+                </div>
+            </div>
+
+            {/* 메인 컨텐츠 */}
+            <div className="flex-1 flex flex-col lg:flex-row">
             {/* 최대 너비 컨테이너 */}
             <div className="flex flex-col lg:flex-row w-full lg:max-w-7xl lg:mx-auto">
                 {/* 왼쪽: 브랜딩 영역 */}
@@ -766,6 +779,7 @@ export default function LoginPage() {
                 <div className="lg:hidden">
                     <Footer />
                 </div>
+            </div>
             </div>
             </div>
         </div>
