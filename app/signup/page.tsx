@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -163,128 +164,224 @@ export default function SignUpPage() {
     }, []);
 
     return (
-        <div className="min-h-screen flex flex-col bg-background">
-            <Header />
-
-            <main className="flex-1 flex items-center justify-center px-4 py-12 md:py-20">
-                <div className="w-full max-w-md">
-                    {/* Title */}
-                    <div className="text-center mb-8">
-                        <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-                            에버人 계정을 등록하고
-                            <br />
-                            <span className="text-primary">6개월 무료</span>로 시작하세요!
-                        </h1>
-                        <p className="text-muted-foreground">
-                            현재 근무 중인 직장의 이메일 주소로 하시는 것을 추천해드립니다.
-                        </p>
+        <div className="min-h-screen flex flex-col lg:flex-row">
+            {/* 최대 너비 컨테이너 */}
+            <div className="flex flex-col lg:flex-row w-full lg:max-w-7xl lg:mx-auto">
+                {/* 왼쪽: 브랜딩 영역 */}
+                <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]">
+                    {/* 배경 블러 */}
+                    <div className="absolute inset-0 opacity-20">
+                        <div className="absolute top-20 left-20 w-72 h-72 bg-[#00cc99] rounded-full blur-[120px]" />
+                        <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#4b6bf5] rounded-full blur-[150px]" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#00cc99]/50 rounded-full blur-[100px]" />
                     </div>
+                    {/* 그리드 패턴 */}
+                    <div
+                        className="absolute inset-0 opacity-[0.03]"
+                        style={{
+                            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+                            backgroundSize: '50px 50px'
+                        }}
+                    />
 
-                    {/* Signup Card */}
-                    <div className="bg-card rounded-3xl border border-border shadow-xl p-6 md:p-8">
-                        <div className="space-y-5">
-                            {/* Email Field */}
-                            <div className="space-y-2">
-                                <Label htmlFor="email" className="text-sm font-medium text-foreground">
-                                    로그인 아이디로 사용할 이메일
-                                </Label>
-                                <div className="relative">
-                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                                    <Input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        value={email}
-                                        onChange={onEmailChanged}
-                                        onKeyDown={onEmailKeyDown}
-                                        disabled={!available || EmailStatus.Sending === emailStatus}
-                                        autoComplete="off"
-                                        className={`h-12 pl-12 pr-4 rounded-xl border-2 transition-all ${
-                                            isEmailInvalid 
-                                                ? "border-destructive focus:border-destructive focus:ring-destructive/20" 
-                                                : "border-input focus:border-primary focus:ring-primary/20"
-                                        }`}
-                                        placeholder="name@example.com"
-                                    />
+                    <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full h-full">
+                        {/* 로고 - 좌우 전체 흰색 배경 */}
+                        <div className="absolute top-0 left-0 right-0 bg-white px-12 xl:px-16 py-5">
+                            <Link href="/" className="flex items-center">
+                                <Image
+                                    src="/images/header/ever-person-logo.png"
+                                    alt="에버人 로고"
+                                    width={140}
+                                    height={40}
+                                    className="h-10 w-auto"
+                                />
+                            </Link>
+                        </div>
+
+                        {/* 중앙 메시지 */}
+                        <div className="flex-1 flex flex-col justify-center max-w-lg pt-16">
+                            <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-6">
+                                지금 시작하면<br />
+                                <span className="bg-gradient-to-r from-[#00cc99] to-[#4b6bf5] bg-clip-text text-transparent">
+                                    6개월 무료!
+                                </span>
+                            </h1>
+                            <p className="text-lg text-gray-400 leading-relaxed">
+                                급여, 근태, 평가, 온보딩까지<br />
+                                하나의 플랫폼에서 모든 HR 업무를 관리하세요.
+                            </p>
+                            {/* 혜택 */}
+                            <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/10">
+                                <div>
+                                    <p className="text-3xl font-bold text-[#00cc99]">6개월</p>
+                                    <p className="text-sm text-gray-500 mt-1">무료 체험</p>
                                 </div>
-                                {getEmailErrorText() && (
-                                    <p className="text-sm text-destructive flex items-center gap-1.5">
-                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                        </svg>
-                                        {getEmailErrorText()}
-                                    </p>
-                                )}
-                            </div>
-
-                            {/* Submit Button */}
-                            <Button
-                                onClick={onStartClick}
-                                disabled={!available || !checkCanSend() || EmailStatus.Sending === emailStatus}
-                                size="lg"
-                                className="w-full h-12 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-primary/25 transition-all"
-                            >
-                                {EmailStatus.Sending === emailStatus ? (
-                                    <>
-                                        <svg className="animate-spin -ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                        발송 중...
-                                    </>
-                                ) : (
-                                    <>
-                                        시작하기
-                                        <ArrowRight className="ml-2 h-5 w-5" />
-                                    </>
-                                )}
-                            </Button>
-
-                            {/* Divider */}
-                            <div className="relative">
-                                <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-border"></div>
+                                <div>
+                                    <p className="text-3xl font-bold text-[#4b6bf5]">100%</p>
+                                    <p className="text-sm text-gray-500 mt-1">전 기능</p>
                                 </div>
-                                <div className="relative flex justify-center text-xs uppercase">
-                                    <span className="bg-card px-2 text-muted-foreground">또는</span>
+                                <div>
+                                    <p className="text-3xl font-bold text-white">24/7</p>
+                                    <p className="text-sm text-gray-500 mt-1">지원</p>
                                 </div>
                             </div>
+                        </div>
 
-                            {/* Login Link */}
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm text-muted-foreground">이미 서비스 포털 계정이 있으신가요?</span>
-                                <Button variant="outline" size="sm" asChild className="rounded-xl">
-                                    <Link href="/login">로그인</Link>
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Trust Badges */}
-                    <div className="mt-8 grid grid-cols-3 gap-4">
-                        <div className="flex flex-col items-center text-center">
-                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-2">
-                                <Shield className="w-5 h-5 text-primary" />
-                            </div>
-                            <span className="text-xs text-muted-foreground">안전한 보안</span>
-                        </div>
-                        <div className="flex flex-col items-center text-center">
-                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-2">
-                                <Clock className="w-5 h-5 text-primary" />
-                            </div>
-                            <span className="text-xs text-muted-foreground">6개월 무료</span>
-                        </div>
-                        <div className="flex flex-col items-center text-center">
-                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-2">
-                                <Sparkles className="w-5 h-5 text-primary" />
-                            </div>
-                            <span className="text-xs text-muted-foreground">프리미엄 기능</span>
+                        {/* 하단: 영림원소프트랩 로고 */}
+                        <div>
+                            <Image
+                                src="/images/main/softlab-logo-light.svg"
+                                alt="영림원소프트랩"
+                                width={160}
+                                height={32}
+                                className="h-8 w-auto opacity-70"
+                            />
                         </div>
                     </div>
                 </div>
-            </main>
 
-            <Footer />
+                {/* 오른쪽: 회원가입 폼 */}
+                <div className="flex-1 lg:w-1/2 xl:w-[45%] flex flex-col bg-background">
+                    {/* 모바일 헤더 */}
+                    <div className="lg:hidden">
+                        <Header />
+                    </div>
+
+                    {/* 데스크탑 상단 로그인 안내 */}
+                    <div className="hidden lg:flex justify-end items-center p-6 xl:p-8">
+                        <p className="text-sm text-muted-foreground">
+                            이미 계정이 있으신가요?{' '}
+                            <Link href={ROUTES.LOGIN} className="text-primary font-semibold hover:underline">
+                                로그인
+                            </Link>
+                        </p>
+                    </div>
+
+                    <main className="flex-1 flex items-center justify-center px-6 py-8 lg:px-12 xl:px-16">
+                        <div className="w-full max-w-md">
+                            {/* Title */}
+                            <div className="mb-10">
+                                <h1 className="text-3xl font-bold text-foreground mb-3">
+                                    에버人 계정 만들기
+                                </h1>
+                                <p className="text-base text-muted-foreground">
+                                    현재 근무 중인 직장의 이메일 주소를 추천드립니다.
+                                </p>
+                            </div>
+
+                            {/* Form Card */}
+                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+                                <div className="space-y-5">
+                                    {/* Email Field */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="email" className="text-sm font-semibold text-gray-700">
+                                            로그인 아이디로 사용할 이메일
+                                        </Label>
+                                        <div className="relative">
+                                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                                            <Input
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                                value={email}
+                                                onChange={onEmailChanged}
+                                                onKeyDown={onEmailKeyDown}
+                                                disabled={!available || EmailStatus.Sending === emailStatus}
+                                                autoComplete="off"
+                                                className={`h-11 pl-12 pr-4 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                                    isEmailInvalid
+                                                        ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10"
+                                                        : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
+                                                }`}
+                                                placeholder="name@example.com"
+                                            />
+                                        </div>
+                                        {getEmailErrorText() && (
+                                            <p className="text-sm text-destructive flex items-center gap-1.5">
+                                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                                </svg>
+                                                {getEmailErrorText()}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    {/* Submit Button */}
+                                    <Button
+                                        onClick={onStartClick}
+                                        disabled={!available || !checkCanSend() || EmailStatus.Sending === emailStatus}
+                                        className={`w-full h-11 rounded-lg text-base font-semibold transition-all mt-2 ${
+                                            checkCanSend()
+                                                ? "bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg hover:scale-[1.01]"
+                                                : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                        }`}
+                                    >
+                                        {EmailStatus.Sending === emailStatus ? (
+                                            <div className="flex items-center gap-2">
+                                                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                                </svg>
+                                                발송 중...
+                                            </div>
+                                        ) : (
+                                            <span className="flex items-center justify-center gap-2">
+                                                시작하기
+                                                <ArrowRight className="h-5 w-5" />
+                                            </span>
+                                        )}
+                                    </Button>
+                                </div>
+                            </div>
+
+                            {/* Divider */}
+                            <div className="relative my-8">
+                                <div className="absolute inset-0 flex items-center">
+                                    <div className="w-full border-t border-gray-200" />
+                                </div>
+                                <div className="relative flex justify-center text-sm">
+                                    <span className="px-4 bg-background text-muted-foreground font-medium">또는</span>
+                                </div>
+                            </div>
+
+                            {/* Login CTA */}
+                            <div className="text-center">
+                                <p className="text-muted-foreground mb-4 text-sm">이미 서비스 포털 계정이 있으신가요?</p>
+                                <Button
+                                    variant="outline"
+                                    asChild
+                                    className="w-full h-11 rounded-lg text-base font-semibold border-2 border-gray-200 hover:bg-gray-50 transition-all"
+                                >
+                                    <Link href={ROUTES.LOGIN}>
+                                        로그인하기
+                                    </Link>
+                                </Button>
+                            </div>
+
+                            {/* 혜택 표시 */}
+                            <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-center gap-6">
+                                <div className="flex items-center gap-1.5 text-muted-foreground">
+                                    <Shield className="w-4 h-4 text-primary" />
+                                    <span className="text-xs font-medium">안전한 보안</span>
+                                </div>
+                                <div className="flex items-center gap-1.5 text-muted-foreground">
+                                    <Clock className="w-4 h-4 text-primary" />
+                                    <span className="text-xs font-medium">6개월 무료</span>
+                                </div>
+                                <div className="flex items-center gap-1.5 text-muted-foreground">
+                                    <Sparkles className="w-4 h-4 text-primary" />
+                                    <span className="text-xs font-medium">프리미엄 기능</span>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    {/* 모바일 푸터 */}
+                    <div className="lg:hidden">
+                        <Footer />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
