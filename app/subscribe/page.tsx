@@ -987,29 +987,29 @@ function SubscribeContent() {
                     </CardTitle>
                   </CardHeader>
 
-                  <CardContent className="space-y-5 p-6 bg-white">
-                    <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-6 text-center">
-                      <div className="mb-2 text-sm font-medium text-slate-500">
+                  <CardContent className="space-y-5 p-6" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
+                    <div className="rounded-2xl border-0 bg-white/90 p-6 text-center">
+                      <div className="mb-2 text-sm font-medium text-slate-600">
                         예상 월 과금
                       </div>
 
                       <RollingPrice value={displayTotal} />
 
-                      <div className="mt-3 text-xs text-slate-400">
+                      <div className="mt-3 text-xs text-slate-500">
                         모든 금액은 매월 인당 기준 x 선택 인원으로 계산됩니다.
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3 text-sm">
-                      <div className="rounded-xl bg-slate-50 border border-slate-100 p-4">
-                        <div className="text-slate-500">선택 서비스</div>
+                      <div className="rounded-xl bg-white/90 border-0 p-4">
+                        <div className="text-slate-600">선택 서비스</div>
                         <div className="mt-1 text-2xl font-bold text-slate-900">
                           {selectedItems.length}
                         </div>
                       </div>
 
-                      <div className="rounded-xl bg-slate-50 border border-slate-100 p-4">
-                        <div className="text-slate-500">견적요청 항목</div>
+                      <div className="rounded-xl bg-white/90 border-0 p-4">
+                        <div className="text-slate-600">견적요청 항목</div>
                         <div className="mt-1 text-2xl font-bold text-slate-900">
                           {selectedItems.filter((item) => item.quoteOnly).length}
                         </div>
@@ -1017,24 +1017,24 @@ function SubscribeContent() {
                     </div>
 
                     {hasQuoteOnly && (
-                        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                        <div className="rounded-xl border border-orange-200 bg-orange-50/80 p-4 text-sm text-orange-700">
                           견적요청 항목이 포함되어 있습니다. 담당자가 별도로
                           연락드립니다.
                         </div>
                     )}
 
-                    <Separator className="bg-slate-200" />
+                    <Separator className="bg-white/20" />
 
                     <div>
-                      <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
-                        <Calculator className="h-4 w-4 text-primary" />
+                      <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-white">
+                        <Calculator className="h-4 w-4" />
                         선택 상세
                       </div>
 
                       <ScrollArea className="h-[280px] pr-3">
                         <div className="space-y-2">
                           {selectedItems.length === 0 ? (
-                              <div className="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-400">
+                              <div className="rounded-xl border border-dashed border-white/30 p-6 text-center text-sm text-white/60">
                                 선택된 서비스가 없습니다.
                               </div>
                           ) : (
@@ -1043,14 +1043,14 @@ function SubscribeContent() {
                                       key={idx}
                                       className={`flex items-center justify-between rounded-xl border p-3 ${
                                           item.name.startsWith("└")
-                                              ? "ml-4 border-slate-200 bg-slate-50"
-                                              : "border-primary/30 bg-primary/5"
+                                              ? "ml-4 border-white/20 bg-white/10"
+                                              : "border-white/30 bg-white/15"
                                       }`}
                                   >
-                              <span className="text-sm font-medium text-slate-700">
+                              <span className="text-sm font-medium text-white/80">
                                 {item.name}
                               </span>
-                                    <span className="text-sm font-semibold text-slate-900">
+                                    <span className="text-sm font-semibold text-white">
                                 {item.quoteOnly
                                     ? "견적요청"
                                     : currency(item.price)}
