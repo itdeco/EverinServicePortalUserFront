@@ -495,8 +495,10 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex flex-col lg:flex-row">
-            {/* 왼쪽: 브랜딩 영역 */}
-            <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]">
+            {/* 최대 너비 컨테이너 */}
+            <div className="flex flex-col lg:flex-row w-full lg:max-w-7xl lg:mx-auto">
+                {/* 왼쪽: 브랜딩 영역 */}
+                <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]">
                 {/* 배경 블러 */}
                 <div className="absolute inset-0 opacity-20">
                     <div className="absolute top-20 left-20 w-72 h-72 bg-[#00cc99] rounded-full blur-[120px]" />
@@ -512,9 +514,9 @@ export default function LoginPage() {
                     }}
                 />
 
-                <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
+                <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full h-full">
                     {/* 로고 - 헤더와 동일한 이미지 */}
-                    <div>
+                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 w-fit">
                         <Link href="/">
                             <Image
                                 src="/images/header/ever-person-logo.png"
