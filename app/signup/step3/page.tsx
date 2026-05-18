@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { User, Lock, Phone, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 
 import Header from "@/components/layout/header";
@@ -323,40 +324,106 @@ export default function SignUpStep3Page() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col bg-background">
-            <Header />
+        <div className="min-h-screen flex flex-col lg:flex-row">
+            {/* 최대 너비 컨테이너 */}
+            <div className="flex flex-col lg:flex-row w-full lg:max-w-7xl lg:mx-auto">
+                {/* 왼쪽: 브랜딩 영역 */}
+                <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]">
+                    {/* 배경 블러 */}
+                    <div className="absolute inset-0 opacity-20">
+                        <div className="absolute top-20 left-20 w-72 h-72 bg-[#00cc99] rounded-full blur-[120px]" />
+                        <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#4b6bf5] rounded-full blur-[150px]" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#00cc99]/50 rounded-full blur-[100px]" />
+                    </div>
+                    {/* 그리드 패턴 */}
+                    <div
+                        className="absolute inset-0 opacity-[0.03]"
+                        style={{
+                            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+                            backgroundSize: '50px 50px'
+                        }}
+                    />
 
-            <main className="flex-1 flex items-center justify-center px-4 py-12 md:py-20">
-                <div className="w-full max-w-md">
-                    {/* Title */}
-                    <div className="text-center mb-8">
-                        <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">프로필 설정하기</h1>
-                        <p className="text-muted-foreground">
-                            프로필 세부내역을 입력하시면 회원가입이 완료됩니다.
-                        </p>
+                    <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full h-full">
+                        {/* 로고 - 좌우 전체 흰색 배경 */}
+                        <div className="absolute top-0 left-0 right-0 bg-white px-12 xl:px-16 py-5">
+                            <Link href="/" className="flex items-center">
+                                <Image
+                                    src="/images/header/ever-person-logo.png"
+                                    alt="에버人 로고"
+                                    width={140}
+                                    height={40}
+                                    className="h-10 w-auto"
+                                />
+                            </Link>
+                        </div>
+
+                        {/* 중앙 메시지 */}
+                        <div className="flex-1 flex flex-col justify-center max-w-lg pt-16">
+                            <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-6">
+                                프로필
+                                <br />
+                                <span className="bg-gradient-to-r from-[#00cc99] to-[#4b6bf5] bg-clip-text text-transparent">
+                                    설정하기
+                                </span>
+                            </h1>
+                            <p className="text-lg text-gray-400 leading-relaxed">
+                                프로필 세부내역을 입력하시면<br />
+                                회원가입이 완료됩니다.
+                            </p>
+                        </div>
+
+                        {/* 하단: 영림원소프트랩 로고 */}
+                        <div>
+                            <Image
+                                src="/images/main/softlab-logo-light.svg"
+                                alt="영림원소프트랩"
+                                width={160}
+                                height={32}
+                                className="h-8 w-auto opacity-70"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* 오른쪽: 프로필 폼 */}
+                <div className="flex-1 lg:w-1/2 xl:w-[45%] flex flex-col bg-background">
+                    {/* 모바일 헤더 */}
+                    <div className="lg:hidden">
+                        <Header />
                     </div>
 
-                    {/* Form Card */}
-                    <div className="bg-card rounded-3xl border border-border shadow-xl p-6 md:p-8">
-                        <div className="space-y-4">
+                    <main className="flex-1 flex items-center justify-center px-6 py-8 lg:px-12 xl:px-16 overflow-y-auto">
+                        <div className="w-full max-w-md">
+                            {/* Title */}
+                            <div className="mb-10">
+                                <h1 className="text-3xl font-bold text-foreground mb-3">프로필 설정</h1>
+                                <p className="text-base text-muted-foreground">
+                                    프로필 정보를 입력해주세요.
+                                </p>
+                            </div>
+
+                            {/* Form Card */}
+                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+                                <div className="space-y-4">
                             {/* Name Field */}
                             <div className="space-y-2">
                                 <Label htmlFor="name" className="text-sm font-medium text-foreground">이름</Label>
-                                <div className="relative">
-                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                                    <Input
-                                        type="text"
-                                        id="name"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        autoComplete="off"
-                                        className={`h-12 pl-12 pr-4 rounded-xl border-2 ${
-                                            status === ValidationStatus.EmptyName 
-                                                ? "border-destructive" 
-                                                : "border-input focus:border-primary"
-                                        }`}
-                                        placeholder="홍길동"
-                                    />
+                                    <div className="relative">
+                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                                        <Input
+                                            type="text"
+                                            id="name"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            autoComplete="off"
+                                            className={`h-11 pl-12 pr-4 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                                status === ValidationStatus.EmptyName 
+                                                    ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10" 
+                                                    : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
+                                            }`}
+                                            placeholder="홍길동"
+                                        />
                                 </div>
                                 {getErrorText("name") && (
                                     <p className="text-sm text-destructive">{getErrorText("name")}</p>
@@ -368,21 +435,21 @@ export default function SignUpStep3Page() {
                                 <Label htmlFor="password" className="text-sm font-medium text-foreground">
                                     비밀번호 (7~20자 영문, 숫자 조합)
                                 </Label>
-                                <div className="relative">
-                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                                    <Input
-                                        type={showPassword ? "text" : "password"}
-                                        id="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        autoComplete="new-password"
-                                        className={`h-12 pl-12 pr-12 rounded-xl border-2 ${
-                                            status === ValidationStatus.EmptyPassword 
-                                                ? "border-destructive" 
-                                                : "border-input focus:border-primary"
-                                        }`}
-                                        placeholder="비밀번호 입력"
-                                    />
+                                    <div className="relative">
+                                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                                        <Input
+                                            type={showPassword ? "text" : "password"}
+                                            id="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            autoComplete="new-password"
+                                            className={`h-11 pl-12 pr-12 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                                status === ValidationStatus.EmptyPassword 
+                                                    ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10" 
+                                                    : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
+                                            }`}
+                                            placeholder="비밀번호 입력"
+                                        />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
@@ -399,21 +466,21 @@ export default function SignUpStep3Page() {
                             {/* Confirm Password Field */}
                             <div className="space-y-2">
                                 <Label htmlFor="confirmPassword" className="text-sm font-medium text-foreground">비밀번호 확인</Label>
-                                <div className="relative">
-                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                                    <Input
-                                        type={showConfirmPassword ? "text" : "password"}
-                                        id="confirmPassword"
-                                        value={confirmPassword}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
-                                        autoComplete="new-password"
-                                        className={`h-12 pl-12 pr-12 rounded-xl border-2 ${
-                                            [ValidationStatus.EmptyConfirmPassword, ValidationStatus.NotMatchPassword, ValidationStatus.InvalidPassword].includes(status)
-                                                ? "border-destructive" 
-                                                : "border-input focus:border-primary"
-                                        }`}
-                                        placeholder="비밀번호 재입력"
-                                    />
+                                    <div className="relative">
+                                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                                        <Input
+                                            type={showConfirmPassword ? "text" : "password"}
+                                            id="confirmPassword"
+                                            value={confirmPassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                            autoComplete="new-password"
+                                            className={`h-11 pl-12 pr-12 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                                [ValidationStatus.EmptyConfirmPassword, ValidationStatus.NotMatchPassword, ValidationStatus.InvalidPassword].includes(status)
+                                                    ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10" 
+                                                    : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
+                                            }`}
+                                            placeholder="비밀번호 재입력"
+                                        />
                                     <button
                                         type="button"
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -431,25 +498,25 @@ export default function SignUpStep3Page() {
                             <div className="space-y-2">
                                 <Label htmlFor="phone" className="text-sm font-medium text-foreground">휴대전화</Label>
                                 <div className="flex gap-2">
-                                    <div className="relative flex-1">
-                                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                                        <Input
-                                            type="tel"
-                                            id="phone"
-                                            value={phone}
-                                            onChange={(e) => {
-                                                setPhone(CommonUtil.formatPhoneNumber(e.target.value));
-                                                if (status === ValidationStatus.InvalidPhone) setStatus(ValidationStatus.Valid);
-                                            }}
-                                            disabled={isFromTrial}
-                                            className={`h-12 pl-12 pr-4 rounded-xl border-2 ${
-                                                [ValidationStatus.EmptyPhone, ValidationStatus.InvalidPhone].includes(status)
-                                                    ? "border-destructive" 
-                                                    : "border-input focus:border-primary"
-                                            }`}
-                                            placeholder="01012345678"
-                                        />
-                                    </div>
+                                        <div className="relative flex-1">
+                                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                                            <Input
+                                                type="tel"
+                                                id="phone"
+                                                value={phone}
+                                                onChange={(e) => {
+                                                    setPhone(CommonUtil.formatPhoneNumber(e.target.value));
+                                                    if (status === ValidationStatus.InvalidPhone) setStatus(ValidationStatus.Valid);
+                                                }}
+                                                disabled={isFromTrial}
+                                                className={`h-11 pl-12 pr-4 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                                    [ValidationStatus.EmptyPhone, ValidationStatus.InvalidPhone].includes(status)
+                                                        ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10" 
+                                                        : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
+                                                }`}
+                                                placeholder="01012345678"
+                                            />
+                                        </div>
                                     {!isFromTrial && (
                                         <Button
                                             type="button"
@@ -620,12 +687,16 @@ export default function SignUpStep3Page() {
                                     <Link href="/login">로그인</Link>
                                 </Button>
                             </div>
+                            </div>
                         </div>
+                    </main>
+
+                    {/* 모바일 푸터 */}
+                    <div className="lg:hidden">
+                        <Footer />
                     </div>
                 </div>
-            </main>
-
-            <Footer />
+            </div>
         </div>
     );
 }
