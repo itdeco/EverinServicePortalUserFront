@@ -501,7 +501,7 @@ function ServiceRow({
   return (
       <motion.div
           layout
-          className={`rounded-2xl border-2 transition-all ${
+          className={`rounded-2xl border-2 transition-all overflow-hidden ${
               isSelected
                   ? "border-primary/50 bg-white shadow-lg shadow-primary/10"
                   : "border-slate-200 bg-white hover:border-primary/30 hover:shadow-md"
@@ -643,11 +643,12 @@ function ServiceRow({
                       transition={{ duration: 0.2 }}
                       className="overflow-hidden"
                   >
-                    <div className="space-y-3 border-t border-slate-200 bg-slate-50 p-4">
-                      <div className="mb-2 text-xs font-medium text-slate-500">
+                    <div className="border-t border-slate-200 bg-slate-50 px-4 pt-3 pb-4">
+                      <div className="mb-3 text-xs font-medium text-slate-400">
                         선택 가능한 하위 서비스
                       </div>
 
+                      <div className="space-y-2">
                       {visibleSubServices.map((sub) => {
                         const subId = sub.serviceId;
                         const isSubSelected = !!selected[subId];
@@ -659,14 +660,15 @@ function ServiceRow({
                         return (
                             <div
                                 key={subId}
-                                className={`rounded-xl border-2 p-3 transition ${
+                                className={`rounded-xl border bg-white p-3 transition ${
                                     isSubSelected
-                                        ? "border-primary/40 bg-white shadow-sm"
-                                        : "border-slate-200 bg-white"
+                                        ? "border-primary/40 shadow-sm"
+                                        : "border-slate-200"
                                 }`}
                             >
-                              <div className="flex items-start justify-between gap-3">
-                                <div className="flex gap-3">
+                              <div className="flex items-center justify-between gap-4">
+                                {/* Left: checkbox + name + desc + price */}
+                                <div className="flex items-center gap-3 min-w-0">
                                   <NativeCheckbox
                                       checked={isSubSelected}
                                       onChange={(checked) =>
@@ -675,43 +677,28 @@ function ServiceRow({
                                       ariaLabel={`${sub.serviceName} 선택`}
                                       disabled={!isSelected}
                                   />
-
-                                  <div>
+                                  <div className="min-w-0">
                                     <div className="flex items-center gap-2">
-                              <span className="font-medium">
-                                {sub.serviceName}
-                              </span>
-
+                                      <span className="text-sm font-semibold text-slate-900">{sub.serviceName}</span>
                                       {sub.quoteOnly && (
-                                          <Badge variant="outline" className="text-xs">
+                                          <Badge variant="outline" className="text-xs text-slate-500 border-slate-300">
                                             견적요청
                                           </Badge>
                                       )}
-
-                                      {isSubSelected && !sub.quoteOnly && (
-                                          <Badge className="text-white text-xs border-0" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
-                                            선택됨
-                                          </Badge>
-                                      )}
                                     </div>
-
                                     {sub.description && (
-                                        <p className="mt-0.5 text-xs text-slate-500">
-                                          {sub.description}
-                                        </p>
+                                        <p className="text-xs text-slate-500 mt-0.5">{sub.description}</p>
                                     )}
-
                                     {!sub.quoteOnly && (
-                                        <div className="mt-1 text-xs text-slate-500">
-                                          {perPerson(sub.price)}
-                                        </div>
+                                        <p className="text-xs text-slate-400 mt-0.5">{perPerson(sub.price)}</p>
                                     )}
                                   </div>
                                 </div>
 
-                                <div className="text-right">
+                                {/* Right: headcount + total */}
+                                <div className="flex items-center gap-3 flex-shrink-0">
                                   {!sub.quoteOnly ? (
-                                      <div className="flex items-center gap-2">
+                                      <>
                                         <Input
                                             type="number"
                                             min={0}
@@ -723,22 +710,21 @@ function ServiceRow({
                                                     Number(e.target.value || 0)
                                                 )
                                             }
-                                            className="h-8 w-20 text-sm border-slate-200 bg-white"
+                                            className="h-8 w-20 text-sm border-slate-200 bg-white text-center"
                                         />
-                                        <span className="min-w-[80px] text-right text-sm font-medium text-slate-900">
-                                {currency(subTotal)}
-                              </span>
-                                      </div>
+                                        <span className="min-w-[80px] text-right text-sm font-semibold text-slate-900">
+                                          {currency(subTotal)}
+                                        </span>
+                                      </>
                                   ) : (
-                                      <span className="text-sm text-slate-500">
-                              견적요청
-                            </span>
+                                      <span className="text-sm text-slate-500">견적요청</span>
                                   )}
                                 </div>
                               </div>
                             </div>
                         );
                       })}
+                      </div>
                     </div>
                   </motion.div>
               )}
@@ -772,9 +758,6 @@ function SubscribeContent() {
   );
 
   const [displayTotal, setDisplayTotal] = useState(0);
-  const [activeCategoryId, setActiveCategoryId] = useState(
-      initialConfig[0].categoryId
-  );
 
   useEffect(() => {
     const loadServices = async () => {
@@ -802,9 +785,6 @@ function SubscribeContent() {
     loadServices();
   }, []);
 
-  const activeCategory =
-      serviceConfig.find((cat) => cat.categoryId === activeCategoryId) ??
-      serviceConfig[0];
 
   const total = useMemo(() => {
     let sum = 0;
@@ -963,66 +943,37 @@ function SubscribeContent() {
         <main className="flex-1">
           <div className="mx-auto max-w-[1280px] px-4 py-8 md:px-8 md:py-12">
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
-              <div className="space-y-5">
-                {/* Category Tabs */}
-                <div className="flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-                  {serviceConfig.map((category) => (
-                      <button
-                          key={category.categoryId}
-                          type="button"
-                          onClick={() => setActiveCategoryId(category.categoryId)}
-                          className={`cursor-pointer rounded-xl px-5 py-2.5 text-sm font-semibold transition-all ${
-                              activeCategoryId === category.categoryId
-                                  ? "text-white shadow-md"
-                                  : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
-                          }`}
-                          style={activeCategoryId === category.categoryId ? {
-                            background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"
-                          } : {}}
-                      >
-                        {category.categoryName}
-                      </button>
-                  ))}
-                </div>
+              <div className="space-y-8">
+                {serviceConfig.map((category) => (
+                    <div key={category.categoryId}>
+                      <div className="mb-4 flex items-center gap-3">
+                        <div className="h-10 w-1.5 rounded-full" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}} />
+                        <h2 className="text-2xl font-bold text-slate-900">
+                          {category.categoryName}
+                        </h2>
+                        <Badge className="ml-2 bg-slate-100 text-slate-700 border-slate-200">
+                          {category.services.length}개 서비스
+                        </Badge>
+                      </div>
 
-                {/* Category Header */}
-                <div>
-                  <div className="mb-4 flex items-center gap-3">
-                    <div className="h-10 w-1.5 rounded-full" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}} />
-                    <h2 className="text-2xl font-bold text-slate-900">
-                      {activeCategory.categoryName}
-                    </h2>
-                    <Badge className="ml-2 bg-slate-100 text-slate-700 border-slate-200">
-                      {activeCategory.services.length}개 서비스
-                    </Badge>
-                  </div>
-
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                        key={activeCategory.categoryId}
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -8 }}
-                        transition={{ duration: 0.18 }}
-                        className="space-y-4"
-                    >
-                      {activeCategory.services.map((service) => (
-                          <ServiceRow
-                              key={service.serviceId}
-                              service={service}
-                              selected={selected}
-                              plans={plans}
-                              headcounts={headcounts}
-                              open={open}
-                              onToggleSelected={toggleSelected}
-                              onChangePlan={changePlan}
-                              onChangeHeadcount={changeHeadcount}
-                              onToggleOpen={toggleOpen}
-                          />
-                      ))}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
+                      <div className="space-y-4">
+                        {category.services.map((service) => (
+                            <ServiceRow
+                                key={service.serviceId}
+                                service={service}
+                                selected={selected}
+                                plans={plans}
+                                headcounts={headcounts}
+                                open={open}
+                                onToggleSelected={toggleSelected}
+                                onChangePlan={changePlan}
+                                onChangeHeadcount={changeHeadcount}
+                                onToggleOpen={toggleOpen}
+                            />
+                        ))}
+                      </div>
+                    </div>
+                ))}
               </div>
 
               {/* Summary Card */}
