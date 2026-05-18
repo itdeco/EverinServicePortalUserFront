@@ -666,9 +666,9 @@ function ServiceRow({
                                         : "border-slate-200"
                                 }`}
                             >
-                              <div className="flex items-center justify-between gap-4">
-                                {/* Left: checkbox + name + desc + price */}
-                                <div className="flex items-center gap-3 min-w-0">
+                              <div className="flex items-center justify-between gap-3">
+                                {/* Left: checkbox + name/desc/price */}
+                                <div className="flex items-center gap-3 min-w-0 flex-1">
                                   <NativeCheckbox
                                       checked={isSubSelected}
                                       onChange={(checked) =>
@@ -677,20 +677,18 @@ function ServiceRow({
                                       ariaLabel={`${sub.serviceName} 선택`}
                                       disabled={!isSelected}
                                   />
-                                  <div className="min-w-0">
-                                    <div className="flex items-center gap-2">
-                                      <span className="text-sm font-semibold text-slate-900">{sub.serviceName}</span>
-                                      {sub.quoteOnly && (
-                                          <Badge variant="outline" className="text-xs text-slate-500 border-slate-300">
-                                            견적요청
-                                          </Badge>
-                                      )}
-                                    </div>
+                                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                                    <span className="text-sm font-semibold text-slate-900 whitespace-nowrap">{sub.serviceName}</span>
                                     {sub.description && (
-                                        <p className="text-xs text-slate-500 mt-0.5">{sub.description}</p>
+                                        <span className="text-xs text-slate-500 whitespace-nowrap">{sub.description}</span>
                                     )}
                                     {!sub.quoteOnly && (
-                                        <p className="text-xs text-slate-400 mt-0.5">{perPerson(sub.price)}</p>
+                                        <span className="text-xs text-slate-400 whitespace-nowrap">{perPerson(sub.price)}</span>
+                                    )}
+                                    {sub.quoteOnly && (
+                                        <Badge variant="outline" className="text-xs text-slate-500 border-slate-300 whitespace-nowrap">
+                                          견적요청
+                                        </Badge>
                                     )}
                                   </div>
                                 </div>
@@ -710,14 +708,14 @@ function ServiceRow({
                                                     Number(e.target.value || 0)
                                                 )
                                             }
-                                            className="h-8 w-20 text-sm border-slate-200 bg-white text-center"
+                                            className="h-8 w-16 text-sm border-slate-200 bg-white text-center"
                                         />
-                                        <span className="min-w-[80px] text-right text-sm font-semibold text-slate-900">
+                                        <span className="min-w-[80px] text-right text-sm font-semibold text-slate-900 whitespace-nowrap">
                                           {currency(subTotal)}
                                         </span>
                                       </>
                                   ) : (
-                                      <span className="text-sm text-slate-500">견적요청</span>
+                                      <span className="text-sm text-slate-500 whitespace-nowrap">견적요청</span>
                                   )}
                                 </div>
                               </div>
