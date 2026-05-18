@@ -1,5 +1,19 @@
 "use client"
 
+const ComingSoonOverlay = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="relative">
+      {children}
+
+      <div className="absolute inset-0 z-30 flex items-center justify-center rounded-[2rem] bg-white/55 backdrop-blur-[3px] border border-white/60">
+        <div className="px-8 py-4 rounded-full bg-gray-900/70 text-white text-2xl md:text-3xl font-black tracking-tight shadow-xl">
+          변경예정
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function StrategySection() {
   return (
     <section className="py-20 lg:py-28 bg-gradient-to-b from-white via-[#f8fbff] to-white">
@@ -31,11 +45,13 @@ export function StrategySection() {
           </div>
 
           {/* 오른쪽: 대시보드 이미지 */}
+          <ComingSoonOverlay>
           <img
             src="/images/main/heroes/strategy-dashboard-ui.jpg"
             alt="Everin Strategy Dashboard"
             className="w-full h-auto object-cover"
           />
+          </ComingSoonOverlay>
         </div>
       </div>
     </section>
