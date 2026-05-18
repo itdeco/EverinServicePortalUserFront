@@ -961,46 +961,6 @@ function SubscribeContent() {
         <Header />
 
         <main className="flex-1">
-          {/* Hero Section */}
-          <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700/50 py-16 overflow-hidden">
-            {/* Animated Background */}
-            <div className="absolute inset-0 opacity-20">
-              <div className="absolute top-20 left-20 w-96 h-96 bg-primary rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-              <div className="absolute top-40 right-20 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-              <div className="absolute -bottom-20 left-1/2 w-96 h-96 bg-primary/50 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
-            </div>
-
-            {/* Grid Pattern */}
-            <div
-              className="absolute inset-0 opacity-[0.03]"
-              style={{
-                backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                backgroundSize: '50px 50px'
-              }}
-            />
-
-            <div className="container max-w-7xl mx-auto px-4 relative">
-              <div className="text-center max-w-3xl mx-auto">
-                <div className="flex items-center justify-center gap-3 mb-6">
-                  <Zap className="h-8 w-8 text-cyan-400"/>
-                  <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 px-4 py-1.5">
-                    Service Pricing Simulator
-                  </Badge>
-                </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                  에버 HR
-                  <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-primary bg-clip-text text-transparent">
-                    {" "}통합 서비스
-                  </span>
-                </h1>
-                <p className="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
-                  서비스, 플랜, 하위 서비스, 인원을 선택하면 총 견적이 실시간으로 반영됩니다.
-                </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div className="mx-auto max-w-[1280px] px-4 py-8 md:px-8 md:py-12">
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
               <div className="space-y-5">
