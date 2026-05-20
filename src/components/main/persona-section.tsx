@@ -89,16 +89,16 @@ export function PersonaSection() {
                 <div className="h-px mb-6 bg-gray-100" />
 
                 {/* Quote */}
-                <div className="mb-6">
+                <div className="mb-7">
                   <div
-                    className="text-3xl font-black leading-none mb-2 select-none"
-                    style={{ color: persona.accentColor, opacity: 0.3 }}
+                    className="text-4xl font-black leading-none mb-3 select-none"
+                    style={{ color: persona.accentColor, opacity: 0.25 }}
                     aria-hidden="true"
                   >
                     &ldquo;
                   </div>
                   <p
-                    className="text-lg sm:text-xl font-extrabold leading-snug break-keep"
+                    className="text-xl sm:text-2xl font-black leading-tight break-keep"
                     style={{ color: persona.accentColor }}
                   >
                     {persona.quote}
@@ -107,10 +107,10 @@ export function PersonaSection() {
 
                 {/* Need */}
                 <div className="flex-1 mb-6">
-                  <p className="text-[11px] font-semibold tracking-widest uppercase mb-2 text-gray-400">
+                  <p className="text-xs font-bold tracking-widest uppercase mb-3 text-gray-500">
                     Need
                   </p>
-                  <p className="text-sm text-gray-600 leading-relaxed break-keep whitespace-pre-line">
+                  <p className="text-base sm:text-lg font-semibold text-gray-700 leading-relaxed break-keep whitespace-pre-line">
                     {persona.need}
                   </p>
                 </div>
