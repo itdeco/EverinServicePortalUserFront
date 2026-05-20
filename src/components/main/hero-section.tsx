@@ -100,67 +100,13 @@ export default function HeroSection() {
               </div>
 
               {/* 오른쪽: 방사형 다이어그램 */}
-              <ComingSoonOverlay>
-              <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full">
-                <svg
-                  width="500"
-                  height="500"
-                  viewBox="0 0 500 500"
-                  className="absolute"
-                  style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
-                >
-                  {/* 연결선들 */}
-                  {radialModules.map((module, idx) => {
-                    const angle = (module.angle * Math.PI) / 180
-                    const radius = 140
-                    const x2 = 250 + radius * Math.cos(angle)
-                    const y2 = 250 + radius * Math.sin(angle)
-
-                    return (
-                      <g key={`line-${idx}`}>
-                        <line
-                          x1="250"
-                          y1="250"
-                          x2={x2}
-                          y2={y2}
-                          stroke="#00cc99"
-                          strokeWidth="2"
-                          strokeDasharray="4 4"
-                          opacity="0.6"
-                        />
-                        <circle cx={x2} cy={y2} r="4" fill="#00cc99" opacity="0.8" />
-                      </g>
-                    )
-                  })}
-
-                  {/* 모듈 박스들 */}
-                  {radialModules.map((module, idx) => {
-                    const angle = (module.angle * Math.PI) / 180
-                    const radius = 140
-                    const x = 250 + radius * Math.cos(angle)
-                    const y = 250 + radius * Math.sin(angle)
-
-                    return (
-                      <g key={`module-${idx}`}>
-                        <rect x={x - 50} y={y - 18} width="100" height="36" rx="8" fill={module.color} />
-                        <text x={x} y={y + 5} textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">
-                          {module.label}
-                        </text>
-                      </g>
-                    )
-                  })}
-
-                  {/* 중앙 원 */}
-                  <circle cx="250" cy="250" r="50" fill="white" stroke="#00cc99" strokeWidth="3" />
-                  <text x="250" y="245" textAnchor="middle" fill="#3d5a80" fontSize="14" fontWeight="bold">
-                    클라우드 HR
-                  </text>
-                  <text x="250" y="265" textAnchor="middle" fill="#00cc99" fontSize="16" fontWeight="bold">
-                    에버인
-                  </text>
-                </svg>
+              <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full overflow-hidden rounded-3xl shadow-2xl">
+                <img
+                  src="/images/main/heroes/main_everin_01.png"
+                  alt="클라우드 HR 에버人"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              </ComingSoonOverlay>
             </div>
           </div>
         </div>
