@@ -37,19 +37,16 @@ const personas = [
 
 export function PersonaSection() {
   return (
-    <section className="py-24 bg-[#0f1117]">
+    <section className="py-20 lg:py-28 bg-gradient-to-b from-white via-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block text-xs font-semibold tracking-widest uppercase text-[#00dcaa] mb-4 px-3 py-1 rounded-full border border-[#00dcaa]/30 bg-[#00dcaa]/10">
-            고객 페르소나
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-white mb-5 break-keep">
-            HR,<br />다시 중요한 곳으로
+        <div className="text-center mb-14">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 break-keep">
+            HR, 다시 중요한 곳으로
           </h2>
-          <p className="text-sm sm:text-lg text-white/50 break-keep max-w-xl mx-auto leading-relaxed">
-            반복 업무를 줄이고,<br />진짜 가치 있는 일에 집중하는 HR을 만드세요.
+          <p className="text-sm sm:text-lg text-gray-500 break-keep max-w-xl mx-auto leading-relaxed">
+            반복 업무를 줄이고, 진짜 가치 있는 일에 집중하는 HR을 만드세요.
           </p>
         </div>
 
@@ -59,16 +56,16 @@ export function PersonaSection() {
             <div
               key={idx}
               data-persona-index={idx}
-              className="min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-2xl overflow-hidden"
-              style={{ background: 'linear-gradient(160deg, #1a1d26 0%, #13161e 100%)', border: `1px solid ${persona.accentColor}22` }}
+              className="min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300"
+              style={{ border: `1px solid ${persona.accentColor}20` }}
             >
               {/* Accent top bar */}
               <div className="h-1 w-full" style={{ background: persona.accentColor }} />
 
-              <div className="p-7 flex flex-col flex-1">
+              <div className="p-6 flex flex-col flex-1">
                 {/* Profile */}
-                <div className="flex items-center gap-4 mb-7">
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 ring-2" style={{ ringColor: persona.accentColor, boxShadow: `0 0 0 2px ${persona.accentColor}55` }}>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0" style={{ boxShadow: `0 0 0 3px ${persona.accentColor}` }}>
                     <Image
                       src={persona.profile}
                       alt={persona.name}
@@ -77,42 +74,43 @@ export function PersonaSection() {
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-bold text-white truncate">{persona.name}</h3>
-                    <p className="text-xs text-white/40 truncate mt-0.5">{persona.company}</p>
+                    <h3 className="text-sm font-bold text-gray-900 truncate">{persona.name}</h3>
+                    <p className="text-xs text-gray-500 truncate mt-0.5">{persona.company}</p>
                   </div>
                   <span
                     className="text-[10px] font-semibold px-2.5 py-1 rounded-full shrink-0 whitespace-nowrap"
-                    style={{ color: persona.accentColor, background: `${persona.accentColor}18` }}
+                    style={{ color: persona.accentColor, background: `${persona.accentColor}15` }}
                   >
                     {persona.tag}
                   </span>
                 </div>
 
                 {/* Divider */}
-                <div className="h-px mb-7" style={{ background: `linear-gradient(90deg, ${persona.accentColor}33, transparent)` }} />
+                <div className="h-px mb-6 bg-gray-100" />
 
                 {/* Quote */}
-                <div className="mb-7">
+                <div className="mb-6">
                   <div
-                    className="text-3xl font-black leading-none mb-3 select-none"
-                    style={{ color: persona.accentColor, opacity: 0.4 }}
+                    className="text-3xl font-black leading-none mb-2 select-none"
+                    style={{ color: persona.accentColor, opacity: 0.3 }}
                     aria-hidden="true"
                   >
                     &ldquo;
                   </div>
                   <p
-                    className="text-xl sm:text-2xl font-extrabold text-white leading-snug break-keep"
+                    className="text-lg sm:text-xl font-extrabold leading-snug break-keep"
+                    style={{ color: persona.accentColor }}
                   >
                     {persona.quote}
                   </p>
                 </div>
 
                 {/* Need */}
-                <div className="flex-1 mb-7">
-                  <p className="text-[11px] font-semibold tracking-widest uppercase mb-2.5" style={{ color: persona.accentColor }}>
+                <div className="flex-1 mb-6">
+                  <p className="text-[11px] font-semibold tracking-widest uppercase mb-2 text-gray-400">
                     Need
                   </p>
-                  <p className="text-sm text-white/55 leading-relaxed break-keep whitespace-pre-line">
+                  <p className="text-sm text-gray-600 leading-relaxed break-keep whitespace-pre-line">
                     {persona.need}
                   </p>
                 </div>
