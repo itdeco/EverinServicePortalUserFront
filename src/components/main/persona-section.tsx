@@ -100,32 +100,6 @@ const personas = [
 ]
 
 export function PersonaSection() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [dragStartX, setDragStartX] = useState<number | null>(null)
-  const scrollRef = useRef<HTMLDivElement>(null)
-
-  const goToIndex = (idx: number) => {
-    setCurrentIndex(idx)
-    const container = scrollRef.current
-    if (!container) return
-    const cardWidth = container.clientWidth * 0.78
-    const gap = container.clientWidth * 0.04
-    const offset = idx * (cardWidth + gap) - (container.clientWidth - cardWidth) / 2
-    container.scrollTo({ left: offset, behavior: 'smooth' })
-  }
-
-  const handleTouchStart = (e: React.TouchEvent) => setDragStartX(e.touches[0].clientX)
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (dragStartX === null) return
-    const diff = dragStartX - e.changedTouches[0].clientX
-    if (Math.abs(diff) > 40) {
-      goToIndex(diff > 0
-        ? Math.min(currentIndex + 1, personas.length - 1)
-        : Math.max(currentIndex - 1, 0))
-    }
-    setDragStartX(null)
-  }
-
   return (
     <section className="py-20 lg:py-28 bg-gradient-to-b from-white via-gray-50/50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -140,14 +114,13 @@ export function PersonaSection() {
           </p>
         </div>
 
-        {/* Cards Carousel */}
-        <div className="hidden md:grid md:grid-cols-3 md:gap-8">
+        {/* Cards */}
+        <div className="md:grid md:grid-cols-3 md:gap-8 flex md:flex-none gap-5 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 scroll-smooth">
           {personas.map((persona, idx) => (
             <div
               key={idx}
               data-persona-index={idx}
-              onClick={() => goToIndex(idx)}
-              className="flex flex-col rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+              className="min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
               style={{ 
                 background: `linear-gradient(180deg, ${persona.gradientFrom} 0%, ${persona.gradientTo} 100%)`,
               }}
@@ -232,88 +205,6 @@ export function PersonaSection() {
                 </div>
               </div>
             ))}
-        </div>
-
-        {/* Mobile Carousel - 양쪽 카드 peek + 클릭/스와이프 이동 */}
-        <div className="md:hidden">
-          <div
-            ref={scrollRef}
-            className="flex gap-[4vw] overflow-x-hidden px-[11vw] py-2"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-          >
-            {personas.map((persona, idx) => (
-              <div
-                key={idx}
-                onClick={() => goToIndex(idx)}
-                className="flex-shrink-0 w-[78vw] flex flex-col rounded-3xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer"
-                style={{ 
-                  background: `linear-gradient(180deg, ${persona.gradientFrom} 0%, ${persona.gradientTo} 100%)`,
-                  opacity: idx === currentIndex ? 1 : 0.55,
-                  scale: idx === currentIndex ? '1' : '0.96',
-                  pointerEvents: 'auto',
-                }}
-              >
-                    <div className="p-7 flex flex-col flex-1">
-                      <AutoScaleText color={persona.accentColor} maxFontSize={42} minFontSize={20}>
-                        &ldquo;{persona.quote}&rdquo;
-                      </AutoScaleText>
-
-                      <div className="flex justify-center mb-8">
-                        <span
-                          className="px-4 py-2 rounded-full text-base font-bold border-2"
-                          style={{ color: persona.accentColor, borderColor: persona.accentColor, background: `${persona.accentColor}10` }}
-                        >
-                          {persona.tag}
-                        </span>
-                      </div>
-
-                      <div className="flex-1" />
-
-                      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-5 space-y-4">
-                        <div className="flex items-center gap-3">
-                          <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0" style={{ boxShadow: `0 0 0 2px ${persona.accentColor}` }}>
-                            <Image src={persona.profile} alt={persona.name} fill className="object-cover" />
-                          </div>
-                          <div>
-                            <h3 className="text-base font-bold text-gray-900">{persona.name}</h3>
-                            <p className="text-sm text-gray-500">{persona.company}</p>
-                          </div>
-                        </div>
-                        <div className="h-px bg-gray-200" />
-                        <div className="flex items-start gap-3">
-                          <div className="w-1.5 h-1.5 rounded-full mt-2.5 shrink-0" style={{ background: persona.accentColor }} />
-                          <div>
-                            <p className="text-base font-semibold text-gray-800 break-keep">{persona.need}</p>
-                            <p className="text-sm text-gray-500 break-keep">{persona.subNeed}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: `${persona.accentColor}15` }}>
-                          <span className="text-sm font-medium text-gray-600">해결책 :</span>
-                          <span className="text-lg font-black" style={{ color: persona.accentColor }}>{persona.solution}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            ))}
-          </div>
-
-          {/* Dots */}
-          <div className="flex justify-center gap-2 mt-6">
-            {personas.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => goToIndex(idx)}
-                className="rounded-full transition-all duration-300"
-                style={{
-                  width: idx === currentIndex ? '24px' : '8px',
-                  height: '8px',
-                  background: idx === currentIndex ? '#00dcaa' : '#e5e7eb',
-                }}
-                aria-label={`카드 ${idx + 1}`}
-              />
-            ))}
-          </div>
         </div>
       </div>
     </section>
