@@ -140,13 +140,15 @@ export function PersonaSection() {
                     </p>
                   </div>
 
-                  {/* Solution button */}
-                  <button
-                    className="w-full py-4 rounded-xl font-bold text-base text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] break-keep"
-                    style={{ background: persona.accentColor }}
-                  >
-                    {persona.solution}
-                  </button>
+                  {/* Solution */}
+                  <div className="px-4 py-3 rounded-xl" style={{ background: `${persona.accentColor}12` }}>
+                    <p
+                      className="text-base sm:text-lg font-black leading-snug break-keep"
+                      style={{ color: persona.accentColor }}
+                    >
+                      {persona.solution}
+                    </p>
+                  </div>
                 </div>
               </div>
             )
