@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { Building2, Users, DollarSign } from 'lucide-react'
 
 const personas = [
   {
@@ -12,6 +13,9 @@ const personas = [
     solution: "해결책 : 에버웰커밍",
     accentColor: "#00dcaa",
     tag: "온보딩 자동화",
+    icon: Building2,
+    stat: "1000+",
+    statLabel: "기업 도입",
   },
   {
     profile: "/images/main/profiles/profile-pro-02.png",
@@ -22,6 +26,9 @@ const personas = [
     solution: "해결책 : 에버웰커밍 + 에버타임",
     accentColor: "#2bd67c",
     tag: "HR 통합 관리",
+    icon: Users,
+    stat: "50K+",
+    statLabel: "사용자",
   },
   {
     profile: "/images/main/profiles/profile-pro-03.png",
@@ -32,6 +39,9 @@ const personas = [
     solution: "해결책 : 에버페이롤",
     accentColor: "#586ffa",
     tag: "급여 아웃소싱",
+    icon: DollarSign,
+    stat: "10B+",
+    statLabel: "처리액",
   },
 ]
 
@@ -52,79 +62,95 @@ export function PersonaSection() {
 
         {/* Cards */}
         <div className="md:grid md:grid-cols-3 md:gap-6 flex md:flex-none gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 scroll-smooth">
-          {personas.map((persona, idx) => (
-            <div
-              key={idx}
-              data-persona-index={idx}
-              className="min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300"
-              style={{ border: `1px solid ${persona.accentColor}20` }}
-            >
-              {/* Accent top bar */}
-              <div className="h-1 w-full" style={{ background: persona.accentColor }} />
+          {personas.map((persona, idx) => {
+            const IconComponent = persona.icon
+            return (
+              <div
+                key={idx}
+                data-persona-index={idx}
+                className="min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-3xl overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300"
+                style={{ 
+                  border: `1px solid ${persona.accentColor}20`,
+                  background: `linear-gradient(135deg, white 0%, ${persona.accentColor}08 100%)`
+                }}
+              >
+                {/* Accent top bar */}
+                <div className="h-1.5 w-full" style={{ background: persona.accentColor }} />
 
-              <div className="p-6 flex flex-col flex-1">
-                {/* Profile */}
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0" style={{ boxShadow: `0 0 0 3px ${persona.accentColor}` }}>
-                    <Image
-                      src={persona.profile}
-                      alt={persona.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-bold text-gray-900 truncate">{persona.name}</h3>
-                    <p className="text-xs text-gray-500 truncate mt-0.5">{persona.company}</p>
-                  </div>
-                  <span
-                    className="text-xs sm:text-sm font-bold px-3 py-1.5 rounded-full shrink-0 whitespace-nowrap"
-                    style={{ color: persona.accentColor, background: `${persona.accentColor}15` }}
+                <div className="p-7 flex flex-col flex-1">
+                  {/* Icon */}
+                  <div 
+                    className="w-12 h-12 rounded-lg flex items-center justify-center mb-6 shrink-0"
+                    style={{ background: persona.accentColor }}
                   >
-                    {persona.tag}
-                  </span>
-                </div>
-
-                {/* Divider */}
-                <div className="h-px mb-6 bg-gray-100" />
-
-                {/* Quote */}
-                <div className="mb-7">
-                  <div
-                    className="text-4xl font-black leading-none mb-3 select-none"
-                    style={{ color: persona.accentColor, opacity: 0.25 }}
-                    aria-hidden="true"
-                  >
-                    &ldquo;
+                    <IconComponent className="w-6 h-6 text-white" />
                   </div>
-                  <p
-                    className="text-xl sm:text-2xl font-black leading-tight break-keep"
-                    style={{ color: persona.accentColor }}
+
+                  {/* Stats */}
+                  <div className="mb-7">
+                    <div className="flex items-baseline gap-2">
+                      <span 
+                        className="text-4xl font-black"
+                        style={{ color: persona.accentColor }}
+                      >
+                        {persona.stat}
+                      </span>
+                      <span className="text-gray-400 text-sm font-medium">
+                        {persona.statLabel}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Profile */}
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0" style={{ boxShadow: `0 0 0 2px ${persona.accentColor}` }}>
+                      <Image
+                        src={persona.profile}
+                        alt={persona.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-sm font-bold text-gray-900">{persona.name}</h3>
+                      <p className="text-xs text-gray-500 mt-0.5">{persona.company}</p>
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="h-px mb-6 bg-gray-100" />
+
+                  {/* Quote */}
+                  <div className="mb-7 px-4 py-4 rounded-2xl" style={{ background: `${persona.accentColor}12` }}>
+                    <p
+                      className="text-lg sm:text-xl font-black leading-tight break-keep"
+                      style={{ color: persona.accentColor }}
+                    >
+                      &ldquo;{persona.quote}&rdquo;
+                    </p>
+                  </div>
+
+                  {/* Need */}
+                  <div className="flex-1 mb-7">
+                    <p className="text-xs font-bold tracking-widest uppercase mb-3 text-gray-500">
+                      Need
+                    </p>
+                    <p className="text-base sm:text-lg font-semibold text-gray-700 leading-relaxed break-keep whitespace-pre-line">
+                      {persona.need}
+                    </p>
+                  </div>
+
+                  {/* Solution button */}
+                  <button
+                    className="w-full py-4 rounded-xl font-bold text-base text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] break-keep"
+                    style={{ background: persona.accentColor }}
                   >
-                    {persona.quote}
-                  </p>
+                    {persona.solution}
+                  </button>
                 </div>
-
-                {/* Need */}
-                <div className="flex-1 mb-6">
-                  <p className="text-xs font-bold tracking-widest uppercase mb-3 text-gray-500">
-                    Need
-                  </p>
-                  <p className="text-base sm:text-lg font-semibold text-gray-700 leading-relaxed break-keep whitespace-pre-line">
-                    {persona.need}
-                  </p>
-                </div>
-
-                {/* Solution button */}
-                <button
-                  className="w-full py-4 rounded-xl font-bold text-sm sm:text-base text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] break-keep"
-                  style={{ background: persona.accentColor }}
-                >
-                  {persona.solution}
-                </button>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
