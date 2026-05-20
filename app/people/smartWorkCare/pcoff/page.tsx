@@ -13,8 +13,8 @@ export default function PcOffPage() {
     <main className="min-h-screen">
       <Header />
       <PcOffHeroSection />
-      <PcOffTaglineSection />
       <PcOffTestimonialSection />
+      <PcOffTaglineSection />
       <PcOffFeaturesSection />
       <PcOffCtaSection />
       <Footer />
