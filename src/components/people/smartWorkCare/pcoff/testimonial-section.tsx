@@ -29,13 +29,32 @@ export default function PcOffTestimonialSection() {
   const dragStartX = useRef(0)
   const dragDelta = useRef(0)
   const trackRef = useRef<HTMLDivElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
   const total = testimonials.length
 
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   const goTo = useCallback((idx: number) => {
-    setCurrent((idx + total) % total)
-  }, [total])
+    const newIdx = (idx + total) % total
+    setCurrent(newIdx)
+    
+    // 모바일에서 스크롤 이동
+    if (isMobile && scrollContainerRef.current) {
+      const container = scrollContainerRef.current
+      const cardWidth = container.offsetWidth * 0.78
+      const gap = container.offsetWidth * 0.04
+      const offset = newIdx * (cardWidth + gap) - (container.offsetWidth - cardWidth) / 2
+      container.scrollTo({ left: offset, behavior: 'smooth' })
+    }
+  }, [total, isMobile])
 
   const startAutoplay = useCallback(() => {
     if (autoplayRef.current) clearInterval(autoplayRef.current)
@@ -85,67 +104,110 @@ export default function PcOffTestimonialSection() {
   return (
     <section className="w-full bg-white py-16 overflow-hidden">
       <div className="mx-auto w-full max-w-none lg:max-w-[860px] px-0">
-        {/* Slider track - shows peek of adjacent cards */}
-        <div
-          ref={trackRef}
-          className="relative w-full flex items-stretch select-none"
-          style={{ 
-            height: 240,
-            perspective: '1000px'
-          }}
-          onMouseDown={(e) => onDragStart(e.clientX)}
-          onMouseMove={(e) => onDragMove(e.clientX)}
-          onMouseUp={onDragEnd}
-          onMouseLeave={onDragEnd}
-          onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
-          onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
-          onTouchEnd={onDragEnd}
-        >
-          {testimonials.map((item, idx) => (
-            <div
-              key={idx}
-              className="absolute inset-0 transition-transform duration-500 ease-in-out"
-              style={{ 
-                transform: `translateX(${translateX(idx)})`,
-                paddingLeft: `max(20px, calc((100% - 300px) / 2))`,
-                paddingRight: `max(20px, calc((100% - 300px) / 2))`
-              }}
-            >
+        {/* Desktop Layout */}
+        <div className="hidden md:block">
+          <div
+            ref={trackRef}
+            className="relative w-full flex items-stretch select-none"
+            style={{ 
+              height: 240,
+              perspective: '1000px'
+            }}
+            onMouseDown={(e) => onDragStart(e.clientX)}
+            onMouseMove={(e) => onDragMove(e.clientX)}
+            onMouseUp={onDragEnd}
+            onMouseLeave={onDragEnd}
+            onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
+            onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
+            onTouchEnd={onDragEnd}
+          >
+            {testimonials.map((item, idx) => (
               <div
-                className="h-full rounded-2xl border border-gray-100 bg-white shadow-sm px-6 pt-6 pb-6 flex flex-col justify-between cursor-pointer"
-                onClick={() => {
-                  if (idx !== current) goTo(idx)
+                key={idx}
+                className="absolute inset-0 transition-transform duration-500 ease-in-out"
+                style={{ 
+                  transform: `translateX(${translateX(idx)})`,
+                  paddingLeft: `max(20px, calc((100% - 300px) / 2))`,
+                  paddingRight: `max(20px, calc((100% - 300px) / 2))`
                 }}
+              >
+                <div
+                  className="h-full rounded-2xl border border-gray-100 bg-white shadow-sm px-6 pt-6 pb-6 flex flex-col justify-between cursor-pointer"
+                  onClick={() => {
+                    if (idx !== current) goTo(idx)
+                  }}
+                  style={{
+                    opacity: idx === current ? 1 : 0.45,
+                    scale: idx === current ? '1' : '0.95',
+                    transition: 'opacity 0.4s, scale 0.4s, transform 0.5s',
+                    minWidth: '300px',
+                    maxWidth: '300px'
+                  }}
+                >
+                  {/* Badge */}
+                  <div>
+                    <div className="inline-block bg-[#e6f7f3] text-[#2daa88] text-xs sm:text-sm font-semibold px-3 sm:px-4 py-1 sm:py-1.5 rounded-lg mb-3 sm:mb-4">
+                      이런 고민, 당신만의 문제가 아닙니다.
+                    </div>
+                    {/* Quote */}
+                    <p className="text-gray-800 text-sm sm:text-base leading-relaxed">
+                      &ldquo;{item.quote}&rdquo;
+                    </p>
+                  </div>
+
+                  {/* Divider + Author */}
+                  <div>
+                    <div className="border-t border-gray-100 mb-3 sm:mb-4 mt-3 sm:mt-4" />
+                    <p className="text-right text-xs sm:text-sm text-gray-500">
+                      {item.name}{' '}
+                      <span className="text-gray-400">({item.info})</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile Layout - Scroll Carousel */}
+        <div className="md:hidden">
+          <div
+            ref={scrollContainerRef}
+            className="flex gap-[4vw] overflow-x-hidden px-[11vw]"
+            style={{ height: 240 }}
+          >
+            {testimonials.map((item, idx) => (
+              <div
+                key={idx}
+                onClick={() => goTo(idx)}
+                className="flex-shrink-0 w-[78vw] flex rounded-2xl border border-gray-100 bg-white shadow-sm px-5 pt-5 pb-5 flex-col justify-between cursor-pointer transition-all duration-300"
                 style={{
-                  opacity: idx === current ? 1 : 0.45,
+                  opacity: idx === current ? 1 : 0.5,
                   scale: idx === current ? '1' : '0.95',
-                  transition: 'opacity 0.4s, scale 0.4s, transform 0.5s',
-                  minWidth: '300px',
-                  maxWidth: '300px'
                 }}
               >
                 {/* Badge */}
                 <div>
-                  <div className="inline-block bg-[#e6f7f3] text-[#2daa88] text-xs sm:text-sm font-semibold px-3 sm:px-4 py-1 sm:py-1.5 rounded-lg mb-3 sm:mb-4">
+                  <div className="inline-block bg-[#e6f7f3] text-[#2daa88] text-xs font-semibold px-3 py-1 rounded-lg mb-3">
                     이런 고민, 당신만의 문제가 아닙니다.
                   </div>
                   {/* Quote */}
-                  <p className="text-gray-800 text-sm sm:text-base leading-relaxed">
+                  <p className="text-gray-800 text-sm leading-relaxed">
                     &ldquo;{item.quote}&rdquo;
                   </p>
                 </div>
 
                 {/* Divider + Author */}
                 <div>
-                  <div className="border-t border-gray-100 mb-3 sm:mb-4 mt-3 sm:mt-4" />
-                  <p className="text-right text-xs sm:text-sm text-gray-500">
+                  <div className="border-t border-gray-100 mb-3 mt-3" />
+                  <p className="text-right text-xs text-gray-500">
                     {item.name}{' '}
                     <span className="text-gray-400">({item.info})</span>
                   </p>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Dots */}
