@@ -1,6 +1,61 @@
 'use client'
 
 import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
+
+// Auto-scaling text component
+function AutoScaleText({ 
+  children, 
+  color, 
+  maxFontSize = 48,
+  minFontSize = 18 
+}: { 
+  children: React.ReactNode
+  color: string
+  maxFontSize?: number
+  minFontSize?: number
+}) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLSpanElement>(null)
+  const [fontSize, setFontSize] = useState(maxFontSize)
+
+  useEffect(() => {
+    const container = containerRef.current
+    const text = textRef.current
+    if (!container || !text) return
+
+    const resize = () => {
+      let currentSize = maxFontSize
+      text.style.fontSize = `${currentSize}px`
+      
+      while (text.scrollWidth > container.clientWidth && currentSize > minFontSize) {
+        currentSize -= 1
+        text.style.fontSize = `${currentSize}px`
+      }
+      setFontSize(currentSize)
+    }
+
+    resize()
+    window.addEventListener('resize', resize)
+    return () => window.removeEventListener('resize', resize)
+  }, [children, maxFontSize, minFontSize])
+
+  return (
+    <div ref={containerRef} className="w-full overflow-hidden mb-6">
+      <span
+        ref={textRef}
+        className="font-black text-center leading-tight whitespace-nowrap block"
+        style={{ 
+          color,
+          fontSize: `${fontSize}px`,
+          letterSpacing: '-0.02em'
+        }}
+      >
+        {children}
+      </span>
+    </div>
+  )
+}
 
 const personas = [
   {
@@ -71,17 +126,10 @@ export function PersonaSection() {
               }}
             >
                 <div className="p-8 flex flex-col flex-1">
-                  {/* Quote - Main Highlight - Centered Single Line with Auto Scaling */}
-                  <p
-                    className="font-black text-center leading-tight whitespace-nowrap mb-6"
-                    style={{ 
-                      color: persona.accentColor,
-                      fontSize: 'clamp(1.5rem, 8vw, 3rem)',
-                      letterSpacing: '-0.02em'
-                    }}
-                  >
+                  {/* Quote - Main Highlight - Auto Scaling Single Line */}
+                  <AutoScaleText color={persona.accentColor} maxFontSize={42} minFontSize={20}>
                     &ldquo;{persona.quote}&rdquo;
-                  </p>
+                  </AutoScaleText>
 
                   {/* Tag - With visual separation */}
                   <div className="flex justify-center mb-8">
