@@ -11,7 +11,9 @@ const personas = [
     need: "나 대신 온보딩 해줄 자동화\n(온보딩만 전담해줄 인력필요)",
     solution: "해결책 : 에버웰커밍",
     accentColor: "#00dcaa",
-    tag: "온보딩 자동화",
+    gradientFrom: "#f0fdf9",
+    gradientTo: "#e6faf4",
+    borderColor: "#00dcaa",
   },
   {
     profile: "/images/main/profiles/profile-pro-02.png",
@@ -21,7 +23,9 @@ const personas = [
     need: "확장 가능한 체계적 시스템\n(온보딩+근태+평가까지 확장여지)",
     solution: "해결책 : 에버웰커밍 + 에버타임",
     accentColor: "#2bd67c",
-    tag: "HR 통합 관리",
+    gradientFrom: "#f0fdf4",
+    gradientTo: "#e6f9ed",
+    borderColor: "#2bd67c",
   },
   {
     profile: "/images/main/profiles/profile-pro-03.png",
@@ -31,44 +35,55 @@ const personas = [
     need: "급여아웃소싱을 통한 조직효율화\n(HR본연의 업무에 집중)",
     solution: "해결책 : 에버페이롤",
     accentColor: "#586ffa",
-    tag: "급여 아웃소싱",
+    gradientFrom: "#f0f4ff",
+    gradientTo: "#e8edff",
+    borderColor: "#586ffa",
   },
 ]
 
 export function PersonaSection() {
   return (
-    <section className="py-24 bg-[#0f1117]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 lg:py-28 bg-gradient-to-b from-white via-[#f8fbff] to-white">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
 
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block text-xs font-semibold tracking-widest uppercase text-[#00dcaa] mb-4 px-3 py-1 rounded-full border border-[#00dcaa]/30 bg-[#00dcaa]/10">
+        <div className="text-center mb-14">
+          <span className="inline-block text-sm font-semibold tracking-widest uppercase text-[#00dcaa] mb-3">
             고객 페르소나
           </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-white mb-5 break-keep">
-            HR,<br />다시 중요한 곳으로
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug mb-4">
+            HR, 다시 중요한 곳으로
           </h2>
-          <p className="text-sm sm:text-lg text-white/50 break-keep max-w-xl mx-auto leading-relaxed">
-            반복 업무를 줄이고,<br />진짜 가치 있는 일에 집중하는 HR을 만드세요.
+          <p className="text-gray-500 text-sm md:text-base max-w-lg mx-auto leading-relaxed">
+            반복 업무를 줄이고, 진짜 가치 있는 일에 집중하는 HR을 만드세요.
           </p>
         </div>
 
         {/* Cards */}
-        <div className="md:grid md:grid-cols-3 md:gap-6 flex md:flex-none gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 scroll-smooth">
+        <div className="md:grid md:grid-cols-3 md:gap-6 flex md:flex-none gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-6 px-6 scroll-smooth">
           {personas.map((persona, idx) => (
             <div
               key={idx}
               data-persona-index={idx}
-              className="min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-2xl overflow-hidden"
-              style={{ background: 'linear-gradient(160deg, #1a1d26 0%, #13161e 100%)', border: `1px solid ${persona.accentColor}22` }}
+              className="group min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              style={{ 
+                background: `linear-gradient(to bottom right, ${persona.gradientFrom}, ${persona.gradientTo})`,
+                border: `1px solid ${persona.borderColor}30`
+              }}
             >
               {/* Accent top bar */}
-              <div className="h-1 w-full" style={{ background: persona.accentColor }} />
+              <div className="h-1.5 w-full" style={{ background: persona.accentColor }} />
 
-              <div className="p-7 flex flex-col flex-1">
-                {/* Profile */}
-                <div className="flex items-center gap-4 mb-7">
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 ring-2" style={{ ringColor: persona.accentColor, boxShadow: `0 0 0 2px ${persona.accentColor}55` }}>
+              <div className="p-6 md:p-7 flex flex-col flex-1">
+                {/* Profile Row */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div 
+                    className="relative w-16 h-16 rounded-full overflow-hidden shrink-0 shadow-lg"
+                    style={{ 
+                      boxShadow: `0 4px 14px ${persona.accentColor}40`,
+                      border: `3px solid ${persona.accentColor}`
+                    }}
+                  >
                     <Image
                       src={persona.profile}
                       alt={persona.name}
@@ -77,50 +92,45 @@ export function PersonaSection() {
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-bold text-white truncate">{persona.name}</h3>
-                    <p className="text-xs text-white/40 truncate mt-0.5">{persona.company}</p>
+                    <h3 className="text-base font-bold text-gray-900 truncate">{persona.name}</h3>
+                    <p className="text-xs text-gray-500 truncate mt-0.5">{persona.company}</p>
                   </div>
-                  <span
-                    className="text-[10px] font-semibold px-2.5 py-1 rounded-full shrink-0 whitespace-nowrap"
-                    style={{ color: persona.accentColor, background: `${persona.accentColor}18` }}
-                  >
-                    {persona.tag}
-                  </span>
                 </div>
 
-                {/* Divider */}
-                <div className="h-px mb-7" style={{ background: `linear-gradient(90deg, ${persona.accentColor}33, transparent)` }} />
-
-                {/* Quote */}
-                <div className="mb-7">
+                {/* Quote Section */}
+                <div className="mb-6 relative">
                   <div
-                    className="text-3xl font-black leading-none mb-3 select-none"
-                    style={{ color: persona.accentColor, opacity: 0.4 }}
+                    className="absolute -left-1 -top-2 text-5xl font-black leading-none select-none opacity-20"
+                    style={{ color: persona.accentColor }}
                     aria-hidden="true"
                   >
                     &ldquo;
                   </div>
                   <p
-                    className="text-xl sm:text-2xl font-extrabold text-white leading-snug break-keep"
+                    className="text-xl md:text-2xl font-black leading-snug break-keep pl-4"
+                    style={{ color: persona.accentColor }}
                   >
                     {persona.quote}
                   </p>
                 </div>
 
-                {/* Need */}
-                <div className="flex-1 mb-7">
-                  <p className="text-[11px] font-semibold tracking-widest uppercase mb-2.5" style={{ color: persona.accentColor }}>
-                    Need
+                {/* Need Section */}
+                <div className="flex-1 mb-6 bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-gray-100">
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                    Need:
                   </p>
-                  <p className="text-sm text-white/55 leading-relaxed break-keep whitespace-pre-line">
+                  <p className="text-sm text-gray-600 leading-relaxed break-keep whitespace-pre-line">
                     {persona.need}
                   </p>
                 </div>
 
-                {/* Solution button */}
+                {/* Solution Button */}
                 <button
-                  className="w-full py-4 rounded-xl font-bold text-sm sm:text-base text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] break-keep"
-                  style={{ background: persona.accentColor }}
+                  className="w-full py-4 rounded-xl font-bold text-sm md:text-base text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] break-keep shadow-lg"
+                  style={{ 
+                    background: persona.accentColor,
+                    boxShadow: `0 4px 14px ${persona.accentColor}40`
+                  }}
                 >
                   {persona.solution}
                 </button>
