@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import { Briefcase, Users, Wallet } from 'lucide-react'
 
 const personas = [
   {
@@ -14,7 +13,6 @@ const personas = [
     solution: "에버웰커밍",
     accentColor: "#00dcaa",
     tag: "온보딩 자동화",
-    icon: Briefcase,
     gradientFrom: "#e6faf4",
     gradientTo: "#f0fdf9",
   },
@@ -28,7 +26,6 @@ const personas = [
     solution: "에버웰커밍 + 에버타임",
     accentColor: "#2bd67c",
     tag: "HR 통합 관리",
-    icon: Users,
     gradientFrom: "#e6f9ed",
     gradientTo: "#f0fdf4",
   },
@@ -42,7 +39,6 @@ const personas = [
     solution: "에버페이롤",
     accentColor: "#586ffa",
     tag: "급여 아웃소싱",
-    icon: Wallet,
     gradientFrom: "#e8edff",
     gradientTo: "#f0f4ff",
   },
@@ -65,41 +61,37 @@ export function PersonaSection() {
 
         {/* Cards */}
         <div className="md:grid md:grid-cols-3 md:gap-8 flex md:flex-none gap-5 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 scroll-smooth">
-          {personas.map((persona, idx) => {
-            const IconComponent = persona.icon
-            return (
-              <div
-                key={idx}
-                data-persona-index={idx}
-                className="min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
-                style={{ 
-                  background: `linear-gradient(180deg, ${persona.gradientFrom} 0%, ${persona.gradientTo} 100%)`,
-                }}
-              >
+          {personas.map((persona, idx) => (
+            <div
+              key={idx}
+              data-persona-index={idx}
+              className="min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              style={{ 
+                background: `linear-gradient(180deg, ${persona.gradientFrom} 0%, ${persona.gradientTo} 100%)`,
+              }}
+            >
                 <div className="p-8 flex flex-col flex-1">
-                  {/* Icon */}
-                  <div 
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 shrink-0"
-                    style={{ background: persona.accentColor }}
-                  >
-                    <IconComponent className="w-7 h-7 text-white" strokeWidth={2.5} />
-                  </div>
-
-                  {/* Quote - Main Highlight */}
+                  {/* Quote - Main Highlight - Centered Single Line */}
                   <p
-                    className="text-3xl sm:text-4xl font-black leading-tight break-keep mb-4"
+                    className="text-3xl sm:text-4xl lg:text-5xl font-black text-center leading-tight break-keep mb-6"
                     style={{ color: persona.accentColor }}
                   >
                     &ldquo;{persona.quote}&rdquo;
                   </p>
 
-                  {/* Tag */}
-                  <span
-                    className="inline-block text-base font-bold mb-8"
-                    style={{ color: persona.accentColor }}
-                  >
-                    {persona.tag}
-                  </span>
+                  {/* Tag - With visual separation */}
+                  <div className="flex justify-center mb-8">
+                    <span
+                      className="px-4 py-2 rounded-full text-base font-bold border-2"
+                      style={{ 
+                        color: persona.accentColor,
+                        borderColor: persona.accentColor,
+                        background: `${persona.accentColor}10`
+                      }}
+                    >
+                      {persona.tag}
+                    </span>
+                  </div>
 
                   {/* Spacer */}
                   <div className="flex-1" />
@@ -160,8 +152,7 @@ export function PersonaSection() {
                   </div>
                 </div>
               </div>
-            )
-          })}
+            ))}
         </div>
       </div>
     </section>
