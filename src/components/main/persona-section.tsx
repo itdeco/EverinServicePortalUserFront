@@ -100,6 +100,22 @@ const personas = [
 ]
 
 export function PersonaSection() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  const goToIndex = (idx: number) => {
+    setCurrentIndex(idx)
+    const container = scrollRef.current
+    if (!container) return
+    // 카드 너비(85vw) + 간격(20px)으로 오프셋 계산
+    const card = container.children[idx] as HTMLElement
+    if (!card) return
+    const containerWidth = container.clientWidth
+    const cardWidth = card.offsetWidth
+    const scrollLeft = card.offsetLeft - (containerWidth - cardWidth) / 2
+    container.scrollTo({ left: scrollLeft, behavior: 'smooth' })
+  }
+
   return (
     <section className="py-20 lg:py-28 bg-gradient-to-b from-white via-gray-50/50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -115,12 +131,16 @@ export function PersonaSection() {
         </div>
 
         {/* Cards */}
-        <div className="md:grid md:grid-cols-3 md:gap-8 flex md:flex-none gap-5 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 scroll-smooth">
+        <div
+          ref={scrollRef}
+          className="md:grid md:grid-cols-3 md:gap-8 flex md:flex-none gap-5 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 scroll-smooth"
+        >
           {personas.map((persona, idx) => (
             <div
               key={idx}
               data-persona-index={idx}
-              className="min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              onClick={() => goToIndex(idx)}
+              className="min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 md:cursor-default cursor-pointer"
               style={{ 
                 background: `linear-gradient(180deg, ${persona.gradientFrom} 0%, ${persona.gradientTo} 100%)`,
               }}
