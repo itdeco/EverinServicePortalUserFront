@@ -71,10 +71,14 @@ export function PersonaSection() {
               }}
             >
                 <div className="p-8 flex flex-col flex-1">
-                  {/* Quote - Main Highlight - Centered Single Line */}
+                  {/* Quote - Main Highlight - Centered Single Line with Auto Scaling */}
                   <p
-                    className="text-3xl sm:text-4xl lg:text-5xl font-black text-center leading-tight whitespace-nowrap overflow-hidden text-ellipsis mb-6"
-                    style={{ color: persona.accentColor }}
+                    className="font-black text-center leading-tight whitespace-nowrap mb-6"
+                    style={{ 
+                      color: persona.accentColor,
+                      fontSize: 'clamp(1.5rem, 8vw, 3rem)',
+                      letterSpacing: '-0.02em'
+                    }}
                   >
                     &ldquo;{persona.quote}&rdquo;
                   </p>
