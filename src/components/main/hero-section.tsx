@@ -316,7 +316,6 @@ export default function HeroSection() {
               </div>
 
               {/* 오른쪽: 행복한 퇴근 이미지 */}
-              <ComingSoonOverlay>
               <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full overflow-hidden rounded-3xl shadow-2xl">
                 <img
                   src="/images/main/heroes/evertime-happy-woman.jpg"
@@ -324,7 +323,6 @@ export default function HeroSection() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              </ComingSoonOverlay>
             </div>
           </div>
         </div>
