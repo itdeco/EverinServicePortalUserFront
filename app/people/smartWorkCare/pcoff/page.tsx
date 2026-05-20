@@ -15,8 +15,8 @@ export default function PcOffPage() {
       <PcOffHeroSection />
       <PcOffTaglineSection />
       <PcOffFeaturesSection />
-      <PcOffCtaSection />
       <PcOffTestimonialSection />
+      <PcOffCtaSection />
       <Footer />
     </main>
   )
