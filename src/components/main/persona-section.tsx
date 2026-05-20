@@ -48,9 +48,6 @@ export function PersonaSection() {
 
         {/* Header */}
         <div className="text-center mb-14">
-          <span className="inline-block text-sm font-semibold tracking-widest uppercase text-[#00dcaa] mb-3">
-            고객 페르소나
-          </span>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug mb-4">
             HR, 다시 중요한 곳으로
           </h2>
@@ -98,20 +95,29 @@ export function PersonaSection() {
                 </div>
 
                 {/* Quote Section */}
-                <div className="mb-6 relative">
-                  <div
-                    className="absolute -left-1 -top-2 text-5xl font-black leading-none select-none opacity-20"
-                    style={{ color: persona.accentColor }}
-                    aria-hidden="true"
-                  >
-                    &ldquo;
+                <div className="mb-6 rounded-2xl px-5 py-5" style={{ background: `${persona.accentColor}12` }}>
+                  <div className="flex items-start gap-2">
+                    <span
+                      className="text-3xl font-black leading-none select-none mt-0.5 shrink-0"
+                      style={{ color: persona.accentColor }}
+                      aria-hidden="true"
+                    >
+                      &ldquo;
+                    </span>
+                    <p
+                      className="text-xl md:text-2xl font-black leading-snug break-keep flex-1"
+                      style={{ color: persona.accentColor }}
+                    >
+                      {persona.quote}
+                    </p>
+                    <span
+                      className="text-3xl font-black leading-none select-none self-end shrink-0"
+                      style={{ color: persona.accentColor }}
+                      aria-hidden="true"
+                    >
+                      &rdquo;
+                    </span>
                   </div>
-                  <p
-                    className="text-xl md:text-2xl font-black leading-snug break-keep pl-4"
-                    style={{ color: persona.accentColor }}
-                  >
-                    {persona.quote}
-                  </p>
                 </div>
 
                 {/* Need Section */}
