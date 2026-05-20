@@ -78,7 +78,7 @@ export function PersonaSection() {
                     <p className="text-xs text-gray-500 truncate mt-0.5">{persona.company}</p>
                   </div>
                   <span
-                    className="text-[10px] font-semibold px-2.5 py-1 rounded-full shrink-0 whitespace-nowrap"
+                    className="text-xs sm:text-sm font-bold px-3 py-1.5 rounded-full shrink-0 whitespace-nowrap"
                     style={{ color: persona.accentColor, background: `${persona.accentColor}15` }}
                   >
                     {persona.tag}
