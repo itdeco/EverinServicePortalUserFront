@@ -84,11 +84,11 @@ export default function PcOffTestimonialSection() {
 
   return (
     <section className="w-full bg-white py-16 overflow-hidden">
-      <div className="mx-auto max-w-[860px] px-4 sm:px-0">
+      <div className="mx-auto w-full max-w-none lg:max-w-[860px] px-0">
         {/* Slider track - shows peek of adjacent cards */}
         <div
           ref={trackRef}
-          className="relative flex items-stretch select-none"
+          className="relative w-full flex items-stretch select-none"
           style={{ 
             height: 240,
             perspective: '1000px'
@@ -107,12 +107,12 @@ export default function PcOffTestimonialSection() {
               className="absolute inset-0 transition-transform duration-500 ease-in-out"
               style={{ 
                 transform: `translateX(${translateX(idx)})`,
-                paddingLeft: `max(16px, calc((100% - 340px) / 2))`,
-                paddingRight: `max(16px, calc((100% - 340px) / 2))`
+                paddingLeft: `max(20px, calc((100% - 300px) / 2))`,
+                paddingRight: `max(20px, calc((100% - 300px) / 2))`
               }}
             >
               <div
-                className="h-full rounded-2xl border border-gray-100 bg-white shadow-sm px-6 sm:px-8 pt-6 sm:pt-7 pb-6 sm:pb-7 flex flex-col justify-between cursor-pointer"
+                className="h-full rounded-2xl border border-gray-100 bg-white shadow-sm px-6 pt-6 pb-6 flex flex-col justify-between cursor-pointer"
                 onClick={() => {
                   if (idx !== current) goTo(idx)
                 }}
@@ -120,25 +120,25 @@ export default function PcOffTestimonialSection() {
                   opacity: idx === current ? 1 : 0.45,
                   scale: idx === current ? '1' : '0.95',
                   transition: 'opacity 0.4s, scale 0.4s, transform 0.5s',
-                  minWidth: '340px',
-                  maxWidth: '340px'
+                  minWidth: '300px',
+                  maxWidth: '300px'
                 }}
               >
                 {/* Badge */}
                 <div>
-                  <div className="inline-block bg-[#e6f7f3] text-[#2daa88] text-sm font-semibold px-4 py-1.5 rounded-lg mb-4">
+                  <div className="inline-block bg-[#e6f7f3] text-[#2daa88] text-xs sm:text-sm font-semibold px-3 sm:px-4 py-1 sm:py-1.5 rounded-lg mb-3 sm:mb-4">
                     이런 고민, 당신만의 문제가 아닙니다.
                   </div>
                   {/* Quote */}
-                  <p className="text-gray-800 text-base leading-relaxed">
+                  <p className="text-gray-800 text-sm sm:text-base leading-relaxed">
                     &ldquo;{item.quote}&rdquo;
                   </p>
                 </div>
 
                 {/* Divider + Author */}
                 <div>
-                  <div className="border-t border-gray-100 mb-4 mt-4" />
-                  <p className="text-right text-sm text-gray-500">
+                  <div className="border-t border-gray-100 mb-3 sm:mb-4 mt-3 sm:mt-4" />
+                  <p className="text-right text-xs sm:text-sm text-gray-500">
                     {item.name}{' '}
                     <span className="text-gray-400">({item.info})</span>
                   </p>
