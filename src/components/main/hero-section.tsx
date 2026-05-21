@@ -47,8 +47,8 @@ export default function HeroSection() {
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % totalSlides)
 
   return (
-    <section
-      className="relative overflow-hidden min-h-screen lg:min-h-[650px]"
+      <section
+          className="relative overflow-hidden min-h-[640px] lg:min-h-[560px]"
       style={{
         backgroundImage: "url('/images/main/backgrounds/bg-hero-00.jpg')",
         backgroundSize: "cover",
@@ -63,9 +63,9 @@ export default function HeroSection() {
         {/* 슬라이드 1: HR 솔루션 통합 */}
         <div className="min-w-full flex items-center">
           <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-12 lg:py-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-2 lg:py-4">
               {/* 왼쪽: 텍스트 및 CTA */}
-              <div className="flex flex-col justify-center">
+              <div className="flex flex-col justify-center max-w-[560px]">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-tight">
                   HR 솔루션이 혹시 5개 이상?
                   <br />
@@ -100,11 +100,11 @@ export default function HeroSection() {
               </div>
 
               {/* 오른쪽: 방사형 다이어그램 */}
-              <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full overflow-hidden">
+              <div className="relative h-[320px] lg:h-[420px] flex items-center justify-center w-full overflow-hidden animate-[float_6s_ease-in-out_infinite]">
                 <img
                   src="/images/main/heroes/main_everin_01.png"
                   alt="클라우드 HR 에버人"
-                  className="w-full h-full object-cover"
+                  className="w-[82%] h-auto object-contain"
                 />
               </div>
             </div>
@@ -114,9 +114,9 @@ export default function HeroSection() {
         {/* 슬라이드 2: AI 온보딩 */}
         <div className="min-w-full flex items-center">
           <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-12 lg:py-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-2 lg:py-4">
               {/* 왼쪽: 텍스트 및 CTA */}
-              <div className="flex flex-col justify-center">
+              <div className="flex flex-col justify-center max-w-[560px]">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-tight">
                   귀사의 신입사원은
                   <br />
@@ -152,7 +152,7 @@ export default function HeroSection() {
 
               {/* 오른쪽: AI 온보딩 일러스트 */}
               <ComingSoonOverlay>
-              <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full">
+              <div className="relative h-[320px] lg:h-[420px] flex items-center justify-center w-full">
                 <div className="relative w-full max-w-[480px] h-full flex items-center justify-center">
                   {/* AI 온보딩 시각적 요소 */}
                   <div className="relative">
@@ -219,9 +219,9 @@ export default function HeroSection() {
       {/* 슬라이드 3: 에버타임 근태관리 */}
         <div className="min-w-full flex items-center">
           <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-12 lg:py-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-2 lg:py-4">
               {/* 왼쪽: 텍스트 및 CTA */}
-              <div className="flex flex-col justify-center">
+              <div className="flex flex-col justify-center max-w-[560px]">
                 <p
                   className="font-black leading-none mb-2"
                   style={{
@@ -262,12 +262,14 @@ export default function HeroSection() {
               </div>
 
               {/* 오른쪽: 행복한 퇴근 이미지 */}
-              <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full overflow-hidden rounded-3xl shadow-2xl">
-                <img
-                  src="/images/main/heroes/evertime-happy-woman.jpg"
-                  alt="1시간 연차로 행복하게 퇴근하는 여성"
-                  className="w-full h-full object-cover"
-                />
+              <div className="relative h-[320px] lg:h-[420px] flex items-center justify-center w-full">
+                <div className="relative w-[82%] h-full overflow-hidden rounded-[32px] shadow-2xl">
+                  <img
+                      src="/images/main/heroes/evertime-happy-woman.jpg"
+                      alt="1시간 연차로 행복하게 퇴근하는 여성"
+                      className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -300,6 +302,18 @@ export default function HeroSection() {
           />
         ))}
       </div>
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-white/70 pointer-events-none" />
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+      
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+      `}</style>
     </section>
   )
 }
