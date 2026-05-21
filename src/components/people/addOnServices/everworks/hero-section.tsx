@@ -26,7 +26,7 @@ export default function HeroSection() {
             <h1 className="text-[28px] sm:text-3xl md:text-4xl lg:text-[45px] font-black text-gray-900 leading-tight mb-6 whitespace-nowrap">
               하나로 흐르는 그룹웨어
               <br />
-              <span className="text-[#00dcaa]">에버웍스</span>
+              <span className="text-[#03b565]">에버웍스</span>
             </h1>
 
             <p className="text-gray-500 text-base leading-relaxed mb-8">

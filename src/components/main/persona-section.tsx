@@ -66,7 +66,7 @@ const personas = [
     need: "나 대신 온보딩 해줄 자동화",
     subNeed: "(온보딩만 전담해줄 인력필요)",
     solution: "에버웰커밍",
-    accentColor: "#00dcaa",
+    accentColor: "#03b565",
     tag: "온보딩 자동화",
     gradientFrom: "#e6faf4",
     gradientTo: "#f0fdf9",

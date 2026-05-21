@@ -39,7 +39,7 @@ export function FaqSection() {
 
             {/* Header */}
             <div className="text-center mb-10">
-              <p className="text-xl text-[#00dcaa] font-semibold tracking-widest uppercase mb-3">FAQ</p>
+              <p className="text-xl text-[#03b565] font-semibold tracking-widest uppercase mb-3">FAQ</p>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                 더 궁금한 점이 있으신가요?
               </h2>
@@ -70,7 +70,7 @@ export function FaqSection() {
             <div className="text-center mt-8">
               <Link
                   href="/support/faq"
-                  className="text-sm text-[#00dcaa] hover:text-[#00c9a1] font-medium underline underline-offset-2"
+                  className="text-sm text-[#03b565] hover:text-[#00c9a1] font-medium underline underline-offset-2"
               >
                 더 많은 FAQ 보기 &rarr;
               </Link>

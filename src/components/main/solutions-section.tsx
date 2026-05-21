@@ -140,10 +140,10 @@ export function SolutionsSection() {
                     className={cn(
                         "px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap",
                       "transition-all duration-200 border cursor-pointer hover:shadow-md active:scale-95",
-                      "focus:outline-none focus:ring-2 focus:ring-[#00dcaa]/40",
+                      "focus:outline-none focus:ring-2 focus:ring-[#03b565]/40",
                       activeTab === tab.id
-                      ? "bg-[#00dcaa] text-white border-[#00dcaa] shadow-sm"
-                      : "bg-white text-gray-600 border-gray-300 hover:border-[#00dcaa] hover:text-[#00dcaa]"
+                      ? "bg-[#03b565] text-white border-[#03b565] shadow-sm"
+                      : "bg-white text-gray-600 border-gray-300 hover:border-[#03b565] hover:text-[#03b565]"
                       )}
                 >
                   {tab.label}
@@ -188,7 +188,7 @@ export function SolutionsSection() {
                 <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-6">{hrMainCard.desc}</p>
                 <Link
                     href={hrMainCard.href}
-                    className="relative z-10 inline-flex items-center justify-center w-fit px-5 py-2 rounded-full border border-gray-300 bg-white/80 text-gray-700 text-sm font-semibold shadow-sm transition-[box-shadow] duration-200 hover:border-[#00dcaa] hover:bg-[#00dcaa] hover:text-white hover:shadow-lg hover:shadow-[#00dcaa]/25 active:scale-95 cursor-pointer"
+                    className="relative z-10 inline-flex items-center justify-center w-fit px-5 py-2 rounded-full border border-gray-300 bg-white/80 text-gray-700 text-sm font-semibold shadow-sm transition-[box-shadow] duration-200 hover:border-[#03b565] hover:bg-[#03b565] hover:text-white hover:shadow-lg hover:shadow-[#03b565]/25 active:scale-95 cursor-pointer"
                 >
                   자세히 보기
                 </Link>
@@ -237,7 +237,7 @@ export function SolutionsSection() {
                       <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4">{card.desc}</p>
                       <Link
                           href={card.href}
-                          className="relative z-10 inline-flex items-center justify-center w-fit px-4 py-1.5 rounded-full border border-gray-300 bg-white/80 text-gray-700 text-xs font-semibold shadow-sm transition-all duration-300 hover:border-[#00dcaa] hover:bg-[#00dcaa] hover:text-white hover:shadow-md hover:shadow-[#00dcaa]/25 active:scale-95 cursor-pointer"
+                          className="relative z-10 inline-flex items-center justify-center w-fit px-4 py-1.5 rounded-full border border-gray-300 bg-white/80 text-gray-700 text-xs font-semibold shadow-sm transition-all duration-300 hover:border-[#03b565] hover:bg-[#03b565] hover:text-white hover:shadow-md hover:shadow-[#03b565]/25 active:scale-95 cursor-pointer"
                       >
                         자세히 보기
                       </Link>

@@ -54,7 +54,7 @@ function StatItem({
       <div ref={ref} className="flex flex-col items-center gap-2">
         <div className="flex items-end gap-0.5">
           {prefix && <span className="text-3xl md:text-4xl font-black text-gray-900 mb-1">{prefix}</span>}
-          <span className="text-5xl md:text-6xl lg:text-7xl font-black tabular-nums" style={{ color: highlight ? "#00dcaa" : "#111827" }}>
+          <span className="text-5xl md:text-6xl lg:text-7xl font-black tabular-nums" style={{ color: highlight ? "#03b565" : "#111827" }}>
           {count.toLocaleString()}
         </span>
           <span className="text-2xl md:text-3xl font-bold text-gray-500 mb-1">{suffix}</span>
@@ -75,7 +75,7 @@ const certifications = [
     icon: "🏆",
     label: "품질경쟁력 1위",
     sub: "한국생산성본부 선정",
-    color: "#00dcaa",
+    color: "#03b565",
   },
   {
     icon: "✅",
@@ -87,7 +87,7 @@ const certifications = [
     icon: "🚀",
     label: "벤처기업 확인",
     sub: "기술보증기금 인증",
-    color: "#00dcaa",
+    color: "#03b565",
   },
 ]
 
@@ -97,12 +97,12 @@ export function TrustBanner() {
         <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
           {/* Section label */}
           <div className="text-center mb-14">
-          <span className="inline-block text-xl font-semibold tracking-widest text-[#00dcaa] uppercase mb-4">
+          <span className="inline-block text-xl font-semibold tracking-widest text-[#03b565] uppercase mb-4">
             Why 에버人
           </span>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug">
               33년 ERP 업력의 신뢰,<br />
-              <span className="text-[#00dcaa]">2,600+</span> 기업이 선택한 이유<br />
+              <span className="text-[#03b565]">2,600+</span> 기업이 선택한 이유<br />
             </h2>
           </div>
 
@@ -130,7 +130,7 @@ export function TrustBanner() {
       </span>
 
                 <span className="block mt-1">
-        <span className="text-[#00dcaa] font-bold tracking-tight">
+        <span className="text-[#03b565] font-bold tracking-tight">
           성능·보안·패치 안정성
         </span>
         을 보장합니다.

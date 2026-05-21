@@ -7,13 +7,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 
 // 중앙의 "클라우드 HR 에버인"을 중심으로 균등하게 배치된 7개 모듈 (360 / 7 = 51.43도씩)
 const radialModules = [
-  { label: "그룹웨어", angle: -90, color: "#3d5a80" },
-  { label: "온보딩", angle: -38.57, color: "#3d5a80" },
-  { label: "급여", angle: 12.86, color: "#3d5a80" },
-  { label: "평가", angle: 64.29, color: "#3d5a80" },
-  { label: "근태", angle: 115.71, color: "#3d5a80" },
-  { label: "기업문화", angle: 167.14, color: "#3d5a80" },
-  { label: "PC OFF", angle: -141.43, color: "#3d5a80" },
+  { label: "그룹웨어", angle: -90, color: "#03b565" },
+  { label: "온보딩", angle: -38.57, color: "#03b565" },
+  { label: "급여", angle: 12.86, color: "#03b565" },
+  { label: "평가", angle: 64.29, color: "#03b565" },
+  { label: "근태", angle: 115.71, color: "#03b565" },
+  { label: "기업문화", angle: 167.14, color: "#03b565" },
+  { label: "PC OFF", angle: -141.43, color: "#03b565" },
 ]
 
 const ComingSoonOverlay = ({ children }: { children: React.ReactNode }) => {

@@ -17,7 +17,7 @@ export function CtaBanner() {
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 leading-tight mb-4">
               33년 ERP 명가 영림원이 만든<br />
-              <span className="text-[#00dcaa]">클라우드 HR 플랫폼 에버人</span>
+              <span className="text-[#03b565]">클라우드 HR 플랫폼 에버人</span>
             </h2>
             <p className="text-gray-600 text-base md:text-lg mb-8">
               에버웰커밍 무료 + 에버타임(7개월)
@@ -25,7 +25,7 @@ export function CtaBanner() {
             <div className="flex flex-wrap justify-center gap-3">
               <Button
                   size="lg"
-                  className="bg-[#00dcaa] hover:bg-[#00c9a1] text-white px-8 h-12 text-base font-semibold rounded-lg shadow-md"
+                  className="bg-[#03b565] hover:bg-[#00c9a1] text-white px-8 h-12 text-base font-semibold rounded-lg shadow-md"
                   asChild
               >
                 <Link href="/trial">체험하기</Link>
