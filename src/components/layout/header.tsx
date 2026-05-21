@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Menu, Users, Building2, ChevronDown, X, LogOut, UserCircle, CreditCard, Settings, Receipt, Phone } from "lucide-react"
+import { Menu, Users, Building2, Briefcase, ChevronDown, X, LogOut, UserCircle, CreditCard, Settings, Receipt, Phone } from "lucide-react"
 import { useLoginStatus, useUserProfile } from "@/redux/selectors/Users"
 import { UserActions } from "@/redux/actions/Users"
 import TokenUtil from "@/utils/tokenUtil"
@@ -50,10 +50,11 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
   {
     label: "스마트 워크케어",
     col1: [
+      { title: "채용", href: "#", badge: "*예정" },
       { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
       { title: "온보딩", subtitle: "에버웰커밍", href: "#", badge: "무료" },
-      { title: "교육·경력", href: "#" },
-      { title: "복리후생", href: "#" },
+      { title: "교육·경력", href: "#", badge: "*준비중" },
+      { title: "복리후생", href: "#", badge: "*준비중" },
     ],
     col2: [
       { title: "근태관리", subtitle: "에버타임", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
@@ -80,7 +81,6 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
       { title: "연동서비스", href: "#" },
       { title: "출입관리시스템", href: "#" },
       { title: "SetUp/추가개발", href: "#" },
-      { title: "그룹웨어", subtitle: "에버웍스", href: "/people/everworks" },
     ],
   },
 ];
@@ -88,12 +88,13 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
 // Culture 메뉴는 기존 유지 (모바일에서 사용)
 const peopleMenu: Record<string, MenuItem[]> = {
   "스마트 워크케어": [
+    { title: "채용", href: "#", badge: "*예정" },
     { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
     { title: "근태관리", subtitle: "에버타임", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
     { title: "PC-OFF", href: "/people/smartWorkCare/pcoff" },
     { title: "온보딩", subtitle: "에버웰커밍", href: "#", badge: "무료" },
-    { title: "교육·경력", href: "#" },
-    { title: "복리후생", href: "#" },
+    { title: "교육·경력", href: "#", badge: "*준비중" },
+    { title: "복리후생", href: "#", badge: "*준비중" },
   ],
   급여: [
     { title: "급여/상여", href: "#" },
@@ -107,7 +108,13 @@ const peopleMenu: Record<string, MenuItem[]> = {
     { title: "연동서비스", href: "#" },
     { title: "출입관리시스템", href: "#" },
     { title: "SetUp/추가개발", href: "#" },
-    { title: "그룹웨어", subtitle: "에버웍스", href: "/people/everworks" },
+  ],
+};
+
+// Everworks 메뉴 데이터 (그룹웨어)
+const everworksMenu: Record<string, MenuItem[]> = {
+  그룹웨어: [
+    { title: "에버웍스", href: "/people/everworks", highlight: true },
   ],
 };
 
@@ -215,140 +222,182 @@ export default function Header() {
                   <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${megaMenuOpen ? "rotate-180" : ""}`} />
                 </button>
 
-                {/* 메가메뉴 드롭다운 - 모던 팝업 레이어 */}
+                {/* 메가메뉴 드롭다운 - 전체 너비 플랫 스타일 */}
                 {megaMenuOpen && (
                   <div
                     ref={megaMenuRef}
-                    className="absolute top-full -left-12 pt-3 z-50"
+                    className="fixed left-0 right-0 top-[calc(100%+0.75rem)] z-50"
+                    style={{ top: 'auto' }}
                   >
-                    <div className="bg-white border border-border/40 rounded-xl shadow-xl overflow-hidden">
-                      {/* 3개 섹션 - 가로 배치 */}
-                      <div className="flex p-5">
+                    <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg">
+                      {/* 컨테이너 - 가로 배치 */}
+                      <div className="mx-auto max-w-[1280px] px-4 md:px-6 py-6">
+                        <div className="flex justify-between">
 
-                        {/* ════════ People 섹션 ════════ */}
-                        <div className="pr-6 border-r border-border/30">
-                          {/* People 배지 */}
-                          <div className="flex items-center gap-2 mb-3 pb-2 border-b-2 border-primary">
-                            <Users className="h-5 w-5 text-primary" />
-                            <span className="text-base font-bold text-primary">People</span>
-                            <span className="text-sm text-muted-foreground">(인사관리)</span>
+                          {/* ════════ People 섹션 ════════ */}
+                          <div className="flex-1 pr-8 border-r border-border/30">
+                            {/* People 배지 */}
+                            <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-primary">
+                              <Users className="h-5 w-5 text-primary" />
+                              <span className="text-lg font-bold text-primary">People</span>
+                              <span className="text-sm text-muted-foreground">(인사관리)</span>
+                            </div>
+                            {/* People 카테고리들 */}
+                            <div className="flex gap-10">
+                              {peopleMenuColumns.map((col) => (
+                                <div key={col.label} className="flex flex-col gap-3 min-w-[130px]">
+                                  {/* 카테고리 타이틀 */}
+                                  <div className="text-base font-bold text-primary whitespace-nowrap">{col.label}</div>
+                                  {/* 스마트 워크케어는 2열 */}
+                                  {col.col1 ? (
+                                    <div className="flex gap-6">
+                                      <div className="flex flex-col gap-2">
+                                        {col.col1.map((item) => (
+                                          <SmartLink
+                                            key={item.title}
+                                            href={item.href}
+                                            onClick={() => setMegaMenuOpen(false)}
+                                            className="text-base text-foreground hover:text-primary transition-colors whitespace-nowrap flex items-center gap-1.5"
+                                          >
+                                            <span className="text-muted-foreground/50 text-sm">ㄴ</span>
+                                            <span className="font-semibold">{item.title}</span>
+                                            {item.subtitle && <span className="text-sm text-primary/70 font-normal">{item.subtitle}</span>}
+                                            {item.badge && (
+                                              <span className="text-[11px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-medium">{item.badge}</span>
+                                            )}
+                                          </SmartLink>
+                                        ))}
+                                      </div>
+                                      <div className="flex flex-col gap-2">
+                                        {col.col2.map((item) => (
+                                          <SmartLink
+                                            key={item.title}
+                                            href={item.href}
+                                            onClick={() => setMegaMenuOpen(false)}
+                                            className="text-base text-foreground hover:text-primary transition-colors whitespace-nowrap flex items-center gap-1.5"
+                                          >
+                                            <span className="text-muted-foreground/50 text-sm">ㄴ</span>
+                                            <span className="font-semibold">{item.title}</span>
+                                            {item.subtitle && <span className="text-sm text-primary/70 font-normal">{item.subtitle}</span>}
+                                            {item.badge && (
+                                              <span className="text-[11px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-medium">{item.badge}</span>
+                                            )}
+                                          </SmartLink>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <div className="flex flex-col gap-2">
+                                      {col.items.map((item) => (
+                                        <SmartLink
+                                          key={item.title}
+                                          href={item.href}
+                                          onClick={() => setMegaMenuOpen(false)}
+                                          className={`text-base transition-colors whitespace-nowrap flex items-center gap-1.5 ${"highlight" in item && item.highlight
+                                            ? "text-primary font-semibold hover:text-primary"
+                                            : "text-foreground hover:text-primary"
+                                            }`}
+                                        >
+                                          <span className="text-muted-foreground/50 text-sm">ㄴ</span>
+                                          <span className="font-semibold">{item.title}</span>
+                                          {item.subtitle && (
+                                            <span className="text-sm text-primary/70 font-normal">
+                                              {item.subtitle}
+                                            </span>
+                                          )}
+                                          {item.badge && (
+                                            <span className="text-[11px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-medium">{item.badge}</span>
+                                          )}
+                                        </SmartLink>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                          {/* People 카테고리들 - 한 줄에 4개 섹션 */}
-                          <div className="flex gap-8">
-                            {peopleMenuColumns.map((col) => (
-                              <div key={col.label} className="flex flex-col gap-2 min-w-[110px]">
-                                {/* 카테고리 타이틀 - 초록색 */}
-                                <div className="text-sm font-semibold text-primary whitespace-nowrap">{col.label}</div>
-                                {/* 스마트 워크케어는 2열 */}
-                                {col.col1 ? (
-                                  <div className="flex gap-4">
-                                    <div className="flex flex-col gap-1.5">
-                                      {col.col1.map((item) => (
-                                        <SmartLink
-                                          key={item.title}
-                                          href={item.href}
-                                          onClick={() => setMegaMenuOpen(false)}
-                                          className="text-sm text-muted-foreground hover:text-primary transition-colors whitespace-nowrap flex items-center gap-1"
-                                        >
-                                          <span className="text-muted-foreground/50 text-xs">ㄴ</span>
-                                          <span>{item.title}</span>
-                                          {item.subtitle && <span className="text-xs text-primary ml-0.5">{item.subtitle}</span>}
-                                          {item.badge && (
-                                            <span className="text-[10px] bg-primary/10 text-primary px-1 py-0.5 rounded ml-0.5">{item.badge}</span>
-                                          )}
-                                        </SmartLink>
-                                      ))}
-                                    </div>
-                                    <div className="flex flex-col gap-1.5">
-                                      {col.col2.map((item) => (
-                                        <SmartLink
-                                          key={item.title}
-                                          href={item.href}
-                                          onClick={() => setMegaMenuOpen(false)}
-                                          className="text-sm text-muted-foreground hover:text-primary transition-colors whitespace-nowrap flex items-center gap-1"
-                                        >
-                                          <span className="text-muted-foreground/50 text-xs">ㄴ</span>
-                                          <span>{item.title}</span>
-                                          {item.subtitle && <span className="text-xs text-primary ml-0.5">{item.subtitle}</span>}
-                                          {item.badge && (
-                                            <span className="text-[10px] bg-primary/10 text-primary px-1 py-0.5 rounded ml-0.5">{item.badge}</span>
-                                          )}
-                                        </SmartLink>
-                                      ))}
-                                    </div>
-                                  </div>
-                                ) : (
-                                  <div className="flex flex-col gap-1.5">
-                                    {col.items.map((item) => (
+
+                          {/* ════════ Culture 섹션 (파란톤) ════════ */}
+                          <div className="w-[240px] px-8 border-r border-border/30">
+                            {/* Culture 배지 */}
+                            <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-blue-500">
+                              <Building2 className="h-5 w-5 text-blue-500" />
+                              <span className="text-lg font-bold text-blue-500">Culture</span>
+                              <span className="text-sm text-muted-foreground">(기업문화)</span>
+                            </div>
+                            {/* Culture 카테고리들 */}
+                            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+                              {Object.entries(cultureMenu).map(([category, items]) => (
+                                <div key={category} className="flex flex-col gap-3">
+                                  <div className="text-base font-bold text-blue-500 whitespace-nowrap">{category}</div>
+                                  <div className="flex flex-col gap-2">
+                                    {items.map((item) => (
                                       <SmartLink
                                         key={item.title}
                                         href={item.href}
                                         onClick={() => setMegaMenuOpen(false)}
-                                        className={`text-sm transition-colors whitespace-nowrap flex items-center gap-1 ${"highlight" in item && item.highlight
-                                          ? "text-primary font-medium hover:text-primary"
-                                          : "text-muted-foreground hover:text-primary"
-                                          }`}
+                                        className="text-base text-foreground hover:text-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-1.5"
                                       >
-                                        <span className="text-muted-foreground/50 text-xs">ㄴ</span>
-                                        <span>{item.title}</span>
+                                        <span className="text-muted-foreground/50 text-sm">ㄴ</span>
+                                        <span className="font-semibold">{item.title}</span>
                                         {item.subtitle && (
-                                          <span className={`text-xs text-primary ml-0.5`}>
+                                          <span className="text-sm text-blue-500/70 font-normal">
                                             {item.subtitle}
                                           </span>
                                         )}
                                       </SmartLink>
                                     ))}
                                   </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* ════════ Culture 섹션 (파란톤) ════════ */}
-                        <div className="w-[280px] pl-6">
-                          {/* Culture 배지 */}
-                          <div className="flex items-center gap-2 mb-3 pb-2 border-b-2 border-blue-500">
-                            <Building2 className="h-5 w-5 text-blue-500" />
-                            <span className="text-base font-bold text-blue-500">Culture</span>
-                            <span className="text-sm text-muted-foreground">(기업문화)</span>
-                          </div>
-                          {/* Culture 카테고리들 - 2컬럼 */}
-                          <div className="grid grid-cols-2 gap-x-4 gap-y-3">
-                            {Object.entries(cultureMenu).map(([category, items]) => (
-                              <div key={category} className="flex flex-col gap-2">
-                                <div className="text-sm font-semibold text-blue-500 whitespace-nowrap">{category}</div>
-                                <div className="flex flex-col gap-1.5">
-                                  {items.map((item) => (
-                                    <SmartLink
-                                      key={item.title}
-                                      href={item.href}
-                                      onClick={() => setMegaMenuOpen(false)}
-                                      className="text-sm text-muted-foreground hover:text-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-1"
-                                    >
-                                      <span className="text-muted-foreground/50 text-xs">ㄴ</span>
-                                      {item.title}
-                                      {item.subtitle && (
-                                        <span className="text-xs text-blue-500 ml-0.5">
-                                          {item.subtitle}
-                                        </span>
-                                      )}
-                                    </SmartLink>
-                                  ))}
                                 </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
+
+                          {/* ════════ Everworks 섹션 (보라톤) ════════ */}
+                          <div className="w-[180px] pl-8">
+                            {/* Everworks 배지 */}
+                            <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-violet-500">
+                              <Briefcase className="h-5 w-5 text-violet-500" />
+                              <span className="text-lg font-bold text-violet-500">에버웍스</span>
+                              <span className="text-sm text-muted-foreground">(그룹웨어)</span>
+                            </div>
+                            {/* Everworks 카테고리들 */}
+                            <div className="flex flex-col gap-4">
+                              {Object.entries(everworksMenu).map(([category, items]) => (
+                                <div key={category} className="flex flex-col gap-3">
+                                  <div className="text-base font-bold text-violet-500 whitespace-nowrap">{category}</div>
+                                  <div className="flex flex-col gap-2">
+                                    {items.map((item) => (
+                                      <SmartLink
+                                        key={item.title}
+                                        href={item.href}
+                                        onClick={() => setMegaMenuOpen(false)}
+                                        className="text-base text-foreground hover:text-violet-600 transition-colors whitespace-nowrap inline-flex items-center gap-1.5"
+                                      >
+                                        <span className="text-muted-foreground/50 text-sm">ㄴ</span>
+                                        <span className="font-semibold">{item.title}</span>
+                                        {item.subtitle && (
+                                          <span className="text-sm text-violet-500/70 font-normal">
+                                            {item.subtitle}
+                                          </span>
+                                        )}
+                                      </SmartLink>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 닫기 버튼 */}
+                          <button
+                            onClick={() => setMegaMenuOpen(false)}
+                            className="ml-6 self-start p-1.5 rounded-full hover:bg-muted transition-colors"
+                          >
+                            <X className="h-5 w-5 text-muted-foreground" />
+                          </button>
+
                         </div>
-
-                        {/* 닫기 버튼 */}
-                        <button
-                          onClick={() => setMegaMenuOpen(false)}
-                          className="ml-4 self-start p-1 rounded-full hover:bg-muted transition-colors"
-                        >
-                          <X className="h-5 w-5 text-muted-foreground" />
-                        </button>
-
                       </div>
                     </div>
                   </div>
@@ -576,6 +625,7 @@ export default function Header() {
                             <span className="text-muted-foreground/50 text-xs">ㄴ</span>
                             {item.title}
                             {item.subtitle && <span className="text-xs text-primary ml-1">({item.subtitle})</span>}
+                            {item.badge && <span className="text-[9px] bg-primary/10 text-primary px-1 py-0.5 rounded ml-1">{item.badge}</span>}
                           </SmartLink>
                         ))}
                       </div>
@@ -602,6 +652,32 @@ export default function Header() {
                           >
                             {item.title}
                             {item.subtitle && <span className="text-xs text-blue-500 ml-1">({item.subtitle})</span>}
+                          </SmartLink>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Everworks (보라톤) */}
+                <div className="space-y-2 pt-3 border-t">
+                  <h4 className="text-xs font-bold text-violet-500 flex items-center gap-2 uppercase tracking-wide">
+                    <Briefcase className="h-3.5 w-3.5" />
+                    에버웍스 (그룹웨어)
+                  </h4>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-1 pl-1">
+                    {Object.entries(everworksMenu).map(([category, items]) => (
+                      <div key={category} className="space-y-0.5">
+                        <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider pt-1">{category}</div>
+                        {items.map((item) => (
+                          <SmartLink
+                            key={item.title}
+                            href={item.href}
+                            className="block py-0.5 text-xs text-foreground hover:text-violet-500 transition-colors"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            {item.title}
+                            {item.subtitle && <span className="text-xs text-violet-500 ml-1">({item.subtitle})</span>}
                           </SmartLink>
                         ))}
                       </div>
