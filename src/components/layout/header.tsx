@@ -149,6 +149,8 @@ const COLORS = {
   onboarding: "#00dcaa",   // 에버웰커밍, 온보딩
   evaluation: "#0074ff",   // 에버평가, 평가
 } as const;
+
+export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const megaMenuRef = useRef<HTMLDivElement>(null)
