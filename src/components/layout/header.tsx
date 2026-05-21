@@ -295,10 +295,9 @@ export default function Header() {
                                               <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
                                             )}
                                           </SmartLink>
-                              ))}
-                            </div>
-                            </div>
-                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
                                   ) : (
                                     <div className="flex flex-col gap-2">
                                       {col.items.map((item) => (
@@ -329,6 +328,7 @@ export default function Header() {
                                   )}
                                 </div>
                               ))}
+                            </div>
                             </div>
                           </div>
 
