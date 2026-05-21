@@ -38,7 +38,7 @@ export function StrategySection() {
               <p className="text-gray-700 text-base lg:text-lg leading-relaxed font-medium mb-3">
                 기업의 미래를 설계하는 인재 전략 수립에 집중할 수 있게 됩니다.
               </p>
-              <p className="text-gray-600 text-base lg:text-lg leading-relaxed">
+              <p className="text-gray-700 text-base lg:text-lg leading-relaxed font-medium mb-3">
                 운영관리팀에서 HR Business Partner로 가치를 증명해 보세요!
               </p>
             </div>
