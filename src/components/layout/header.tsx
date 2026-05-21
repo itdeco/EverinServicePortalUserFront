@@ -153,6 +153,7 @@ const COLORS = {
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
+  const [megaMenuTop, setMegaMenuTop] = useState(88)
   const megaMenuRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const router = useRouter()
@@ -181,9 +182,21 @@ export default function Header() {
         setMegaMenuOpen(false)
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  // 메가메뉴 top 위치: 버튼 bottom 기준으로 동적 계산
+  useEffect(() => {
+    function updateMenuTop() {
+      if (triggerRef.current) {
+        const rect = triggerRef.current.getBoundingClientRect()
+        setMegaMenuTop(rect.bottom + 8)
+      }
+    }
+    updateMenuTop()
+    window.addEventListener("resize", updateMenuTop)
+    return () => window.removeEventListener("resize", updateMenuTop)
   }, [])
 
   return (
@@ -236,15 +249,12 @@ export default function Header() {
                   <div
                     ref={megaMenuRef}
                     className="fixed left-0 right-0 z-50"
-                    style={{ top: '112px' }}
+                    style={{ top: `${megaMenuTop}px` }}
                   >
                     <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg overflow-y-auto max-h-[80vh]">
-                      {/* 컨테이너 - 반응형 가로/세로 배치 */}
+                      {/* 컨테이너: w-fit + mx-auto 하나로 가운데 정렬 + wrap시 왼쪽 기준 */}
                       <div className="px-6 py-6">
-                        {/* 바깥 래퍼: 전체 가운데 정렬 */}
-                        <div className="flex justify-center">
-                          {/* 안쪽 래퍼: wrap될 때 왼쪽 정렬 기준점 */}
-                          <div className="flex flex-wrap gap-8 w-fit">
+                          <div className="flex flex-wrap gap-8 w-fit mx-auto">
 
                           {/* ════════ People 섹션 ════════ */}
                           <div className="shrink-0">
@@ -411,7 +421,6 @@ export default function Header() {
                             <X className="h-5 w-5 text-muted-foreground" />
                           </button>
 
-                        </div>
                         </div>
                       </div>
                     </div>
