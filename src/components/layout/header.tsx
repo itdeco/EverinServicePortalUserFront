@@ -207,7 +207,7 @@ export default function Header() {
             <SmartLink href="/" className="flex items-center gap-2 shrink-0">
               <Image
                 src="/images/header/ever-person-logo.png"
-                alt="에버人 로고"
+                alt="에버人 로���"
                 width={140}
                 height={40}
                 className="object-contain"
@@ -240,11 +240,11 @@ export default function Header() {
                   >
                     <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg">
                       {/* 컨테이너 - 가로 배치 */}
-                      <div className="mx-auto max-w-[1280px] px-4 md:px-6 py-6">
-                        <div className="flex justify-between">
+                      <div className="mx-auto max-w-full px-8 py-6">
+                        <div className="flex gap-8 min-w-max w-fit mx-auto">
 
                           {/* ════════ People 섹션 ════════ */}
-                          <div className="flex-1 pr-8 border-r border-border/30">
+                          <div className="w-[600px] pr-8 border-r border-border/30">
                             <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.people }}>
                               <Users className="h-5 w-5" style={{ color: COLORS.people }} />
                               <span className="text-lg font-bold" style={{ color: COLORS.people }}>People</span>
@@ -331,7 +331,7 @@ export default function Header() {
                           </div>
 
                           {/* ════════ Culture 섹션 (파란톤) ════════ */}
-                          <div className="w-[240px] px-8 border-r border-border/30">
+                          <div className="w-[280px] px-6 border-r border-border/30">
                             {/* Culture 배지 */}
                             <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-blue-500">
                               <Building2 className="h-5 w-5 text-blue-500" />
@@ -367,7 +367,7 @@ export default function Header() {
                           </div>
 
                           {/* ════════ Everworks 섹션 ════════ */}
-                          <div className="w-[180px] pl-8">
+                          <div className="w-[200px] pl-6">
                             <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.everworks }}>
                               <Briefcase className="h-5 w-5" style={{ color: COLORS.everworks }} />
                               <span className="text-lg font-bold" style={{ color: COLORS.everworks }}>에버웍스</span>
@@ -401,7 +401,7 @@ export default function Header() {
                           {/* 닫기 버튼 */}
                           <button
                             onClick={() => setMegaMenuOpen(false)}
-                            className="ml-6 self-start p-1.5 rounded-full hover:bg-muted transition-colors"
+                            className="ml-6 self-start p-1.5 rounded-full hover:bg-muted transition-colors shrink-0"
                           >
                             <X className="h-5 w-5 text-muted-foreground" />
                           </button>
