@@ -141,7 +141,14 @@ const cultureMenu: Record<string, MenuItem[]> = {
   ],
 };
 
-export default function Header() {
+// 브랜드 컬러 상수
+const COLORS = {
+  people: "#03b565",       // 스마트 워크케어, 에버타임
+  payroll: "#3344e6",      // 급여, 에버페이롤
+  everworks: "#0FA6EC",    // 에버웍스, 그룹웨어
+  onboarding: "#00dcaa",   // 에버웰커밍, 온보딩
+  evaluation: "#0074ff",   // 에버평가, 평가
+} as const;
   const [isOpen, setIsOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const megaMenuRef = useRef<HTMLDivElement>(null)
@@ -236,19 +243,15 @@ export default function Header() {
 
                           {/* ════════ People 섹션 ════════ */}
                           <div className="flex-1 pr-8 border-r border-border/30">
-                            {/* People 배지 */}
-                            <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-primary">
-                              <Users className="h-5 w-5 text-primary" />
-                              <span className="text-lg font-bold text-primary">People</span>
+                            <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.people }}>
+                              <Users className="h-5 w-5" style={{ color: COLORS.people }} />
+                              <span className="text-lg font-bold" style={{ color: COLORS.people }}>People</span>
                               <span className="text-sm text-muted-foreground">(인사관리)</span>
                             </div>
-                            {/* People 카테고리들 */}
                             <div className="flex gap-10">
                               {peopleMenuColumns.map((col) => (
                                 <div key={col.label} className="flex flex-col gap-3 min-w-[130px]">
-                                  {/* 카테고리 타이틀 */}
-                                  <div className="text-base font-bold text-primary whitespace-nowrap">{col.label}</div>
-                                  {/* 스마트 워크케어는 2열 */}
+                                  <div className="text-base font-bold whitespace-nowrap" style={{ color: COLORS.people }}>{col.label}</div>
                                   {col.col1 ? (
                                     <div className="flex gap-6">
                                       <div className="flex flex-col gap-2">
@@ -257,13 +260,17 @@ export default function Header() {
                                             key={item.title}
                                             href={item.href}
                                             onClick={() => setMegaMenuOpen(false)}
-                                            className="text-base text-foreground hover:text-primary transition-colors whitespace-nowrap flex items-center gap-1.5"
+                                            className="text-base text-foreground transition-colors whitespace-nowrap flex items-center gap-1.5 hover:opacity-80"
                                           >
                                             <span className="text-muted-foreground/50 text-sm">ㄴ</span>
                                             <span className="font-semibold">{item.title}</span>
-                                            {item.subtitle && <span className="text-sm text-primary/70 font-normal">{item.subtitle}</span>}
+                                            {item.subtitle && (
+                                              <span className="text-sm font-normal" style={{
+                                                color: item.subtitle === "에버웰커밍" ? COLORS.onboarding : COLORS.people
+                                              }}>{item.subtitle}</span>
+                                            )}
                                             {item.badge && (
-                                              <span className="text-[11px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-medium">{item.badge}</span>
+                                              <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
                                             )}
                                           </SmartLink>
                                         ))}
@@ -274,13 +281,15 @@ export default function Header() {
                                             key={item.title}
                                             href={item.href}
                                             onClick={() => setMegaMenuOpen(false)}
-                                            className="text-base text-foreground hover:text-primary transition-colors whitespace-nowrap flex items-center gap-1.5"
+                                            className="text-base text-foreground transition-colors whitespace-nowrap flex items-center gap-1.5 hover:opacity-80"
                                           >
                                             <span className="text-muted-foreground/50 text-sm">ㄴ</span>
                                             <span className="font-semibold">{item.title}</span>
-                                            {item.subtitle && <span className="text-sm text-primary/70 font-normal">{item.subtitle}</span>}
+                                            {item.subtitle && (
+                                              <span className="text-sm font-normal" style={{ color: COLORS.people }}>{item.subtitle}</span>
+                                            )}
                                             {item.badge && (
-                                              <span className="text-[11px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-medium">{item.badge}</span>
+                                              <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
                                             )}
                                           </SmartLink>
                                         ))}
@@ -293,20 +302,22 @@ export default function Header() {
                                           key={item.title}
                                           href={item.href}
                                           onClick={() => setMegaMenuOpen(false)}
-                                          className={`text-base transition-colors whitespace-nowrap flex items-center gap-1.5 ${"highlight" in item && item.highlight
-                                            ? "text-primary font-semibold hover:text-primary"
-                                            : "text-foreground hover:text-primary"
-                                            }`}
+                                          className="text-base text-foreground transition-colors whitespace-nowrap flex items-center gap-1.5 hover:opacity-80"
                                         >
                                           <span className="text-muted-foreground/50 text-sm">ㄴ</span>
                                           <span className="font-semibold">{item.title}</span>
                                           {item.subtitle && (
-                                            <span className="text-sm text-primary/70 font-normal">
-                                              {item.subtitle}
-                                            </span>
+                                            <span className="text-sm font-normal" style={{
+                                              color: item.subtitle === "에버페이롤" ? COLORS.payroll
+                                                : item.subtitle === "에버평가" ? COLORS.evaluation
+                                                : COLORS.people
+                                            }}>{item.subtitle}</span>
                                           )}
                                           {item.badge && (
-                                            <span className="text-[11px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-medium">{item.badge}</span>
+                                            <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{
+                                              background: col.label === "급여" ? `${COLORS.payroll}18` : col.label === "평가관리" ? `${COLORS.evaluation}18` : `${COLORS.people}18`,
+                                              color: col.label === "급여" ? COLORS.payroll : col.label === "평가관리" ? COLORS.evaluation : COLORS.people
+                                            }}>{item.badge}</span>
                                           )}
                                         </SmartLink>
                                       ))}
@@ -353,33 +364,29 @@ export default function Header() {
                             </div>
                           </div>
 
-                          {/* ════════ Everworks 섹션 (보라톤) ════════ */}
+                          {/* ════════ Everworks 섹션 ════════ */}
                           <div className="w-[180px] pl-8">
-                            {/* Everworks 배지 */}
-                            <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-violet-500">
-                              <Briefcase className="h-5 w-5 text-violet-500" />
-                              <span className="text-lg font-bold text-violet-500">에버웍스</span>
+                            <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.everworks }}>
+                              <Briefcase className="h-5 w-5" style={{ color: COLORS.everworks }} />
+                              <span className="text-lg font-bold" style={{ color: COLORS.everworks }}>에버웍스</span>
                               <span className="text-sm text-muted-foreground">(그룹웨어)</span>
                             </div>
-                            {/* Everworks 카테고리들 */}
                             <div className="flex flex-col gap-4">
                               {Object.entries(everworksMenu).map(([category, items]) => (
                                 <div key={category} className="flex flex-col gap-3">
-                                  <div className="text-base font-bold text-violet-500 whitespace-nowrap">{category}</div>
+                                  <div className="text-base font-bold whitespace-nowrap" style={{ color: COLORS.everworks }}>{category}</div>
                                   <div className="flex flex-col gap-2">
                                     {items.map((item) => (
                                       <SmartLink
                                         key={item.title}
                                         href={item.href}
                                         onClick={() => setMegaMenuOpen(false)}
-                                        className="text-base text-foreground hover:text-violet-600 transition-colors whitespace-nowrap inline-flex items-center gap-1.5"
+                                        className="text-base text-foreground transition-colors whitespace-nowrap inline-flex items-center gap-1.5 hover:opacity-80"
                                       >
                                         <span className="text-muted-foreground/50 text-sm">ㄴ</span>
                                         <span className="font-semibold">{item.title}</span>
                                         {item.subtitle && (
-                                          <span className="text-sm text-violet-500/70 font-normal">
-                                            {item.subtitle}
-                                          </span>
+                                          <span className="text-sm font-normal" style={{ color: COLORS.everworks }}>{item.subtitle}</span>
                                         )}
                                       </SmartLink>
                                     ))}
@@ -607,7 +614,7 @@ export default function Header() {
 
                 {/* People */}
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-primary flex items-center gap-2 uppercase tracking-wide">
+                  <h4 className="text-xs font-bold flex items-center gap-2 uppercase tracking-wide" style={{ color: COLORS.people }}>
                     <Users className="h-3.5 w-3.5" />
                     People (인사관리)
                   </h4>
@@ -619,13 +626,22 @@ export default function Header() {
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className="block py-0.5 text-xs text-foreground/80 hover:text-primary transition-colors"
+                            className="block py-0.5 text-xs text-foreground/80 transition-colors hover:opacity-70"
                             onClick={() => setIsOpen(false)}
                           >
                             <span className="text-muted-foreground/50 text-xs">ㄴ</span>
                             {item.title}
-                            {item.subtitle && <span className="text-xs text-primary ml-1">({item.subtitle})</span>}
-                            {item.badge && <span className="text-[9px] bg-primary/10 text-primary px-1 py-0.5 rounded ml-1">{item.badge}</span>}
+                            {item.subtitle && (
+                              <span className="text-xs ml-1" style={{
+                                color: item.subtitle === "에버웰커밍" ? COLORS.onboarding
+                                  : item.subtitle === "에버페이롤" ? COLORS.payroll
+                                  : item.subtitle === "에버평가" ? COLORS.evaluation
+                                  : COLORS.people
+                              }}>({item.subtitle})</span>
+                            )}
+                            {item.badge && (
+                              <span className="text-[9px] px-1 py-0.5 rounded ml-1" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                            )}
                           </SmartLink>
                         ))}
                       </div>
@@ -659,9 +675,9 @@ export default function Header() {
                   </div>
                 </div>
 
-                {/* Everworks (보라톤) */}
+                {/* Everworks */}
                 <div className="space-y-2 pt-3 border-t">
-                  <h4 className="text-xs font-bold text-violet-500 flex items-center gap-2 uppercase tracking-wide">
+                  <h4 className="text-xs font-bold flex items-center gap-2 uppercase tracking-wide" style={{ color: COLORS.everworks }}>
                     <Briefcase className="h-3.5 w-3.5" />
                     에버웍스 (그룹웨어)
                   </h4>
@@ -673,11 +689,11 @@ export default function Header() {
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className="block py-0.5 text-xs text-foreground hover:text-violet-500 transition-colors"
+                            className="block py-0.5 text-xs text-foreground transition-colors hover:opacity-70"
                             onClick={() => setIsOpen(false)}
                           >
                             {item.title}
-                            {item.subtitle && <span className="text-xs text-violet-500 ml-1">({item.subtitle})</span>}
+                            {item.subtitle && <span className="text-xs ml-1" style={{ color: COLORS.everworks }}>({item.subtitle})</span>}
                           </SmartLink>
                         ))}
                       </div>
