@@ -95,7 +95,6 @@ export function TrustBanner() {
   return (
       <section className="py-20 lg:py-28 bg-[#f8f9fc]">
         <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
-
           {/* Section label */}
           <div className="text-center mb-14">
           <span className="inline-block text-xl font-semibold tracking-widest text-[#00dcaa] uppercase mb-4">
@@ -103,8 +102,9 @@ export function TrustBanner() {
           </span>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug">
               33년 ERP 업력의 신뢰,<br />
-              <span className="text-[#00dcaa]">3,000+</span> 기업이 선택한 이유
+              <span className="text-[#00dcaa]">2,600+</span> 기업이 선택한 이유<br />
             </h2>
+            (상장 규모 이상 고객기업)
           </div>
 
           {/* Stats row */}
@@ -125,7 +125,7 @@ export function TrustBanner() {
       <span className="block">
         영림인소프트랩은{" "}
         <span className="font-semibold text-gray-900">
-          2,300여개의 ERP 구축 경험
+          2,600여개의 ERP 구축 경험
         </span>
         을 통한
       </span>

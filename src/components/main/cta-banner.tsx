@@ -15,10 +15,9 @@ export function CtaBanner() {
       >
         <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="text-xl text-[#00dcaa] font-semibold mb-3">에버人 솔루션</p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 leading-tight mb-4">
               33년 ERP 명가 영림원이 만든<br />
-              <span className="text-[#00dcaa]">HR 솔루션 에버人</span>
+              <span className="text-[#00dcaa]">클라우드 HR 플랫폼 에버人</span>
             </h2>
             <p className="text-gray-600 text-base md:text-lg mb-8">
               에버웰커밍 무료 + 에버타임(7개월)
