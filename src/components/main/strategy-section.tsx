@@ -45,13 +45,11 @@ export function StrategySection() {
           </div>
 
           {/* 오른쪽: 대시보드 이미지 */}
-          <ComingSoonOverlay>
           <img
             src="/images/main/strategy/main_section_01.jpg"
             alt="Everin Strategy Dashboard"
             className="w-full h-auto object-cover"
           />
-          </ComingSoonOverlay>
         </div>
       </div>
     </section>
