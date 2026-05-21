@@ -240,12 +240,12 @@ export default function Header() {
                   >
                     <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg overflow-y-auto max-h-[80vh]">
                       {/* 컨테이너 - 반응형 가로/세로 배치 */}
-                      <div className="mx-auto max-w-full px-6 py-6">
-                        <div className="flex flex-wrap xl:flex-nowrap gap-8">
+                      <div className="px-6 py-6">
+                        <div className="flex flex-wrap gap-8 w-fit mx-auto">
 
                           {/* ════════ People 섹션 ════════ */}
-                          <div className="basis-full xl:basis-auto xl:flex-none">
-                            <div className="pr-8 xl:border-r border-border/30 shrink-0">
+                          <div className="shrink-0">
+                            <div className="pr-8 border-r border-border/30">
                               <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.people }}>
                                 <Users className="h-5 w-5" style={{ color: COLORS.people }} />
                                 <span className="text-lg font-bold" style={{ color: COLORS.people }}>People</span>
@@ -333,7 +333,7 @@ export default function Header() {
                           </div>
 
                           {/* ════════ Culture 섹션 (파란톤) ════════ */}
-                          <div className="w-[280px] px-6 xl:border-r border-border/30 shrink-0">
+                          <div className="w-[280px] px-6 border-r border-border/30 shrink-0">
                             {/* Culture 배지 */}
                             <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-blue-500">
                               <Building2 className="h-5 w-5 text-blue-500" />
