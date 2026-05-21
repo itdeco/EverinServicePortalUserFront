@@ -6,9 +6,9 @@ import Image from "next/image"
 import Link from "next/link"
 
 const tabs = [
-  {id: "hr", label: "People(인사관리)"},
-  {id: "culture", label: "Culture(기업문화)"},
-  {id: "groupware", label: "에버웍스(그룹웨어)"},
+  {id: "hr", label: "People(인사관리)", color: "#03b565"},
+  {id: "culture", label: "Culture(기업문화)", color: "#3344e6"},
+  {id: "groupware", label: "에버웍스(그룹웨어)", color: "#0FA6EC"},
 ]
 
 /* ─── 인사관리 탭 데이터 ─── */
@@ -137,14 +137,31 @@ export function SolutionsSection() {
                 <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
+                    style={{
+                      borderColor: activeTab === tab.id ? tab.color : undefined,
+                      backgroundColor: activeTab === tab.id ? tab.color : undefined,
+                      color: activeTab === tab.id ? "#fff" : undefined,
+                    }}
                     className={cn(
                         "px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap",
-                      "transition-all duration-200 border cursor-pointer hover:shadow-md active:scale-95",
-                      "focus:outline-none focus:ring-2 focus:ring-[#03b565]/40",
-                      activeTab === tab.id
-                      ? "bg-[#03b565] text-white border-[#03b565] shadow-sm"
-                      : "bg-white text-gray-600 border-gray-300 hover:border-[#03b565] hover:text-[#03b565]"
-                      )}
+                        "transition-all duration-200 border cursor-pointer hover:shadow-md active:scale-95",
+                        "focus:outline-none focus:ring-2",
+                        activeTab === tab.id
+                            ? "text-white shadow-sm"
+                            : "bg-white text-gray-600 border-gray-300"
+                    )}
+                    onMouseEnter={(e) => {
+                      if (activeTab !== tab.id) {
+                        e.currentTarget.style.borderColor = tab.color
+                        e.currentTarget.style.color = tab.color
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (activeTab !== tab.id) {
+                        e.currentTarget.style.borderColor = ""
+                        e.currentTarget.style.color = ""
+                      }
+                    }}
                 >
                   {tab.label}
                 </button>
