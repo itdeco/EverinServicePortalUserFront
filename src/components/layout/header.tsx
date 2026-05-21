@@ -241,10 +241,10 @@ export default function Header() {
                     <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg overflow-y-auto max-h-[80vh]">
                       {/* 컨테이너 - 반응형 가로/세로 배치 */}
                       <div className="mx-auto max-w-full px-6 py-6">
-                        <div className="flex flex-wrap gap-8">
+                        <div className="flex flex-wrap xl:flex-nowrap gap-8">
 
                           {/* ════════ People 섹션 ════════ */}
-                          <div className="basis-full flex justify-center">
+                          <div className="basis-full xl:basis-auto xl:flex-none">
                             <div className="pr-8 xl:border-r border-border/30 shrink-0">
                               <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.people }}>
                                 <Users className="h-5 w-5" style={{ color: COLORS.people }} />
