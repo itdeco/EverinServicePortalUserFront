@@ -100,7 +100,7 @@ export default function HeroSection() {
               </div>
 
               {/* 오른쪽: 방사형 다이어그램 */}
-              <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full overflow-hidden rounded-3xl shadow-2xl">
+              <div className="relative h-[500px] lg:h-[600px] flex items-center justify-center w-full overflow-hidden">
                 <img
                   src="/images/main/heroes/main_everin_01.png"
                   alt="클라우드 HR 에버人"
