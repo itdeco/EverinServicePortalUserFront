@@ -152,6 +152,7 @@ const COLORS = {
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   // 메가메뉴 top 위치: 헤더 높이 기반 (배너 40px + 네비 48px = 88px)
   const megaMenuTopFixed = 88
   const router = useRouter()
