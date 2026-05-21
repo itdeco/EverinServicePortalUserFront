@@ -152,10 +152,8 @@ const COLORS = {
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const [megaMenuOpen, setMegaMenuOpen] = useState(false)
-  const [megaMenuTop, setMegaMenuTop] = useState(88)
-  const megaMenuRef = useRef<HTMLDivElement>(null)
-  const triggerRef = useRef<HTMLButtonElement>(null)
+  // 메가메뉴 top 위치: 헤더 높이 기반 (배너 40px + 네비 48px = 88px)
+  const megaMenuTopFixed = 88
   const router = useRouter()
   const dispatch = useDispatch()
   const isLoggedIn = useLoginStatus()
@@ -172,6 +170,8 @@ export default function Header() {
 
   // Close mega menu when clicking outside
   useEffect(() => {
+    const megaMenuRef = { current: document.querySelector('[data-mega-menu]') as HTMLDivElement | null }
+    const triggerRef = { current: document.querySelector('[data-mega-trigger]') as HTMLButtonElement | null }
     function handleClickOutside(event: MouseEvent) {
       if (
         megaMenuRef.current &&
@@ -179,31 +179,14 @@ export default function Header() {
         triggerRef.current &&
         !triggerRef.current.contains(event.target as Node)
       ) {
-        setMegaMenuOpen(false)
+        // setMegaMenuOpen(false)
       }
     }
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  // 메가메뉴 top 위치: 버튼 bottom 기준으로 동적 계산
-  useEffect(() => {
-    function updateMenuTop() {
-      if (triggerRef.current) {
-        const rect = triggerRef.current.getBoundingClientRect()
-        setMegaMenuTop(rect.bottom)
-      }
-    }
-    if (megaMenuOpen) {
-      updateMenuTop()
-    }
-    window.addEventListener("resize", updateMenuTop)
-    window.addEventListener("scroll", updateMenuTop)
-    return () => {
-      window.removeEventListener("resize", updateMenuTop)
-      window.removeEventListener("scroll", updateMenuTop)
-    }
-  }, [megaMenuOpen])
+  // Remove megaMenuTop calculation useEffect
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -243,7 +226,7 @@ export default function Header() {
                 onMouseLeave={() => setMegaMenuOpen(false)}
               >
                 <button
-                  ref={triggerRef}
+                  data-mega-trigger
                   className={`inline-flex h-10 items-center justify-center rounded-md px-2 xl:px-4 py-2 text-xs xl:text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${megaMenuOpen ? "bg-accent" : ""}`}
                 >
                   서비스
@@ -253,9 +236,9 @@ export default function Header() {
                 {/* 메가메뉴 드롭다운 - 전체 너비 플랫 스타일 */}
                 {megaMenuOpen && (
                   <div
-                    ref={megaMenuRef}
+                    data-mega-menu
                     className="fixed left-0 right-0 z-50"
-                    style={{ top: `${megaMenuTop}px` }}
+                    style={{ top: `${megaMenuTopFixed}px` }}
                   >
                     <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg overflow-y-auto max-h-[80vh]">
                       {/* 컨테이너: 가운데 정렬 + wrap시 자동 왼쪽 정렬 */}
@@ -337,7 +320,7 @@ export default function Header() {
                                           )}
                                           {item.badge && (
                                             <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{
-                                              background: col.label === "급여" ? `${COLORS.payroll}18` : col.label === "평가관리" ? `${COLORS.evaluation}18` : `${COLORS.people}18`,
+                                              background: col.label === "��여" ? `${COLORS.payroll}18` : col.label === "평가관리" ? `${COLORS.evaluation}18` : `${COLORS.people}18`,
                                               color: col.label === "급여" ? COLORS.payroll : col.label === "평가관리" ? COLORS.evaluation : COLORS.people
                                             }}>{item.badge}</span>
                                           )}
