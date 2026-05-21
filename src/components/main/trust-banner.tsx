@@ -98,7 +98,7 @@ export function TrustBanner() {
           {/* Section label */}
           <div className="text-center mb-14">
           <span className="inline-block text-xl font-semibold tracking-widest text-[#00dcaa] uppercase mb-4">
-            Why 에버인
+            Why 에버人
           </span>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug">
               33년 ERP 업력의 신뢰,<br />
@@ -110,7 +110,7 @@ export function TrustBanner() {
           {/* Stats row */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 md:gap-10 max-w-3xl mx-auto mb-16">
             <StatItem value={33} suffix="년" label="ERP 업력" />
-            <StatItem value={3000} suffix="+" label="고객 기업" highlight />
+            <StatItem value={} suffix="+" label="고객 기업" highlight />
             <StatItem value={3} suffix="년 연속" label="품질경쟁력 1위" />
           </div>
 
