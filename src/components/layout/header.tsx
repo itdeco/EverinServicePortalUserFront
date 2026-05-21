@@ -207,7 +207,7 @@ export default function Header() {
             <SmartLink href="/" className="flex items-center gap-2 shrink-0">
               <Image
                 src="/images/header/ever-person-logo.png"
-                alt="에버人 로고"
+                alt="에버人 로���"
                 width={140}
                 height={40}
                 className="object-contain"
@@ -244,18 +244,18 @@ export default function Header() {
                         <div className="flex gap-8 min-w-max w-fit mx-auto">
 
                           {/* ════════ People 섹션 ════════ */}
-                          <div className="w-[600px] pr-8 border-r border-border/30">
+                          <div className="pr-8 border-r border-border/30">
                             <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.people }}>
                               <Users className="h-5 w-5" style={{ color: COLORS.people }} />
                               <span className="text-lg font-bold" style={{ color: COLORS.people }}>People</span>
                               <span className="text-sm text-muted-foreground">(인사관리)</span>
                             </div>
-                            <div className="flex gap-10">
+                            <div className="flex gap-8">
                               {peopleMenuColumns.map((col) => (
-                                <div key={col.label} className="flex flex-col gap-3 min-w-[130px]">
+                                <div key={col.label} className="flex flex-col gap-3 shrink-0">
                                   <div className="text-base font-bold whitespace-nowrap" style={{ color: COLORS.people }}>{col.label}</div>
                                   {col.col1 ? (
-                                    <div className="flex gap-6">
+                                    <div className="flex gap-8">
                                       <div className="flex flex-col gap-2">
                                         {col.col1.map((item) => (
                                           <SmartLink
