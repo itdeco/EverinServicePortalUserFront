@@ -209,7 +209,7 @@ export default function Header() {
             <SmartLink href="/" className="flex items-center gap-2 shrink-0">
               <Image
                 src="/images/header/ever-person-logo.png"
-                alt="에버人 로���������"
+                alt="에버人 로고"
                 width={140}
                 height={40}
                 className="object-contain"
