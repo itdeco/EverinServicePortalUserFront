@@ -54,7 +54,7 @@ export function MissionSection() {
                 <svg className="w-4 h-4 text-[#00cc99]" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M4 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm0 8a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm0 8a2 2 0 012-2h12a2 2 0 012 2v.5a.5.5 0 01-.5.5h-13a.5.5 0 01-.5-.5V21z"/>
                 </svg>
-                3,000+ 구축 사례<br />(코스닥 상장사 규모 이상)
+                2,600+ 구축 사례<br />(상장 규모 이상 고객기업)
               </span>
             </div>
           </div>
@@ -151,7 +151,7 @@ export function MissionSection() {
                 <svg className="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
                 </svg>
-                무결점 클라우드형 HR솔루션
+                무결점 클라우드 HR 플랫폼
               </span>
             </div>
           </div>
