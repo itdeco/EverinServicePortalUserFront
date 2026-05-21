@@ -1,133 +1,232 @@
 'use client'
 
 import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
+
+// Auto-scaling text component
+function AutoScaleText({ 
+  children, 
+  color, 
+  maxFontSize = 48,
+  minFontSize = 18 
+}: { 
+  children: React.ReactNode
+  color: string
+  maxFontSize?: number
+  minFontSize?: number
+}) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLSpanElement>(null)
+  const [fontSize, setFontSize] = useState(maxFontSize)
+
+  useEffect(() => {
+    const container = containerRef.current
+    const text = textRef.current
+    if (!container || !text) return
+
+    const resize = () => {
+      let currentSize = maxFontSize
+      text.style.fontSize = `${currentSize}px`
+      
+      while (text.scrollWidth > container.clientWidth && currentSize > minFontSize) {
+        currentSize -= 1
+        text.style.fontSize = `${currentSize}px`
+      }
+      setFontSize(currentSize)
+    }
+
+    resize()
+    window.addEventListener('resize', resize)
+    return () => window.removeEventListener('resize', resize)
+  }, [children, maxFontSize, minFontSize])
+
+  return (
+    <div ref={containerRef} className="w-full overflow-hidden mb-6">
+      <span
+        ref={textRef}
+        className="font-black text-center leading-tight whitespace-nowrap block"
+        style={{ 
+          color,
+          fontSize: `${fontSize}px`,
+          letterSpacing: '-0.02em'
+        }}
+      >
+        {children}
+      </span>
+    </div>
+  )
+}
 
 const personas = [
   {
     profile: "/images/main/profiles/profile-pro-01.png",
-    bigQuoteMark: "/images/main/profiles/profile-01.jpg",
     name: "박인사 과장, 34세",
-    company: "(중소기업 HR 1인 담당자)",
+    company: "중소기업 HR 1인 담당자",
     quote: "신규입사 = 나의 야근지옥",
-    need: "나 대신 온보딩 해줄 자동화\n(온보딩만 전담해줄 인력필요)",
-    solution: "해결책 : 에버웰커밍",
-    borderColor: "border-[#00dcaa]",
-    buttonColor: "bg-[#00dcaa]",
-    quoteColor: "text-[#00dcaa]",
+    need: "나 대신 온보딩 해줄 자동화",
+    subNeed: "(온보딩만 전담해줄 인력필요)",
+    solution: "에버웰커밍",
+    accentColor: "#00dcaa",
+    tag: "온보딩 자동화",
+    gradientFrom: "#e6faf4",
+    gradientTo: "#f0fdf9",
   },
   {
     profile: "/images/main/profiles/profile-pro-02.png",
-    bigQuoteMark: "/images/main/profiles/profile-02.jpg",
     name: "김피플 팀장, 38세",
-    company: "(스타트업 People & Culture)",
+    company: "스타트업 People & Culture",
     quote: "엑셀 + 주먹구구",
-    need: "확장 가능한 체계적 시스템\n(온보딩+근태+평가까지 확장여지)",
-    solution: "해결책 : 에버웰커밍 + 에버타임",
-    borderColor: "border-[#2bd67c]",
-    buttonColor: "bg-[#2bd67c]",
-    quoteColor: "text-[#2bd67c]",
+    need: "확장 가능한 체계적 시스템",
+    subNeed: "(온보딩+근태+평가까지 확장여지)",
+    solution: "에버웰커밍 + 에버타임",
+    accentColor: "#2bd67c",
+    tag: "HR 통합 관리",
+    gradientFrom: "#e6f9ed",
+    gradientTo: "#f0fdf4",
   },
   {
     profile: "/images/main/profiles/profile-pro-03.png",
-    bigQuoteMark: "/images/main/profiles/profile-03.jpg",
     name: "박문화 이사, 48세",
-    company: "(중소기업 경영지원 / C-Level)",
+    company: "중소기업 경영지원 / C-Level",
     quote: "급여일 = 이산가족",
-    need: "급여아웃소싱을 통한 조직효율화\n(HR본연의 업무에 집중)",
-    solution: "해결책 : 에버페이롤",
-    borderColor: "border-[#586ffa]",
-    buttonColor: "bg-[#586ffa]",
-    quoteColor: "text-[#586ffa]",
+    need: "급여아웃소싱을 통한 조직효율화",
+    subNeed: "(HR본연의 업무에 집중)",
+    solution: "에버페이롤",
+    accentColor: "#586ffa",
+    tag: "급여 아웃소싱",
+    gradientFrom: "#e8edff",
+    gradientTo: "#f0f4ff",
   },
 ]
 
 export function PersonaSection() {
-  return (
-      <section className="py-20 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header - 좌측 정렬 */}
-          <div className="text-center mb-16">
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 whitespace-pre-line break-keep overflow-hidden text-ellipsis">
-              HR, <br />다시 중요한 곳으로
-            </h2>
-            <p className="text-sm sm:text-lg text-gray-600 whitespace-pre-line break-keep overflow-hidden text-ellipsis">
-              반복 업무를 줄이고, <br />진짜 가치 있는 일에 집중하는 HR을 만드세요.
-            </p>
-          </div>
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
-          {/* Cards Grid */}
-          <div 
-            className="md:grid md:grid-cols-3 md:gap-6 flex md:flex-none gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 scroll-smooth"
-            onClick={(e) => {
-              const target = e.target as HTMLElement
-              const card = target.closest('[data-persona-index]') as HTMLElement
-              if (card && window.innerWidth < 768) {
-                card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
-              }
-            }}
-          >
-            {personas.map((persona, idx) => (
-                <div
-                    key={idx}
-                    data-persona-index={idx}
-                    className={`min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center bg-white rounded-2xl overflow-hidden shadow-sm border-t-4 ${persona.borderColor} flex flex-col`}
-                >
-                  {/* Content Area */}
-                  <div className="p-6 flex-1 flex flex-col">
-                    {/* Profile Row: Image LEFT, Name/Company RIGHT */}
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-md shrink-0">
+  const goToIndex = (idx: number) => {
+    setCurrentIndex(idx)
+    const container = scrollRef.current
+    if (!container) return
+    // 카드 너비(85vw) + 간격(20px)으로 오프셋 계산
+    const card = container.children[idx] as HTMLElement
+    if (!card) return
+    const containerWidth = container.clientWidth
+    const cardWidth = card.offsetWidth
+    const scrollLeft = card.offsetLeft - (containerWidth - cardWidth) / 2
+    container.scrollTo({ left: scrollLeft, behavior: 'smooth' })
+  }
+
+  return (
+    <section className="py-20 lg:py-28 bg-gradient-to-b from-white via-gray-50/50 to-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-5 break-keep">
+            HR, 다시 중요한 곳으로
+          </h2>
+          <p className="text-base sm:text-lg text-gray-500 break-keep max-w-xl mx-auto leading-relaxed">
+            반복 업무를 줄이고, 진짜 가치 있는 일에 집중하는 HR을 만드세요.
+          </p>
+        </div>
+
+        {/* Cards */}
+        <div
+          ref={scrollRef}
+          className="md:grid md:grid-cols-3 md:gap-8 flex md:flex-none gap-5 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 scroll-smooth"
+        >
+          {personas.map((persona, idx) => (
+            <div
+              key={idx}
+              data-persona-index={idx}
+              onClick={() => goToIndex(idx)}
+              className="min-w-[85%] sm:min-w-[70%] md:min-w-0 snap-center flex flex-col rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 md:cursor-default cursor-pointer"
+              style={{ 
+                background: `linear-gradient(180deg, ${persona.gradientFrom} 0%, ${persona.gradientTo} 100%)`,
+              }}
+            >
+                <div className="p-8 flex flex-col flex-1">
+                  {/* Quote - Main Highlight - Auto Scaling Single Line */}
+                  <AutoScaleText color={persona.accentColor} maxFontSize={42} minFontSize={20}>
+                    &ldquo;{persona.quote}&rdquo;
+                  </AutoScaleText>
+
+                  {/* Tag - With visual separation */}
+                  <div className="flex justify-center mb-8">
+                    <span
+                      className="px-4 py-2 rounded-full text-base font-bold border-2"
+                      style={{ 
+                        color: persona.accentColor,
+                        borderColor: persona.accentColor,
+                        background: `${persona.accentColor}10`
+                      }}
+                    >
+                      {persona.tag}
+                    </span>
+                  </div>
+
+                  {/* Spacer */}
+                  <div className="flex-1" />
+
+                  {/* Bottom Info Box */}
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-5 space-y-4">
+                    {/* Profile Row */}
+                    <div className="flex items-center gap-3">
+                      <div 
+                        className="relative w-12 h-12 rounded-full overflow-hidden shrink-0"
+                        style={{ boxShadow: `0 0 0 2px ${persona.accentColor}` }}
+                      >
                         <Image
-                            src={persona.profile}
-                            alt={persona.name}
-                            fill
-                            className="object-cover"
+                          src={persona.profile}
+                          alt={persona.name}
+                          fill
+                          className="object-cover"
                         />
                       </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-base font-bold text-gray-900">{persona.name}</h3>
+                        <p className="text-sm text-gray-500">{persona.company}</p>
+                      </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="h-px bg-gray-200" />
+
+                    {/* Need */}
+                    <div className="flex items-start gap-3">
+                      <div 
+                        className="w-1.5 h-1.5 rounded-full mt-2.5 shrink-0"
+                        style={{ background: persona.accentColor }}
+                      />
                       <div>
-                        <h3 className="text-sm sm:text-base font-bold text-gray-900 whitespace-pre-line break-keep overflow-hidden text-ellipsis">
-                          {persona.name}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-gray-500 whitespace-pre-line break-keep overflow-hidden text-ellipsis">
-                          {persona.company}
+                        <p className="text-base font-semibold text-gray-800 break-keep">
+                          {persona.need}
+                        </p>
+                        <p className="text-sm text-gray-500 break-keep">
+                          {persona.subNeed}
                         </p>
                       </div>
                     </div>
 
-                    {/* Big Quote Mark */}
-                    <div className="flex justify-center mb-3">
-                      <div className="relative w-6 h-6">
-                        <Image
-                            src={persona.bigQuoteMark}
-                            alt="quote"
-                            fill
-                            className="object-contain"
-                        />
-                      </div>
+                    {/* Solution */}
+                    <div 
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl"
+                      style={{ background: `${persona.accentColor}15` }}
+                    >
+                      <span className="text-sm font-medium text-gray-600">해결책 :</span>
+                      <span 
+                        className="text-lg font-black"
+                        style={{ color: persona.accentColor }}
+                      >
+                        {persona.solution}
+                      </span>
                     </div>
-
-                    {/* Quote Text - 컬러 */}
-                    <p className={`text-xs sm:text-base leading-relaxed whitespace-pre-line break-keep overflow-hidden text-ellipsis mb-6 font-medium text-center ${persona.quoteColor}`}>
-                      {persona.quote}
-                    </p>
-
-                    {/* Need Section */}
-                    <div className="mb-6 flex-1">
-                      <p className="text-sl text-gray-500 mb-2">Need:</p>
-                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed whitespace-pre-line break-keep overflow-hidden text-ellipsis">
-                        {persona.need}
-                      </p>
-                    </div>
-
-                    {/* Solution Button - 하단 고정 */}
-                    <button className={`${persona.buttonColor} text-white font-bold py-4 px-4 rounded-xl w-full hover:opacity-80 transition-opacity text-sm sm:text-xl whitespace-pre-line break-keep overflow-hidden text-ellipsis leading-tight`}>
-                      {persona.solution}
-                    </button>
                   </div>
                 </div>
+              </div>
             ))}
-          </div>
         </div>
-      </section>
+      </div>
+    </section>
   )
 }

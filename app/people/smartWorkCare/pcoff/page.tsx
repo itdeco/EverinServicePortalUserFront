@@ -6,12 +6,14 @@ import PcOffHeroSection from "@/components/people/smartWorkCare/pcoff/hero-secti
 import PcOffTaglineSection from "@/components/people/smartWorkCare/pcoff/tagline-section"
 import PcOffFeaturesSection from "@/components/people/smartWorkCare/pcoff/features-section"
 import PcOffCtaSection from "@/components/people/smartWorkCare/pcoff/cta-section"
+import PcOffTestimonialSection from "@/components/people/smartWorkCare/pcoff/testimonial-section"
 
 export default function PcOffPage() {
   return (
     <main className="min-h-screen">
       <Header />
       <PcOffHeroSection />
+      <PcOffTestimonialSection />
       <PcOffTaglineSection />
       <PcOffFeaturesSection />
       <PcOffCtaSection />

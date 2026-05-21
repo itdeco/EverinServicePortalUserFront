@@ -6,15 +6,15 @@ import Image from "next/image"
 import Link from "next/link"
 
 const tabs = [
-  {id: "hr", label: "인사관리"},
-  {id: "culture", label: "기업문화"},
-  {id: "groupware", label: "그룹웨어"},
+  {id: "hr", label: "People(인사관리)"},
+  {id: "culture", label: "Culture(기업문화)"},
+  {id: "groupware", label: "에버웍스(그룹웨어)"},
 ]
 
 /* ─── 인사관리 탭 데이터 ─── */
 const hrMainCard = {
-  title: "에버타임 스탠다드",
-  desc: "복잡한 근로기준법\n더 이상 걱정하지 마세요.\n실시간 모니터링으로 \n법적 리스크를 0% 로",
+  title: "에버타임",
+  desc: "모바일 앱으로\n언제 어디서나\n스마트하게 관리",
   img: "/images/main/solutions/tab1/tab1-solutions-01.png",
   href: "/",
 }
