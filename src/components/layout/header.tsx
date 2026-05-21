@@ -207,7 +207,7 @@ export default function Header() {
             <SmartLink href="/" className="flex items-center gap-2 shrink-0">
               <Image
                 src="/images/header/ever-person-logo.png"
-                alt="에버人 로�����"
+                alt="에버人 로�������"
                 width={140}
                 height={40}
                 className="object-contain"
@@ -241,16 +241,17 @@ export default function Header() {
                     <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg overflow-y-auto max-h-[80vh]">
                       {/* 컨테이너 - 반응형 가로/세로 배치 */}
                       <div className="mx-auto max-w-full px-6 py-6">
-                        <div className="flex flex-wrap gap-8 items-start">
+                        <div className="flex flex-wrap gap-8">
 
                           {/* ════════ People 섹션 ════════ */}
-                          <div className="w-full flex justify-center pr-8 xl:border-r border-border/30 shrink-0">
-                            <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.people }}>
-                              <Users className="h-5 w-5" style={{ color: COLORS.people }} />
-                              <span className="text-lg font-bold" style={{ color: COLORS.people }}>People</span>
-                              <span className="text-sm text-muted-foreground">(인사관리)</span>
-                            </div>
-                            <div className="flex gap-8">
+                          <div className="basis-full flex justify-center">
+                            <div className="pr-8 xl:border-r border-border/30 shrink-0">
+                              <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.people }}>
+                                <Users className="h-5 w-5" style={{ color: COLORS.people }} />
+                                <span className="text-lg font-bold" style={{ color: COLORS.people }}>People</span>
+                                <span className="text-sm text-muted-foreground">(인사관리)</span>
+                              </div>
+                              <div className="flex gap-8">
                               {peopleMenuColumns.map((col) => (
                                 <div key={col.label} className="flex flex-col gap-3 shrink-0">
                                   <div className="text-base font-bold whitespace-nowrap" style={{ color: COLORS.people }}>{col.label}</div>
@@ -294,9 +295,10 @@ export default function Header() {
                                               <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
                                             )}
                                           </SmartLink>
-                                        ))}
-                                      </div>
-                                    </div>
+                              ))}
+                            </div>
+                            </div>
+                          </div>
                                   ) : (
                                     <div className="flex flex-col gap-2">
                                       {col.items.map((item) => (
