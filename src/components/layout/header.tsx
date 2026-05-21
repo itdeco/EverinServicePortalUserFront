@@ -241,7 +241,7 @@ export default function Header() {
                     <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg overflow-y-auto max-h-[80vh]">
                       {/* 컨테이너 - 반응형 가로/세로 배치 */}
                       <div className="mx-auto max-w-full px-6 py-6">
-                        <div className="flex flex-wrap gap-8 justify-center">
+                        <div className="flex flex-wrap gap-8 justify-start">
 
                           {/* ════════ People 섹션 ════════ */}
                           <div className="pr-8 xl:border-r border-border/30 shrink-0">
