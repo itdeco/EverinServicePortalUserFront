@@ -154,7 +154,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   // 메가메뉴 top: 배너(~40px) + 네비 h-16(64px) = 104px
-  const megaMenuTopFixed = 104
+  const megaMenuTopFixed = 64
   const router = useRouter()
   const dispatch = useDispatch()
   const isLoggedIn = useLoginStatus()
