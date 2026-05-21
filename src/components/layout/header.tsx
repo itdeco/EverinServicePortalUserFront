@@ -242,9 +242,9 @@ export default function Header() {
                     style={{ top: `${megaMenuTopFixed}px` }}
                   >
                     <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg overflow-y-auto max-h-[80vh]">
-                      {/* 컨테이너: 화면 중앙 고정 + wrap시에도 중심 유지 */}
-                      <div className="relative px-6 py-6 h-full">
-                          <div className="absolute left-1/2 -translate-x-1/2 flex flex-wrap gap-8">
+                      {/* 컨테이너: text-center + inline-flex로 가운데 정렬 */}
+                      <div className="px-6 py-6 text-center">
+                          <div className="inline-flex flex-wrap gap-8 text-left">
 
                           {/* ════════ People 섹션 ════════ */}
                           <div className="shrink-0">
@@ -321,7 +321,7 @@ export default function Header() {
                                           )}
                                           {item.badge && (
                                             <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{
-                                              background: col.label === "��여" ? `${COLORS.payroll}18` : col.label === "평가관리" ? `${COLORS.evaluation}18` : `${COLORS.people}18`,
+                                              background: col.label === "����여" ? `${COLORS.payroll}18` : col.label === "평가관리" ? `${COLORS.evaluation}18` : `${COLORS.people}18`,
                                               color: col.label === "급여" ? COLORS.payroll : col.label === "평가관리" ? COLORS.evaluation : COLORS.people
                                             }}>{item.badge}</span>
                                           )}
