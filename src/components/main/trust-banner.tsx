@@ -104,13 +104,12 @@ export function TrustBanner() {
               33년 ERP 업력의 신뢰,<br />
               <span className="text-[#00dcaa]">2,600+</span> 기업이 선택한 이유<br />
             </h2>
-            (상장 규모 이상 고객기업)
           </div>
 
           {/* Stats row */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 md:gap-10 max-w-3xl mx-auto mb-16">
             <StatItem value={33} suffix="년" label="ERP 업력" />
-            <StatItem value={2600} suffix="+" label="고객 기업" highlight />
+            <StatItem value={2600} suffix="+" label="상장 규모 이상 고객기업" highlight />
             <StatItem value={3} suffix="년 연속" label="품질경쟁력 1위" />
           </div>
 
