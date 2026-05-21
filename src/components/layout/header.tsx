@@ -242,9 +242,9 @@ export default function Header() {
                     style={{ top: `${megaMenuTopFixed}px` }}
                   >
                     <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg overflow-y-auto max-h-[80vh]">
-                      {/* 컨테이너: table 방식으로 가운데 정렬 + wrap시 왼쪽 기준 유지 */}
-                      <div className="px-6 py-6 w-full flex justify-center">
-                          <div className="inline-flex flex-wrap gap-8">
+                      {/* 컨테이너: 화면 중앙 고정 + wrap시에도 중심 유지 */}
+                      <div className="relative px-6 py-6 h-full">
+                          <div className="absolute left-1/2 -translate-x-1/2 flex flex-wrap gap-8">
 
                           {/* ════════ People 섹션 ════════ */}
                           <div className="shrink-0">
