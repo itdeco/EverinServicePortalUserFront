@@ -45,7 +45,7 @@ export default function HrHeroSection() {
               className="px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
               style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
             >
-              <Link href="/trial">체험하기</Link>
+              <Link href="/trial">견적받기</Link>
             </Button>
 
             <Button
