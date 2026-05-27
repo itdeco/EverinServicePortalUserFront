@@ -5,6 +5,13 @@ const Config = {
     apiServer: process.env.NEXT_PUBLIC_API_SERVER,
     bmsServer: process.env.NEXT_PUBLIC_BMS_SERVER,
     frontServer: process.env.NEXT_PUBLIC_FRONT_SERVER,
+
+    bmsCertId: process.env.NEXT_PUBLIC_BMS_CERT_ID,
+    bmsCertKey: process.env.NEXT_PUBLIC_BMS_CERT_KEY,
+    bmsDsnBis: process.env.NEXT_PUBLIC_BMS_DSN_BIS,
+    bmsDsnOper: process.env.NEXT_PUBLIC_BMS_DSN_OPER,
+    bmsCompanySeq: Number(process.env.NEXT_PUBLIC_BMS_COMPANY_SEQ || 1),
+
     editorImageUploadUrl: process.env.NEXT_PUBLIC_API_SERVER + "/api/v1/files/inline",
     everTimeUrl: process.env.NEXT_PUBLIC_EVERTIME_URL || "https://www.evertime.co.kr",
     everTimeAppUrl: process.env.NEXT_PUBLIC_EVERTIME_APP_URL || "https://evertimebasic.web.flextudio.com",

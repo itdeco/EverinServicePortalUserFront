@@ -5,7 +5,7 @@ export type Category = {
     services: Service[];
 };
 
-export type Service = {
+export type Service = Priceable & {
     serviceId: string;
     serviceName: string;
     description?: string;
@@ -13,20 +13,30 @@ export type Service = {
     defaultUsercount?: number;
     quoteOnly?: boolean;
     sortOrder?: number;
+    isGroupService?: boolean;
+    isExistPlan?: boolean;
+    serviceItemSeq?: number;
+    policySeq?: number;
+    currSeq?: number;
     plans?: Plan[];
     subServices?: SubService[];
 };
 
-export type Plan = {
+export type Plan = Priceable & {
     planId: string;
     planName: string;
     price: number;
+    defaultUsercount?: number;
     quoteOnly?: boolean;
     sortOrder?: number;
+    isGroupService?: boolean;
+    serviceItemSeq?: number;
+    policySeq?: number;
+    currSeq?: number;
     allowedChildren?: string[];
 };
 
-export type SubService = {
+export type SubService = Priceable & {
     serviceId: string;
     serviceName: string;
     description?: string;
@@ -34,6 +44,13 @@ export type SubService = {
     defaultUsercount?: number;
     quoteOnly?: boolean;
     sortOrder?: number;
+    upperServiceSeq?: number;
+    planSeq?: number;
+    isSubService?: boolean;
+    serviceItemSeq?: number;
+    subServiceItemSeq?: number;
+    policySeq?: number;
+    currSeq?: number;
 };
 
 // OLD
@@ -82,3 +99,28 @@ export type PlanDto = {
 export type PlanDetailDto = PlanDto & {
     planProducts?: PlanProductDto[];
 }
+
+export type PriceRule = {
+    modelSeq: number;
+    serviceItemSeq: number;
+    serviceItemName: string;
+    subServiceItemSeq: number;
+    subServiceItemName: string;
+    smPriceType: number;
+    smPriceTypeName: string;
+    appYm: string;
+    seq: number;
+    perFr: number;
+    perTo: number;
+    currPrice: number;
+    basicPrice: number;
+};
+
+export type Priceable = {
+    priceRules?: PriceRule[];
+    smPriceType?: number;
+    smPriceTypeName?: string;
+    appYm?: string;
+    priceSeq?: number;
+};
+

@@ -1,16 +1,22 @@
-import Config from "@/utils/config";
-import { ApiResponse } from "@/types/Common";
 import { Category } from "@/types/subscribe";
 
-export default class ApiSubscribe {
-    async getSubscribeServices(): Promise<ApiResponse<Category[]>> {
-        const url = `${Config.bmsServer}/api/v1/subscribe/services`;
+export type SubscribeBmsResponse = {
+    serviceConfig: Category[];
+    raw: {
+        serviceList: any;
+        priceList: any;
+    };
+};
 
-        const response = await fetch(url, {
-            method: "GET",
+export default class ApiSubscribe {
+    async getSubscribeServices(portalId: string = "EVERIN"): Promise<SubscribeBmsResponse> {
+        const response = await fetch("/api/bms/subscribe", {
+            method: "POST",
             headers: {
                 Accept: "application/json",
+                "Content-Type": "application/json",
             },
+            body: JSON.stringify({ portalId }),
             cache: "no-store",
         });
 
@@ -18,12 +24,6 @@ export default class ApiSubscribe {
             throw new Error(`구독 서비스 API 호출 실패: ${response.status}`);
         }
 
-        const text = await response.text();
-
-        if (!text) {
-            throw new Error("구독 서비스 API 응답이 비어있습니다.");
-        }
-
-        return JSON.parse(text) as ApiResponse<Category[]>;
+        return await response.json() as SubscribeBmsResponse;
     }
 }

@@ -2,18 +2,13 @@
 
 import { useEffect, useMemo, useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronDown,
   ChevronRight,
-  Sparkles,
   Calculator,
   Building2,
   ArrowRight,
-  Zap,
-  CheckCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,7 +20,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import ApiSubscribe from "@/api/Subscribe";
-import { ApiResponse } from "@/types/Common";
 import {
   Category,
   Service,
@@ -36,6 +30,13 @@ type SelectedState = Record<string, boolean>;
 type PlanState = Record<string, string>;
 type HeadcountState = Record<string, number>;
 type OpenState = Record<string, boolean>;
+type DetailTarget = {
+  item: any;
+  currentItem: any;
+  headcount: number;
+  plans?: PlanItem[];
+  selectedPlanId?: string;
+};
 
 const fallbackServiceConfig: Category[] = [
   {
@@ -267,9 +268,58 @@ const currency = (n: number) => `${Math.round(n).toLocaleString("ko-KR")}원`;
 const perPerson = (n: number) =>
     `${Math.round(n).toLocaleString("ko-KR")}원/인`;
 
-const getServiceUnitPrice = (service: Service, plan?: PlanItem) => {
-  if (service.quoteOnly) return 0;
-  return plan?.price ?? service.price ?? 0;
+const getMatchedRule = (item: any, headcount: number) => {
+  const rules = item.priceRules ?? [];
+
+  return rules.find((rule: any) => {
+    if (rule.smPriceType !== 2039002) return false;
+    return headcount > rule.perFr && headcount <= rule.perTo;
+  }) ?? rules.find((rule: any) => rule.smPriceType === 2039001) ?? rules[0];
+};
+
+const getItemTotal = (item: any, headcount: number) => {
+  const rule = getMatchedRule(item, headcount);
+
+  if (!rule) return (item.price ?? 0) * headcount;
+
+  // 인원범주
+  if (rule.smPriceType === 2039002) {
+    return (
+        Number(rule.basicPrice ?? 0) +
+        (headcount - Number(rule.perFr ?? 0)) * Number(rule.currPrice ?? 0)
+    );
+  }
+
+  // 고정단가
+  return Number(rule.currPrice ?? item.price ?? 0) * headcount;
+};
+
+const getItemUnitPrice = (item: any, headcount: number) => {
+  if (headcount <= 0) return 0;
+
+  const rule = getMatchedRule(item, headcount);
+
+  if (!rule) return Number(item.price ?? 0);
+
+  if (rule.smPriceType === 2039002) {
+    return Math.round(getItemTotal(item, headcount) / headcount);
+  }
+
+  return Number(rule.currPrice ?? item.price ?? 0);
+};
+
+const getServiceUnitPrice = (
+    service: Service,
+    plan?: PlanItem,
+    headcount: number = 0
+) => {
+  if (service.quoteOnly || plan?.quoteOnly) return 0;
+
+  if (plan) {
+    return getItemUnitPrice(plan, headcount);
+  }
+
+  return getItemUnitPrice(service, headcount);
 };
 
 const sortServiceConfig = (data: Category[]): Category[] => {
@@ -326,10 +376,11 @@ function buildInitialHeadcount(config: Category[]): HeadcountState {
 
   config.forEach((cat) => {
     cat.services.forEach((svc) => {
-      acc[svc.serviceId] = svc.defaultUsercount ?? 30;
+      const firstPlanDefaultUsercount = svc.plans?.[0]?.defaultUsercount;
+      acc[svc.serviceId] = svc.defaultUsercount || firstPlanDefaultUsercount || 10;
 
       svc.subServices?.forEach((sub) => {
-        acc[sub.serviceId] = sub.defaultUsercount ?? svc.defaultUsercount ?? 30;
+        acc[sub.serviceId] = sub.defaultUsercount || svc.defaultUsercount || firstPlanDefaultUsercount || 10;
       });
     });
   });
@@ -456,6 +507,7 @@ function ServiceRow({
                       onChangePlan,
                       onChangeHeadcount,
                       onToggleOpen,
+                      onOpenDetail,
                     }: {
   service: Service;
   selected: SelectedState;
@@ -466,6 +518,7 @@ function ServiceRow({
   onChangePlan: (id: string, planId: string) => void;
   onChangeHeadcount: (id: string, value: number) => void;
   onToggleOpen: (id: string) => void;
+  onOpenDetail: (target: DetailTarget) => void;
 }) {
   const serviceId = service.serviceId;
   const isSelected = !!selected[serviceId];
@@ -480,20 +533,25 @@ function ServiceRow({
       ) || [];
 
   const hasSubServices = visibleSubServices.length > 0;
-  const unitPrice = getServiceUnitPrice(service, currentPlan);
   const headcount = headcounts[serviceId] || 0;
+  const unitPrice = getServiceUnitPrice(service, currentPlan, headcount);
 
+  const isGroupPlan = !!currentPlan?.isGroupService;
   const isQuoteOnlyPlan = !!currentPlan?.quoteOnly;
   const isQuoteOnlyService = !!service.quoteOnly || isQuoteOnlyPlan;
+  const isParentChargeTarget = !isGroupPlan && !isQuoteOnlyService;
 
   let serviceTotal = 0;
 
-  if (isSelected && !isQuoteOnlyService) {
-    serviceTotal = unitPrice * headcount;
+  if (isSelected) {
+    if (isParentChargeTarget) {
+      serviceTotal += getItemTotal(currentPlan ?? service, headcount);
+    }
 
     visibleSubServices.forEach((sub) => {
       if (selected[sub.serviceId] && !sub.quoteOnly) {
-        serviceTotal += sub.price * (headcounts[sub.serviceId] || headcount);
+        const subHeadcount = headcounts[sub.serviceId] || headcount;
+        serviceTotal += getItemTotal(sub, subHeadcount);
       }
     });
   }
@@ -531,12 +589,29 @@ function ServiceRow({
                       선택됨
                     </Badge>
                 )}
+                <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 px-2 text-xs text-primary hover:bg-primary/10"
+                    onClick={() =>
+                        onOpenDetail({
+                          item: service,
+                          currentItem: currentPlan ?? service,
+                          headcount,
+                          plans: service.plans,
+                          selectedPlanId: currentPlanId,
+                        })
+                    }
+                >
+                  자세히보기
+                </Button>
               </div>
             </div>
 
             {/* Bottom(mobile) / Middle(desktop): Pricing Info + Total + Chevron */}
             <div className="flex items-center gap-2 pl-7 md:pl-0">
-              {!isQuoteOnlyService && (
+              {isParentChargeTarget && (
                   <div className="flex items-center gap-2 flex-1 md:flex-none flex-wrap">
                     <span className="text-xs font-medium text-slate-500 whitespace-nowrap">요금 기준</span>
                     <span className="text-xs font-semibold text-slate-900 whitespace-nowrap">{perPerson(unitPrice)}</span>
@@ -564,6 +639,8 @@ function ServiceRow({
                   <div className="text-lg font-bold text-slate-900 whitespace-nowrap">
                     {isQuoteOnlyService ? (
                         <span className="font-bold text-sm" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"}}>견적요청</span>
+                    ) : isGroupPlan ? (
+                        serviceTotal > 0 ? currency(serviceTotal) : <span className="text-sm text-slate-400">하위 항목 선택</span>
                     ) : (
                         currency(serviceTotal)
                     )}
@@ -616,9 +693,11 @@ function ServiceRow({
                           />
                           <span className="font-medium">{plan.planName}</span>
                           <span className="text-slate-500">
-                          {plan.quoteOnly
-                              ? "별도견적"
-                              : perPerson(plan.price)}
+                          {plan.isGroupService
+                              ? ""
+                              : plan.quoteOnly
+                                  ? "별도견적"
+                                  : perPerson(getItemUnitPrice(plan, headcounts[serviceId] || plan.defaultUsercount || 0))}
                         </span>
                         </Label>
                     );
@@ -650,7 +729,7 @@ function ServiceRow({
                         const subHeadcount = headcounts[subId] || headcount;
                         const subTotal = sub.quoteOnly
                             ? 0
-                            : sub.price * subHeadcount;
+                            : getItemTotal(sub, subHeadcount);
 
                         return (
                             <div
@@ -680,7 +759,27 @@ function ServiceRow({
                                           <span className="text-xs text-slate-500 md:whitespace-nowrap">{sub.description}</span>
                                       )}
                                       {!sub.quoteOnly && (
-                                          <span className="text-xs text-slate-400 md:whitespace-nowrap">{perPerson(sub.price)}</span>
+                                          <div className="flex items-center gap-1">
+                                            <span className="text-xs text-slate-400 md:whitespace-nowrap">
+                                              {perPerson(getItemUnitPrice(sub, subHeadcount))}
+                                            </span>
+
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-6 px-2 text-[11px] text-primary hover:bg-primary/10"
+                                                onClick={() =>
+                                                    onOpenDetail({
+                                                      item: sub,
+                                                      currentItem: sub,
+                                                      headcount: subHeadcount,
+                                                    })
+                                                }
+                                            >
+                                              자세히보기
+                                            </Button>
+                                          </div>
                                       )}
                                       {sub.quoteOnly && (
                                           <Badge variant="outline" className="text-xs text-slate-500 border-slate-300 w-fit">
@@ -755,24 +854,27 @@ function SubscribeContent() {
 
   const [displayTotal, setDisplayTotal] = useState(0);
 
+  const [detailItem, setDetailItem] = useState<DetailTarget | null>(null);
+
   useEffect(() => {
     const loadServices = async () => {
       try {
         const api = new ApiSubscribe();
-        const json = await api.getSubscribeServices();
+        const portalId = "EVERIN";
+        const json = await api.getSubscribeServices(portalId);
 
-        if (!json.data || json.data.length === 0) {
+        if (!json.serviceConfig || json.serviceConfig.length === 0) {
           return;
         }
 
-        const nextConfig = sortServiceConfig(json.data);
+        const nextConfig = sortServiceConfig(json.serviceConfig);
 
         setserviceConfig(nextConfig);
         setSelected(buildInitialSelected(nextConfig));
         setPlans(buildInitialPlans(nextConfig));
         setHeadcounts(buildInitialHeadcount(nextConfig));
         setOpen(buildInitialOpen(nextConfig));
-        setActiveCategoryId(nextConfig[0].categoryId);
+        /*setActiveCategoryId(nextConfig[0].categoryId);*/
       } catch (error) {
         console.error("서비스 견적 API 호출 실패", error);
       }
@@ -781,23 +883,22 @@ function SubscribeContent() {
     loadServices();
   }, []);
 
-
   const total = useMemo(() => {
     let sum = 0;
 
     serviceConfig.forEach((cat) => {
       cat.services.forEach((svc) => {
-        if (selected[svc.serviceId] && !svc.quoteOnly) {
+        if (selected[svc.serviceId]) {
           const plan = svc.plans?.find(
               (p) => p.planId === plans[svc.serviceId]
           );
 
-          const unitPrice = getServiceUnitPrice(svc, plan);
           const headcount = headcounts[svc.serviceId] || 0;
           const isQuoteOnlyService = svc.quoteOnly || plan?.quoteOnly;
+          const isGroupPlan = !!plan?.isGroupService;
 
-          if (!isQuoteOnlyService) {
-            sum += unitPrice * headcount;
+          if (!isQuoteOnlyService && !isGroupPlan) {
+            sum += getItemTotal(plan ?? svc, headcount);
           }
 
           const allowedSubs = plan?.allowedChildren || [];
@@ -808,7 +909,8 @@ function SubscribeContent() {
                 selected[sub.serviceId] &&
                 !sub.quoteOnly
             ) {
-              sum += sub.price * (headcounts[sub.serviceId] || headcount);
+              const subHeadcount = headcounts[sub.serviceId] || headcount;
+              sum += getItemTotal(sub, subHeadcount);
             }
           });
         }
@@ -842,7 +944,7 @@ function SubscribeContent() {
   }, [total]);
 
   const selectedItems = useMemo(() => {
-    const items: { name: string; price: number; quoteOnly?: boolean }[] = [];
+    const items: { name: string; price: number; quoteOnly?: boolean; groupOnly?: boolean }[] = [];
 
     serviceConfig.forEach((cat) => {
       cat.services.forEach((svc) => {
@@ -851,7 +953,6 @@ function SubscribeContent() {
               (p) => p.planId === plans[svc.serviceId]
           );
 
-          const unitPrice = getServiceUnitPrice(svc, plan);
           const headcount = headcounts[svc.serviceId] || 0;
 
           items.push({
@@ -859,19 +960,24 @@ function SubscribeContent() {
                 ? `${svc.serviceName} (${plan.planName})`
                 : svc.serviceName,
             price:
-                svc.quoteOnly || plan?.quoteOnly ? 0 : unitPrice * headcount,
+                svc.quoteOnly || plan?.quoteOnly || plan?.isGroupService
+                    ? 0
+                    : getItemTotal(plan ?? svc, headcount),
             quoteOnly: svc.quoteOnly || plan?.quoteOnly,
+            groupOnly: !!plan?.isGroupService,
           });
 
           const allowedSubs = plan?.allowedChildren || [];
 
           svc.subServices?.forEach((sub) => {
             if (allowedSubs.includes(sub.serviceId) && selected[sub.serviceId]) {
+              const subHeadcount = headcounts[sub.serviceId] || headcount;
+
               items.push({
                 name: `└ ${sub.serviceName}`,
                 price: sub.quoteOnly
                     ? 0
-                    : sub.price * (headcounts[sub.serviceId] || headcount),
+                    : getItemTotal(sub, subHeadcount),
                 quoteOnly: sub.quoteOnly,
               });
             }
@@ -900,6 +1006,10 @@ function SubscribeContent() {
 
     const nextPlan = service.plans?.find((plan) => plan.planId === planId);
     const allowedSubs = nextPlan?.allowedChildren || [];
+
+    if (nextPlan?.defaultUsercount) {
+      setHeadcounts((prev) => ({ ...prev, [serviceId]: nextPlan.defaultUsercount || prev[serviceId] || 10 }));
+    }
 
     setSelected((prev) => {
       const updated = { ...prev };
@@ -965,6 +1075,7 @@ function SubscribeContent() {
                                 onChangePlan={changePlan}
                                 onChangeHeadcount={changeHeadcount}
                                 onToggleOpen={toggleOpen}
+                                onOpenDetail={setDetailItem}
                             />
                         ))}
                       </div>
@@ -996,7 +1107,7 @@ function SubscribeContent() {
                       <RollingPrice value={displayTotal} />
 
                       <div className="mt-3 text-xs text-slate-400">
-                        모든 금액은 매월 인당 기준 x 선택 인원으로 계산됩니다.
+                        요금은 가격정책에 따라 기본요금 + 인당요금 또는 인당 고정단가로 계산됩니다.
                       </div>
                     </div>
 
@@ -1053,7 +1164,9 @@ function SubscribeContent() {
                                     <span className="text-sm font-semibold text-slate-900">
                                 {item.quoteOnly
                                     ? "견적요청"
-                                    : currency(item.price)}
+                                    : item.groupOnly
+                                        ? "하위 항목 기준"
+                                        : currency(item.price)}
                               </span>
                                   </div>
                               ))
@@ -1108,9 +1221,236 @@ function SubscribeContent() {
             </div>
           </div>
         </main>
-
+        {detailItem && (
+            <PriceDetailPanel
+                target={detailItem}
+                onClose={() => setDetailItem(null)}
+            />
+        )}
         <Footer />
       </div>
+  );
+}
+
+function PriceDetailPanel({
+                            target,
+                            onClose,
+                          }: {
+  target: DetailTarget;
+  onClose: () => void;
+}) {
+
+  const baseItem = target.item;
+  const headcount = target.headcount;
+  const plans = target.plans ?? [];
+
+  const [detailPlanId, setDetailPlanId] = useState(
+      target.selectedPlanId ?? plans[0]?.planId
+  );
+
+  useEffect(() => {
+    setDetailPlanId(target.selectedPlanId ?? plans[0]?.planId);
+  }, [target]);
+
+  const selectedPlan = plans.find((p) => p.planId === detailPlanId);
+
+  const item = selectedPlan ?? target.currentItem;
+
+  const rules = item.priceRules ?? [];
+  const matchedRule = getMatchedRule(item, headcount);
+  const total = getItemTotal(item, headcount);
+  const unitPrice = getItemUnitPrice(item, headcount);
+
+  return (
+      <AnimatePresence>
+        <motion.div
+            key="price-detail-backdrop"
+            className="fixed inset-0 z-50 bg-black/40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+        />
+
+        <motion.aside
+            key="price-detail-panel"
+            className="fixed bottom-0 right-0 z-50 h-[82vh] w-full overflow-hidden rounded-t-3xl bg-white shadow-2xl md:bottom-auto md:top-0 md:h-full md:max-w-[520px] md:rounded-l-3xl md:rounded-t-none"
+            initial={{ x: "100%", y: 40 }}
+            animate={{ x: 0, y: 0 }}
+            exit={{ x: "100%", y: 40 }}
+            transition={{ type: "spring", stiffness: 260, damping: 28 }}
+        >
+          <div className="flex h-full min-h-0 flex-col">
+            <div className="shrink-0 border-b p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <Badge className="mb-3 bg-primary/10 text-primary hover:bg-primary/10">
+                    가격정책
+                  </Badge>
+                  <h3 className="text-2xl font-bold text-slate-900">
+                    {baseItem.serviceName || item.serviceName || item.planName}
+                  </h3>
+                  {item.description && (
+                      <p className="mt-2 text-sm text-slate-500">
+                        {item.description}
+                      </p>
+                  )}
+                </div>
+
+                <Button variant="ghost" size="sm" onClick={onClose}>
+                  닫기
+                </Button>
+              </div>
+            </div>
+
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              <div className="space-y-4 p-4 pb-10">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-2xl border bg-slate-50 p-2">
+                    <div className="pl-2 text-xs font-medium tracking-tight text-slate-500">현재 요금 기준</div>
+                    <div className="pl-2 mt-1 text-l font-bold text-slate-900">
+                      {perPerson(unitPrice)}
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border bg-slate-50 p-2">
+                    <div className="pl-2 text-xs font-medium tracking-tight text-slate-500">현재 총금액</div>
+                    <div className="pl-2 mt-1 text-l font-bold text-slate-900">
+                      {currency(total)}
+                    </div>
+                  </div>
+                </div>
+
+                {matchedRule && (
+                    <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4 text-sm">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="font-semibold text-primary">
+                          현재 적용 구간
+                        </div>
+
+                        <div className="text-right">
+                          <div className="text-slate-700">
+                            {matchedRule.smPriceType === 2039002
+                                ? `${matchedRule.perFr}명 초과 ~ ${matchedRule.perTo}명 이하`
+                                : "인원 구간과 관계없이 동일 단가 적용"}
+                          </div>
+
+                          <div className="mt-1 text-slate-500">
+                            기본단가 {currency(matchedRule.basicPrice ?? 0)} + 단가{" "}
+                            {currency(matchedRule.currPrice ?? 0)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                )}
+                {plans.length > 0 && (
+                    <div>
+                      <h4 className="mb-3 text-sm font-bold text-slate-900">
+                        플랜별 가격 비교
+                      </h4>
+
+                      <div className="space-y-2">
+                        {plans.map((plan) => {
+                          const planTotal = plan.quoteOnly ? 0 : getItemTotal(plan, headcount);
+                          const planUnit = plan.quoteOnly ? 0 : getItemUnitPrice(plan, headcount);
+                          const isSelected = plan.planId === detailPlanId;
+
+                          return (
+                              <div
+                                  key={plan.planId}
+                                  onClick={() => setDetailPlanId(plan.planId)}
+                                  className={`cursor-pointer rounded-2xl border p-3 transition hover:border-primary/60 hover:bg-primary/5 ${
+                                      isSelected
+                                          ? "border-primary bg-primary/5"
+                                          : "border-slate-200 bg-white"
+                                  }`}
+                              >
+                                <div className="flex items-center justify-between gap-4">
+                                  <div>
+                                    <div className="font-bold text-slate-900">
+                                      {plan.planName}
+                                    </div>
+                                    <div className="mt-1 text-xs text-slate-500">
+                                      {plan.isGroupService
+                                          ? "하위 항목 기준"
+                                          : plan.quoteOnly
+                                              ? "별도견적"
+                                              : perPerson(planUnit)}
+                                    </div>
+                                  </div>
+
+                                  <div className="text-right text-sm font-bold text-slate-900">
+                                    {plan.isGroupService
+                                        ? ""
+                                        : plan.quoteOnly
+                                            ? "견적요청"
+                                            : currency(planTotal)}
+                                  </div>
+                                </div>
+                              </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                )}
+                <div>
+                  <h4 className="mb-3 text-sm font-bold text-slate-900">
+                    {selectedPlan?.name || selectedPlan?.planName || "선택 플랜"} 가격정책
+                  </h4>
+
+                  <div className="overflow-hidden rounded-2xl border">
+                    <table className="w-full text-sm">
+                      <thead className="bg-slate-50 text-slate-500">
+                      <tr>
+                        <th className="px-3 py-2 text-left">구분</th>
+                        <th className="px-3 py-2 text-right">범위</th>
+                        <th className="px-3 py-2 text-right">기본단가</th>
+                        <th className="px-3 py-2 text-right">단가</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {rules.length === 0 ? (
+                          <tr>
+                            <td colSpan={4} className="px-3 py-6 text-center text-slate-400">
+                              등록된 가격정책이 없습니다.
+                            </td>
+                          </tr>
+                      ) : (
+                          rules.map((rule: any, idx: number) => (
+                              <tr
+                                  key={`${rule.seq}-${idx}`}
+                                  className={
+                                    matchedRule?.seq === rule.seq
+                                        ? "bg-primary/5"
+                                        : "border-t"
+                                  }
+                              >
+                                <td className="px-3 py-2">
+                                  {rule.smPriceTypeName}
+                                </td>
+                                <td className="px-3 py-2 text-right">
+                                  {rule.smPriceType === 2039002
+                                      ? `${rule.perFr} 초과 ~ ${rule.perTo} 이하`
+                                      : "전체"}
+                                </td>
+                                <td className="px-3 py-2 text-right">
+                                  {currency(rule.basicPrice ?? 0)}
+                                </td>
+                                <td className="px-3 py-2 text-right font-semibold">
+                                  {currency(rule.currPrice ?? 0)}
+                                </td>
+                              </tr>
+                          ))
+                      )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.aside>
+      </AnimatePresence>
   );
 }
 
