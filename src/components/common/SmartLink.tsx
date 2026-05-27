@@ -37,7 +37,7 @@ export default function SmartLink({
 
                 {/*hover 시 아이콘 */}
                 {!hideExternalIcon && (
-                    <ExternalLink className="h-3 w-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                    <ExternalLink className="h-4 w-4 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
                 )}
             </a>
         )
