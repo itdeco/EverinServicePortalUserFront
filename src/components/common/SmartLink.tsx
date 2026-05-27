@@ -8,6 +8,7 @@ type SmartLinkProps = {
     className?: string
     onClick?: () => void
     external?: boolean
+    hideExternalIcon?: boolean
 }
 
 export default function SmartLink({
@@ -16,6 +17,7 @@ export default function SmartLink({
                                       className,
                                       onClick,
                                       external,
+                                      hideExternalIcon,
                                   }: SmartLinkProps) {
     const isExternal =
         external ||
@@ -34,7 +36,9 @@ export default function SmartLink({
                 {children}
 
                 {/*hover 시 아이콘 */}
-                <ExternalLink className="h-3 w-3 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                {!hideExternalIcon && (
+                    <ExternalLink className="h-3 w-3 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                )}
             </a>
         )
     }
