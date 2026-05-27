@@ -17,22 +17,27 @@ export default function HrHeroSection() {
         <div className="flex flex-col items-center justify-center pt-28 pb-20 lg:pt-36 lg:pb-28 text-center hero-fade-up">
 
           {/* 브랜드 태그 */}
-          <p className="text-[#00cc99] text-xl font-semibold mb-3 tracking-wide">
+          <p className="text-[#00cc99] text-xl md:text-2xl font-semibold mb-3 tracking-wide">
             인사·조직·발령
           </p>
 
           {/* 서브 타이틀 */}
-          <p className="text-gray-600 text-base md:text-lg mb-3 leading-relaxed">
+          <p className="text-gray-600 text-lg md:text-xl mb-3 leading-relaxed">
             인사 발령 공문, 아직도 엑셀과 워드로 쪼개서 작업하시나요?
           </p>
 
           {/* 메인 타이틀 */}
-          <h1 className="text-[36px] sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-5">
+          <h1 className="text-[42px] sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight mb-2">
             인사관리
           </h1>
 
+          {/* 예정 배지 */}
+          <span className="inline-block px-3 py-1 text-sm font-medium text-orange-600 bg-orange-100 rounded-full mb-5">
+            *채용 예정
+          </span>
+
           {/* 설명 */}
-          <p className="text-gray-500 text-base leading-relaxed mb-10">
+          <p className="text-gray-500 text-lg md:text-xl leading-relaxed mb-10">
             채용부터 퇴직까지,<br />
             인사의 전 과정을 하나의 플랫폼에서
           </p>
