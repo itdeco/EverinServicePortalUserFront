@@ -671,7 +671,9 @@ export default function Header() {
                               ))}
                             </span>
                             {item.badge && (item.badge === "7개월 무료" || item.badge === "무료") && (
-                              <span className="text-[9px] px-1 py-0.5 rounded mt-0.5 self-start" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                              <span className="pl-[1em] mt-0.5">
+                                <span className="text-[9px] px-1 py-0.5 rounded" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                              </span>
                             )}
                           </SmartLink>
                         ))}
