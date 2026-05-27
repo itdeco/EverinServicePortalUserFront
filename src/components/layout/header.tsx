@@ -652,7 +652,7 @@ export default function Header() {
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className="flex flex-col py-0.5 text-xs text-foreground/80 transition-colors hover:opacity-70"
+                            className="block py-0.5 text-xs text-foreground/80 transition-colors hover:opacity-70"
                             onClick={() => setIsOpen(false)}
                           >
                             <span>
@@ -666,10 +666,10 @@ export default function Header() {
                                     : COLORS.people
                                 }}>({item.subtitle})</span>
                               )}
+                              {item.badge && (
+                                <span className="text-[9px] px-1 py-0.5 rounded ml-1" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                              )}
                             </span>
-                            {item.badge && (
-                              <span className="text-[9px] px-1 py-0.5 rounded mt-0.5 self-start" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
-                            )}
                           </SmartLink>
                         ))}
                       </div>
