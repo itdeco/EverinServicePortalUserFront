@@ -652,21 +652,23 @@ export default function Header() {
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className="block py-0.5 text-xs text-foreground/80 transition-colors hover:opacity-70"
+                            className="flex flex-col py-0.5 text-xs text-foreground/80 transition-colors hover:opacity-70"
                             onClick={() => setIsOpen(false)}
                           >
-                            <span className="text-muted-foreground/50 text-xs">ㄴ</span>
-                            {item.title}
-                            {item.subtitle && (
-                              <span className="text-xs ml-1" style={{
-                                color: item.subtitle === "에버웰커밍" ? COLORS.onboarding
-                                  : item.subtitle === "에버페이롤" ? COLORS.payroll
-                                  : item.subtitle === "에버평가" ? COLORS.evaluation
-                                  : COLORS.people
-                              }}>({item.subtitle})</span>
-                            )}
+                            <span>
+                              <span className="text-muted-foreground/50 text-xs">ㄴ</span>
+                              {item.title}
+                              {item.subtitle && (
+                                <span className="text-xs ml-1" style={{
+                                  color: item.subtitle === "에버웰커밍" ? COLORS.onboarding
+                                    : item.subtitle === "에버페이롤" ? COLORS.payroll
+                                    : item.subtitle === "에버평가" ? COLORS.evaluation
+                                    : COLORS.people
+                                }}>({item.subtitle})</span>
+                              )}
+                            </span>
                             {item.badge && (
-                              <span className="text-[9px] px-1 py-0.5 rounded ml-1" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                              <span className="text-[9px] px-1 py-0.5 rounded mt-0.5 self-start" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
                             )}
                           </SmartLink>
                         ))}
