@@ -373,7 +373,6 @@ export default function Header() {
                                         key={item.title}
                                         href={item.href}
                                         onClick={() => setMegaMenuOpen(false)}
-                                        hideExternalIcon
                                         className="text-base text-foreground hover:text-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-1.5"
                                       >
                                         <span className="text-muted-foreground/50 text-sm">ㄴ</span>
