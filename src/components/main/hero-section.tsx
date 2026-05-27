@@ -48,7 +48,7 @@ export default function HeroSection() {
 
   return (
       <section
-          className="relative overflow-hidden min-h-[640px] lg:min-h-[560px]"
+          className="relative overflow-hidden h-[760px] md:h-[700px] lg:h-[660px]"
       style={{
         backgroundImage: "url('/images/main/backgrounds/bg-hero-00.jpg')",
         backgroundSize: "cover",
@@ -63,10 +63,10 @@ export default function HeroSection() {
         {/* 슬라이드 1: HR 솔루션 통합 */}
         <div className="min-w-full flex items-center">
           <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-2 lg:py-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center pt-12 pb-8 lg:pt-16 lg:pb-12">
               {/* 왼쪽: 텍스트 및 CTA */}
               <div className="flex flex-col justify-center max-w-[560px]">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-tight">
+                <h2 className="text-[30px] md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-[1.18] pt-4 md:pt-0">
                   HR 솔루션이 혹시 5개 이상?
                   <br />
                   이제 하나로 통합해보세요.
@@ -82,7 +82,7 @@ export default function HeroSection() {
                 <div className="flex flex-wrap gap-4">
                   <a
                     href="/trial"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-7 h-12 md:px-10 md:h-14 text-base font-semibold rounded-lg text-white border-0"
                     style={{
                       background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)",
                     }}
@@ -92,7 +92,7 @@ export default function HeroSection() {
 
                   <a
                     href="/support/inquiry"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-10 h-14 text-base font-semibold rounded-lg text-gray-700 bg-white border-2 border-[#00cc99] hover:bg-[#f0fdf9]"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-7 h-12 md:px-10 md:h-14 text-base font-semibold rounded-lg text-gray-700 bg-white border-2 border-[#00cc99] hover:bg-[#f0fdf9]"
                   >
                     도입 문의
                   </a>
@@ -114,7 +114,7 @@ export default function HeroSection() {
         {/* 슬라이드 2: AI 온보딩 */}
         <div className="min-w-full flex items-center">
           <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-2 lg:py-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center pt-12 pb-8 lg:pt-16 lg:pb-12">
               {/* 왼쪽: 텍스트 및 CTA */}
               <div className="flex flex-col justify-center max-w-[560px]">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-tight">
@@ -133,7 +133,7 @@ export default function HeroSection() {
                 <div className="flex flex-wrap gap-4">
                   <a
                     href="/people/everwelcoming"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-7 h-12 md:px-10 md:h-14 text-base font-semibold rounded-lg text-white border-0"
                     style={{
                       background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)",
                     }}
@@ -143,7 +143,7 @@ export default function HeroSection() {
 
                   <a
                     href="/people/everwelcoming"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-10 h-14 text-base font-semibold rounded-lg text-gray-700 bg-white border-2 border-[#00cc99] hover:bg-[#f0fdf9]"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-7 h-12 md:px-10 md:h-14 text-base font-semibold rounded-lg text-gray-700 bg-white border-2 border-[#00cc99] hover:bg-[#f0fdf9]"
                   >
                     평생 무료 사용
                   </a>
@@ -152,12 +152,12 @@ export default function HeroSection() {
 
               {/* 오른쪽: AI 온보딩 일러스트 */}
               <ComingSoonOverlay>
-              <div className="relative h-[320px] lg:h-[420px] flex items-center justify-center w-full">
+                <div className="relative h-[260px] md:h-[320px] lg:h-[420px] flex items-center justify-center w-full overflow-hidden">
                 <div className="relative w-full max-w-[480px] h-full flex items-center justify-center">
                   {/* AI 온보딩 시각적 요소 */}
                   <div className="relative">
                     {/* 메인 카드 */}
-                    <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 w-[380px]">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-6 w-[300px] md:p-8 md:w-[380px]">
                       <div className="flex items-center gap-4 mb-6">
                         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#4b6bf5] to-[#00cc99] flex items-center justify-center">
                           <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,7 +219,7 @@ export default function HeroSection() {
       {/* 슬라이드 3: 에버타임 근태관리 */}
         <div className="min-w-full flex items-center">
           <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-2 lg:py-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center pt-12 pb-8 lg:pt-16 lg:pb-12">
               {/* 왼쪽: 텍스트 및 CTA */}
               <div className="flex flex-col justify-center max-w-[560px]">
                 <p
@@ -244,7 +244,7 @@ export default function HeroSection() {
                 <div className="flex flex-wrap gap-4">
                   <a
                     href="/people/evertime"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-7 h-12 md:px-10 md:h-14 text-base font-semibold rounded-lg text-white border-0"
                     style={{
                       background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)",
                     }}
@@ -254,7 +254,7 @@ export default function HeroSection() {
 
                   <a
                     href="/people/evertime"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-10 h-14 text-base font-semibold rounded-lg text-gray-700 bg-white border-2 border-[#00cc99] hover:bg-[#f0fdf9]"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all px-7 h-12 md:px-10 md:h-14 text-base font-semibold rounded-lg text-gray-700 bg-white border-2 border-[#00cc99] hover:bg-[#f0fdf9]"
                   >
                     에버타임 7개월 무료 사용
                   </a>
@@ -279,13 +279,13 @@ export default function HeroSection() {
       {/* 네비게이션 화살표 */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/80 hover:bg-white shadow-lg flex items-center justify-center transition-all"
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/80 hover:bg-white shadow-lg flex items-center justify-center transition-all"
       >
         <ChevronLeft className="w-6 h-6 text-gray-700" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/80 hover:bg-white shadow-lg flex items-center justify-center transition-all"
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/80 hover:bg-white shadow-lg flex items-center justify-center transition-all"
       >
         <ChevronRight className="w-6 h-6 text-gray-700" />
       </button>
@@ -302,7 +302,7 @@ export default function HeroSection() {
           />
         ))}
       </div>
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-white/70 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-b from-transparent to-white/80 pointer-events-none" />
       <style jsx>{`
         @keyframes float {
           0%, 100% {

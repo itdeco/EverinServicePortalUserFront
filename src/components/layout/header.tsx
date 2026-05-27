@@ -153,6 +153,23 @@ const COLORS = {
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
+  const closeTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  const openMegaMenu = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current)
+    setMegaMenuOpen(true)
+  }
+
+  const closeMegaMenu = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current)
+    }
+
+    closeTimerRef.current = setTimeout(() => {
+      setMegaMenuOpen(false)
+    }, 180)
+  }
+
   // 메가메뉴 top: 배너(~40px) + 네비 h-16(64px) = 104px
   const megaMenuTopFixed = 64
   const router = useRouter()
@@ -223,8 +240,8 @@ export default function Header() {
               {/* 서비스 메가메뉴 */}
               <div
                 className="relative"
-                onMouseEnter={() => setMegaMenuOpen(true)}
-                onMouseLeave={() => setMegaMenuOpen(false)}
+                onMouseEnter={openMegaMenu}
+                onMouseLeave={closeMegaMenu}
               >
                 <button
                   data-mega-trigger
@@ -237,9 +254,11 @@ export default function Header() {
                 {/* 메가메뉴 드롭다운 - 전체 너비 플랫 스타일 */}
                 {megaMenuOpen && (
                   <div
-                    data-mega-menu
-                    className="fixed left-0 right-0 z-50"
-                    style={{ top: `${megaMenuTopFixed}px` }}
+                      data-mega-menu
+                      className="fixed left-0 right-0 z-50"
+                      style={{ top: `${megaMenuTopFixed}px` }}
+                      onMouseEnter={openMegaMenu}
+                      onMouseLeave={closeMegaMenu}
                   >
                     <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg overflow-y-auto max-h-[80vh]">
                       {/* 컨테이너: text-center + inline-flex로 가운데 정렬 */}

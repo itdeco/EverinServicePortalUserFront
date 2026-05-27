@@ -147,9 +147,17 @@ export function PersonaSection() {
             >
                 <div className="p-8 flex flex-col flex-1">
                   {/* Quote - Main Highlight - Auto Scaling Single Line */}
-                  <AutoScaleText color={persona.accentColor} maxFontSize={42} minFontSize={20}>
-                    &ldquo;{persona.quote}&rdquo;
-                  </AutoScaleText>
+                  <div className="h-[76px] mb-6 flex items-center justify-center overflow-hidden">
+                    <p
+                        className="text-[26px] md:text-[28px] font-black text-center leading-[1.2] break-keep line-clamp-2"
+                        style={{
+                          color: persona.accentColor,
+                          letterSpacing: "-0.03em",
+                        }}
+                    >
+                      &ldquo;{persona.quote}&rdquo;
+                    </p>
+                  </div>
 
                   {/* Tag - With visual separation */}
                   <div className="flex justify-center mb-8">

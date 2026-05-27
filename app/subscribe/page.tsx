@@ -544,16 +544,26 @@ function ServiceRow({
   let serviceTotal = 0;
 
   if (isSelected) {
-    if (isParentChargeTarget) {
-      serviceTotal += getItemTotal(currentPlan ?? service, headcount);
-    }
 
-    visibleSubServices.forEach((sub) => {
-      if (selected[sub.serviceId] && !sub.quoteOnly) {
-        const subHeadcount = headcounts[sub.serviceId] || headcount;
-        serviceTotal += getItemTotal(sub, subHeadcount);
+    // 하위 선택형 플랜
+    if (isGroupPlan) {
+
+      visibleSubServices.forEach((sub) => {
+        if (selected[sub.serviceId] && !sub.quoteOnly) {
+          const subHeadcount = headcounts[sub.serviceId] || headcount;
+
+          serviceTotal += getItemTotal(sub, subHeadcount);
+        }
+      });
+
+    } else {
+
+      // 일반 서비스는 본인 금액만
+      if (isParentChargeTarget) {
+        serviceTotal = getItemTotal(currentPlan ?? service, headcount);
       }
-    });
+
+    }
   }
 
   return (
@@ -585,9 +595,17 @@ function ServiceRow({
                     </Badge>
                 )}
                 {isSelected && !isQuoteOnlyService && (
-                    <Badge className="text-white border-0 text-xs" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
-                      선택됨
-                    </Badge>
+                    <div className="flex items-center gap-1">
+                      <Badge
+                          className="text-white border-0 text-xs"
+                          style={{
+                            background:
+                                "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)",
+                          }}
+                      >
+                        선택됨
+                      </Badge>
+                    </div>
                 )}
                 <Button
                     type="button"
@@ -636,11 +654,37 @@ function ServiceRow({
 
               <div className="flex items-center gap-2 ml-auto flex-shrink-0">
                 <div className="text-right">
-                  <div className="text-lg font-bold text-slate-900 whitespace-nowrap">
+                  <div className="flex items-center justify-end gap-2 text-lg font-bold text-slate-900 whitespace-nowrap">
+
+                    {isGroupPlan && serviceTotal > 0 && (
+                        <Badge
+                            variant="outline"
+                            className="border-emerald-300 bg-emerald-50 text-emerald-700 text-[11px]"
+                        >
+                          하위 포함
+                        </Badge>
+                    )}
+
                     {isQuoteOnlyService ? (
-                        <span className="font-bold text-sm" style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"}}>견적요청</span>
+                        <span
+                            className="font-bold text-sm"
+                            style={{
+                              background:
+                                  "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)",
+                              WebkitBackgroundClip: "text",
+                              WebkitTextFillColor: "transparent",
+                            }}
+                        >
+                          견적요청
+                        </span>
                     ) : isGroupPlan ? (
-                        serviceTotal > 0 ? currency(serviceTotal) : <span className="text-sm text-slate-400">하위 항목 선택</span>
+                        serviceTotal > 0 ? (
+                            currency(serviceTotal)
+                        ) : (
+                            <span className="text-sm text-slate-400">
+                              하위 항목 선택
+                            </span>
+                        )
                     ) : (
                         currency(serviceTotal)
                     )}

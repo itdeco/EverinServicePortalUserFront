@@ -11,32 +11,55 @@ const tabs = [
   {id: "groupware", label: "에버웍스(그룹웨어)", color: "#0FA6EC"},
 ]
 
-/* ─── 인사관리 탭 데이터 ─── */
-const hrMainCard = {
-  title: "에버타임",
-  desc: "모바일 앱으로\n언제 어디서나\n스마트하게 관리",
-  img: "/images/main/solutions/tab1/tab1-solutions-01.png",
-  href: "/",
-}
-
-const hrSubCards = [
-  {
-    title: "에버웰커밍",
-    desc: "신규 입사자의 조직 적응을 위한 따뜻한 온보딩\nAI 빌더 탑재로 자동화된 프로세스",
-    img: "/images/main/solutions/tab1/tab1-solutions-02.png",
-    href: "/",
-  },
+const hrCards = [
   {
     title: "인사관리",
-    desc: "인사정보, 전자근로계약서, 보안\n ",
-    img: "/images/main/solutions/tab1/tab1-solutions-03.png",
-    href: "/",
+    subtitle: "Human Resource Management",
+    desc: "인사정보와 전자근로계약서를 한번에 관리하세요.",
+    img: "/images/main/solutions/hro/bg-solutions-02.png",
+    href: "/people/hr-management",
   },
   {
-    title: "PC-OFF",
-    desc: "퇴근 후에도 업무용 PC가 켜져 있다면?\n주52시간 초과 리스크 완전 차단",
-    img: "/images/main/solutions/tab1/tab1-solutions-04.png",
-    href: "/",
+    title: "에버웰커밍(온보딩)",
+    subtitle: "EverWelcoming",
+    desc: "신규입사자의 첫단추를 완벽하게 채워주세요",
+    img: "/images/main/solutions/hro/bg-solutions-01.png",
+    href: "/people/everwelcoming",
+  },
+  {
+    title: "근태관리(에버타임)",
+    subtitle: "EverTime",
+    desc: "모바일 앱으로 언제 어디서나 스마트하게 관리하세요.",
+    img: "/images/main/solutions/hro/bg-solutions-03.png",
+    href: "/people/evertime",
+  },
+  {
+    title: "PC-OFF(에버PC-OFF)",
+    subtitle: "EverPC-OFF",
+    desc: "실시간 근태 데이터와 연동하여 PC 사용 권한을 관리하세요",
+    img: "/images/main/solutions/hro/bg-solutions-04.png",
+    href: "/people/pc-off",
+  },
+  {
+    title: "에버페이롤(급여아웃소싱)",
+    subtitle: "Payroll Outsourcing",
+    desc: "급여 산정의 복잡함은 사라지고 결과의 정확함만 남습니다.",
+    img: "/images/main/solutions/hro/bg-solutions-07.png",
+    href: "/people/payroll-outsourcing",
+  },
+  {
+    title: "에버평가",
+    subtitle: "Talent Assessment",
+    desc: "조직의 성과와 성장을 위한 체계적인 평가관리 솔루션입니다.",
+    img: "/images/main/solutions/hro/bg-solutions-05.png",
+    href: "/people/assessment",
+  },
+  {
+    title: "시스템 연동 및 개발",
+    subtitle: "System Integration & Customization",
+    desc: "기업의 업무 환경을 하나로 연결하여 효율성을 극대화합니다.",
+    img: "/images/main/solutions/hro/bg-solutions-08.png",
+    href: "/people/system-integration",
   },
 ]
 
@@ -132,7 +155,7 @@ export function SolutionsSection() {
           </div>
 
           {/* Tabs */}
-          <div className="flex justify-center gap-3 mt-8 mb-10">
+          <div className="flex justify-center gap-2 mt-8 mb-10 px-1">
             {tabs.map((tab) => (
                 <button
                     key={tab.id}
@@ -143,7 +166,7 @@ export function SolutionsSection() {
                       color: activeTab === tab.id ? "#fff" : undefined,
                     }}
                     className={cn(
-                        "px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap",
+                        "px-3 sm:px-5 md:px-7 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs md:text-sm font-semibold whitespace-nowrap",
                         "transition-all duration-200 border cursor-pointer hover:shadow-md active:scale-95",
                         "focus:outline-none focus:ring-2",
                         activeTab === tab.id
@@ -175,8 +198,8 @@ export function SolutionsSection() {
                   activeTab === "hr" ? "block animate-tab-fade-slide" : "hidden"
               )}
           >
-            <div 
-              className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 md:block md:overflow-visible md:snap-none md:mx-0 md:px-0 scroll-smooth"
+            <div
+                className="pb-4"
               onClick={(e) => {
                 const target = e.target as HTMLElement
                 const card = target.closest('[data-card-index]') as HTMLElement
@@ -185,73 +208,39 @@ export function SolutionsSection() {
                 }
               }}
             >
-            {/* Main big card (full width) */}
-            <div
-                data-card-index="0"
-                onMouseMove={handleCardMouseMove}
-                onMouseLeave={handleCardMouseLeave}
-                className={cn(
-                    "min-w-[88%] snap-center md:min-w-0 rounded-2xl group relative cursor-pointer will-change-transform bg-[#f7f8fa] border border-gray-100 overflow-hidden mb-5 flex flex-col md:flex-row items-stretch min-h-88",
-                    "transition-[box-shadow,opacity,transform] duration-700 ease-out",
-                    "after:absolute after:inset-0 after:pointer-events-none after:opacity-0 after:transition-opacity after:duration-200",
-                    "after:bg-[radial-gradient(circle_at_var(--mouse-x)_var(--mouse-y),rgba(79,124,255,0.35),transparent_40%)]",
-                    "md:hover:after:opacity-100 hover:shadow-xl",
-                    "col-span-1 h-[430px] md:h-[460px] md:col-span-1",
-                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
-                )}
-            >
-              <div className="flex flex-col justify-items-start px-8 py-8 md:py-10 md:w-[19%] shrink-0">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{hrMainCard.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-6">{hrMainCard.desc}</p>
-                <Link
-                    href={hrMainCard.href}
-                    className="relative z-10 inline-flex items-center justify-center w-fit px-5 py-2 rounded-full border border-gray-300 bg-white/80 text-gray-700 text-sm font-semibold shadow-sm transition-[box-shadow] duration-200 hover:border-[#03b565] hover:bg-[#03b565] hover:text-white hover:shadow-lg hover:shadow-[#03b565]/25 active:scale-95 cursor-pointer"
-                >
-                  자세히 보기
-                </Link>
-              </div>
-              <div className="relative flex-1 min-h-55">
-                <Image
-                    src={hrMainCard.img}
-                    alt={hrMainCard.title}
-                    fill
-                    loading="lazy"
-                    placeholder="blur"
-                    blurDataURL={blurDataURL}
-                    className="object-contain object-top-right transition-all duration-300 group-hover:scale-105"
-                />
-              </div>
-            </div>
-
-            {/* Sub cards: 에버웰커밍 / 인사관리 / PC-OFF — 3열 한 줄 */}
-              <div className="contents md:grid md:grid-cols-2 md:gap-5 lg:grid-cols-10 lg:items-end">
-              {hrSubCards.map((card, i) => (
+            {/* cards */}
+              <div className="grid grid-cols-1 gap-4">
+              {hrCards.map((card, i) => (
                   <div
                       key={i}
                       data-card-index={i + 1}
                       onMouseMove={handleCardMouseMove}
                       onMouseLeave={handleCardMouseLeave}
                       className={cn(
-                          "min-w-[82%] sm:min-w-[68%] md:min-w-0 snap-center rounded-2xl group relative cursor-pointer will-change-transform bg-[#f7f8fa] border border-gray-100 overflow-hidden flex flex-col",
+                          "rounded-2xl group relative cursor-pointer will-change-transform bg-[#f7f8fa] border border-gray-100 overflow-hidden relative",
                           "after:absolute after:inset-0 after:pointer-events-none after:opacity-0 after:transition-opacity after:duration-300",
                           "after:bg-[radial-gradient(circle_at_var(--mouse-x)_var(--mouse-y),rgba(79,124,255,0.35),transparent_40%)]",
                           "md:hover:after:opacity-100",
-                          "col-span-1 h-[430px] md:h-[460px] md:col-span-1",
-                          "transition-[box-shadow,opacity,transform] duration-700 ease-out",
-                          "hover:shadow-xl",
+                          "h-[190px] md:h-[220px]",
+                          "transition-[box-shadow,opacity,transform] duration-700 ease-out hover:shadow-xl",
                           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
                           i === 0 && "delay-100",
                           i === 1 && "delay-200",
                           i === 2 && "delay-300",
-                          i === 1
-                              ? "lg:col-span-4 lg:h-[460px]"
-                              : "lg:col-span-3 lg:h-[460px]"
+                          i === 3 && "delay-[400ms]"
                       )}
                   >
                     {/* 텍스트 영역 */}
-                    <div className="px-6 pt-6 pb-3 shrink-0">
-                      <h3 className="text-base font-bold text-gray-900 mb-1.5">{card.title}</h3>
-                      <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4">{card.desc}</p>
+                    <div className="relative z-10 w-[50%] md:w-[52%] px-5 md:px-7 py-5 md:py-6 flex flex-col justify-center h-full min-w-0">
+                      <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
+                        {card.title}
+                      </h3>
+                      <p className="text-sm md:text-base font-semibold text-emerald-600 mb-2">
+                        {card.subtitle}
+                      </p>
+                      <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4 line-clamp-2">
+                        {card.desc}
+                      </p>
                       <Link
                           href={card.href}
                           className="relative z-10 inline-flex items-center justify-center w-fit px-4 py-1.5 rounded-full border border-gray-300 bg-white/80 text-gray-700 text-xs font-semibold shadow-sm transition-all duration-300 hover:border-[#03b565] hover:bg-[#03b565] hover:text-white hover:shadow-md hover:shadow-[#03b565]/25 active:scale-95 cursor-pointer"
@@ -260,7 +249,7 @@ export function SolutionsSection() {
                       </Link>
                     </div>
                     {/* 이미지 영역 — 남은 공간 꽉 채우기 */}
-                    <div className="relative flex-1 mx-3 mb-3 rounded-xl overflow-hidden">
+                    <div className="absolute right-0 top-0 h-full w-[50%] md:w-[42%] overflow-hidden">
                       <Image
                           src={card.img}
                           alt={card.title}
@@ -268,7 +257,7 @@ export function SolutionsSection() {
                           loading="lazy"
                           placeholder="blur"
                           blurDataURL={blurDataURL}
-                          className="object-cover object-top-left transition-all duration-300 group-hover:scale-105"
+                          className="object-contain object-right p-2 md:p-4 transition-all duration-300 group-hover:scale-105"
                       />
                     </div>
                   </div>
