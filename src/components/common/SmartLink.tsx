@@ -30,7 +30,7 @@ export default function SmartLink({
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group inline-flex items-center gap-1 ${className}`}
+                className={`group flex items-center gap-2 ${className}`}
                 onClick={onClick}
             >
                 {children}
