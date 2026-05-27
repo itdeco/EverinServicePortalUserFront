@@ -355,7 +355,7 @@ export default function Header() {
                           </div>
 
                           {/* ════════ Culture 섹션 (파란톤) ════════ */}
-                          <div className="w-[280px] px-6 border-r border-border/30 shrink-0">
+                          <div className="w-[340px] px-6 border-r border-border/30 shrink-0">
                             {/* Culture 배지 */}
                             <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-blue-500">
                               <Building2 className="h-5 w-5 text-blue-500" />
