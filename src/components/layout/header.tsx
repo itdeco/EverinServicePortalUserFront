@@ -133,11 +133,11 @@ const cultureMenu: Record<string, MenuItem[]> = {
       href: "https://www.everin.co.kr/?section=EverOnSaram",
       external: true,
     },
-    { title: "OKR", subtitle: "에버그로잉", href: "#" },
+    { title: "OKR", subtitle: "에버그로잉", href: "https://www.everin.co.kr/", external: true },
   ],
   컨설팅: [
-    { title: "진단", href: "#" },
-    { title: "제도수립", href: "#" },
+    { title: "진단", href: "https://www.everin.co.kr/", external: true },
+    { title: "제도수립", href: "https://www.everin.co.kr/", external: true },
   ],
 };
 
