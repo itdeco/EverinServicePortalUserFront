@@ -40,6 +40,44 @@ export default function HrTaglineSection() {
           ))}
         </div>
 
+        {/* HR 업무 효율 섹션 */}
+        <div className="bg-gray-50 rounded-3xl p-8 md:p-12 mb-16">
+          <div className="text-center mb-10">
+            <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
+              HR 업무, 복잡함을 덜고 효율을 더하다
+            </h3>
+            <p className="text-gray-500 text-sm md:text-base">
+              지금, 더 똑똑한 방법으로 바꿔보세요.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {[
+              { icon: "/images/people/smartWorkCare/hr/icon-hr-01.svg", title: "직원정보의 통합 관리로", subtitle: "데이터 정확성 확보" },
+              { icon: "/images/people/smartWorkCare/hr/icon-hr-02.svg", title: "드래그 앤 드롭 방식의", subtitle: "직관적인 조직도 관리" },
+              { icon: "/images/people/smartWorkCare/hr/icon-hr-03.svg", title: "인사이동 이력 자동 기록", subtitle: "및 관리 기능 제공" },
+              { icon: "/images/people/smartWorkCare/hr/icon-hr-04.svg", title: "실시간 데이터 업데이트로", subtitle: "업무 누락 방지" },
+              { icon: "/images/people/smartWorkCare/hr/icon-hr.svg", title: "다양한 HR 시스템", subtitle: "(근태, 급여, 평가 등)과 연동" },
+            ].map((item, idx) => (
+              <div 
+                key={idx} 
+                className="flex flex-col items-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="w-16 h-16 mb-4 relative">
+                  <Image
+                    src={item.icon}
+                    alt={item.title}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <p className="text-sm text-gray-700 text-center font-medium leading-relaxed">
+                  {item.title}<br />{item.subtitle}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* 입체적 이미지 섹션 */}
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
           {/* 좌측 이미지 */}
