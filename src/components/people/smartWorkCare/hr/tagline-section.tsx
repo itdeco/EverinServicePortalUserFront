@@ -25,17 +25,17 @@ export default function HrTaglineSection() {
               key={idx} 
               className={`flex flex-col items-center p-8 rounded-2xl transition-shadow bg-gray-50 border border-gray-200`}
             >
+              <p className="text-base text-gray-900 text-center font-semibold leading-relaxed">
+                {item.title}<br /><span className="text-gray-700">{item.subtitle}</span>
+              </p>
               <div className="w-20 h-20 mb-6 relative">
                 <Image
                   src={item.icon}
                   alt={item.title}
                   fill
-                  className="object-contain"
+                  className="object-bottom-right"
                 />
               </div>
-              <p className="text-base text-gray-900 text-center font-semibold leading-relaxed">
-                {item.title}<br /><span className="text-gray-700">{item.subtitle}</span>
-              </p>
             </div>
           ))}
         </div>
