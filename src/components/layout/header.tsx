@@ -133,11 +133,11 @@ const cultureMenu: Record<string, MenuItem[]> = {
       href: "https://www.everin.co.kr/?section=EverOnSaram",
       external: true,
     },
-    { title: "OKR", subtitle: "에버그로잉", href: "#" },
+    { title: "OKR", subtitle: "에버그로잉", href: "https://www.everin.co.kr/", external: true },
   ],
   컨설팅: [
-    { title: "진단", href: "#" },
-    { title: "제도수립", href: "#" },
+    { title: "진단", href: "https://www.everin.co.kr/", external: true },
+    { title: "제도수립", href: "https://www.everin.co.kr/", external: true },
   ],
 };
 
@@ -355,7 +355,7 @@ export default function Header() {
                           </div>
 
                           {/* ════════ Culture 섹션 (파란톤) ════════ */}
-                          <div className="w-[280px] px-6 border-r border-border/30 shrink-0">
+                          <div className="w-[340px] px-6 border-r border-border/30 shrink-0">
                             {/* Culture 배지 */}
                             <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-blue-500">
                               <Building2 className="h-5 w-5 text-blue-500" />
@@ -652,21 +652,28 @@ export default function Header() {
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className="block py-0.5 text-xs text-foreground/80 transition-colors hover:opacity-70"
+                            className={`py-0.5 text-xs text-foreground/80 transition-colors hover:opacity-70 ${item.badge === "7개월 무료" || item.badge === "무료" ? "flex flex-col" : "block"}`}
                             onClick={() => setIsOpen(false)}
                           >
-                            <span className="text-muted-foreground/50 text-xs">ㄴ</span>
-                            {item.title}
-                            {item.subtitle && (
-                              <span className="text-xs ml-1" style={{
-                                color: item.subtitle === "에버웰커밍" ? COLORS.onboarding
-                                  : item.subtitle === "에버페이롤" ? COLORS.payroll
-                                  : item.subtitle === "에버평가" ? COLORS.evaluation
-                                  : COLORS.people
-                              }}>({item.subtitle})</span>
-                            )}
-                            {item.badge && (
-                              <span className="text-[9px] px-1 py-0.5 rounded ml-1" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                            <span>
+                              <span className="text-muted-foreground/50 text-xs">ㄴ</span>
+                              {item.title}
+                              {item.subtitle && (
+                                <span className="text-xs ml-1" style={{
+                                  color: item.subtitle === "에버웰커밍" ? COLORS.onboarding
+                                    : item.subtitle === "에버페이롤" ? COLORS.payroll
+                                    : item.subtitle === "에버평가" ? COLORS.evaluation
+                                    : COLORS.people
+                                }}>({item.subtitle})</span>
+                              )}
+                              {item.badge && (item.badge === "7개월 무료" || item.badge === "무료" ? null : (
+                                <span className="text-[9px] px-1 py-0.5 rounded ml-1" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                              ))}
+                            </span>
+                            {item.badge && (item.badge === "7개월 무료" || item.badge === "무료") && (
+                              <span className="pl-[1em] mt-0.5">
+                                <span className="text-[9px] px-1 py-0.5 rounded" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                              </span>
                             )}
                           </SmartLink>
                         ))}

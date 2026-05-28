@@ -8,6 +8,7 @@ type SmartLinkProps = {
     className?: string
     onClick?: () => void
     external?: boolean
+    hideExternalIcon?: boolean
 }
 
 export default function SmartLink({
@@ -16,6 +17,7 @@ export default function SmartLink({
                                       className,
                                       onClick,
                                       external,
+                                      hideExternalIcon,
                                   }: SmartLinkProps) {
     const isExternal =
         external ||
@@ -28,13 +30,15 @@ export default function SmartLink({
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group inline-flex items-center gap-1 ${className}`}
+                className={`group flex items-center gap-2 ${className}`}
                 onClick={onClick}
             >
                 {children}
 
                 {/*hover 시 아이콘 */}
-                <ExternalLink className="h-3 w-3 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                {!hideExternalIcon && (
+                    <ExternalLink className="h-4 w-4 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                )}
             </a>
         )
     }

@@ -1,204 +1,161 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 
-const features = [
+const tabs = [
   {
-    id: 1,
+    id: "info",
     title: "인사정보 통합관리",
-    description: "마스터 데이터 중앙화, 부서, 직급, 직책 실시간 연동",
-    icon: "/images/main/icons/hero/icon-hero-05.svg",
+    subtitle: "중앙 집중식 직원 정보 관리",
+    icon: "/images/people/smartWorkCare/hr/icon-hr-01.svg",
     image: "/images/people/smartWorkCare/hr/hr-1-1.png",
-    imageAlt: "인사정보 통합관리 화면",
+    description: [
+      "모든 직원의 기본 정보, 인사 이력, 평가 등을 하나의 플랫폼에서 체계적으로 관리",
+      "중복된 데이터 입력이나 업무 혼선을 방지",
+      "직원 개개인의 입사부터 퇴직까지의 모든 정보 관리",
+    ],
   },
   {
-    id: 2,
-    title: "조직도 자동화",
-    description: "조직 개편 즉시 반영, 시각화 조직도 실시간 업데이트",
-    icon: "/images/main/icons/hero/icon-hero-05.svg",
+    id: "org",
+    title: "조직관리\n(부서/사원/조직도)",
+    subtitle: "실시간 조직도 관리",
+    icon: "/images/people/smartWorkCare/hr/icon-hr-02.svg",
     image: "/images/people/smartWorkCare/hr/hr-2-1.png",
-    imageAlt: "조직도 자동화 화면",
+    description: [
+      "조직 현황을 실시간으로 파악하고 업데이트",
+      "부서 개편, 조직 개편 등 복잡한 조직 변경을 클릭 몇 번으로 처리",
+    ],
   },
   {
-    id: 3,
-    title: "발령 자동화",
-    description: "인사발령 공문 원클릭생성, 전자결재 즉시 연계",
-    icon: "/images/main/icons/hero/icon-hero-05.svg",
+    id: "transfer",
+    title: "인사 이동(발령)관리",
+    subtitle: "인사이동 이력관리",
+    icon: "/images/people/smartWorkCare/hr/icon-hr-03.svg",
     image: "/images/people/smartWorkCare/hr/hr-3-1.png",
-    imageAlt: "발령 자동화 화면",
+    description: [
+      "직원의 인사발령 및 이동내역을 실시간으로 관리하며, 승진, 이동, 부서 이동, 휴직 등을 한눈에 파악",
+      "인사이동 내역의 이력을 기록하여, 언제든지 정확한 인사기록 확인",
+    ],
   },
   {
-    id: 4,
-    title: "HR 데이터 분석",
-    description: "복잡한 데이터를 직관적인 대시보드로 한눈에 파악하고 의사결정에 바로 활용하세요.",
-    icon: "/images/main/icons/hero/icon-hero-05.svg",
+    id: "cert",
+    title: "증명서관리",
+    subtitle: "인사 이동 이력관리",
+    icon: "/images/people/smartWorkCare/hr/icon-hr-04.svg",
     image: "/images/people/smartWorkCare/hr/hr-4-1.png",
-    imageAlt: "HR 데이터 분석 화면",
+    description: [
+      "증명서 발행, 승인과 출력제공",
+      "재직증명서, 경력증명서, 휴직증명서, 소득세원천징수확인서(급여연동), 근로소득원천징수부(급여연동) 등 각종 증명서 제공",
+    ],
+  },
+  {
+    id: "status",
+    title: "인사현황",
+    subtitle: "근태, 급여, 평가 등 자동 연계",
+    icon: "/images/people/smartWorkCare/hr/icon-hr.svg",
+    image: "/images/people/smartWorkCare/hr/hr-1-1.png",
+    description: [
+      "임직원을 조회할 수 있으며 다중검색, 사원명부, 사원정보, 장애인현황조회, 휴직자조회, 사원근무년수 등 조회 제공",
+      "직위별, 직책별, 연령별, 그룹별, 성별 등 다양한 기준별 인원현황을 한 눈에 파악",
+    ],
   },
 ]
 
-const SECTION_HEIGHT = 100 // vh per feature step
-
 export default function HrFeaturesSection() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const wrapperRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const el = wrapperRef.current
-      if (!el) return
-      const { top } = el.getBoundingClientRect()
-      const scrolled = -top
-      // 스크롤 가능 거리: (features.length * 100vh) 에서 sticky 패널 높이(100vh) 제외
-      const scrollableHeight = features.length * window.innerHeight
-      const stepHeight = scrollableHeight / features.length
-      const idx = Math.min(
-        features.length - 1,
-        Math.max(0, Math.floor(scrolled / stepHeight))
-      )
-      setActiveIndex(idx)
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  const [activeTab, setActiveTab] = useState("info")
+  const activeFeature = tabs.find((tab) => tab.id === activeTab)!
 
   return (
-    <div
-      ref={wrapperRef}
-      className="relative w-full bg-white"
-      style={{ height: `${(features.length + 1) * SECTION_HEIGHT}vh` }}
-    >
-      {/* 고정 패널 - 데스크탑 */}
-      <div className="hidden lg:flex sticky top-0 h-screen items-center bg-white">
-        <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-          <div className="flex items-center gap-16">
-            {/* 왼쪽 텍스트 */}
-            <div className="w-[420px] shrink-0 relative h-[180px]">
-              {features.map((feature, idx) => (
-                <div
-                  key={feature.id}
-                  className="absolute inset-0"
-                  style={{
-                    opacity: activeIndex === idx ? 1 : 0,
-                    transition: "opacity 0.6s ease-in-out",
-                    pointerEvents: activeIndex === idx ? "auto" : "none",
-                  }}
-                >
-                  {/* 인디케이터 점 */}
-                  <div className="flex gap-2 mb-6">
-                    {features.map((_, dotIdx) => (
-                      <span
-                        key={dotIdx}
-                        className="block h-1.5 rounded-full"
-                        style={{
-                          width: dotIdx === activeIndex ? "24px" : "6px",
-                          backgroundColor: dotIdx === activeIndex ? "#00cc99" : "#e5e7eb",
-                          transition: "width 0.4s ease-in-out, background-color 0.4s ease-in-out",
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                    {feature.title}
-                  </h3>
-                  <p className="text-base text-gray-600 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
-            </div>
+    <section className="w-full bg-white py-5 md:py-7">
+      <div className="mx-auto max-w-[1280px] px-3 lg:px-5">
 
-            {/* 오른쪽 이미지 - PC 스크린샷이므로 전체 너비 사용 */}
-            <div className="flex-1 relative h-[480px]">
-              {features.map((feature, idx) => (
-                <div
-                  key={feature.id}
-                  className="absolute inset-0"
-                  style={{
-                    opacity: activeIndex === idx ? 1 : 0,
-                    transition: "opacity 0.6s ease-in-out",
-                  }}
-                >
-                  <Image
-                    src={feature.image}
-                    alt={feature.imageAlt}
-                    fill
-                    className="object-contain object-left-top"
-                    priority={idx === 0}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* 탭 버튼 - 스크롤 가능 */}
+        <div className="flex gap-2 md:gap-3 mb-10 overflow-x-auto pb-2 scrollbar-hide">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex-shrink-0 px-4 md:px-6 py-3 rounded-full text-sm md:text-base font-medium transition-all whitespace-pre-line text-center leading-tight ${
+                activeTab === tab.id
+                  ? "bg-[#00cc99] text-white shadow-lg"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {tab.title}
+            </button>
+          ))}
         </div>
-      </div>
 
-      {/* 고정 패널 - 모바일 */}
-      <div className="flex lg:hidden sticky top-0 h-screen flex-col items-center justify-center bg-white px-6">
-        <div className="w-full max-w-sm flex flex-col items-center text-center">
-          {/* 인디케이터 점 */}
-          <div className="flex gap-2 mb-8">
-            {features.map((_, dotIdx) => (
-              <span
-                key={dotIdx}
-                className="block h-1.5 rounded-full"
-                style={{
-                  width: dotIdx === activeIndex ? "24px" : "6px",
-                  backgroundColor: dotIdx === activeIndex ? "#00cc99" : "#e5e7eb",
-                  transition: "width 0.4s ease-in-out, background-color 0.4s ease-in-out",
-                }}
+        {/* 컨텐츠 영역 */}
+        <div className="bg-gray-50 rounded-3xl overflow-hidden mb-3">
+          <div className="flex flex-col lg:flex-row items-stretch">
+            {/* 좌측 이미지 */}
+            <div className="relative w-full lg:w-[45%] h-[250px] lg:h-[350px] bg-gradient-to-br from-blue-50 to-teal-50">
+              <Image
+                src={activeFeature.image}
+                alt={activeFeature.title}
+                fill
+                className="object-contain p-4 lg:p-6"
               />
-            ))}
-          </div>
+            </div>
 
-          {/* 텍스트 */}
-          <div className="relative h-[110px] w-full mb-8">
-            {features.map((feature, idx) => (
-              <div
-                key={feature.id}
-                className="absolute inset-0 flex flex-col items-center text-center"
-                style={{
-                  opacity: activeIndex === idx ? 1 : 0,
-                  transition: "opacity 0.6s ease-in-out",
-                  pointerEvents: activeIndex === idx ? "auto" : "none",
-                }}
-              >
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {feature.description}
-                </p>
+            {/* 우측 텍스트 */}
+            <div className="flex-1 p-6 lg:p-8 flex flex-col justify-center">
+              {/* 서브 탭 인디케이터 */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs transition-all ${
+                      activeTab === tab.id
+                        ? "bg-[#00cc99] text-white"
+                        : "bg-white text-gray-600 border border-gray-200"
+                    }`}
+                  >
+                    <Image
+                      src={tab.icon}
+                      alt=""
+                      width={16}
+                      height={16}
+                      className={activeTab === tab.id ? "brightness-0 invert" : ""}
+                    />
+                    <span className="whitespace-nowrap">{tab.subtitle}</span>
+                  </button>
+                ))}
               </div>
-            ))}
-          </div>
 
-          {/* 이미지 - PC 스���린샷이므로 가로 전체 사용 */}
-          <div className="relative w-full h-[260px]">
-            {features.map((feature, idx) => (
-              <div
-                key={feature.id}
-                className="absolute inset-0"
-                style={{
-                  opacity: activeIndex === idx ? 1 : 0,
-                  transition: "opacity 0.6s ease-in-out",
-                }}
-              >
-                <Image
-                  src={feature.image}
-                  alt={feature.imageAlt}
-                  fill
-                  className="object-contain object-center"
-                  priority={idx === 0}
-                />
-              </div>
-            ))}
+              {/* 제목 */}
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 whitespace-pre-line">
+                {activeFeature.title.replace("\n", " ")}
+              </h3>
+
+              {/* 설명 리스트 */}
+              <ul className="space-y-4">
+                {activeFeature.description.map((desc, idx) => (
+                  <li key={idx} className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00cc99] mt-2 flex-shrink-0" />
+                    <span className="text-gray-700 text-base leading-relaxed">{desc}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {/* 입체적 이미지 섹션 */}
+        <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-2">
+          {/* 이미지 */}
+          <div className="relative w-full lg:w aspect-square max-w-[1000px]">
+            <Image
+              src="/images/people/smartWorkCare/hr/hr-1.png"
+              alt="에버인 클라우드 HR 서비스 구조"
+              fill
+              className="object-contain"
+            />
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
