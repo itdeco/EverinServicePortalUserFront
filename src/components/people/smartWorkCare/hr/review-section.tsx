@@ -53,7 +53,7 @@ export default function HrReviewSection() {
               <div key={review.id} className="w-full flex-shrink-0 px-2">
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row items-stretch">
                   {/* 이미지 */}
-                  <div className="relative w-full md:w-[280px] h-[200px] md:h-auto flex-shrink-0">
+                  <div className="relative w-full md:w-[320px] h-[280px] md:h-[380px] flex-shrink-0">
                     <Image
                       src={review.image}
                       alt={review.name}
@@ -63,14 +63,14 @@ export default function HrReviewSection() {
                   </div>
                   
                   {/* 컨텐츠 */}
-                  <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
-                    <span className="inline-block px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded-full w-fit mb-4">
+                  <div className="flex-1 p-8 md:p-12 flex flex-col justify-center">
+                    <span className="inline-block px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-full w-fit mb-6">
                       {review.question}
                     </span>
-                    <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-6">
+                    <p className="text-gray-700 text-lg md:text-xl leading-relaxed mb-8 font-medium">
                       &quot;{review.quote}&quot;
                     </p>
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-gray-500 text-base">
                       {review.name} {review.info}
                     </p>
                   </div>
