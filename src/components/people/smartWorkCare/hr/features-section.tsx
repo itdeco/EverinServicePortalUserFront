@@ -67,7 +67,7 @@ export default function HrFeaturesSection() {
   const activeFeature = tabs.find((tab) => tab.id === activeTab)!
 
   return (
-    <section className="w-full bg-white py-16 md:py-24">
+    <section className="w-full bg-white py-8 md:py-12">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
 
         {/* 탭 버튼 - 스크롤 가능 */}
