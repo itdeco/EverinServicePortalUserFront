@@ -17,12 +17,12 @@ export default function HrCtaSection() {
       {/* Content */}
       <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
         <h2 className="text-[20px] md:text-[26px] font-medium text-black mb-4 leading-relaxed">
-          채용부터 퇴직까지
+          "흩어진 정보를 하나로, 인사는 더 체계적으로"
         </h2>
 
         <p className="text-black text-base md:text-lg mb-3 leading-relaxed">
-          인사의 전 과정을 하나의 플랫폼에서<br />
-          법 개정 시 시스템자동 반영, 법적 리스트 0%
+          복잡한 조직관리,<br />
+          이제 중앙 집중식 인사관리로 스마트하게 해결하세요.
         </p>
 
         <div className="flex justify-center gap-4 flex-wrap mt-10">
