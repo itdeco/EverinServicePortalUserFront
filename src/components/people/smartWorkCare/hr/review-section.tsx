@@ -46,7 +46,7 @@ export default function HrReviewSection() {
         <div className="relative overflow-hidden">
           {/* 슬라이더 */}
           <div 
-            className="flex transition-transform duration-700 ease-in-out"
+            className="flex transition-transform duration-1000 ease-out"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
             {reviews.map((review) => (
@@ -67,7 +67,7 @@ export default function HrReviewSection() {
                     <span className="inline-block px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-full w-fit mb-6">
                       {review.question}
                     </span>
-                    <p className="text-gray-700 text-lg md:text-xl leading-relaxed mb-8 font-medium">
+                    <p className="text-gray-900 text-xl md:text-2xl leading-relaxed mb-8 font-semibold tracking-tight">
                       &quot;{review.quote}&quot;
                     </p>
                     <p className="text-gray-500 text-base">
