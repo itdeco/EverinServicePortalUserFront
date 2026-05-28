@@ -152,6 +152,30 @@ export default function HrFeaturesSection() {
             </div>
           </div>
         </div>
+
+        {/* 입체적 이미지 섹션 */}
+        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+          {/* 좌측 이미지 */}
+          <div className="relative w-full lg:w-1/2 aspect-square max-w-[500px]">
+            <Image
+              src="/images/people/smartWorkCare/hr/hr-1.png"
+              alt="에버인 클라우드 HR 서비스 구조"
+              fill
+              className="object-contain"
+            />
+          </div>
+
+          {/* 우측 텍스트 */}
+          <div className="flex-1 text-center lg:text-left">
+            <h3 className="text-xl md:text-2xl lg:text-[28px] font-black text-gray-900 leading-snug mb-4">
+              &quot;흩어진 정보를 하나로, 인사는 더 체계적으로&quot;
+            </h3>
+            <p className="text-gray-500 text-base md:text-lg leading-relaxed">
+              복잡한 조직 관리,<br />
+              이제 중앙 집중식 인사관리로 스마트하게 해결하세요.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   )
