@@ -88,20 +88,20 @@ export default function HrFeaturesSection() {
         </div>
 
         {/* 컨텐츠 영역 */}
-        <div className="bg-gray-50 rounded-3xl overflow-hidden">
+        <div className="bg-gray-50 rounded-3xl overflow-hidden mb-3">
           <div className="flex flex-col lg:flex-row items-stretch">
             {/* 좌측 이미지 */}
-            <div className="relative w-full lg:w-[45%] h-[300px] lg:h-[450px] bg-gradient-to-br from-blue-50 to-teal-50">
+            <div className="relative w-full lg:w-[45%] h-[250px] lg:h-[350px] bg-gradient-to-br from-blue-50 to-teal-50">
               <Image
                 src={activeFeature.image}
                 alt={activeFeature.title}
                 fill
-                className="object-contain p-6"
+                className="object-contain p-4 lg:p-6"
               />
             </div>
 
             {/* 우측 텍스트 */}
-            <div className="flex-1 p-8 lg:p-12 flex flex-col justify-center">
+            <div className="flex-1 p-6 lg:p-8 flex flex-col justify-center">
               {/* 서브 탭 인디케이터 */}
               <div className="flex flex-wrap gap-2 mb-6">
                 {tabs.map((tab) => (
