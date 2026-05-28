@@ -14,20 +14,22 @@ export default function HrTaglineSection() {
           </p>
         </div>
 
-        {/* 5개 아이콘 카드 */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 mb-16">
+        {/* 3개 카드 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {[
-            { icon: "/images/people/smartWorkCare/hr/icon-hr-01.svg", title: "직원정보의 통합 관리로", subtitle: "데이터 정확성 확보" },
-            { icon: "/images/people/smartWorkCare/hr/icon-hr-02.svg", title: "드래그 앤 드롭 방식의", subtitle: "직관적인 조직도 관리" },
-            { icon: "/images/people/smartWorkCare/hr/icon-hr-03.svg", title: "인사이동 이력 자동 기록", subtitle: "및 관리 기능 제공" },
-            { icon: "/images/people/smartWorkCare/hr/icon-hr-04.svg", title: "실시간 데이터 업데이트로", subtitle: "업무 누락 방지" },
-            { icon: "/images/people/smartWorkCare/hr/icon-hr.svg", title: "다양한 HR 시스템", subtitle: "(근태, 급여, 평가 등)과 연동" },
+            { icon: "/images/people/smartWorkCare/hr/icon-hr-01.svg", title: "중앙 집중식 관리로", subtitle: "흩어진 직원 정보 완벽 통합", highlight: false },
+            { icon: "/images/people/smartWorkCare/hr/icon-hr-02.svg", title: "사원의 인사이동 내역을 한눈에,", subtitle: "이력 관리 완벽 지원", highlight: false },
+            { icon: "/images/people/smartWorkCare/hr/icon-hr.svg", title: "각종 증명서 즉시 신청·발금으로", subtitle: "처리속도와 편의성 향상", highlight: true },
           ].map((item, idx) => (
             <div 
               key={idx} 
-              className="flex flex-col items-center p-6 bg-white border border-gray-100 rounded-2xl hover:shadow-lg transition-shadow"
+              className={`flex flex-col items-center p-8 rounded-2xl transition-shadow ${
+                item.highlight 
+                  ? "bg-white border-4 border-red-600" 
+                  : "bg-gray-50 border border-gray-200"
+              }`}
             >
-              <div className="w-16 h-16 mb-4 relative">
+              <div className="w-20 h-20 mb-6 relative">
                 <Image
                   src={item.icon}
                   alt={item.title}
@@ -35,8 +37,8 @@ export default function HrTaglineSection() {
                   className="object-contain"
                 />
               </div>
-              <p className="text-sm text-gray-700 text-center font-medium leading-relaxed">
-                {item.title}<br />{item.subtitle}
+              <p className="text-base text-gray-900 text-center font-semibold leading-relaxed">
+                {item.title}<br /><span className="text-gray-700">{item.subtitle}</span>
               </p>
             </div>
           ))}
