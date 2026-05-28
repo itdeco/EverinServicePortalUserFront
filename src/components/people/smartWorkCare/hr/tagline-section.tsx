@@ -23,17 +23,17 @@ export default function HrTaglineSection() {
           ].map((item, idx) => (
             <div 
               key={idx} 
-              className={`flex flex-col items-center p-8 rounded-2xl transition-shadow bg-gray-50 border border-gray-200`}
+              className={`relative flex flex-col items-start p-8 rounded-2xl transition-shadow bg-gray-50 border border-gray-200 h-64`}
             >
-              <p className="text-base text-gray-900 text-center font-semibold leading-relaxed">
-                {item.title}<br /><span className="text-gray-700">{item.subtitle}</span>
+              <p className="text-base text-gray-900 font-semibold leading-relaxed pr-24">
+                {item.title}<br /><span className="text-gray-700 text-sm">{item.subtitle}</span>
               </p>
-              <div className="w-20 h-20 mb-6 relative">
+              <div className="absolute bottom-6 right-6 w-20 h-20">
                 <Image
                   src={item.icon}
                   alt={item.title}
                   fill
-                  className="object-bottom-right"
+                  className="object-contain"
                 />
               </div>
             </div>
