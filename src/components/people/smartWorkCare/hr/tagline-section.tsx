@@ -18,16 +18,12 @@ export default function HrTaglineSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {[
             { icon: "/images/people/smartWorkCare/hr/Icon-total-01.svg", title: "중앙 집중식 관리로", subtitle: "흩어진 직원 정보 완벽 통합", highlight: false },
-            { icon: "/images/people/smartWorkCare/hr/icon-total-02.svg", title: "사원의 인사이동 내역을 한눈에,", subtitle: "이력 관리 완벽 지원", highlight: false },
-            { icon: "/images/people/smartWorkCare/hr/icon-total-03.svg", title: "각종 증명서 즉시 신청·발금으로", subtitle: "처리속도와 편의성 향상", highlight: true },
+            { icon: "/images/people/smartWorkCare/hr/Icon-total-02.svg", title: "사원의 인사이동 내역을 한눈에,", subtitle: "이력 관리 완벽 지원", highlight: false },
+            { icon: "/images/people/smartWorkCare/hr/Icon-total-03.svg", title: "각종 증명서 즉시 신청·발금으로", subtitle: "처리속도와 편의성 향상", highlight: true },
           ].map((item, idx) => (
             <div 
               key={idx} 
-              className={`flex flex-col items-center p-8 rounded-2xl transition-shadow ${
-                item.highlight 
-                  ? "bg-white border-4 border-red-600" 
-                  : "bg-gray-50 border border-gray-200"
-              }`}
+              className={`flex flex-col items-center p-8 rounded-2xl transition-shadow bg-gray-50 border border-gray-200`}
             >
               <div className="w-20 h-20 mb-6 relative">
                 <Image
