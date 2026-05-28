@@ -69,15 +69,6 @@ export default function HrFeaturesSection() {
   return (
     <section className="w-full bg-white py-16 md:py-24">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
-        {/* 헤더 */}
-        <div className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-            인사관리, 이제 엑셀 조직도와 작별하세요
-          </h2>
-          <p className="text-gray-600 text-base md:text-lg">
-            직원 정보부터 인사이동까지, 모두 한 번에
-          </p>
-        </div>
 
         {/* 탭 버튼 - 스크롤 가능 */}
         <div className="flex gap-2 md:gap-3 mb-10 overflow-x-auto pb-2 scrollbar-hide">
@@ -152,28 +143,16 @@ export default function HrFeaturesSection() {
             </div>
           </div>
         </div>
-
         {/* 입체적 이미지 섹션 */}
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-          {/* 좌측 이미지 */}
-          <div className="relative w-full lg:w-1/2 aspect-square max-w-[500px]">
+        <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-2">
+          {/* 이미지 */}
+          <div className="relative w-full lg:w aspect-square max-w-[1000px]">
             <Image
               src="/images/people/smartWorkCare/hr/hr-1.png"
               alt="에버인 클라우드 HR 서비스 구조"
               fill
               className="object-contain"
             />
-          </div>
-
-          {/* 우측 텍스트 */}
-          <div className="flex-1 text-center lg:text-left">
-            <h3 className="text-xl md:text-2xl lg:text-[28px] font-black text-gray-900 leading-snug mb-4">
-              &quot;흩어진 정보를 하나로, 인사는 더 체계적으로&quot;
-            </h3>
-            <p className="text-gray-500 text-base md:text-lg leading-relaxed">
-              복잡한 조직 관리,<br />
-              이제 중앙 집중식 인사관리로 스마트하게 해결하세요.
-            </p>
           </div>
         </div>
       </div>

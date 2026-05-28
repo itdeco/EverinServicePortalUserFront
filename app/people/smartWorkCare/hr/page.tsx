@@ -14,8 +14,8 @@ export default function HrPage() {
       <Header />
       <HrHeroSection />
       <HrReviewSection />
-      <HrFeaturesSection />
       <HrTaglineSection />
+      <HrFeaturesSection />
       <HrCtaSection />
       <Footer />
     </main>
