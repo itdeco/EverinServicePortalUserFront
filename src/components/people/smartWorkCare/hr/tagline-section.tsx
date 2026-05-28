@@ -7,10 +7,10 @@ export default function HrTaglineSection() {
         {/* 상단 헤더 */}
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-            HR 업무, 복잡함을 덜고 효율을 더하다
+            인사관리, 이제 엑셀 조직도와 작별하세요
           </h2>
           <p className="text-gray-600 text-base md:text-lg">
-            지금, 더 똑똑한 방법으로 바꿔보세요.
+            직원 정보부터 인사이동까지, 모두 한번에
           </p>
         </div>
 
