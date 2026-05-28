@@ -25,7 +25,7 @@ export default function HrTaglineSection() {
               key={idx} 
               className="relative flex flex-col items-start p-8 rounded-2xl bg-gray-50 border border-gray-200 h-64 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer"
             >
-              <p className="text-2xl text-gray-900 font-semibold leading-relaxed pr-24">
+              <p className="text-xl text-gray-900 font-semibold leading-relaxed pr-24">
                 {item.title}
               </p>
               <div className="absolute bottom-6 right-6 w-20 h-20">
