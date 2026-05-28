@@ -53,12 +53,12 @@ export default function HrReviewSection() {
               <div key={review.id} className="w-full flex-shrink-0 px-2">
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row items-stretch">
                   {/* 이미지 */}
-                  <div className="relative w-full md:w-[320px] h-[280px] md:h-[380px] flex-shrink-0">
+                  <div className="relative w-full md:w-[200px] h-[200px] md:h-[280px] flex-shrink-0">
                     <Image
                       src={review.image}
                       alt={review.name}
                       fill
-                      className="object-cover"
+                      className="object-cover object-top"
                     />
                   </div>
                   
