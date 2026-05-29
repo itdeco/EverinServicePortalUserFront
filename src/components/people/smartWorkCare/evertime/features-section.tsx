@@ -1,443 +1,106 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useRef, useState, useCallback } from "react"
+import { useState } from "react"
+import ScrollReveal from "@/components/common/scroll-reveal"
 
-const featureGroups = [
+const tabs = [
   {
-    id: 1,
-    title: "실시간 근태 모니터링",
-    description: "연장, 휴일근무부터 휴가 잔여 일수까지,\n복잡한 내역을 앱에서 실시간으로 투명하게 확인하세요.",
-    icon: "/images/main/icons/hero/icon-hero-04.svg",
-    images: [
-      { src: "/images/people/smartWorkCare/evertime/EverTime-1-1.png", alt: "실시간 근태 모니터링 화면 1" },
-      { src: "/images/people/smartWorkCare/evertime/EverTime-1-2.png", alt: "실시간 근태 모니터링 화면 2" },
-    ],
+    id: "checkin",
+    title: "출/퇴근 기록",
+    image: "/images/people/smartWorkCare/evertime/bg-selection-09.png",
+    description: "모든 직원이 모바일로 출/퇴근 등록이 가능하며, 관리자는 출근부 조회를 통해 확인하실 수 있습니다.",
   },
   {
-    id: 2,
-    title: "모바일 출퇴근",
-    description: "GPS, Wi-Fi는 물론 NFC 인증까지 지원하여,\n우리 회사의 보안 수준과 현장 상황에 최적화된\n인증 환경을 구축할 수 있습니다.",
-    icon: "/images/main/icons/hero/icon-hero-04.svg",
-    images: [
-      { src: "/images/people/smartWorkCare/evertime/EverTime-2-1.png", alt: "모바일 출퇴근 화면 1" },
-      { src: "/images/people/smartWorkCare/evertime/EverTime-2-2.png", alt: "모바일 출퇴근 화면 2" },
-    ],
+    id: "schedule",
+    title: "근무일정 조회",
+    image: "/images/people/smartWorkCare/evertime/bg-selection-10.png",
+    description: "근무일정을 일 단위부터 년 단위까지 한번에 설정하고 손쉽게 변경관리가 가능합니다.",
   },
   {
-    id: 3,
-    title: "유연근무 자동계산",
-    description: "주 52시간 근무에 완벽한 가이드,\n복잡한 유연·고대근무도 법적 테두리 안에서\n안전하게 관리하세요.",
-    icon: "/images/main/icons/hero/icon-hero-04.svg",
-    images: [
-      { src: "/images/people/smartWorkCare/evertime/EverTime-3-1.png", alt: "유연근무 자동계산 화면 1" },
-      { src: "/images/people/smartWorkCare/evertime/EverTime-3-2.png", alt: "유연근무 자동계산 화면 2" },
-      { src: "/images/people/smartWorkCare/evertime/EverTime-3-3.png", alt: "유연근무 자동계산 화면 3" },
-    ],
+    id: "leave",
+    title: "휴가신청",
+    image: "/images/people/smartWorkCare/evertime/bg-selection-11.png",
+    description: "연차, 경조사, 기타 휴가 등 신청이 가능하며 손쉽게 결재(승인/반려)처리가 가능합니다.",
   },
   {
-    id: 4,
-    title: "간편한 모바일 결재",
-    description: "복잡한 서류나 해석 없이 앱에서 즉시 신청하고\n터치 한 번으로 승인까지!\n모든 근태 결재를 가장 빠르게 처리하세요.",
-    icon: "/images/main/icons/hero/icon-hero-04.svg",
-    images: [
-      { src: "/images/people/smartWorkCare/evertime/EverTime-4-1.png", alt: "간편한 모바일 결재 화면 1" },
-      { src: "/images/people/smartWorkCare/evertime/EverTime-4-2.png", alt: "간편한 모바일 결재 화면 2" },
-      { src: "/images/people/smartWorkCare/evertime/EverTime-4-3.png", alt: "간편한 모바일 결재 화면 3" },
-      { src: "/images/people/smartWorkCare/evertime/EverTime-4-4.png", alt: "간편한 모바일 결재 화면 4" },
-      { src: "/images/people/smartWorkCare/evertime/EverTime-4-5.png", alt: "간편한 모바일 결재 화면 5" },
-    ],
+    id: "adjust",
+    title: "근무 조정",
+    image: "/images/people/smartWorkCare/evertime/bg-selection-12.png",
+    description: "근무시간 템플릿을 통하여 모든 유연근무제, 시차출퇴근, 자유출퇴근 및 회사맞춤형 근무제를 지원합니다.",
+  },
+  {
+    id: "stats",
+    title: "근태통계",
+    image: "/images/people/smartWorkCare/evertime/bg-selection-13.png",
+    description: "전직원의 근태현황을 한눈에 확인할 수 있으며 지각, 휴가, 휴무 등의 정보 조회가 가능합니다.",
   },
 ]
 
-const totalImages = featureGroups.reduce((sum, g) => sum + g.images.length, 0)
-const SECTION_HEIGHT = 100
-
-// 전체 이미지 플랫 리스트
-const flatImages: { groupIdx: number; imgIdx: number }[] = []
-featureGroups.forEach((group, gi) => {
-  group.images.forEach((_, ii) => {
-    flatImages.push({ groupIdx: gi, imgIdx: ii })
-  })
-})
-
-// 가로 슬라이더 컴포넌트 - 드래그/스와이프 지원, 좌우 peek
-function ImageCarousel({
-  group,
-  imgIdx,
-  onIndexChange,
-  height,
-  itemWidth,
-  peekAmount = 0,
-  isMobile = false,
-}: {
-  group: (typeof featureGroups)[0]
-  imgIdx: number
-  onIndexChange?: (newIdx: number) => void
-  height: string
-  itemWidth: number
-  peekAmount?: number
-  isMobile?: boolean
-}) {
-  const total = group.images.length
-  const trackRef = useRef<HTMLDivElement>(null)
-  const [isDragging, setIsDragging] = useState(false)
-  const [startX, setStartX] = useState(0)
-  const [currentTranslate, setCurrentTranslate] = useState(0)
-  const [prevTranslate, setPrevTranslate] = useState(0)
-
-  // 현재 인덱스 기준 translateX 계산
-  const getTranslateX = useCallback((index: number) => {
-    return -(index * itemWidth) + peekAmount
-  }, [itemWidth, peekAmount])
-
-  useEffect(() => {
-    const translateX = getTranslateX(imgIdx)
-    setCurrentTranslate(translateX)
-    setPrevTranslate(translateX)
-  }, [imgIdx, getTranslateX])
-
-  const handleDragStart = (clientX: number) => {
-    setIsDragging(true)
-    setStartX(clientX)
-  }
-
-  const handleDragMove = (clientX: number) => {
-    if (!isDragging) return
-    const diff = clientX - startX
-    setCurrentTranslate(prevTranslate + diff)
-  }
-
-  const handleDragEnd = () => {
-    if (!isDragging) return
-    setIsDragging(false)
-    
-    const diff = currentTranslate - prevTranslate
-    const threshold = itemWidth * 0.2
-    
-    let newIndex = imgIdx
-    if (diff < -threshold && imgIdx < total - 1) {
-      newIndex = imgIdx + 1
-    } else if (diff > threshold && imgIdx > 0) {
-      newIndex = imgIdx - 1
-    }
-    
-    if (onIndexChange && newIndex !== imgIdx) {
-      onIndexChange(newIndex)
-    } else {
-      // 원래 위치로 복귀
-      setCurrentTranslate(getTranslateX(imgIdx))
-      setPrevTranslate(getTranslateX(imgIdx))
-    }
-  }
-
-  // Mouse events
-  const handleMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault()
-    handleDragStart(e.clientX)
-  }
-  
-  const handleMouseMove = (e: React.MouseEvent) => {
-    handleDragMove(e.clientX)
-  }
-  
-  const handleMouseUp = () => {
-    handleDragEnd()
-  }
-  
-  const handleMouseLeave = () => {
-    if (isDragging) handleDragEnd()
-  }
-
-  // Touch events
-  const handleTouchStart = (e: React.TouchEvent) => {
-    handleDragStart(e.touches[0].clientX)
-  }
-  
-  const handleTouchMove = (e: React.TouchEvent) => {
-    handleDragMove(e.touches[0].clientX)
-  }
-  
-  const handleTouchEnd = () => {
-    handleDragEnd()
-  }
-
-  // 이미지 클릭 시 해당 인덱스로 이동
-  const handleImageClick = (index: number) => {
-    if (onIndexChange && index !== imgIdx) {
-      onIndexChange(index)
-    }
-  }
-
-  const containerWidth = isMobile ? itemWidth + (peekAmount * 2) : itemWidth
-
-  return (
-    <div className="relative flex flex-col items-center gap-3">
-      {/* 슬라이더 컨테이너 */}
-      <div
-        className="relative overflow-hidden"
-        style={{ width: containerWidth, height }}
-      >
-        {/* 트랙 */}
-        <div
-          ref={trackRef}
-          className="flex h-full cursor-grab active:cursor-grabbing select-none"
-          style={{
-            transform: `translateX(${currentTranslate}px)`,
-            transition: isDragging ? "none" : "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-          }}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseLeave}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          {group.images.map((img, i) => (
-            <div
-              key={i}
-              className="relative h-full flex-shrink-0"
-              style={{ 
-                width: itemWidth,
-                padding: "0 6px",
-                opacity: i === imgIdx ? 1 : 0.5,
-                transition: "opacity 0.3s ease",
-              }}
-              onClick={() => handleImageClick(i)}
-            >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                className="object-contain object-center pointer-events-none"
-                style={{ padding: "0 6px" }}
-                priority={i === 0}
-                draggable={false}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 카운터 - 이미지 아래 가운데 */}
-      {total > 1 && (
-        <div className="text-sm font-semibold text-gray-400 tabular-nums text-center">
-          <span className="text-gray-800">{imgIdx + 1}</span>
-          <span className="mx-0.5">/</span>
-          <span>{total}</span>
-        </div>
-      )}
-    </div>
-  )
-}
-
 export default function EvertimeFeaturesSection() {
-  const [activeStep, setActiveStep] = useState(0)
-  const [manualOverride, setManualOverride] = useState<number | null>(null)
-  const wrapperRef = useRef<HTMLDivElement>(null)
-
-  const activeGroupIdx = flatImages[activeStep]?.groupIdx ?? 0
-  const activeImgIdx = manualOverride ?? (flatImages[activeStep]?.imgIdx ?? 0)
-
-  // 수동 오버라이드 핸들러
-  const handleManualIndexChange = (newImgIdx: number) => {
-    setManualOverride(newImgIdx)
-  }
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const el = wrapperRef.current
-      if (!el) return
-      const { top } = el.getBoundingClientRect()
-      const scrolled = -top
-      const scrollableHeight = totalImages * window.innerHeight
-      const stepHeight = scrollableHeight / totalImages
-      const step = Math.min(
-        totalImages - 1,
-        Math.max(0, Math.floor(scrolled / stepHeight))
-      )
-      
-      // 그룹이 바뀌면 수동 오버라이드 리셋
-      const newGroupIdx = flatImages[step]?.groupIdx ?? 0
-      if (newGroupIdx !== activeGroupIdx) {
-        setManualOverride(null)
-      }
-      
-      setActiveStep(step)
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [activeGroupIdx])
-
-  const groupDots = featureGroups.map((_, gi) => gi === activeGroupIdx)
+  const [activeTab, setActiveTab] = useState("checkin")
+  const activeFeature = tabs.find((tab) => tab.id === activeTab)!
 
   return (
-    <div
-      ref={wrapperRef}
-      className="relative w-full bg-white"
-      style={{ height: `${(totalImages + 1) * SECTION_HEIGHT}vh` }}
-    >
-      {/* 고정 패널 - 데스크탑 */}
-      <div className="hidden lg:flex sticky top-20 h-[calc(100vh-5rem)] items-center bg-white">
-        <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-          <div className="flex items-center justify-center gap-16">
-            {/* 왼쪽 텍스트 - 그룹 단위로 전환 */}
-            <div className="w-[320px] shrink-0 relative h-[200px]">
-              {featureGroups.map((group, gi) => (
-                <div
-                  key={group.id}
-                  className="absolute inset-0"
-                  style={{
-                    opacity: activeGroupIdx === gi ? 1 : 0,
-                    transition: "opacity 0.6s ease-in-out",
-                    pointerEvents: activeGroupIdx === gi ? "auto" : "none",
-                  }}
-                >
-                  {/* 그룹 인디케이터 */}
-                  <div className="flex gap-2 mb-6">
-                    {groupDots.map((_, dotIdx) => (
-                      <span
-                        key={dotIdx}
-                        className="block h-1.5 rounded-full"
-                        style={{
-                          width: dotIdx === activeGroupIdx ? "24px" : "6px",
-                          backgroundColor: dotIdx === activeGroupIdx ? "#00cc99" : "#e5e7eb",
-                          transition: "width 0.4s ease-in-out, background-color 0.4s ease-in-out",
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                    {group.title}
-                  </h3>
-                  <p className="text-base text-gray-600 leading-relaxed whitespace-pre-line">
-                    {group.description}
-                  </p>
-                </div>
-              ))}
-            </div>
+    <section className="w-full bg-white py-12 md:py-16">
+      <div className="mx-auto max-w-[1280px] px-4 lg:px-6">
+        {/* 상단 타이틀 */}
+        <ScrollReveal className="mb-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">제공되는 서비스를 확인하세요.</h2>
+          <p className="mt-4 text-base md:text-lg text-gray-600">
+            출퇴근 기록부터 근무일정, 휴가, 근태통계까지 하나의 흐름으로 관리합니다.
+          </p>
+        </ScrollReveal>
 
-            {/* 오른쪽 - 가로 슬라이더 */}
-            <div className="flex items-center justify-center" style={{ width: 500 }}>
-              <div className="relative">
-                {featureGroups.map((group, gi) => (
-                  <div
-                    key={group.id}
-                    className="absolute inset-0"
-                    style={{
-                      opacity: activeGroupIdx === gi ? 1 : 0,
-                      transition: "opacity 0.5s ease-in-out",
-                      pointerEvents: activeGroupIdx === gi ? "auto" : "none",
-                    }}
-                  >
-                    <ImageCarousel
-                      group={group}
-                      imgIdx={activeGroupIdx === gi ? activeImgIdx : 0}
-                      onIndexChange={activeGroupIdx === gi ? handleManualIndexChange : undefined}
-                      height="480px"
-                      itemWidth={320}
-                      peekAmount={60}
-                      isMobile={true}
-                    />
-                  </div>
-                ))}
-                {/* 크기 잡기용 */}
-                <div style={{ visibility: "hidden" }}>
-                  <ImageCarousel
-                    group={featureGroups[0]}
-                    imgIdx={0}
-                    height="480px"
-                    itemWidth={320}
-                    peekAmount={60}
-                    isMobile={true}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* 탭 버튼 */}
+        <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:flex md:justify-center md:gap-2 md:pb-2">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex min-h-[56px] items-center justify-center rounded-2xl border px-4 py-3 text-sm font-bold transition-all md:min-h-0 md:shrink-0 md:rounded-full md:px-6 md:py-3 md:text-base ${
+                  isActive
+                    ? "border-[#00cc99] bg-[#00cc99] text-white shadow-[0_14px_30px_rgba(0,204,153,0.28)]"
+                    : "border-slate-200 bg-white text-slate-600 shadow-sm hover:border-[#00cc99]/40 hover:bg-[#00cc99]/5 hover:text-slate-900"
+                }`}
+              >
+                <span className="whitespace-nowrap">{tab.title}</span>
+              </button>
+            )
+          })}
         </div>
-      </div>
 
-      {/* 고정 패널 - 모바일 */}
-      <div className="flex lg:hidden sticky top-16 h-[calc(100vh-4rem)] flex-col items-center justify-center bg-white px-4">
-        <div className="w-full max-w-sm flex flex-col items-center text-center">
-          {/* 그룹 인디케이터 */}
-          <div className="flex gap-2 mb-5">
-            {featureGroups.map((_, dotIdx) => (
-              <span
-                key={dotIdx}
-                className="block h-1.5 rounded-full"
-                style={{
-                  width: dotIdx === activeGroupIdx ? "24px" : "6px",
-                  backgroundColor: dotIdx === activeGroupIdx ? "#00cc99" : "#e5e7eb",
-                  transition: "width 0.4s ease-in-out, background-color 0.4s ease-in-out",
-                }}
-              />
-            ))}
-          </div>
+        {/* 컨텐츠 영역 */}
+        <ScrollReveal className="overflow-hidden rounded-[36px] border border-slate-100 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+          <div key={activeTab} className="content-fade-in flex flex-col">
+            {/* 텍스트 헤더 */}
+            <div className="px-7 pt-9 pb-6 text-center md:px-12 md:pt-12">
+              <h3 className="mb-3 text-2xl font-bold leading-tight text-slate-950 md:text-3xl">
+                {activeFeature.title}
+              </h3>
+              <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-500">
+                {activeFeature.description}
+              </p>
+            </div>
 
-          {/* 텍스트 - 그룹 단위 전환 */}
-          <div className="relative h-[100px] w-full mb-4">
-            {featureGroups.map((group, gi) => (
-              <div
-                key={group.id}
-                className="absolute inset-0 flex flex-col items-center text-center"
-                style={{
-                  opacity: activeGroupIdx === gi ? 1 : 0,
-                  transition: "opacity 0.6s ease-in-out",
-                  pointerEvents: activeGroupIdx === gi ? "auto" : "none",
-                }}
-              >
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                  {group.title}
-                </h3>
-                <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
-                  {group.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* 이미지 - 가로 슬라이더 (모바일: 좌우 peek + 더 큰 이미지) */}
-          <div className="relative w-full flex justify-center">
-            {featureGroups.map((group, gi) => (
-              <div
-                key={group.id}
-                className="absolute inset-0 flex justify-center"
-                style={{
-                  opacity: activeGroupIdx === gi ? 1 : 0,
-                  transition: "opacity 0.5s ease-in-out",
-                  pointerEvents: activeGroupIdx === gi ? "auto" : "none",
-                }}
-              >
-                <ImageCarousel
-                  group={group}
-                  imgIdx={activeGroupIdx === gi ? activeImgIdx : 0}
-                  onIndexChange={activeGroupIdx === gi ? handleManualIndexChange : undefined}
-                  height="420px"
-                  itemWidth={240}
-                  peekAmount={30}
-                  isMobile={true}
+            {/* 이미지 */}
+            <div className="relative w-full bg-gradient-to-br from-[#f3fbff] via-white to-[#eafff8] px-4 pb-10 md:px-12">
+              <div className="relative mx-auto w-full max-w-[1000px]">
+                <Image
+                  src={activeFeature.image}
+                  alt={activeFeature.title}
+                  width={1000}
+                  height={620}
+                  className="h-auto w-full object-contain drop-shadow-[0_24px_35px_rgba(15,23,42,0.12)]"
+                  priority
                 />
               </div>
-            ))}
-            {/* 크기 잡기용 */}
-            <div style={{ visibility: "hidden" }}>
-              <ImageCarousel
-                group={featureGroups[0]}
-                imgIdx={0}
-                height="420px"
-                itemWidth={240}
-                peekAmount={30}
-                isMobile={true}
-              />
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
-    </div>
+    </section>
   )
 }
