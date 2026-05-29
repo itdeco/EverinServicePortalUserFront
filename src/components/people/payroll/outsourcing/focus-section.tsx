@@ -10,7 +10,7 @@ import {
   Activity,
 } from "lucide-react";
 
-const GREEN = "#00b386";
+const GREEN = "#3344e6";
 
 const focusCards = [
   {
@@ -76,7 +76,7 @@ export default function OutsourcingFocusSection() {
             >
               <div
                 className="flex h-14 w-14 items-center justify-center rounded-full"
-                style={{ backgroundColor: "rgba(0,179,134,0.1)" }}
+                style={{ backgroundColor: "rgba(51,68,230,0.1)" }}
               >
                 <Icon className="h-7 w-7" style={{ color: GREEN }} strokeWidth={1.6} />
               </div>

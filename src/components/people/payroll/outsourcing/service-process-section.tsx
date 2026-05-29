@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 
-const GREEN = "#00b386";
+const GREEN = "#3344e6";
 
 const tabs = [
   { id: "launch", label: "서비스 론칭 절차" },
@@ -60,7 +60,7 @@ function GreenEllipse({ stage, title }: { stage: string; title: string }) {
   return (
     <div
       className="flex h-36 w-36 shrink-0 flex-col items-center justify-center rounded-full text-center"
-      style={{ backgroundColor: "rgba(0,179,134,0.12)" }}
+      style={{ backgroundColor: "rgba(51,68,230,0.12)" }}
     >
       <span
         className="mb-2 rounded-full px-3 py-1 text-xs font-bold text-white"

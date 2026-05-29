@@ -1,6 +1,6 @@
 "use client";
 
-const GREEN = "#00b386";
+const GREEN = "#3344e6";
 
 type ServiceGroup = {
   title: string;
