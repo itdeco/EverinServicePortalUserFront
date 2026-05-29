@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import ScrollReveal from "@/components/common/scroll-reveal"
 
 export default function HrCtaSection() {
   return (
@@ -15,7 +16,7 @@ export default function HrCtaSection() {
       </div>
 
       {/* Content */}
-      <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
+      <ScrollReveal className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
         <h2 className="text-[20px] md:text-[26px] font-medium text-black mb-4 leading-relaxed">
           "흩어진 정보를 하나로, 인사는 더 체계적으로"
         </h2>
@@ -40,7 +41,7 @@ export default function HrCtaSection() {
             도입문의
           </Link>
         </div>
-      </div>
+      </ScrollReveal>
     </section>
   )
 }
