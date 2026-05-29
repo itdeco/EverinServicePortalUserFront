@@ -24,7 +24,7 @@ const interviews = [
   },
 ]
 
-export default function SalaryBonusInterviewSection() {
+export default function OutsourcingInterviewSection() {
   const [active, setActive] = useState(0)
   const current = interviews[active]
 
