@@ -309,3 +309,17 @@
   border-color: oklch(0.65 0.15 175) !important;
   color: oklch(0.65 0.15 175) !important;
 }
+
+/* Slider indicator progress animation */
+@keyframes indicator-grow {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.indicator-progress-fill {
+  animation: indicator-grow linear forwards;
+}
