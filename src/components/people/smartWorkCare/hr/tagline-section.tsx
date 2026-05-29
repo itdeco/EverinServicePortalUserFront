@@ -50,7 +50,7 @@ export default function HrTaglineSection() {
               지금, 더 똑똑한 방법으로 바꿔보세요.
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             {[
               { icon: "/images/people/smartWorkCare/hr/Icon-smart-01.svg", title: "직원정보의 통합 관리로", subtitle: "데이터 정확성 확보" },
               { icon: "/images/people/smartWorkCare/hr/Icon-smart-02.svg", title: "드래그 앤 드롭 방식의", subtitle: "직관적인 조직도 관리" },
@@ -59,10 +59,10 @@ export default function HrTaglineSection() {
               { icon: "/images/people/smartWorkCare/hr/Icon-smart-05.svg", title: "다양한 HR 시스템", subtitle: "(근태, 급여, 평가 등)과 연동" },
             ].map((item, idx) => (
               <div 
-                key={idx} 
-                className="flex flex-col items-center p-6 bg-white rounded-2xl shadow-sm transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer"
+                key={idx}
+                className="flex flex-row md:flex-col items-center gap-4 md:gap-0 p-4 md:p-6 bg-white rounded-2xl shadow-sm transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer"
               >
-                <div className="w-16 h-16 mb-4 relative">
+                <div className="w-12 h-12 md:w-16 md:h-16 md:mb-4 relative shrink-0">
                   <Image
                     src={item.icon}
                     alt={item.title}
@@ -70,7 +70,7 @@ export default function HrTaglineSection() {
                     className="object-contain"
                   />
                 </div>
-                <p className="text-base text-gray-700 text-center font-medium leading-relaxed">
+                <p className="text-sm md:text-base text-gray-700 text-left md:text-center font-medium leading-relaxed">
                   {item.title}<br />{item.subtitle}
                 </p>
               </div>

@@ -7,9 +7,8 @@ const tabs = [
   {
     id: "info",
     title: "인사정보 통합관리",
-    subtitle: "중앙 집중식 직원 정보 관리",
     icon: "/images/people/smartWorkCare/hr/icon-hr-01.svg",
-    image: "/images/people/smartWorkCare/hr/hr-1-1.png",
+    image: "/images/people/smartWorkCare/hr/hr-features-section-01.png",
     description: [
       "모든 직원의 기본 정보, 인사 이력, 평가 등을 하나의 플랫폼에서 체계적으로 관리",
       "중복된 데이터 입력이나 업무 혼선을 방지",
@@ -18,10 +17,10 @@ const tabs = [
   },
   {
     id: "org",
-    title: "조직관리\n(부서/사원/조직도)",
-    subtitle: "실시간 조직도 관리",
+    title: "조직관리",
+    detailTitle: "조직관리 (부서/사원/조직도)",
     icon: "/images/people/smartWorkCare/hr/icon-hr-02.svg",
-    image: "/images/people/smartWorkCare/hr/hr-2-1.png",
+    image: "/images/people/smartWorkCare/hr/hr-features-section-02.png",
     description: [
       "조직 현황을 실시간으로 파악하고 업데이트",
       "부서 개편, 조직 개편 등 복잡한 조직 변경을 클릭 몇 번으로 처리",
@@ -29,35 +28,33 @@ const tabs = [
   },
   {
     id: "transfer",
-    title: "인사 이동(발령)관리",
-    subtitle: "인사이동 이력관리",
+    title: "인사 이동 관리",
+    detailTitle: "인사 이동(발령)관리",
     icon: "/images/people/smartWorkCare/hr/icon-hr-03.svg",
-    image: "/images/people/smartWorkCare/hr/hr-3-1.png",
+    image: "/images/people/smartWorkCare/hr/hr-features-section-03.png",
     description: [
-      "직원의 인사발령 및 이동내역을 실시간으로 관리하며, 승진, 이동, 부서 이동, 휴직 등을 한눈에 파악",
-      "인사이동 내역의 이력을 기록하여, 언제든지 정확한 인사기록 확인",
+      "직원의 인사발령 및 이동내역을 실시간으로 관리",
+      "승진, 이동, 부서 이동, 휴직 등의 이력을 한눈에 확인",
     ],
   },
   {
     id: "cert",
     title: "증명서관리",
-    subtitle: "인사 이동 이력관리",
     icon: "/images/people/smartWorkCare/hr/icon-hr-04.svg",
-    image: "/images/people/smartWorkCare/hr/hr-4-1.png",
+    image: "/images/people/smartWorkCare/hr/hr-features-section-04.png",
     description: [
-      "증명서 발행, 승인과 출력제공",
-      "재직증명서, 경력증명서, 휴직증명서, 소득세원천징수확인서(급여연동), 근로소득원천징수부(급여연동) 등 각종 증명서 제공",
+      "재직증명서, 경력증명서, 휴직증명서 등 각종 증명서 발급 관리",
+      "급여와 연동된 원천징수 확인서 및 근로소득원천징수부 제공",
     ],
   },
   {
     id: "status",
     title: "인사현황",
-    subtitle: "근태, 급여, 평가 등 자동 연계",
     icon: "/images/people/smartWorkCare/hr/icon-hr.svg",
-    image: "/images/people/smartWorkCare/hr/hr-1-1.png",
+    image: "/images/people/smartWorkCare/hr/hr-features-section-05.png",
     description: [
-      "임직원을 조회할 수 있으며 다중검색, 사원명부, 사원정보, 장애인현황조회, 휴직자조회, 사원근무년수 등 조회 제공",
-      "직위별, 직책별, 연령별, 그룹별, 성별 등 다양한 기준별 인원현황을 한 눈에 파악",
+      "사원명부, 사원정보, 휴직자조회, 근무년수 등 다양한 인사현황 조회",
+      "직위별, 직책별, 연령별, 성별 등 기준별 인원현황을 한눈에 파악",
     ],
   },
 ]
@@ -67,95 +64,108 @@ export default function HrFeaturesSection() {
   const activeFeature = tabs.find((tab) => tab.id === activeTab)!
 
   return (
-    <section className="w-full bg-white py-5 md:py-7">
-      <div className="mx-auto max-w-[1280px] px-3 lg:px-5">
+      <section className="w-full bg-white py-12 md:py-16">
+        <div className="mx-auto max-w-[1280px] px-4 lg:px-6">
+          {/* 상단 타이틀 */}
+          <div className="mb-8 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              인사·조직 관리를 더 쉽고 정확하게
+            </h2>
+            <p className="mt-4 text-base md:text-lg text-gray-600">
+              직원 정보부터 조직도, 인사이동, 증명서까지 하나의 흐름으로 관리합니다.
+            </p>
+          </div>
 
-        {/* 탭 버튼 - 스크롤 가능 */}
-        <div className="flex gap-2 md:gap-3 mb-10 overflow-x-auto pb-2 scrollbar-hide">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex-shrink-0 px-4 md:px-6 py-3 rounded-full text-sm md:text-base font-medium transition-all whitespace-pre-line text-center leading-tight ${
-                activeTab === tab.id
-                  ? "bg-[#00cc99] text-white shadow-lg"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              {tab.title}
-            </button>
-          ))}
-        </div>
+          {/* 탭 버튼 */}
+          <div className="mb-8 grid grid-cols-2 gap-3 md:flex md:justify-center md:gap-2 md:overflow-x-auto md:pb-2 md:scrollbar-hide">
+            {tabs.map((tab) => {
+              const isActive = activeTab === tab.id
 
-        {/* 컨텐츠 영역 */}
-        <div className="bg-gray-50 rounded-3xl overflow-hidden mb-3">
-          <div className="flex flex-col lg:flex-row items-stretch">
-            {/* 좌측 이미지 */}
-            <div className="relative w-full lg:w-[45%] h-[250px] lg:h-[350px] bg-gradient-to-br from-blue-50 to-teal-50">
-              <Image
-                src={activeFeature.image}
-                alt={activeFeature.title}
-                fill
-                className="object-contain p-4 lg:p-6"
-              />
-            </div>
-
-            {/* 우측 텍스트 */}
-            <div className="flex-1 p-6 lg:p-8 flex flex-col justify-center">
-              {/* 서브 탭 인디케이터 */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                {tabs.map((tab) => (
+              return (
                   <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs transition-all ${
-                      activeTab === tab.id
-                        ? "bg-[#00cc99] text-white"
-                        : "bg-white text-gray-600 border border-gray-200"
-                    }`}
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex min-h-[64px] items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-bold transition-all md:min-h-0 md:shrink-0 md:rounded-full md:px-6 md:py-3 md:text-base ${
+                          isActive
+                              ? "border-[#00cc99] bg-[#00cc99] text-white shadow-[0_14px_30px_rgba(0,204,153,0.28)]"
+                              : "border-slate-200 bg-white text-slate-600 shadow-sm hover:border-[#00cc99]/40 hover:bg-[#00cc99]/5 hover:text-slate-900"
+                      }`}
                   >
                     <Image
-                      src={tab.icon}
-                      alt=""
-                      width={16}
-                      height={16}
-                      className={activeTab === tab.id ? "brightness-0 invert" : ""}
+                        src={tab.icon}
+                        alt=""
+                        width={18}
+                        height={18}
+                        className={isActive ? "brightness-0 invert" : ""}
                     />
-                    <span className="whitespace-nowrap">{tab.subtitle}</span>
+                    <span className="whitespace-nowrap">{tab.title}</span>
                   </button>
-                ))}
+              )
+            })}
+          </div>
+
+          {/* 컨텐츠 영역 */}
+          <div className="overflow-hidden rounded-[36px] border border-slate-100 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+            <div className="grid grid-cols-1 lg:grid-cols-[48%_1fr]">
+              {/* 좌측 이미지 */}
+              <div className="relative flex min-h-[100px] items-center justify-center overflow-hidden bg-gradient-to-br from-[#f3fbff] via-white to-[#eafff8] md:min-h-[420px]">
+                <div className="absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00cc99]/10 blur-2xl md:h-[320px] md:w-[320px] md:blur-3xl" />
+                <div className="absolute left-10 top-10 h-24 w-24 rounded-full bg-blue-100/60 blur-2xl" />
+                <div className="absolute bottom-8 right-10 h-28 w-28 rounded-full bg-emerald-100/70 blur-2xl" />
+
+                <div className="relative h-[140px] w-[68%] md:h-[320px] md:w-[82%] lg:h-[360px]">
+                  <Image
+                      src={activeFeature.image}
+                      alt={activeFeature.detailTitle || activeFeature.title}
+                      fill
+                      className="object-contain drop-shadow-[0_24px_35px_rgba(15,23,42,0.12)]"
+                      priority
+                  />
+                </div>
               </div>
 
-              {/* 제목 */}
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 whitespace-pre-line">
-                {activeFeature.title.replace("\n", " ")}
-              </h3>
+              {/* 우측 텍스트 */}
+              <div className="flex flex-col justify-center px-7 py-9 md:px-12 lg:px-14">
 
-              {/* 설명 리스트 */}
-              <ul className="space-y-4">
-                {activeFeature.description.map((desc, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#00cc99] mt-2 flex-shrink-0" />
-                    <span className="text-gray-700 text-base leading-relaxed">{desc}</span>
-                  </li>
-                ))}
-              </ul>
+                <h3 className="mb-4 text-2xl font-bold leading-tight text-slate-950 md:text-3xl">
+                  {activeFeature.detailTitle || activeFeature.title}
+                </h3>
+
+                <p className="mb-7 text-base leading-relaxed text-slate-500">
+                  복잡한 인사 업무를 한 화면에서 확인하고, 필요한 정보를 빠르게 조회할 수 있도록 도와줍니다.
+                </p>
+
+                <ul className="space-y-3">
+                  {activeFeature.description.map((desc, idx) => (
+                      <li
+                          key={idx}
+                          className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 px-4 py-3"
+                      >
+            <span className="mt-1.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#00cc99]">
+              <span className="h-1.5 w-1.5 rounded-full bg-white" />
+            </span>
+                        <span className="text-[15px] leading-relaxed text-slate-700 md:text-base">
+              {desc}
+            </span>
+                      </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* 하단 구조 이미지 */}
+          <div className="mt-8">
+            <div className="relative mx-auto h-[320px] w-full max-w-[1500px] md:h-[460px] lg:h-[680px]">
+              <Image
+                  src="/images/people/smartWorkCare/hr/hr-1.png"
+                  alt="에버인 클라우드 HR 서비스 구조"
+                  fill
+                  className="object-contain object-center"
+              />
             </div>
           </div>
         </div>
-        {/* 입체적 이미지 섹션 */}
-        <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-2">
-          {/* 이미지 */}
-          <div className="relative w-full lg:w aspect-square max-w-[1000px]">
-            <Image
-              src="/images/people/smartWorkCare/hr/hr-1.png"
-              alt="에버인 클라우드 HR 서비스 구조"
-              fill
-              className="object-contain"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
   )
 }

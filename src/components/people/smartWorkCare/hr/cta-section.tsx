@@ -30,14 +30,14 @@ export default function HrCtaSection() {
             href="/trial"
             className="px-10 py-3.5 bg-black text-white rounded-lg font-semibold hover:bg-black/80 transition-colors text-sm md:text-base"
           >
-            체험하기
+            견적받기
           </Link>
 
           <Link
             href="/support/inquiry"
             className="px-10 py-3.5 bg-white border border-black/50 text-black rounded-lg font-semibold hover:bg-gray-50 transition-colors text-sm md:text-base"
           >
-            견적요청
+            도입문의
           </Link>
         </div>
       </div>
