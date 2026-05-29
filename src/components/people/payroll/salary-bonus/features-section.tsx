@@ -66,27 +66,39 @@ const tabs = [
     ],
   },
   {
-    id: "insight",
+    id: "eContract",
     title: "전자계약",
     icon: BarChart3,
     image: "/images/people/payroll/salary-bonus/bg-service-spy-07.png",
     intro: "종이 없는 근로계약, 스마트한 시작! 모바일로 빠르고 간편하게, 계약의 혁신을 경험하세요.",
-    heading: "급여 및 인사 Insight",
+    heading: "전자계약",
     description: [
       "전자근로계약 모바일 앱",
       "전자근로계약을 모바일 앱으로 언제 어디서나 편리하게 체결할 수 있습니다.",
     ],
   },
   {
-    id: "insight",
+    id: "headcount",
     title: "인원현황",
     icon: PieChart,
     image: "/images/people/payroll/salary-bonus/bg-service-spy-08.png",
     intro: "복잡한 인원현황, 이젠 한눈에!",
-    heading: "급여 및 인사 Insight",
+    heading: "인원현황",
     description: [
       "인원현황",
       "우리 회사 인원현황을 빠르고 간편하게 한눈에 확인할 수 있습니다.",
+    ],
+  },
+  {
+    id: "insight",
+    title: "급여 인사이트",
+    icon: BarChart3,
+    image: "/images/people/payroll/salary-bonus/feature-insight.png",
+    intro: "급여부터 세금, 통계까지 한눈에 담았다! HR 담당자의 업무를 쉽고 빠르게,",
+    heading: "급여 및 인사 Insight",
+    description: [
+      "급상여 처리결과, 근태, 원천징수, 세액 시뮬레이션 등 정보 제공",
+      "HR 담당자의 업무를 쉽고 빠르게 지원",
     ],
   },
 ]
