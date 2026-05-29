@@ -146,7 +146,7 @@ const COLORS = {
   people: "#03b565",       // 스마트 워크케어, 에버타임
   payroll: "#3344e6",      // 급여, 에버페이롤
   everworks: "#0FA6EC",    // 에버웍스, 그룹웨어
-  onboarding: "#03b565",   // 에버웰커밍, 온보딩
+  onboarding: "#00dcaa",   // 에버웰커밍, 온보딩
   evaluation: "#0074ff",   // 에버평가, 평가
 } as const;
 
