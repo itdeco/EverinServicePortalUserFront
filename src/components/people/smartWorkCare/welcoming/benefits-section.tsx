@@ -1,10 +1,22 @@
 import { Clock, Layers, TrendingUp, Network, Workflow, SlidersHorizontal, MousePointerClick } from "lucide-react"
 
 const growthBenefits = [
-  { icon: Clock, title: "입사자 교육 비용과", subtitle: "시간 절감" },
-  { icon: Layers, title: "온보딩 프로세스의", subtitle: "표준화 및 효율성 증대" },
-  { icon: TrendingUp, title: "신입 구성원의 빠른 적응으로", subtitle: "조직 성과 향상" },
-  { icon: Network, title: "조직 몰입도와 충성도 향상,", subtitle: "이직률 감소" },
+  { icon: "/images/people/smartWorkCare/welcoming/icon-org-01.svg",
+    title: "입사자 교육 비용과",
+    subtitle: "시간 절감"
+  },
+  { icon: "/images/people/smartWorkCare/welcoming/icon-org-02.svg",
+    title: "온보딩 프로세스의",
+    subtitle: "표준화 및 효율성 증대"
+  },
+  { icon: "/images/people/smartWorkCare/welcoming/icon-org-03.svg",
+    title: "신입 구성원의 빠른 적응으로",
+    subtitle: "조직 성과 향상"
+  },
+  { icon: "/images/people/smartWorkCare/welcoming/icon-org-04.svg",
+    title: "조직 몰입도와 충성도 향상,",
+    subtitle: "이직률 감소"
+  },
 ]
 
 const onboardingValues = [
@@ -28,7 +40,7 @@ export default function WelcomingBenefitsSection() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {growthBenefits.map((item, idx) => {
-              const Icon = item.icon
+              import Image from "next/image"
               return (
                 <div
                   key={idx}
