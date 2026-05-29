@@ -38,7 +38,7 @@ export default function WelcomingEffectSection() {
           {/* 입체 이미지 */}
           <div className="relative mx-auto h-[280px] w-full max-w-[420px] md:h-[360px]">
             <Image
-              src="/images/people/smartWorkCare/welcoming/onboarding-effect-3d.png"
+              src="/images/people/smartWorkCare/welcoming/onboarding-effect.png"
               alt="온보딩 도입 효과"
               fill
               className="object-contain"
