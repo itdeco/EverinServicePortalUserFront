@@ -93,7 +93,7 @@ const tabs = [
     id: "insight",
     title: "급여 인사이트",
     icon: BarChart3,
-    image: "/images/people/payroll/salary-bonus/feature-insight.png",
+    image: "/images/people/payroll/salary-bonus/bg-service-spy-11.png",
     intro: "급여부터 세금, 통계까지 한눈에 담았다! HR 담당자의 업무를 쉽고 빠르게,",
     heading: "급여 및 인사 Insight",
     description: [
