@@ -1,4 +1,5 @@
-import { Clock, Layers, TrendingUp, Network, Workflow, SlidersHorizontal, MousePointerClick } from "lucide-react"
+import { Workflow, SlidersHorizontal, MousePointerClick } from "lucide-react"
+import Image from "next/image"
 
 const growthBenefits = [
   { icon: "/images/people/smartWorkCare/welcoming/icon-org-01.svg",
@@ -40,14 +41,19 @@ export default function WelcomingBenefitsSection() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {growthBenefits.map((item, idx) => {
-              import Image from "next/image"
               return (
                 <div
                   key={idx}
                   className="flex flex-col items-center text-center p-8 rounded-2xl bg-gray-50 border border-gray-100 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer"
                 >
-                  <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#00cc99]/10 mb-5">
-                    <Icon className="h-8 w-8 text-[#00cc99]" />
+                  <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00cc99]/15 to-[#00cc99]/5 mb-5">
+                    <Image
+                      src={item.icon}
+                      alt={item.title}
+                      width={36}
+                      height={36}
+                      className="object-contain"
+                    />
                   </span>
                   <p className="text-base text-gray-800 font-semibold leading-relaxed">
                     {item.title}<br />{item.subtitle}
