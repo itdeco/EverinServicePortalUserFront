@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronDown, ArrowRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const GREEN = "#00b386";
 
@@ -56,8 +56,6 @@ const launchSteps: Step[] = [
   },
 ];
 
-const yearendSteps = ["연말정산 안내 공지", "개인별 소득공제 등록 및 시뮬레이션", "연말정산 신고 및 결과 통보"];
-
 function GreenEllipse({ stage, title }: { stage: string; title: string }) {
   return (
     <div
@@ -75,22 +73,13 @@ function GreenEllipse({ stage, title }: { stage: string; title: string }) {
   );
 }
 
-function HorizontalFlow({ steps }: { steps: string[] }) {
+function ServiceImageBlock({ text, src, alt }: { text: string; src: string; alt: string }) {
   return (
-    <div className="flex flex-col items-stretch gap-4 lg:flex-row lg:items-center lg:justify-center">
-      {steps.map((s, i) => (
-        <div key={s} className="flex flex-col items-center lg:flex-row">
-          <div className="flex min-h-[88px] w-full lg:w-52 items-center justify-center rounded-2xl border border-[#cdeadd] bg-[#eaf7f1] px-5 py-5 text-center">
-            <span className="text-sm md:text-base font-bold text-gray-800">{s}</span>
-          </div>
-          {i < steps.length - 1 && (
-            <>
-              <ArrowRight className="hidden lg:block mx-3 h-6 w-6 shrink-0" style={{ color: GREEN }} />
-              <ChevronDown className="lg:hidden my-2 h-6 w-6" style={{ color: GREEN }} />
-            </>
-          )}
-        </div>
-      ))}
+    <div className="flex flex-col items-center">
+      <p className="mb-8 text-center text-base md:text-lg font-semibold text-[#1f2d4d]">{text}</p>
+      <div className="w-full max-w-[900px] overflow-hidden rounded-3xl border border-gray-200 bg-white p-4 md:p-6">
+        <Image src={src} alt={alt} width={1600} height={900} className="h-auto w-full" />
+      </div>
     </div>
   );
 }
@@ -162,39 +151,29 @@ export default function OutsourcingServiceProcessSection() {
 
         {/* Monthly */}
         {active === "monthly" && (
-          <div className="flex flex-col items-center">
-            <div className="w-full max-w-[900px] overflow-hidden rounded-3xl border border-gray-200 bg-white p-4 md:p-6">
-              <Image
-                src="/images/people/payroll/outsourcing/service-process-01.png"
-                alt="월 급여 서비스 절차"
-                width={1600}
-                height={900}
-                className="h-auto w-full"
-              />
-            </div>
-            <p className="mt-8 text-center text-base md:text-lg font-semibold text-[#1f2d4d]">
-              직원변동자료전달, 변동자료 검토/입력, 급여계산 및 확인, 급여명세서 발송
-            </p>
-          </div>
+          <ServiceImageBlock
+            text="직원변동자료전달, 변동자료 검토/입력, 급여계산 및 확인, 급여명세서 발송"
+            src="/images/people/payroll/outsourcing/service-process-01.png"
+            alt="월 급여 서비스 절차"
+          />
         )}
 
         {/* Retire */}
         {active === "retire" && (
-          <div className="mx-auto max-w-[820px] rounded-3xl border border-gray-200 bg-white p-8 md:p-12 text-center">
-            <p className="text-base md:text-lg font-semibold text-[#1f2d4d] leading-relaxed">
-              퇴직일 기준 평균임금 적용, 퇴직연금 (DB형, DC형) 등<br className="hidden md:block" /> 모든 지급방식 적용 가능
-            </p>
-          </div>
+          <ServiceImageBlock
+            text="퇴직자료 전달, 퇴직금 계산 및 확인, 퇴직소득 원천징수영수증 발송"
+            src="/images/people/payroll/outsourcing/service-process-02.png"
+            alt="퇴직자 서비스 절차"
+          />
         )}
 
         {/* Year-end */}
         {active === "yearend" && (
-          <div>
-            <p className="mb-10 text-center text-base md:text-lg font-semibold text-[#1f2d4d]">
-              연말정산 안내 공지, 개인별 소득공제 등록 및 시뮬레이션, 연말정산 신고 및 결과 통보
-            </p>
-            <HorizontalFlow steps={yearendSteps} />
-          </div>
+          <ServiceImageBlock
+            text="연말정산 안내 공지, 개인별 소득공제 등록 및 시뮬레이션, 연말정산 신고 및 결과 통보"
+            src="/images/people/payroll/outsourcing/service-process-03.png"
+            alt="연말정산 서비스 절차"
+          />
         )}
       </div>
     </section>
