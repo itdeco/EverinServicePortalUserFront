@@ -155,14 +155,27 @@ export default function HrFeaturesSection() {
           </div>
 
           {/* 하단 구조 이미지 */}
-          <div className="mt-8">
-            <div className="relative mx-auto h-[320px] w-full max-w-[1500px] md:h-[460px] lg:h-[680px]">
-              <Image
+          <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
+            {/* 타이틀 */}
+            <div className="text-center mb-6">
+              <span className="inline-block px-5 py-2 text-base md:text-lg font-bold text-gray-800 bg-[#00cc99]/10 rounded-full mb-4">
+                서비스 도입 전후 비교
+              </span>
+            </div>
+    
+            {/* 3D 이미지 + 카드 */}
+            <div className="mt-2">
+              {/* 입체 이미지 */}
+              <div className="relative mx-auto w-full max-w-[1200px]">
+                <Image
                   src="/images/people/smartWorkCare/hr/hr-1.png"
-                  alt="에버인 클라우드 HR 서비스 구조"
-                  fill
-                  className="object-contain object-center"
-              />
+                  alt="에버인 도입 효과"
+                  width={1200}
+                  height={700}
+                  priority
+                  className="w-full h-auto"
+                />
+              </div>
             </div>
           </div>
         </div>
