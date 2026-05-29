@@ -36,8 +36,7 @@ export default function WelcomingCtaSection() {
 
           <Link
             href="/trial"
-            className="border border-[#00cc99] bg-white text-gray-700 px-10 h-14 text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
-            >
+            className="border border-[#00cc99] bg-white text-gray-700 px-10 h-14 inline-flex items-center text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
           >
             평생 무료 사용
           </Link>
