@@ -24,18 +24,18 @@ export default function HrCtaSection() {
           복잡한 조직관리,<br />
           이제 중앙 집중식 인사관리로 스마트하게 해결하세요.
         </p>
-
         <div className="flex justify-center gap-4 flex-wrap mt-10">
           <Link
             href="/trial"
-            className="px-10 py-3.5 bg-black text-white rounded-lg font-semibold hover:bg-black/80 transition-colors text-sm md:text-base"
+            className="px-10 py-3.5 rounded-lg font-semibold text-white transition-opacity hover:opacity-90 text-sm md:text-base"
+            style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
           >
             견적받기
           </Link>
 
           <Link
-            href="/support/inquiry"
-            className="px-10 py-3.5 bg-white border border-black/50 text-black rounded-lg font-semibold hover:bg-gray-50 transition-colors text-sm md:text-base"
+            href="/trial"
+            className="px-10 py-3.5 bg-white border border-black/40 text-black rounded-lg font-semibold hover:bg-gray-50 transition-colors text-sm md:text-base"
           >
             도입문의
           </Link>
