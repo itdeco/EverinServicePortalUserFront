@@ -14,36 +14,36 @@ export default function HrHeroSection() {
       }}
     >
       <div className="mx-auto max-w-[1280px] px-4 lg:px-12">
-        <div className="flex flex-col items-center justify-center pt-28 pb-20 lg:pt-36 lg:pb-28 text-center hero-fade-up">
+        <div className="flex flex-col items-center justify-center pt-28 pb-20 lg:pt-36 lg:pb-28 text-center">
 
           {/* 브랜드 태그 */}
-          <p className="text-[#00cc99] text-xl md:text-2xl font-semibold mb-3 tracking-wide">
+          <p className="hero-item text-[#00cc99] text-xl md:text-2xl font-semibold mb-3 tracking-wide" style={{ animationDelay: "0.05s" }}>
             인사·조직·발령
           </p>
 
           {/* 서브 타이틀 */}
-          <p className="text-gray-600 text-lg md:text-xl mb-3 leading-relaxed">
+          <p className="hero-item text-gray-600 text-lg md:text-xl mb-3 leading-relaxed" style={{ animationDelay: "0.18s" }}>
             인사 발령 공문, 아직도 엑셀과 워드로 쪼개서 작업하시나요?
           </p>
 
           {/* 메인 타이틀 */}
-          <h1 className="text-[42px] sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight mb-2">
+          <h1 className="hero-item text-[42px] sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight mb-2" style={{ animationDelay: "0.3s" }}>
             인사관리
           </h1>
 
           {/* 예정 배지 */}
-          <span className="inline-block px-3 py-1 text-sm font-medium text-orange-600 bg-orange-100 rounded-full mb-5">
+          <span className="hero-item inline-block px-3 py-1 text-sm font-medium text-orange-600 bg-orange-100 rounded-full mb-5" style={{ animationDelay: "0.42s" }}>
             *채용 예정
           </span>
 
           {/* 설명 */}
-          <p className="text-gray-500 text-lg md:text-xl leading-relaxed mb-10">
+          <p className="hero-item text-gray-500 text-lg md:text-xl leading-relaxed mb-10" style={{ animationDelay: "0.54s" }}>
             채용부터 퇴직까지,<br />
             인사의 전 과정을 하나의 플랫폼에서
           </p>
 
           {/* CTA 버튼 */}
-          <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+          <div className="hero-item flex flex-wrap gap-4 justify-center lg:justify-start" style={{ animationDelay: "0.66s" }}>
             <Button
               asChild
               size="lg"
@@ -76,8 +76,9 @@ export default function HrHeroSection() {
             transform: translateY(0);
           }
         }
-        .hero-fade-up {
-          animation: fadeUp 0.8s ease-out both;
+        .hero-item {
+          opacity: 0;
+          animation: fadeUp 0.7s ease-out both;
         }
       `}</style>
     </section>
