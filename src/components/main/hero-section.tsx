@@ -289,15 +289,24 @@ export default function HeroSection() {
       </button>
 
       {/* 인디케이터 */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
         {[0, 1, 2].map((idx) => (
           <button
             key={idx}
             onClick={() => goToSlide(idx)}
-            className={`h-3 rounded-full transition-all ${
-              currentSlide === idx ? "w-8 bg-[#00cc99]" : "w-3 bg-gray-300 hover:bg-gray-400"
+            aria-label={`슬라이드 ${idx + 1}로 이동`}
+            className={`h-3 rounded-full transition-all duration-500 ease-out overflow-hidden ${
+              currentSlide === idx ? "w-10 bg-gray-300" : "w-3 bg-gray-300 hover:bg-gray-400"
             }`}
-          />
+          >
+            {currentSlide === idx && (
+              <span
+                key={currentSlide}
+                className="indicator-progress-fill block h-full rounded-full bg-[#00cc99]"
+                style={{ animationDuration: "5s" }}
+              />
+            )}
+          </button>
         ))}
       </div>
       <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-b from-transparent to-white/80 pointer-events-none" />
