@@ -1,29 +1,28 @@
-import { Workflow, SlidersHorizontal, MousePointerClick } from "lucide-react"
 import Image from "next/image"
 
 const growthBenefits = [
-  { icon: "/images/people/smartWorkCare/welcoming/icon-org-01.svg",
+  { icon: "/images/people/smartWorkCare/welcoming/icon/icon-org-01.svg",
     title: "입사자 교육 비용과",
     subtitle: "시간 절감"
   },
-  { icon: "/images/people/smartWorkCare/welcoming/icon-org-02.svg",
+  { icon: "/images/people/smartWorkCare/welcoming/icon/icon-org-02.svg",
     title: "온보딩 프로세스의",
     subtitle: "표준화 및 효율성 증대"
   },
-  { icon: "/images/people/smartWorkCare/welcoming/icon-org-03.svg",
+  { icon: "/images/people/smartWorkCare/welcoming/icon/icon-org-03.svg",
     title: "신입 구성원의 빠른 적응으로",
     subtitle: "조직 성과 향상"
   },
-  { icon: "/images/people/smartWorkCare/welcoming/icon-org-04.svg",
+  { icon: "/images/people/smartWorkCare/welcoming/icon/icon-org-04.svg",
     title: "조직 몰입도와 충성도 향상,",
     subtitle: "이직률 감소"
   },
 ]
 
 const onboardingValues = [
-  { icon: Workflow, title: "복잡한 온보딩 과정을", subtitle: "SaaS 기반으로 간단히 자동화" },
-  { icon: SlidersHorizontal, title: "우리 회사의 특성에 맞게", subtitle: "콘텐츠와 프로세스를 자유롭게 커스터마이징" },
-  { icon: MousePointerClick, title: "누구나 손쉽게 사용할 수 있도록", subtitle: "직관적으로 설계된 사용자 경험 제공" },
+  { icon: "/images/people/smartWorkCare/welcoming/icon/icon-future-01.svg", title: "복잡한 온보딩 과정을", subtitle: "SaaS 기반으로 간단히 자동화" },
+  { icon: "/images/people/smartWorkCare/welcoming/icon/icon-future-02.svg", title: "우리 회사의 특성에 맞게", subtitle: "콘텐츠와 프로세스를 자유롭게 커스터마이징" },
+  { icon: "/images/people/smartWorkCare/welcoming/icon/icon-future-03.svg", title: "누구나 손쉽게 사용할 수 있도록", subtitle: "직관적으로 설계된 사용자 경험 제공" },
 ]
 
 export default function WelcomingBenefitsSection() {
@@ -75,14 +74,19 @@ export default function WelcomingBenefitsSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {onboardingValues.map((item, idx) => {
-              const Icon = item.icon
               return (
                 <div
                   key={idx}
                   className="flex flex-col items-start p-8 rounded-2xl bg-gradient-to-br from-[#f3fbff] via-white to-[#eafff8] border border-gray-100 h-48 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer"
                 >
                   <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-sm mb-5">
-                    <Icon className="h-7 w-7 text-[#00cc99]" />
+                    <Image
+                      src={item.icon}
+                      alt={item.title}
+                      width={34}
+                      height={34}
+                      className="object-contain"
+                    />
                   </span>
                   <p className="text-lg text-gray-900 font-semibold leading-relaxed">
                     {item.title}<br />{item.subtitle}
