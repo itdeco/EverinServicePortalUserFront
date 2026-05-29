@@ -151,7 +151,6 @@ export default function HeroSection() {
               </div>
 
               {/* 오른쪽: AI 온보딩 일러스트 */}
-              <ComingSoonOverlay>
                 <div className="relative h-[260px] md:h-[320px] lg:h-[420px] flex items-center justify-center w-full overflow-hidden">
                 <div className="relative w-full max-w-[480px] h-full flex items-center justify-center">
                   {/* AI 온보딩 시각적 요소 */}
@@ -212,7 +211,6 @@ export default function HeroSection() {
                   </div>
                 </div>
               </div>
-              </ComingSoonOverlay>
             </div>
           </div>
         </div>
