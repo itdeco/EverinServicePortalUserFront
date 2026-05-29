@@ -17,12 +17,11 @@ export default function OutsourcingCtaSection() {
       {/* 컨텐츠 */}
       <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
         <h2 className="text-[22px] md:text-[28px] font-bold text-black mb-4 leading-relaxed">
-          급여 관련 소통, 아직도 메일·카카오톡으로 하시나요?
+          HR 담당자의 진짜 일은 숫자가 아니라 사람입니다.
         </h2>
 
         <p className="text-black text-base md:text-lg mb-3 leading-relaxed">
-          이제는 에버톡으로<br />
-          빠르고 안전하게 협업하세요.
+          급여·연말정산은 전문가에게 맡기고, 더 중요한 HR에 집중하세요.
         </p>
 
         <div className="flex justify-center gap-4 flex-wrap mt-10">
