@@ -14,38 +14,38 @@ export default function PcOffHeroSection() {
       }}
     >
       <div className="mx-auto max-w-[1280px] px-4 lg:px-12">
-        <div className="flex flex-col items-center justify-center pt-28 pb-20 lg:pt-36 lg:pb-28 text-center hero-fade-up">
+        <div className="flex flex-col items-center justify-center pt-28 pb-20 lg:pt-36 lg:pb-28 text-center">
 
           {/* 브랜드 태그 */}
-          <p className="text-[#00cc99] text-xl font-semibold mb-3 tracking-wide">
-            PC-OFF
+          <p className="hero-item text-[#00cc99] text-xl md:text-2xl font-semibold mb-3 tracking-wide" style={{ animationDelay: "0.05s" }}>
+            근태 · PC-OFF
           </p>
 
           {/* 서브 타이틀 */}
-          <p className="text-gray-600 text-base md:text-lg mb-3 leading-relaxed">
-            강제 PC 종료로 장시간 근로를 원천 차단
+          <p className="hero-item text-gray-600 text-lg md:text-xl mb-3 leading-relaxed" style={{ animationDelay: "0.18s" }}>
+            퇴근시간이 지나도 켜져 있는 PC, 아직도 일일이 관리하시나요?
           </p>
 
           {/* 메인 타이틀 */}
-          <h1 className="text-[36px] sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-5">
-            PC-OFF 관리
+          <h1 className="hero-item text-[42px] sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight mb-5" style={{ animationDelay: "0.3s" }}>
+            PC-OFF
           </h1>
 
           {/* 설명 */}
-          <p className="text-gray-500 text-base leading-relaxed mb-10">
-            근무시간 초과 시 자동 알림 및 강제 종료,<br />
-            법적 리스크 없는 스마트한 근무시간 관리
+          <p className="hero-item text-gray-500 text-lg md:text-xl leading-relaxed mb-10" style={{ animationDelay: "0.54s" }}>
+            근태 연동형 자동 제어로,<br />
+            근로시간 관리부터 조직 건강까지 한 번에
           </p>
 
           {/* CTA 버튼 */}
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className="hero-item flex flex-wrap gap-4 justify-center" style={{ animationDelay: "0.66s" }}>
             <Button
               asChild
               size="lg"
               className="px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
               style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
             >
-              <Link href="/trial">체험하기</Link>
+              <Link href="/support/inquiry">도입문의</Link>
             </Button>
 
             <Button
@@ -54,7 +54,7 @@ export default function PcOffHeroSection() {
               variant="outline"
               className="border border-[#00cc99] bg-white text-gray-700 px-10 h-14 text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
             >
-              <Link href="/support/inquiry">도입문의</Link>
+              <Link href="/trial">견적요청</Link>
             </Button>
           </div>
         </div>
@@ -71,8 +71,9 @@ export default function PcOffHeroSection() {
             transform: translateY(0);
           }
         }
-        .hero-fade-up {
-          animation: fadeUp 0.8s ease-out both;
+        .hero-item {
+          opacity: 0;
+          animation: fadeUp 0.7s ease-out both;
         }
       `}</style>
     </section>
