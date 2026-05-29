@@ -38,19 +38,19 @@ export default function WelcomingBenefitsSection() {
             새로운 직원이 조직에 자연스럽게 녹아드는 순간, 성장의 속도도 달라집니다.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
             {growthBenefits.map((item, idx) => {
               return (
                 <div
                   key={idx}
-                  className="flex flex-col items-center text-center p-8 rounded-2xl bg-gray-50 border border-gray-100 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer"
+                  className="flex flex-col items-center text-center p-5 md:p-8 rounded-2xl bg-gray-50 border border-gray-100 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer"
                 >
-                  <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00cc99]/15 to-[#00cc99]/5 mb-5">
+                  <span className="flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00cc99]/15 to-[#00cc99]/5 mb-5">
                     <Image
                       src={item.icon}
                       alt={item.title}
-                      width={36}
-                      height={36}
+                      width={44}
+                      height={44}
                       className="object-contain"
                     />
                   </span>
@@ -77,14 +77,14 @@ export default function WelcomingBenefitsSection() {
               return (
                 <div
                   key={idx}
-                  className="flex flex-col items-start p-8 rounded-2xl bg-gradient-to-br from-[#f3fbff] via-white to-[#eafff8] border border-gray-100 h-48 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer"
+                  className="flex flex-col items-start p-8 rounded-2xl bg-gradient-to-br from-[#f3fbff] via-white to-[#eafff8] border border-gray-100 min-h-[220px] transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer"
                 >
                   <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-sm mb-5">
                     <Image
                       src={item.icon}
                       alt={item.title}
-                      width={34}
-                      height={34}
+                      width={42}
+                      height={42}
                       className="object-contain"
                     />
                   </span>
