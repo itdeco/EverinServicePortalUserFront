@@ -276,7 +276,11 @@ export default function Header() {
                               <div className="flex gap-8">
                               {peopleMenuColumns.map((col) => (
                                 <div key={col.label} className="flex flex-col gap-3 shrink-0">
-                                  <div className="text-base font-bold whitespace-nowrap" style={{ color: COLORS.people }}>{col.label}</div>
+                                  <div className="text-base font-bold whitespace-nowrap" style={{
+                                    color: col.label === "급여" ? COLORS.payroll
+                                      : col.label === "평가관리" ? COLORS.evaluation
+                                      : COLORS.people
+                                  }}>{col.label}</div>
                                   {col.col1 ? (
                                     <div className="flex gap-8">
                                       <div className="flex flex-col gap-2">
