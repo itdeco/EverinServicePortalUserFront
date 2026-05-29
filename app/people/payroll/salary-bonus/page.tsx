@@ -15,7 +15,6 @@ export default function SalaryBonusPage() {
       <Header />
       <SalaryBonusHeroSection />
       <SalaryBonusProblemSection />
-      <SalaryBonusInterviewSection />
       <SalaryBonusStrengthsSection />
       <SalaryBonusFeaturesSection />
       <SalaryBonusCtaSection />
