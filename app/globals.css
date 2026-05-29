@@ -309,3 +309,33 @@
   border-color: oklch(0.65 0.15 175) !important;
   color: oklch(0.65 0.15 175) !important;
 }
+
+/* Slider indicator progress animation */
+@keyframes indicator-grow {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.indicator-progress-fill {
+  animation: indicator-grow linear forwards;
+}
+
+/* Tab / content switch transition */
+@keyframes content-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content-fade-in {
+  animation: content-fade-in 0.5s ease-out both;
+}

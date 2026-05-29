@@ -52,7 +52,7 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
     col1: [
       { title: "채용", href: "#", badge: "*예정" },
       { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
-      { title: "온보딩", subtitle: "에버웰커밍", href: "#", badge: "무료" },
+      { title: "온보딩", subtitle: "에버웰커밍", href: "/people/smartWorkCare/welcoming", badge: "무료" },
       { title: "교육·경력", href: "#", badge: "*준비중" },
       { title: "복리후생", href: "#", badge: "*준비중" },
     ],
@@ -64,8 +64,8 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
   {
     label: "급여",
     items: [
-      { title: "급여/상여", href: "#" },
-      { title: "아웃소싱", subtitle: "에버페이롤", href: "#" },
+      { title: "급여/상여", href: "/people/payroll/salary-bonus" },
+      { title: "아웃소싱", subtitle: "에버페이롤", href: "/people/payroll/outsourcing" },
       { title: "신고", href: "#" },
       { title: "연말정산", href: "#" },
     ],
@@ -92,13 +92,13 @@ const peopleMenu: Record<string, MenuItem[]> = {
     { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
     { title: "근태관리", subtitle: "에버타임", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
     { title: "PC-OFF", href: "/people/smartWorkCare/pcoff" },
-    { title: "온보딩", subtitle: "에버웰커밍", href: "#", badge: "무료" },
+    { title: "온보딩", subtitle: "에버웰커밍", href: "/people/smartWorkCare/welcoming", badge: "무료" },
     { title: "교육·경력", href: "#", badge: "*준비중" },
     { title: "복리후생", href: "#", badge: "*준비중" },
   ],
   급여: [
-    { title: "급여/상여", href: "#" },
-    { title: "아웃소싱", subtitle: "에버페이롤", href: "#" },
+    { title: "급여/상여", href: "/people/payroll/salary-bonus" },
+    { title: "아웃소싱", subtitle: "에버페이롤", href: "/people/payroll/outsourcing" },
     { title: "신고", href: "#" },
     { title: "연말정산", href: "#" },
   ],
@@ -146,7 +146,7 @@ const COLORS = {
   people: "#03b565",       // 스마트 워크케어, 에버타임
   payroll: "#3344e6",      // 급여, 에버페이롤
   everworks: "#0FA6EC",    // 에버웍스, 그룹웨어
-  onboarding: "#03b565",   // 에버웰커밍, 온보딩
+  onboarding: "#00dcaa",   // 에버웰커밍, 온보딩
   evaluation: "#0074ff",   // 에버평가, 평가
 } as const;
 
@@ -211,7 +211,7 @@ export default function Header() {
       {/* 상단 프로모션 배너 */}
       <div className="bg-slate-900 text-primary-foreground py-2.5">
         <div className="mx-auto max-w-[1280px] px-4 text-center text-sm">
-          <span className="font-medium">AI 빌더를 활용한 강력한 온보딩 솔루션!</span>
+          <span className="font-medium">AI 빌더를 활용한 ��력한 온보딩 솔루션!</span>
           {" "}에버웰커밍 무료 사용 이벤트{" "}
           <SmartLink href="#" className="underline underline-offset-2 font-semibold hover:opacity">
             확인하기 &gt;
@@ -276,7 +276,11 @@ export default function Header() {
                               <div className="flex gap-8">
                               {peopleMenuColumns.map((col) => (
                                 <div key={col.label} className="flex flex-col gap-3 shrink-0">
-                                  <div className="text-base font-bold whitespace-nowrap" style={{ color: COLORS.people }}>{col.label}</div>
+                                  <div className="text-base font-bold whitespace-nowrap" style={{
+                                    color: col.label === "급여" ? COLORS.payroll
+                                      : col.label === "평가관리" ? COLORS.evaluation
+                                      : COLORS.people
+                                  }}>{col.label}</div>
                                   {col.col1 ? (
                                     <div className="flex gap-8">
                                       <div className="flex flex-col gap-2">
@@ -340,7 +344,7 @@ export default function Header() {
                                           )}
                                           {item.badge && (
                                             <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{
-                                              background: col.label === "����여" ? `${COLORS.payroll}18` : col.label === "평가관리" ? `${COLORS.evaluation}18` : `${COLORS.people}18`,
+                                              background: col.label === "급여" ? `${COLORS.payroll}18` : col.label === "평가관리" ? `${COLORS.evaluation}18` : `${COLORS.people}18`,
                                               color: col.label === "급여" ? COLORS.payroll : col.label === "평가관리" ? COLORS.evaluation : COLORS.people
                                             }}>{item.badge}</span>
                                           )}

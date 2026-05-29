@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useState } from "react"
+import ScrollReveal from "@/components/common/scroll-reveal"
 
 const tabs = [
   {
@@ -67,14 +68,14 @@ export default function HrFeaturesSection() {
       <section className="w-full bg-white py-12 md:py-16">
         <div className="mx-auto max-w-[1280px] px-4 lg:px-6">
           {/* 상단 타이틀 */}
-          <div className="mb-8 text-center">
+          <ScrollReveal className="mb-8 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
               인사·조직 관리를 더 쉽고 정확하게
             </h2>
             <p className="mt-4 text-base md:text-lg text-gray-600">
               직원 정보부터 조직도, 인사이동, 증명서까지 하나의 흐름으로 관리합니다.
             </p>
-          </div>
+          </ScrollReveal>
 
           {/* 탭 버튼 */}
           <div className="mb-8 grid grid-cols-2 gap-3 md:flex md:justify-center md:gap-2 md:overflow-x-auto md:pb-2 md:scrollbar-hide">
@@ -105,8 +106,8 @@ export default function HrFeaturesSection() {
           </div>
 
           {/* 컨텐츠 영역 */}
-          <div className="overflow-hidden rounded-[36px] border border-slate-100 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
-            <div className="grid grid-cols-1 lg:grid-cols-[48%_1fr]">
+          <ScrollReveal className="overflow-hidden rounded-[36px] border border-slate-100 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+            <div key={activeTab} className="content-fade-in grid grid-cols-1 lg:grid-cols-[48%_1fr]">
               {/* 좌측 이미지 */}
               <div className="relative flex min-h-[100px] items-center justify-center overflow-hidden bg-gradient-to-br from-[#f3fbff] via-white to-[#eafff8] md:min-h-[420px]">
                 <div className="absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00cc99]/10 blur-2xl md:h-[320px] md:w-[320px] md:blur-3xl" />
@@ -152,19 +153,32 @@ export default function HrFeaturesSection() {
                 </ul>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* 하단 구조 이미지 */}
-          <div className="mt-8">
-            <div className="relative mx-auto h-[320px] w-full max-w-[1500px] md:h-[460px] lg:h-[680px]">
-              <Image
-                  src="/images/people/smartWorkCare/hr/hr-1.png"
-                  alt="에버인 클라우드 HR 서비스 구조"
-                  fill
-                  className="object-contain object-center"
-              />
+          <ScrollReveal className="mt-24 mx-auto max-w-[1280px] px-6 lg:px-12">
+            {/* 타이틀 */}
+            <div className="text-center mb-6">
+              <span className="inline-block px-5 py-2 text-base md:text-lg font-bold text-gray-800 bg-[#00cc99]/10 rounded-full mb-4">
+                서비스 도입 전후 비교
+              </span>
             </div>
-          </div>
+    
+            {/* 3D 이미지 + 카드 */}
+            <div className="mt-2">
+              {/* 입체 이미지 */}
+              <div className="relative mx-auto w-full max-w-[1200px]">
+                <Image
+                  src="/images/people/smartWorkCare/hr/hr-1.png"
+                  alt="에버인 도입 효과"
+                  width={1200}
+                  height={700}
+                  priority
+                  className="w-full h-auto"
+                />
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
   )

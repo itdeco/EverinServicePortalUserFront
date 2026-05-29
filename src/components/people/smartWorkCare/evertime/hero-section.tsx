@@ -21,14 +21,9 @@ export default function EvertimeHeroSection() {
             EverTime
           </p>
 
-          {/* 서브 타이틀 */}
-          <p className="text-gray-600 text-base md:text-lg mb-3 leading-relaxed">
-            주 52시간 위반, 우리 회사는 안전한가요?
-          </p>
-
           {/* 메인 타이틀 */}
           <h1 className="text-[36px] sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-5">
-            근태관리
+            주 52시간 위반<br /> 우리 회사는 안전한가요?
           </h1>
 
           {/* 설명 */}

@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 
+const SLIDE_DURATION = 5000
+
 const reviews = [
   {
     id: 1,
@@ -36,7 +38,7 @@ export default function HrReviewSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % reviews.length)
-    }, 5000)
+    }, SLIDE_DURATION)
     return () => clearInterval(interval)
   }, [])
 
@@ -80,16 +82,23 @@ export default function HrReviewSection() {
           </div>
 
           {/* 인디케이터 */}
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center items-center gap-3 mt-6">
             {reviews.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveIndex(idx)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  idx === activeIndex ? "bg-[#00cc99] w-6" : "bg-gray-300"
-                }`}
+                className="h-3 rounded-full overflow-hidden bg-gray-300 transition-all duration-300"
+                style={{ width: idx === activeIndex ? "40px" : "12px" }}
                 aria-label={`리뷰 ${idx + 1} 보기`}
-              />
+              >
+                {idx === activeIndex && (
+                  <span
+                    key={activeIndex}
+                    className="indicator-progress-fill block h-full rounded-full bg-[#00cc99]"
+                    style={{ animationDuration: `${SLIDE_DURATION}ms` }}
+                  />
+                )}
+              </button>
             ))}
           </div>
         </div>
