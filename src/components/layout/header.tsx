@@ -64,7 +64,7 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
   {
     label: "급여",
     items: [
-      { title: "급여/상여", href: "#" },
+      { title: "급여/상여", href: "/people/payroll/salary-bonus" },
       { title: "아웃소싱", subtitle: "에버페이롤", href: "#" },
       { title: "신고", href: "#" },
       { title: "연말정산", href: "#" },
@@ -97,7 +97,7 @@ const peopleMenu: Record<string, MenuItem[]> = {
     { title: "복리후생", href: "#", badge: "*준비중" },
   ],
   급여: [
-    { title: "급여/상여", href: "#" },
+    { title: "급여/상여", href: "/people/payroll/salary-bonus" },
     { title: "아웃소싱", subtitle: "에버페이롤", href: "#" },
     { title: "신고", href: "#" },
     { title: "연말정산", href: "#" },
@@ -344,7 +344,7 @@ export default function Header() {
                                           )}
                                           {item.badge && (
                                             <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{
-                                              background: col.label === "����여" ? `${COLORS.payroll}18` : col.label === "평가관리" ? `${COLORS.evaluation}18` : `${COLORS.people}18`,
+                                              background: col.label === "급여" ? `${COLORS.payroll}18` : col.label === "평가관리" ? `${COLORS.evaluation}18` : `${COLORS.people}18`,
                                               color: col.label === "급여" ? COLORS.payroll : col.label === "평가관리" ? COLORS.evaluation : COLORS.people
                                             }}>{item.badge}</span>
                                           )}
