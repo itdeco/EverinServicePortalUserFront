@@ -35,7 +35,7 @@ export default function EvertimeCtaSection() {
 
           <Link
             href="/support/inquiry"
-            className="px-10 py-3.5 bg-white border border-black/40 text-black rounded-lg font-semibold hover:bg-gray-50 transition-colors text-sm md:text-base"
+            className="border border-[#00cc99] bg-white text-gray-700 px-10 h-14 inline-flex items-center text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
           >
             견적요청
           </Link>
