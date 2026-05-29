@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ChevronDown, ArrowRight } from "lucide-react";
 
 const GREEN = "#00b386";
@@ -55,7 +56,6 @@ const launchSteps: Step[] = [
   },
 ];
 
-const monthlySteps = ["직원 변동자료 전달", "변동자료 검토/입력", "급여계산 및 확인", "급여명세서 발송"];
 const yearendSteps = ["연말정산 안내 공지", "개인별 소득공제 등록 및 시뮬레이션", "연말정산 신고 및 결과 통보"];
 
 function GreenEllipse({ stage, title }: { stage: string; title: string }) {
@@ -162,11 +162,19 @@ export default function OutsourcingServiceProcessSection() {
 
         {/* Monthly */}
         {active === "monthly" && (
-          <div>
-            <p className="mb-10 text-center text-base md:text-lg font-semibold text-[#1f2d4d]">
+          <div className="flex flex-col items-center">
+            <div className="w-full max-w-[900px] overflow-hidden rounded-3xl border border-gray-200 bg-white p-4 md:p-6">
+              <Image
+                src="/images/people/payroll/outsourcing/service-process-01.png"
+                alt="월 급여 서비스 절차"
+                width={1600}
+                height={900}
+                className="h-auto w-full"
+              />
+            </div>
+            <p className="mt-8 text-center text-base md:text-lg font-semibold text-[#1f2d4d]">
               직원변동자료전달, 변동자료 검토/입력, 급여계산 및 확인, 급여명세서 발송
             </p>
-            <HorizontalFlow steps={monthlySteps} />
           </div>
         )}
 
