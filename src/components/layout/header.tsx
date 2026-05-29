@@ -65,7 +65,7 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
     label: "급여",
     items: [
       { title: "급여/상여", href: "/people/payroll/salary-bonus" },
-      { title: "아웃소싱", subtitle: "에버페이롤", href: "#" },
+      { title: "아웃소싱", subtitle: "에버페이롤", href: "/people/payroll/outsourcing" },
       { title: "신고", href: "#" },
       { title: "연말정산", href: "#" },
     ],
@@ -98,7 +98,7 @@ const peopleMenu: Record<string, MenuItem[]> = {
   ],
   급여: [
     { title: "급여/상여", href: "/people/payroll/salary-bonus" },
-    { title: "아웃소싱", subtitle: "에버페이롤", href: "#" },
+    { title: "아웃소싱", subtitle: "에버페이롤", href: "/people/payroll/outsourcing" },
     { title: "신고", href: "#" },
     { title: "연말정산", href: "#" },
   ],
