@@ -52,7 +52,7 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
     col1: [
       { title: "채용", href: "#", badge: "*예정" },
       { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
-      { title: "온보딩", subtitle: "에버웰커밍", href: "#", badge: "무료" },
+      { title: "온보딩", subtitle: "에버웰커밍", href: "/people/smartWorkCare/welcoming", badge: "무료" },
       { title: "교육·경력", href: "#", badge: "*준비중" },
       { title: "복리후생", href: "#", badge: "*준비중" },
     ],
@@ -92,7 +92,7 @@ const peopleMenu: Record<string, MenuItem[]> = {
     { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
     { title: "근태관리", subtitle: "에버타임", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
     { title: "PC-OFF", href: "/people/smartWorkCare/pcoff" },
-    { title: "온보딩", subtitle: "에버웰커밍", href: "#", badge: "무료" },
+    { title: "온보딩", subtitle: "에버웰커밍", href: "/people/smartWorkCare/welcoming", badge: "무료" },
     { title: "교육·경력", href: "#", badge: "*준비중" },
     { title: "복리후생", href: "#", badge: "*준비중" },
   ],
@@ -211,7 +211,7 @@ export default function Header() {
       {/* 상단 프로모션 배너 */}
       <div className="bg-slate-900 text-primary-foreground py-2.5">
         <div className="mx-auto max-w-[1280px] px-4 text-center text-sm">
-          <span className="font-medium">AI 빌더를 활용한 강력한 온보딩 솔루션!</span>
+          <span className="font-medium">AI 빌더를 활용한 ��력한 온보딩 솔루션!</span>
           {" "}에버웰커밍 무료 사용 이벤트{" "}
           <SmartLink href="#" className="underline underline-offset-2 font-semibold hover:opacity">
             확인하기 &gt;
