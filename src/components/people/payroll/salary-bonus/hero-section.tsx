@@ -18,7 +18,7 @@ export default function SalaryBonusHeroSection() {
 
           {/* 브랜드 태그 */}
           <p className="text-xl md:text-2xl font-semibold mb-3 tracking-wide" style={{ color: "#3344e6" }}>
-            페이롤 · 에버페이롤
+            급여 · 상여
           </p>
 
           {/* 메인 타이틀 */}
