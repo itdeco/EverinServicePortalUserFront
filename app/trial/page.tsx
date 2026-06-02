@@ -379,7 +379,7 @@ export default function TrialPage() {
                   </div>
                   {timerStarted && !authCodeVerified && (
                     <p className="text-xs text-muted-foreground">
-                      휴대��으로 전송된 인증번호를 3�� 안에 입력해주세요.
+                      휴대폰으로 전송된 인증번호를 3분 안에 입력해주세요.
                     </p>
                   )}
                 </div>

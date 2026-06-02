@@ -211,7 +211,7 @@ export default function Header() {
       {/* 상단 프로모션 배너 */}
       <div className="bg-slate-900 text-primary-foreground py-2.5">
         <div className="mx-auto max-w-[1280px] px-4 text-center text-sm">
-          <span className="font-medium">AI 빌더를 활용한 ��력한 온보딩 솔루션!</span>
+          <span className="font-medium">AI 빌더를 활용한 강력한 온보딩 솔루션!</span>
           {" "}에버웰커밍 무료 사용 이벤트{" "}
           <SmartLink href="#" className="underline underline-offset-2 font-semibold hover:opacity">
             확인하기 &gt;
@@ -617,7 +617,7 @@ export default function Header() {
 
               {/* 메뉴 영역 */}
               <nav className="flex flex-col gap-4 p-4">
-                {/* 퀵 ���크 */}
+                {/* 퀵 */}
                 <div className="flex gap-2 pb-4 border-b">
                   <SmartLink
                     href="/subscribe"
