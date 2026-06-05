@@ -13,6 +13,15 @@ export default class ApiSubscriptions {
         });
     }
 
+    async getCorporationSubscriptions(corporationId: number) {
+        const url = `${Config.apiServer}/api/v1/subscriptions/corporation/${corporationId}`;
+
+        return callApi({
+            url: url,
+            method: Method.Get
+        });
+    }
+
     async subscribe(params: SubscriptionDto) {
         const url = `${Config.apiServer}/api/v1/subscriptions/${params.corporationId}`;
 

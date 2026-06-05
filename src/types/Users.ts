@@ -99,6 +99,11 @@ export type CorporationDto = {
     name?: string;
     type?: CorporationType;
     businessNo?: string;
+    role?: string;
+    authority?: string;
+    memberRole?: string;
+    isMaster?: boolean;
+    master?: boolean;
 }
 
 export type CreditCardDto = {

@@ -63,7 +63,7 @@ export default function HeroSection() {
               src="/images/people/addOnServices/everworks/bg/bg-EverWorks-hero-01.png"
               alt="에버웍스 화면"
               fill
-              className="object-contain object-center scale-100 lg:object-right lg:scale-[1.45] lg:translate-x-[18%]"
+              className="object-contain object-center scale-100 lg:object-right"
               priority
             />
           </div>

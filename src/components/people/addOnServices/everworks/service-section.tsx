@@ -5,61 +5,68 @@ import Image from "next/image"
 
 const serviceTabs = [
   {
+    id: "ai",
+    label: "대시보드 및 AI어시스트",
+    image: "/images/people/addOnServices/everworks/bg/bg-EverWorks-09.png",
+    eyebrow: "지능형 운영 지원",
+    title: "대시보드 및 AI어시스트",
+    items: [
+      { title: "업무의 시작, 하나의 화면으로", desc: "결재함 · 일정 · 공지 · 메신저를 한 화면에서 확인하는 개인화된 업무 시작점." },
+      { title: "내 업무에 맞게 커스터마이징", desc: "위젯 구성을 자유롭게 설정하여 나만의 업무 대시보드 구성." },
+      { title: "개인 업무 비서", desc: "연차 잔여량 조회, 회의실 추천, 개인별 To-Do 요약 및 리마인드 알림 수행." },
+    ],
+  },
+  {
     id: "approval",
     label: "전자결재",
     image: "/images/people/addOnServices/everworks/bg/bg-EverWorks-06.png",
     eyebrow: "데이터 기반 승인 체계",
-    title: "전자결재 (e-Approval)",
-    number: "01",
+    title: "전자결재",
     items: [
-      { title: "양식 편집기", desc: "No-Code 기반의 초간편 편집기로 전문 인력 없이 현업 담당자가 직접 양식 제작." },
-      { title: "데이터 연동", desc: "근태/급여/ERP 데이터와 실시간 연동되어 수기 입력 없는 무결점 결재 환경 구현." },
-      { title: "모바일 승인", desc: "외부 이동 중에도 푸시 알림 확인 및 모바일 웹을 통한 즉각적인 의사결정 지원." },
+      { title: "직접 만드는 결재 양식", desc: "초간편 편집기로 전문 인력 없이 현업 담당자가 직접 양식 제작." },
+      { title: "데이터 연동", desc: "근태 · ERP 데이터와 실시간 연동하여 결재 문서 내 자동 바인딩 지원." },
+      { title: "모바일 승인", desc: "푸시 알림 확인 및 모바일 웹을 통한 즉각적인 의사결정 지원." },
+    ],
+  },
+  {
+    id: "docs",
+    label: "문서관리",
+    image: "/images/people/addOnServices/everworks/bg/bg-EverWorks-10.png",
+    eyebrow: "기업 지식의 중앙 저장소",
+    title: "문서관리",
+    items: [
+      { title: "결재부터 보관까지 일원화", desc: "결재 완료 문서 자동 보관 및 폴더형 문서함으로 체계적인 문서 흐름 관리." },
+      { title: "협업을 위한 문서 공유", desc: "버전 관리 및 열람 권한 설정으로 안전하고 효율적인 문서 협업 지원." },
     ],
   },
   {
     id: "mail",
-    label: "메일",
+    label: "메일 및 일정",
     image: "/images/people/addOnServices/everworks/bg/bg-EverWorks-07.png",
     eyebrow: "표준 인프라 수용",
-    title: "메일 (Business Mail)",
-    number: "02",
+    title: "메일 및 일정",
     items: [
-      { title: "하이브리드 환경", desc: "MS Exchange, Google Workspace 연동 및 자체 고성능 메일 엔진 선택 지원." },
-      { title: "일정 양방향 동기화", desc: "메일 내 일정을 Apple/Google 캘린더 및 사내 공용 일정으로 즉시 등록 관리." },
-      { title: "보안 강화", desc: "기업별 보안 정책에 따른 스팸 차단, 메일 아카이빙 및 데이터 소유권 보호 강화." },
+      { title: "메일 통합", desc: "MS Exchange · Google Workspace 연동은 물론, 보안에 강한 Crinity 메일 엔진 선택 지원." },
+      { title: "기업 보안 적용", desc: "기업별 보안 정책에 따른 스팸 차단 및 데이터 소유권 보호 강화." },
+      { title: "일정 관리", desc: "캘린더 등록·관리 및 Google·Apple 캘린더 연동." },
     ],
   },
   {
     id: "messenger",
-    label: "메신저",
+    label: "메신저(PC/APP)",
     image: "/images/people/addOnServices/everworks/bg/bg-EverWorks-08.png",
     eyebrow: "업무 맥락의 통합",
-    title: "메신저 (Messenger)",
-    number: "03",
+    title: "메신저(PC/APP)",
     items: [
-      { title: "조직도 기반 소통", desc: "사내 전 구성원 정보를 실시간 반영하여 별도 친구 추가 없는 즉각적 협업 지원." },
-      { title: "상태 동기화", desc: "에버타임 출근 정보와 연동되어 '업무 중/회의 중/휴가' 등 구성원 상태 자동 표기." },
-      { title: "업무 연결성", desc: "대화 중 전자결재 상신, 일정 공유 등 연동으로 소통과 업무의 단절 방지." },
-    ],
-  },
-  {
-    id: "ai",
-    label: "AI Assistant",
-    image: "/images/people/addOnServices/everworks/bg/bg-EverWorks-09.png",
-    eyebrow: "지능형 운영 지원",
-    title: "AI Assistant",
-    number: "04",
-    items: [
-      { title: "스마트 셋업", desc: "자연어 명령을 통한 복잡한 조직도 및 결재 권한 설정 자동 가이드 제공." },
-      { title: "개인 업무 비서", desc: "연차 잔여량 조회, 회의실 추천, 개인별 To-Do 요약 및 리마인드 알림 수행." },
-      { title: "운영 최적화", desc: "누적된 인사/근태 데이터를 분석하여 조직 문화 개선을 위한 인사이트 도출 지원." },
+      { title: "채널구성", desc: "공개채널·비공개채널·DM·그룹DM으로 업무 목적과 대상에 맞는 소통 공간 구성." },
+      { title: "메신저에서 바로 업무", desc: "대화 중 전자결재 상신, 일정 공유 등 연동으로 소통과 업무의 단절 방지." },
+      { title: "업무 상태 자동 표시", desc: "온라인/ 자리비움/바쁨' 등 구성원 상태 자동 표기." },
     ],
   },
 ]
 
 export default function ServiceSection() {
-  const [activeId, setActiveId] = useState("approval")
+  const [activeId, setActiveId] = useState("ai")
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLElement | null>(null)
 
@@ -134,10 +141,6 @@ export default function ServiceSection() {
                     {activeService.eyebrow}
                   </p>
 
-                  <p className="text-sm text-gray-400 font-bold mb-1">
-                    {activeService.number}
-                  </p>
-
                   <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-5">
                     {activeService.title}
                   </h3>
@@ -148,7 +151,7 @@ export default function ServiceSection() {
                       <li key={item.title} className="flex items-start gap-3">
                         <span className="mt-2 w-2 h-2 bg-[#00cc99] rounded-full shrink-0" />
                         <span>
-                      <strong>{item.title}</strong>: {item.desc}
+                      <strong>{item.title}</strong> : {item.desc}
                     </span>
                       </li>
                   ))}
