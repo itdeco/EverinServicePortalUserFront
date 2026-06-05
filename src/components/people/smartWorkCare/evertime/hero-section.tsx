@@ -17,20 +17,30 @@ export default function EvertimeHeroSection() {
         <div className="flex flex-col items-center justify-center pt-28 pb-20 lg:pt-36 lg:pb-28 text-center hero-fade-up">
 
           {/* 브랜드 태그 */}
-          <p className="text-[#00cc99] text-xl font-semibold mb-3 tracking-wide">
+          <p className="hero-item text-[#00cc99] text-xl md:text-2xl font-semibold mb-3 tracking-wide" style={{ animationDelay: "0.05s" }}>
             EverTime
+          </p>
+
+          {/* 서브 타이틀 */}
+          <p className="hero-item text-gray-600 text-xl md:text-2xl mb-3 leading-relaxed" style={{ animationDelay: "0.18s" }}>
+            주 52시간 위반 우리 회사는 안전한가요?
+          </p>
+
+          {/* 메인 타이틀 */}
+          <h1 className="hero-item text-[42px] sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight mb-2" style={{ animationDelay: "0.3s" }}>
+            근태관리
+          </h1>
+
+          {/* 설명 */}
+          <p className="hero-item text-gray-500 text-lg md:text-xl leading-relaxed mb-10" style={{ animationDelay: "0.54s" }}>
+            복잡한 근태업무 자동화,<br />
+            최신 근로기준법 자동 업데이트, GPS 기반 스마트 워크
           </p>
 
           {/* 메인 타이틀 */}
           <h1 className="text-[36px] sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-5">
-            주 52시간 위반<br /> 우리 회사는 안전한가요?
-          </h1>
 
-          {/* 설명 */}
-          <p className="text-gray-500 text-base leading-relaxed mb-10">
-            복잡한 근태업무 자동화,<br />
-            최신 근로기준법 자동 업데이트, GPS 기반 스마트 워크
-          </p>
+          </h1>
 
           {/* CTA 버튼 */}
           <div className="flex flex-wrap gap-4 justify-center lg:justify-start">

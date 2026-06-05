@@ -11,7 +11,7 @@ const tabs = [
     icon: "/images/people/smartWorkCare/hr/icon-hr-01.svg",
     image: "/images/people/smartWorkCare/hr/hr-features-section-01.png",
     description: [
-      "모든 직원의 기본 정보, 인사 이력, 평가 등을 하나의 플랫폼에서 체계적으로 관리",
+      "모든 직원의 기본 정보, 인사 이력, 평가 등을\n하나의 플랫폼에서 체계적으로 관리",
       "중복된 데이터 입력이나 업무 혼선을 방지",
       "직원 개개인의 입사부터 퇴직까지의 모든 정보 관리",
     ],
@@ -132,20 +132,16 @@ export default function HrFeaturesSection() {
                   {activeFeature.detailTitle || activeFeature.title}
                 </h3>
 
-                <p className="mb-7 text-base leading-relaxed text-slate-500">
-                  복잡한 인사 업무를 한 화면에서 확인하고, 필요한 정보를 빠르게 조회할 수 있도록 도와줍니다.
-                </p>
-
                 <ul className="space-y-3">
                   {activeFeature.description.map((desc, idx) => (
                       <li
                           key={idx}
-                          className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 px-4 py-3"
+                          className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 px-4 py-3"
                       >
-            <span className="mt-1.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#00cc99]">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#00cc99]">
               <span className="h-1.5 w-1.5 rounded-full bg-white" />
             </span>
-                        <span className="text-[15px] leading-relaxed text-slate-700 md:text-base">
+                        <span className="whitespace-pre-line text-[15px] leading-relaxed text-slate-700 md:text-base">
               {desc}
             </span>
                       </li>

@@ -13,7 +13,7 @@ const tabs = [
     icon: "/images/people/smartWorkCare/pcoff/icon/Icon-pcoff-01.svg",
     image: "/images/people/smartWorkCare/pcoff/bg-service-carsoul-20.png",
     description:
-      "직원 PC에 설치된 Agent가 자동으로 PC를 제어하여, 정해진 근태정보를 기준으로 정확히 PC-OFF를 진행합니다.",
+      "직원 PC에 설치된 Agent가 자동으로 PC를 제어하여,\n정해진 근태정보를 기준으로 정확히 PC-OFF를 진행합니다.",
   },
   {
     id: "mouse",
@@ -23,7 +23,7 @@ const tabs = [
     icon: "/images/people/smartWorkCare/pcoff/icon/Icon-pcoff-02.svg",
     image: "/images/people/smartWorkCare/pcoff/bg-service-carsoul-21.png",
     description:
-      "마우스·키보드의 움직임을 통해 실시간으로 이석 여부를 감지하여, 정확한 근무시간을 체크합니다.",
+      "마우스·키보드의 움직임을 통해 실시간으로 이석 여부를 감지하여,\n정확한 근무시간을 체크합니다.",
   },
   {
     id: "personal",
@@ -33,7 +33,7 @@ const tabs = [
     icon: "/images/people/smartWorkCare/pcoff/icon/Icon-pcoff-03.svg",
     image: "/images/people/smartWorkCare/pcoff/bg-service-carsoul-22.png",
     description:
-      "업무 종료 및 근무시간 외, 직원이 개인적 용도로 PC를 사용할 수 있도록 별도의 개인 사용 모드를 지원하여 직원 만족도를 높입니다.",
+      "업무 종료 및 근무시간 외, 직원이 개인적 용도로 PC를 사용할 수\n있도록 별도의 개인 사용 모드를 지원하여 직원 만족도를 높입니다.",
   },
   {
     id: "notify",
@@ -43,7 +43,7 @@ const tabs = [
     icon: "/images/people/smartWorkCare/pcoff/icon/Icon-pcoff-04.svg",
     image: "/images/people/smartWorkCare/pcoff/bg-service-carsoul-23.png",
     description:
-      "퇴근 전 사전 알림, 퇴근 시간 도달 알림, 연장근무 알림 등 다양한 알림 기능을 제공하여 직원들의 혼란을 최소화합니다.",
+      "퇴근 전 사전 알림, 퇴근 시간 도달 알림, 연장근무 알림 등\n다양한 알림 기능을 제공하여 직원들의 혼란을 최소화합니다.",
   },
   {
     id: "evertime",
@@ -53,7 +53,7 @@ const tabs = [
     icon: "/images/people/smartWorkCare/pcoff/icon/Icon-pcoff-05.svg",
     image: "/images/people/smartWorkCare/pcoff/bg-service-carsoul-24.png",
     description:
-      "별도의 데이터 관리 없이 에버타임의 실시간 근태정보만 연동하여 정확하고 투명한 PC-OFF 관리가 가능합니다.",
+      "별도의 데이터 관리 없이 에버타임의 실시간 근태정보만 연동하여\n정확하고 투명한 PC-OFF 관리가 가능합니다.",
   },
 ]
 
@@ -127,7 +127,7 @@ export default function PcOffFeaturesSection() {
               <h3 className="mb-5 text-2xl font-bold leading-tight text-slate-950 md:text-3xl">
                 {activeFeature.detailTitle}
               </h3>
-              <p className="text-base leading-relaxed text-slate-600 md:text-lg">
+              <p className="whitespace-pre text-[clamp(13px,2.6cqw,20px)] text-base leading-relaxed text-slate-600 md:text-lg">
                 {activeFeature.description}
               </p>
             </div>

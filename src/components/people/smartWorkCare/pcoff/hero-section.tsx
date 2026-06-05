@@ -18,12 +18,17 @@ export default function PcOffHeroSection() {
 
           {/* 브랜드 태그 */}
           <p className="hero-item text-[#00cc99] text-xl md:text-2xl font-semibold mb-3 tracking-wide" style={{ animationDelay: "0.05s" }}>
-            PC-OFF
+            에버 PC-OFF
+          </p>
+
+          {/* 서브 타이틀 */}
+          <p className="hero-item text-gray-600 text-xl md:text-2xl mb-3 leading-relaxed" style={{ animationDelay: "0.18s" }}>
+            퇴근시간이 지나도 켜져 있는 PC 아직도 일일이 관리하시나요?
           </p>
 
           {/* 메인 타이틀 */}
-          <h1 className="hero-item text-[42px] sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight mb-5" style={{ animationDelay: "0.3s" }}>
-            퇴근시간이 지나도 켜져 있는 PC <br />아직도 일일이 관리하시나요?
+          <h1 className="hero-item text-[42px] sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight mb-2" style={{ animationDelay: "0.3s" }}>
+            PC-OFF
           </h1>
 
           {/* 설명 */}

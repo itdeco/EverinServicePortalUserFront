@@ -4,6 +4,12 @@ import {useEffect, useRef, useState} from "react"
 import {cn} from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
+import {
+  Carousel,
+  type CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel"
 
 const tabs = [
   {id: "hr", label: "People(인사관리)", color: "#03b565"},
@@ -14,68 +20,76 @@ const tabs = [
 const hrCards = [
   {
     title: "인사관리",
-    subtitle: "Human Resource Management",
-    desc: "인사정보와 전자근로계약서를 한번에 관리하세요.",
+    subtitle: "모든 HR의 중심, 결국 탄탄한 인사정보부터",
+    desc: "에버인에서 HR의 시작, 인사 정보부터 스마트하게 관리하세요.",
     img: "/images/main/solutions/hro/bg-solutions-02.png",
-    href: "/people/hr-management",
+    href: "/people/smartWorkCare/hr",
   },
   {
-    title: "에버웰커밍(온보딩)",
-    subtitle: "EverWelcoming",
-    desc: "신규입사자의 첫단추를 완벽하게 채워주세요",
+    title: "온보딩(에버웰커밍)",
+    subtitle: "신규입사자의 첫단추, 잘 끼워졌나요?",
+    desc: "첫날의 혼란 대신 성장의 확신으로, 모바일 온보딩으로 채워주세요.",
     img: "/images/main/solutions/hro/bg-solutions-01.png",
-    href: "/people/everwelcoming",
+    href: "/people/smartWorkCare/welcoming",
   },
   {
     title: "근태관리(에버타임)",
-    subtitle: "EverTime",
-    desc: "모바일 앱으로 언제 어디서나 스마트하게 관리하세요.",
+    subtitle: "갈수록 다양해지는 근무형태, 관리의 한계에 부딪혔다면?",
+    desc: "그 모든 조건을 완벽하게 품은 근태관리 프로그램, 에버타임을 시작하세요.",
     img: "/images/main/solutions/hro/bg-solutions-03.png",
-    href: "/people/evertime",
+    href: "/people/smartWorkCare/evertime",
   },
   {
     title: "PC-OFF(에버PC-OFF)",
-    subtitle: "EverPC-OFF",
-    desc: "실시간 근태 데이터와 연동하여 PC 사용 권한을 관리하세요",
+    subtitle: "근태 데이터와 실시간 연동되는 PC 자동 제어를 원하시나요?",
+    desc: "에버타임 근태정보 기반으로 이중 관리 스트레스 없는 원스톱 PC-OFF를 경험하세요.",
     img: "/images/main/solutions/hro/bg-solutions-04.png",
-    href: "/people/pc-off",
+    href: "/people/smartWorkCare/pcoff",
   },
   {
     title: "에버페이롤(급여아웃소싱)",
-    subtitle: "Payroll Outsourcing",
-    desc: "급여 산정의 복잡함은 사라지고 결과의 정확함만 남습니다.",
+    subtitle: "매번 바뀌는 세법과 복잡한 수당 계산으로 오늘도 야근확정이라면?",
+    desc: "급여 산정의 복잡함은 사라지고, 결과의 정확함만 남습니다.",
     img: "/images/main/solutions/hro/bg-solutions-07.png",
-    href: "/people/payroll-outsourcing",
+    href: "/people/payroll/outsourcing",
   },
   {
     title: "에버평가",
-    subtitle: "Talent Assessment",
-    desc: "조직의 성과와 성장을 위한 체계적인 평가관리 솔루션입니다.",
+    subtitle: "조직의 성과와 성장을 위한 평가를 원한다면?",
+    desc: "업적, 역량, 다면평가까지 다각도로 분석하고 공정하게 종합평가하세요.",
     img: "/images/main/solutions/hro/bg-solutions-05.png",
-    href: "/people/assessment",
+    href: "/",
   },
   {
     title: "시스템 연동 및 개발",
     subtitle: "System Integration & Customization",
     desc: "기업의 업무 환경을 하나로 연결하여 효율성을 극대화합니다.",
     img: "/images/main/solutions/hro/bg-solutions-08.png",
-    href: "/people/system-integration",
+    href: "/",
   },
 ]
 
 /* ─── 기업문화 탭 데이터 ─── */
 const cultureCards = [
   {
-    title: "시스템 연동",
-    desc: "ERP 연동, 출입관리시스템 연동, 커스터마이징 및 추가개발",
-    img: "/images/main/solutions/tab2/tab2-solutions-03.png",
-    href: "/",
+    title: "에버레스크",
+    subtitle: "EverASK",
+    desc: "조직간의 건강한 소통과 회의 문화를 만드는 소통 서비스",
+    img: ["/images/main/solutions/culture/culture-solutions-01.png",
+          "/images/main/solutions/culture/culture-solutions-02.png",
+          "/images/main/solutions/culture/culture-solutions-03.png"
+         ],
+    href: "https://www.everin.co.kr/?section=EverAsk",
   },
   {
-    title: "다면 평가 시스템",
-    desc: "역량·종합·업적·다면평가 통합 관리로 공정한 인사 결정",
-    img: "/images/main/solutions/tab2/tab2-solutions-04.png",
-    href: "/",
+    title: "에버온사람",
+    subtitle: "EverOnsaram",
+    desc: "성찰과 성장의 질문으로 내면의 성장을 돋는 콘텐츠 앱",
+    img: ["/images/main/solutions/culture/culture-solutions-11.png",
+      "/images/main/solutions/culture/culture-solutions-12.png",
+      "/images/main/solutions/culture/culture-solutions-13.png"
+    ],
+    href: "https://www.everin.co.kr/?section=EverOnSaram",
   },
 ]
 
@@ -116,6 +130,106 @@ function handleCardMouseMove(e: React.MouseEvent<HTMLDivElement>) {
 function handleCardMouseLeave(e: React.MouseEvent<HTMLDivElement>) {
   const card = e.currentTarget
   card.style.transform = ""
+}
+
+function CultureCardImages({
+  images,
+  title,
+  active,
+}: {
+  images: string[]
+  title: string
+  active: boolean
+}) {
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    if (!api) return
+
+    const onSelect = () => setCurrent(api.selectedScrollSnap())
+    onSelect()
+    api.on("select", onSelect)
+
+    return () => {
+      api.off("select", onSelect)
+    }
+  }, [api])
+
+  useEffect(() => {
+    if (!api || !active || images.length < 2) return
+
+    api.reInit()
+
+    const interval = window.setInterval(() => {
+      if (window.matchMedia("(max-width: 767px)").matches) {
+        api.scrollNext()
+      }
+    }, 2800)
+
+    return () => window.clearInterval(interval)
+  }, [active, api, images.length])
+
+  return (
+    <div className="absolute right-0 top-0 h-full w-[44%] overflow-hidden md:w-[58%]">
+      <div
+        className="hidden h-full items-end gap-2 p-4 md:grid lg:gap-4 lg:p-6"
+        style={{gridTemplateColumns: `repeat(${images.length}, minmax(0, 1fr))`}}
+      >
+        {images.map((src, index) => (
+          <div key={src} className="relative h-full min-w-0">
+            <Image
+              src={src}
+              alt={`${title} 화면 ${index + 1}`}
+              fill
+              loading="lazy"
+              placeholder="blur"
+              blurDataURL={blurDataURL}
+              className="object-contain object-right-bottom transition-transform duration-300 group-hover:scale-[1.03]"
+            />
+          </div>
+        ))}
+      </div>
+
+      <Carousel
+        setApi={setApi}
+        opts={{loop: true, align: "center"}}
+        className="h-full md:hidden [&_[data-slot=carousel-content]]:h-full [&_[data-slot=carousel-content]>div]:h-full"
+      >
+        <CarouselContent className="ml-0 h-full">
+          {images.map((src, index) => (
+            <CarouselItem key={src} className="h-full pl-0">
+              <div className="relative h-full w-full p-3">
+                <Image
+                  src={src}
+                  alt={`${title} 화면 ${index + 1}`}
+                  fill
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL={blurDataURL}
+                  className="object-contain object-right-bottom p-3"
+                />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+
+        {images.length > 1 && (
+          <div className="absolute bottom-3 right-3 z-10 flex gap-1.5">
+            {images.map((_, index) => (
+              <span
+                key={index}
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-300",
+                  current === index ? "w-5 bg-[#3344e6]" : "w-1.5 bg-[#3344e6]/25"
+                )}
+              />
+            ))}
+          </div>
+        )}
+      </Carousel>
+    </div>
+  )
 }
 
 export function SolutionsSection() {
@@ -217,10 +331,7 @@ export function SolutionsSection() {
                       onMouseMove={handleCardMouseMove}
                       onMouseLeave={handleCardMouseLeave}
                       className={cn(
-                          "rounded-2xl group relative cursor-pointer will-change-transform bg-[#f7f8fa] border border-gray-100 overflow-hidden relative",
-                          "after:absolute after:inset-0 after:pointer-events-none after:opacity-0 after:transition-opacity after:duration-300",
-                          "after:bg-[radial-gradient(circle_at_var(--mouse-x)_var(--mouse-y),rgba(79,124,255,0.35),transparent_40%)]",
-                          "md:hover:after:opacity-100",
+                          "rounded-2xl group relative cursor-pointer will-change-transform bg-[#f5fbf8] border border-[#03b565]/10 overflow-hidden relative",
                           "h-[190px] md:h-[220px]",
                           "transition-[box-shadow,opacity,transform] duration-700 ease-out hover:shadow-xl",
                           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
@@ -270,8 +381,46 @@ export function SolutionsSection() {
           <div className={cn(
               activeTab === "culture" ? "block animate-tab-fade-slide" : "hidden"
           )}>
-            <div className="py-20 text-center text-gray-400">
-              준비 중입니다.
+            <div className="grid grid-cols-1 gap-5 pb-4">
+              {cultureCards.map((card, i) => (
+                <div
+                  key={card.title}
+                  onMouseMove={handleCardMouseMove}
+                  onMouseLeave={handleCardMouseLeave}
+                  className={cn(
+                    "group relative h-[230px] cursor-pointer overflow-hidden rounded-2xl border border-[#3344e6]/10 bg-[#f7f8ff] will-change-transform",
+                    "transition-[box-shadow,opacity,transform] duration-700 ease-out md:h-[280px] hover:shadow-xl",
+                    isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
+                    i === 0 ? "delay-100" : "delay-200"
+                  )}
+                >
+                  <div className="relative z-10 flex h-full w-[60%] min-w-0 flex-col justify-center px-5 py-5 md:w-[42%] md:px-8 md:py-7">
+                    <h3 className="mb-1 text-lg font-bold text-gray-900 md:text-2xl">
+                      {card.title}
+                    </h3>
+                    <p className="mb-2 text-base font-bold text-[#3344e6] md:text-lg">
+                      {card.subtitle}
+                    </p>
+                    <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-gray-500 md:text-base">
+                      {card.desc}
+                    </p>
+                    <Link
+                      href={card.href}
+                      target={card.href.startsWith("http") ? "_blank" : undefined}
+                      rel={card.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="relative z-10 inline-flex w-fit items-center justify-center rounded-full border border-[#3344e6]/25 bg-white/90 px-4 py-1.5 text-xs font-semibold text-[#3344e6] shadow-sm transition-all duration-300 hover:border-[#3344e6] hover:bg-[#3344e6] hover:text-white hover:shadow-md hover:shadow-[#3344e6]/20 active:scale-95 md:text-sm"
+                    >
+                      자세히 보기
+                    </Link>
+                  </div>
+
+                  <CultureCardImages
+                    images={card.img}
+                    title={card.title}
+                    active={activeTab === "culture"}
+                  />
+                </div>
+              ))}
             </div>
           </div>
 

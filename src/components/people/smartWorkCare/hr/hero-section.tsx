@@ -22,7 +22,7 @@ export default function HrHeroSection() {
           </p>
 
           {/* 서브 타이틀 */}
-          <p className="hero-item text-gray-600 text-lg md:text-xl mb-3 leading-relaxed" style={{ animationDelay: "0.18s" }}>
+          <p className="hero-item text-gray-600 text-xl md:text-2xl mb-3 leading-relaxed" style={{ animationDelay: "0.18s" }}>
             인사 발령 공문, 아직도 엑셀과 워드로 쪼개서 작업하시나요?
           </p>
 

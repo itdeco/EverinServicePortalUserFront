@@ -1,3 +1,6 @@
+"use client"
+
+import { useEffect, useRef, useState } from "react"
 import { Check } from "lucide-react"
 
 const problems = [
@@ -8,6 +11,27 @@ const problems = [
 ]
 
 export default function WelcomingProblemSection() {
+  const listRef = useRef<HTMLUListElement>(null)
+  const [isListVisible, setIsListVisible] = useState(false)
+
+  useEffect(() => {
+    const list = listRef.current
+    if (!list) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsListVisible(true)
+          observer.unobserve(entry.target)
+        }
+      },
+      { threshold: 0.3, rootMargin: "0px 0px -10% 0px" },
+    )
+
+    observer.observe(list)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <section className="w-full bg-gray-50 py-16 md:py-24">
       <div className="mx-auto max-w-[1100px] px-6 lg:px-12">
@@ -22,9 +46,17 @@ export default function WelcomingProblemSection() {
             스마트한 온보딩 시스템으로 더 나은 미래를 준비하세요.
           </p>
 
-          <ul className="space-y-4">
+          <ul ref={listRef} className="space-y-4">
             {problems.map((item, idx) => (
-              <li key={idx} className="flex items-center gap-3">
+              <li
+                key={idx}
+                className="flex items-center gap-3 transition-[opacity,transform] duration-[900ms] ease-out motion-reduce:transition-none"
+                style={{
+                  opacity: isListVisible ? 1 : 0,
+                  transform: isListVisible ? "translateX(0)" : "translateX(-24px)",
+                  transitionDelay: `${idx * 650}ms`,
+                }}
+              >
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#00cc99]/15">
                   <Check className="h-4 w-4 text-[#00cc99]" strokeWidth={3} />
                 </span>

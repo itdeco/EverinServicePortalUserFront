@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { Button } from "@/components/ui/button"
 import SmartLink from "@/components/common/SmartLink"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +25,6 @@ type MenuItem = {
   href: string;
   badge?: string;
   external?: boolean;
-  highlight?: boolean;
 };
 
 type PeopleMenuTwoColumn = {
@@ -50,14 +49,14 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
   {
     label: "스마트 워크케어",
     col1: [
-      { title: "채용", href: "#", badge: "*예정" },
+      { title: "채용", href: "#" },
       { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
-      { title: "온보딩", subtitle: "에버웰커밍", href: "/people/smartWorkCare/welcoming", badge: "무료" },
-      { title: "교육·경력", href: "#", badge: "*준비중" },
-      { title: "복리후생", href: "#", badge: "*준비중" },
+      { title: "온보딩", href: "/people/smartWorkCare/welcoming", badge: "무료" },
+      { title: "교육·경력", href: "#" },
+      { title: "복리후생", href: "#" },
     ],
     col2: [
-      { title: "근태관리", subtitle: "에버타임", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
+      { title: "근태관리", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
       { title: "PC-OFF", href: "/people/smartWorkCare/pcoff" },
     ],
   },
@@ -65,14 +64,14 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
     label: "급여",
     items: [
       { title: "급여/상여", href: "/people/payroll/salary-bonus" },
-      { title: "아웃소싱", subtitle: "에버페이롤", href: "/people/payroll/outsourcing" },
+      { title: "아웃소싱", href: "/people/payroll/outsourcing" },
       { title: "신고", href: "#" },
       { title: "연말정산", href: "#" },
     ],
   },
   {
     label: "평가관리",
-    items: [{ title: "업적·역량·다면", subtitle: "에버평가", href: "#" }],
+    items: [{ title: "업적·역량·다면", href: "#" }],
   },
   {
     label: "부가서비스",
@@ -88,21 +87,21 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
 // Culture 메뉴는 기존 유지 (모바일에서 사용)
 const peopleMenu: Record<string, MenuItem[]> = {
   "스마트 워크케어": [
-    { title: "채용", href: "#", badge: "*예정" },
+    { title: "채용", href: "#" },
     { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
-    { title: "근태관리", subtitle: "에버타임", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
+    { title: "근태관리", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
     { title: "PC-OFF", href: "/people/smartWorkCare/pcoff" },
-    { title: "온보딩", subtitle: "에버웰커밍", href: "/people/smartWorkCare/welcoming", badge: "무료" },
-    { title: "교육·경력", href: "#", badge: "*준비중" },
-    { title: "복리후생", href: "#", badge: "*준비중" },
+    { title: "온보딩", href: "/people/smartWorkCare/welcoming", badge: "무료" },
+    { title: "교육·경력", href: "#" },
+    { title: "복리후생", href: "#" },
   ],
   급여: [
     { title: "급여/상여", href: "/people/payroll/salary-bonus" },
-    { title: "아웃소싱", subtitle: "에버페이롤", href: "/people/payroll/outsourcing" },
+    { title: "아웃소싱", href: "/people/payroll/outsourcing" },
     { title: "신고", href: "#" },
     { title: "연말정산", href: "#" },
   ],
-  평가관리: [{ title: "업적·역량·다면", subtitle: "에버평가", href: "#" }],
+  평가관리: [{ title: "업적·역량·다면", href: "#" }],
   부가서비스: [
     { title: "전자계약", href: "#" },
     { title: "연동서비스", href: "#" },
@@ -114,7 +113,10 @@ const peopleMenu: Record<string, MenuItem[]> = {
 // Everworks 메뉴 데이터 (그룹웨어)
 const everworksMenu: Record<string, MenuItem[]> = {
   그룹웨어: [
-    { title: "에버웍스", href: "/people/everworks", highlight: true },
+    { title: "메일", href: "/people/everworks" },
+    { title: "전자결재", href: "/people/everworks" },
+    { title: "게시판", href: "/people/everworks" },
+    { title: "메신저", href: "/people/everworks" },
   ],
 };
 
@@ -123,17 +125,15 @@ const cultureMenu: Record<string, MenuItem[]> = {
   솔루션: [
     {
       title: "소통",
-      subtitle: "에버레스크",
       href: "https://www.everin.co.kr/?section=EverAsk",
       external: true,
     },
     {
       title: "인성",
-      subtitle: "에버온사람",
       href: "https://www.everin.co.kr/?section=EverOnSaram",
       external: true,
     },
-    { title: "OKR", subtitle: "에버그로잉", href: "https://www.everin.co.kr/", external: true },
+    { title: "OKR", href: "https://www.everin.co.kr/", external: true },
   ],
   컨설팅: [
     { title: "진단", href: "https://www.everin.co.kr/", external: true },
@@ -154,6 +154,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const closeTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const megaMenuPinnedRef = useRef(false)
 
   const openMegaMenu = () => {
     if (closeTimerRef.current) clearTimeout(closeTimerRef.current)
@@ -161,6 +162,8 @@ export default function Header() {
   }
 
   const closeMegaMenu = () => {
+    if (megaMenuPinnedRef.current) return
+
     if (closeTimerRef.current) {
       clearTimeout(closeTimerRef.current)
     }
@@ -168,6 +171,20 @@ export default function Header() {
     closeTimerRef.current = setTimeout(() => {
       setMegaMenuOpen(false)
     }, 180)
+  }
+
+  const toggleMegaMenu = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current)
+
+    const nextPinned = !megaMenuPinnedRef.current
+    megaMenuPinnedRef.current = nextPinned
+    setMegaMenuOpen(nextPinned)
+  }
+
+  const dismissMegaMenu = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current)
+    megaMenuPinnedRef.current = false
+    setMegaMenuOpen(false)
   }
 
   // 메가메뉴 top: 배너(~40px) + 네비 h-16(64px) = 104px
@@ -245,7 +262,10 @@ export default function Header() {
               >
                 <button
                   data-mega-trigger
-                  className={`inline-flex h-10 items-center justify-center rounded-md px-2 xl:px-4 py-2 text-xs xl:text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${megaMenuOpen ? "bg-accent" : ""}`}
+                  type="button"
+                  aria-expanded={megaMenuOpen}
+                  onClick={toggleMegaMenu}
+                  className={`inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground ${megaMenuOpen ? "bg-accent" : ""}`}
                 >
                   서비스
                   <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${megaMenuOpen ? "rotate-180" : ""}`} />
@@ -262,12 +282,12 @@ export default function Header() {
                   >
                     <div className="absolute left-0 right-0 bg-white border-t border-b border-border/40 shadow-lg overflow-y-auto max-h-[80vh]">
                       {/* 컨테이너: text-center + inline-flex로 가운데 정렬 */}
-                      <div className="px-6 py-6 text-center">
-                          <div className="inline-flex flex-wrap gap-8 text-left">
+                      <div className="px-6 pt-6 pb-11 text-center">
+                          <div className="relative inline-flex max-w-full flex-wrap gap-x-8 gap-y-12 text-left">
 
                           {/* ════════ People 섹션 ════════ */}
                           <div className="shrink-0">
-                            <div className="pr-8 border-r border-border/30">
+                            <div className="pr-8 border-r border-border/70">
                               <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.people }}>
                                 <Users className="h-5 w-5" style={{ color: COLORS.people }} />
                                 <span className="text-lg font-bold" style={{ color: COLORS.people }}>People</span>
@@ -277,8 +297,8 @@ export default function Header() {
                               {peopleMenuColumns.map((col) => (
                                 <div key={col.label} className="flex flex-col gap-3 shrink-0">
                                   <div className="text-base font-bold whitespace-nowrap" style={{
-                                    color: col.label === "급여" ? COLORS.payroll
-                                      : col.label === "평가관리" ? COLORS.evaluation
+                                    color: col.label === "급여" ? COLORS.people
+                                      : col.label === "평가관리" ? COLORS.people
                                       : COLORS.people
                                   }}>{col.label}</div>
                                   {col.col1 ? (
@@ -288,7 +308,7 @@ export default function Header() {
                                           <SmartLink
                                             key={item.title}
                                             href={item.href}
-                                            onClick={() => setMegaMenuOpen(false)}
+                                            onClick={dismissMegaMenu}
                                             className="text-base text-foreground transition-colors whitespace-nowrap flex items-center gap-1.5 hover:opacity-80"
                                           >
                                             <span className="text-muted-foreground/50 text-sm">ㄴ</span>
@@ -309,7 +329,7 @@ export default function Header() {
                                           <SmartLink
                                             key={item.title}
                                             href={item.href}
-                                            onClick={() => setMegaMenuOpen(false)}
+                                            onClick={dismissMegaMenu}
                                             className="text-base text-foreground transition-colors whitespace-nowrap flex items-center gap-1.5 hover:opacity-80"
                                           >
                                             <span className="text-muted-foreground/50 text-sm">ㄴ</span>
@@ -330,7 +350,7 @@ export default function Header() {
                                         <SmartLink
                                           key={item.title}
                                           href={item.href}
-                                          onClick={() => setMegaMenuOpen(false)}
+                                          onClick={dismissMegaMenu}
                                           className="text-base text-foreground transition-colors whitespace-nowrap flex items-center gap-1.5 hover:opacity-80"
                                         >
                                           <span className="text-muted-foreground/50 text-sm">ㄴ</span>
@@ -359,7 +379,7 @@ export default function Header() {
                           </div>
 
                           {/* ════════ Culture 섹션 (파란톤) ════════ */}
-                          <div className="w-[340px] px-6 border-r border-border/30 shrink-0">
+                          <div className="pr-8 border-r border-border/70 shrink-0">
                             {/* Culture 배지 */}
                             <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-blue-500">
                               <Building2 className="h-5 w-5 text-blue-500" />
@@ -376,7 +396,7 @@ export default function Header() {
                                       <SmartLink
                                         key={item.title}
                                         href={item.href}
-                                        onClick={() => setMegaMenuOpen(false)}
+                                        onClick={dismissMegaMenu}
                                         className="text-base text-foreground hover:text-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-1.5"
                                       >
                                         <span className="text-muted-foreground/50 text-sm">ㄴ</span>
@@ -395,7 +415,7 @@ export default function Header() {
                           </div>
 
                           {/* ════════ Everworks 섹션 ════════ */}
-                          <div className="w-[200px] pl-6 shrink-0">
+                          <div className="shrink-0">
                             <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.everworks }}>
                               <Briefcase className="h-5 w-5" style={{ color: COLORS.everworks }} />
                               <span className="text-lg font-bold" style={{ color: COLORS.everworks }}>에버웍스</span>
@@ -410,7 +430,7 @@ export default function Header() {
                                       <SmartLink
                                         key={item.title}
                                         href={item.href}
-                                        onClick={() => setMegaMenuOpen(false)}
+                                        onClick={dismissMegaMenu}
                                         className="text-base text-foreground transition-colors whitespace-nowrap inline-flex items-center gap-1.5 hover:opacity-80"
                                       >
                                         <span className="text-muted-foreground/50 text-sm">ㄴ</span>
@@ -428,8 +448,8 @@ export default function Header() {
 
                           {/* 닫기 버튼 */}
                           <button
-                            onClick={() => setMegaMenuOpen(false)}
-                            className="ml-6 self-start p-1.5 rounded-full hover:bg-muted transition-colors shrink-0"
+                            onClick={dismissMegaMenu}
+                            className="absolute right-0 top-0 p-1.5 rounded-full hover:bg-muted transition-colors xl:-right-10"
                           >
                             <X className="h-5 w-5 text-muted-foreground" />
                           </button>
@@ -441,16 +461,16 @@ export default function Header() {
                 )}
               </div>
 
-              <SmartLink href="/subscribe" className="inline-flex h-10 items-center justify-center rounded-md px-2 xl:px-4 py-2 text-xs xl:text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
+              <SmartLink href="/subscribe" className="inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
                 요금제
               </SmartLink>
-              <SmartLink href="/support" className="inline-flex h-10 items-center justify-center rounded-md px-2 xl:px-4 py-2 text-xs xl:text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
+              <SmartLink href="/support" className="inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
                 리소스
               </SmartLink>
-              <SmartLink href="/partners" className="inline-flex h-10 items-center justify-center rounded-md px-2 xl:px-4 py-2 text-xs xl:text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
+              <SmartLink href="/partners" className="inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
                 파트너
               </SmartLink>
-              <SmartLink href="/support/faq" className="inline-flex h-10 items-center justify-center rounded-md px-2 xl:px-4 py-2 text-xs xl:text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
+              <SmartLink href="/support/faq" className="inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
                 고객센터
               </SmartLink>
 
@@ -515,23 +535,23 @@ export default function Header() {
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button size="sm" className="rounded-full px-4 bg-primary hover:bg-primary/90 text-xs" asChild>
+                <Button className="h-10 rounded-full px-5 bg-primary hover:bg-primary/90 text-sm xl:text-base font-semibold" asChild>
                   <SmartLink href="/trial">체험하기</SmartLink>
                 </Button>
               </>
             ) : (
               <>
                 {/* 비로그인 상태 */}
-                <Button variant="ghost" size="sm" className="text-xs xl:text-sm" asChild>
+                <Button variant="ghost" className="h-10 px-4 text-sm xl:text-base font-semibold" asChild>
                   <SmartLink href="/login">로그인</SmartLink>
                 </Button>
-                <Button variant="outline" size="sm" className="text-xs xl:text-sm" asChild>
+                <Button variant="outline" className="h-10 px-4 text-sm xl:text-base font-semibold" asChild>
                   <SmartLink href="/signup">회원가입</SmartLink>
                 </Button>
-                <Button size="sm" className="rounded-full px-4 xl:px-5 bg-primary hover:bg-primary/90 text-xs xl:text-sm" asChild>
+                <Button className="h-10 px-4 xl:px-6 bg-primary hover:bg-primary/90 text-sm xl:text-base font-semibold" asChild>
                   <SmartLink href="/trial">체험하기</SmartLink>
                 </Button>
-                <Button size="sm" variant="secondary" className="rounded-full px-4 xl:px-5 bg-foreground text-background hover:bg-foreground/90 text-xs xl:text-sm">
+                <Button variant="secondary" className="h-10 px-4 xl:px-6 bg-foreground text-background hover:bg-foreground/90 text-sm xl:text-base font-semibold">
                   도입문의
                 </Button>
               </>
@@ -546,13 +566,33 @@ export default function Header() {
                 <span className="sr-only">메뉴 열기</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[320px] overflow-y-auto p-0">
+            <SheetContent side="top" className="!inset-0 h-dvh w-screen max-w-none !transform-none !animate-none overflow-y-auto border-0 bg-slate-50 p-0 sm:max-w-none [&>button:last-child]:hidden">
+              <div className="sticky top-0 z-20 border-b bg-white/95 px-5 py-4 shadow-sm backdrop-blur">
+                <div className="flex items-center justify-between">
+                  <SmartLink href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2">
+                    <Image
+                      src="/images/header/ever-person-logo.png"
+                      alt="에버人 로고"
+                      width={128}
+                      height={36}
+                      className="h-9 w-auto object-contain"
+                      priority
+                    />
+                  </SmartLink>
+                  <SheetClose asChild>
+                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-none shadow-none hover:bg-muted">
+                      <X className="h-5 w-5" />
+                      <span className="sr-only">닫기</span>
+                    </Button>
+                  </SheetClose>
+                </div>
+              </div>
               {/* 사용자/로그인 영역 - 상단 고정 */}
-              <div className="sticky top-0 bg-background z-10 border-b">
+              <div className="border-b bg-white">
                 {isLoggedIn ? (
-                  <div className="p-4">
+                  <div className="p-5">
                     {/* 사용자 정보 카드 */}
-                    <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl mb-3">
+                    <div className="mb-3 flex items-center gap-3 rounded-xl border border-primary/10 bg-gradient-to-r from-primary/5 to-primary/10 p-4 shadow-sm">
                       <div className="w-11 h-11 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                         <UserCircle className="h-6 w-6 text-primary" />
                       </div>
@@ -575,7 +615,7 @@ export default function Header() {
                       <SmartLink
                         href="/mypage/subscription"
                         onClick={() => setIsOpen(false)}
-                        className="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                        className="flex flex-col items-center gap-1.5 rounded-xl border bg-white p-3 shadow-sm transition-colors hover:bg-muted"
                       >
                         <CreditCard className="h-5 w-5 text-primary" />
                         <span className="text-xs font-medium">구독정보</span>
@@ -583,7 +623,7 @@ export default function Header() {
                       <SmartLink
                         href="/mypage/payment"
                         onClick={() => setIsOpen(false)}
-                        className="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                        className="flex flex-col items-center gap-1.5 rounded-xl border bg-white p-3 shadow-sm transition-colors hover:bg-muted"
                       >
                         <Receipt className="h-5 w-5 text-primary" />
                         <span className="text-xs font-medium">청구/납부</span>
@@ -591,7 +631,7 @@ export default function Header() {
                       <SmartLink
                         href="/mypage/account"
                         onClick={() => setIsOpen(false)}
-                        className="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                        className="flex flex-col items-center gap-1.5 rounded-xl border bg-white p-3 shadow-sm transition-colors hover:bg-muted"
                       >
                         <Settings className="h-5 w-5 text-primary" />
                         <span className="text-xs font-medium">계정정보</span>
@@ -599,16 +639,16 @@ export default function Header() {
                     </div>
                   </div>
                 ) : (
-                  <div className="p-4">
+                  <div className="p-5">
                     <div className="flex gap-2 mb-3">
-                      <Button variant="outline" className="flex-1" size="sm" asChild>
+                      <Button variant="outline" className="h-11 flex-1 rounded-full bg-white text-base shadow-sm" asChild>
                         <SmartLink href="/login" onClick={() => setIsOpen(false)}>로그인</SmartLink>
                       </Button>
-                      <Button variant="outline" className="flex-1" size="sm" asChild>
+                      <Button variant="outline" className="h-11 flex-1 rounded-full bg-white text-base shadow-sm" asChild>
                         <SmartLink href="/signup" onClick={() => setIsOpen(false)}>회원가입</SmartLink>
                       </Button>
                     </div>
-                    <Button className="w-full bg-primary hover:bg-primary/90" size="sm" asChild>
+                    <Button className="h-11 w-full rounded-full bg-primary text-base font-semibold shadow-sm hover:bg-primary/90" asChild>
                       <SmartLink href="/trial" onClick={() => setIsOpen(false)}>무료체험 시작하기</SmartLink>
                     </Button>
                   </div>
@@ -616,51 +656,51 @@ export default function Header() {
               </div>
 
               {/* 메뉴 영역 */}
-              <nav className="flex flex-col gap-4 p-4">
+              <nav className="flex flex-col gap-5 p-5">
                 {/* 퀵 */}
-                <div className="flex gap-2 pb-4 border-b">
+                <div className="grid grid-cols-3 gap-2">
                   <SmartLink
                     href="/subscribe"
                     onClick={() => setIsOpen(false)}
-                    className="flex-1 text-center py-2 px-3 text-sm font-medium rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                    className="rounded-xl border bg-white px-3 py-3 text-center text-base font-semibold shadow-sm transition-colors hover:bg-muted"
                   >
                     요금제
                   </SmartLink>
                   <SmartLink
                     href="/partners"
                     onClick={() => setIsOpen(false)}
-                    className="flex-1 text-center py-2 px-3 text-sm font-medium rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                    className="rounded-xl border bg-white px-3 py-3 text-center text-base font-semibold shadow-sm transition-colors hover:bg-muted"
                   >
                     파트너
                   </SmartLink>
                   <SmartLink
                     href="/support/faq"
                     onClick={() => setIsOpen(false)}
-                    className="flex-1 text-center py-2 px-3 text-sm font-medium rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                    className="rounded-xl border bg-white px-3 py-3 text-center text-base font-semibold shadow-sm transition-colors hover:bg-muted"
                   >
                     고객센터
                   </SmartLink>
                 </div>
 
                 {/* People */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-bold flex items-center gap-2 uppercase tracking-wide" style={{ color: COLORS.people }}>
-                    <Users className="h-3.5 w-3.5" />
+                <div className="space-y-3 rounded-2xl border bg-white p-4 shadow-sm">
+                  <h4 className="flex items-center gap-2 text-base font-bold uppercase" style={{ color: COLORS.people }}>
+                    <Users className="h-4 w-4" />
                     People (인사관리)
                   </h4>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-1 pl-1">
+                  <div className="grid grid-cols-2 gap-x-5 gap-y-4 pl-1">
                     {Object.entries(peopleMenu).map(([category, items]) => (
                       <div key={category} className="space-y-0.5">
-                        <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider pt-1">{category.replace('\n', ' ')}</div>
+                        <div className="pt-1 text-sm font-bold text-foreground">{category.replace('\n', ' ')}</div>
                         {items.map((item) => (
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className={`py-0.5 text-xs text-foreground/80 transition-colors hover:opacity-70 ${item.badge === "7개월 무료" || item.badge === "무료" ? "flex flex-col" : "block"}`}
+                            className={`py-1 text-sm leading-6 text-foreground/85 transition-colors hover:opacity-70 ${item.badge === "7개월 무료" || item.badge === "무료" ? "flex flex-col" : "block"}`}
                             onClick={() => setIsOpen(false)}
                           >
                             <span>
-                              <span className="text-muted-foreground/50 text-xs">ㄴ</span>
+                              <span className="text-muted-foreground/50 text-sm">ㄴ</span>
                               {item.title}
                               {item.subtitle && (
                                 <span className="text-xs ml-1" style={{
@@ -671,12 +711,12 @@ export default function Header() {
                                 }}>({item.subtitle})</span>
                               )}
                               {item.badge && (item.badge === "7개월 무료" || item.badge === "무료" ? null : (
-                                <span className="text-[9px] px-1 py-0.5 rounded ml-1" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                                <span className="ml-1 rounded px-1.5 py-0.5 text-[11px]" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
                               ))}
                             </span>
                             {item.badge && (item.badge === "7개월 무료" || item.badge === "무료") && (
                               <span className="pl-[1em] mt-0.5">
-                                <span className="text-[9px] px-1 py-0.5 rounded" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                                <span className="rounded px-1.5 py-0.5 text-[11px]" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
                               </span>
                             )}
                           </SmartLink>
@@ -687,20 +727,20 @@ export default function Header() {
                 </div>
 
                 {/* Culture (파란톤) */}
-                <div className="space-y-2 pt-3 border-t">
-                  <h4 className="text-xs font-bold text-blue-500 flex items-center gap-2 uppercase tracking-wide">
-                    <Building2 className="h-3.5 w-3.5" />
+                <div className="space-y-3 rounded-2xl border bg-white p-4 shadow-sm">
+                  <h4 className="flex items-center gap-2 text-base font-bold uppercase text-blue-500">
+                    <Building2 className="h-4 w-4" />
                     Culture (기업문화)
                   </h4>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-1 pl-1">
+                  <div className="grid grid-cols-2 gap-x-5 gap-y-4 pl-1">
                     {Object.entries(cultureMenu).map(([category, items]) => (
                       <div key={category} className="space-y-0.5">
-                        <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider pt-1">{category}</div>
+                        <div className="pt-1 text-sm font-bold text-foreground">{category}</div>
                         {items.map((item) => (
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className="block py-0.5 text-xs text-foreground hover:text-blue-500 transition-colors"
+                            className="block py-1 text-sm leading-6 text-foreground/85 transition-colors hover:text-blue-500"
                             onClick={() => setIsOpen(false)}
                           >
                             {item.title}
@@ -713,20 +753,20 @@ export default function Header() {
                 </div>
 
                 {/* Everworks */}
-                <div className="space-y-2 pt-3 border-t">
-                  <h4 className="text-xs font-bold flex items-center gap-2 uppercase tracking-wide" style={{ color: COLORS.everworks }}>
-                    <Briefcase className="h-3.5 w-3.5" />
+                <div className="space-y-3 rounded-2xl border bg-white p-4 shadow-sm">
+                  <h4 className="flex items-center gap-2 text-base font-bold uppercase" style={{ color: COLORS.everworks }}>
+                    <Briefcase className="h-4 w-4" />
                     에버웍스 (그룹웨어)
                   </h4>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-1 pl-1">
+                  <div className="grid grid-cols-2 gap-x-5 gap-y-4 pl-1">
                     {Object.entries(everworksMenu).map(([category, items]) => (
                       <div key={category} className="space-y-0.5">
-                        <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider pt-1">{category}</div>
+                        <div className="pt-1 text-sm font-bold text-foreground">{category}</div>
                         {items.map((item) => (
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className="block py-0.5 text-xs text-foreground transition-colors hover:opacity-70"
+                            className="block py-1 text-sm leading-6 text-foreground/85 transition-colors hover:opacity-70"
                             onClick={() => setIsOpen(false)}
                           >
                             {item.title}
@@ -739,7 +779,7 @@ export default function Header() {
                 </div>
 
                 {/* 고객센터 */}
-                <div className="mt-4 p-4 bg-muted/30 rounded-xl">
+                <div className="rounded-2xl border bg-white p-4 shadow-sm">
                   <div className="flex items-center gap-2 text-sm font-semibold mb-2">
                     <Phone className="h-4 w-4 text-primary" />
                     고객센터

@@ -12,7 +12,7 @@ const tabs = [
     image: "/images/people/smartWorkCare/welcoming/feature-ai-builder.png",
     intro: "흩어져 있던 사내 정보를 AI가 한 번에 정리해 누구나 쉽게 활용할 수 있도록 돕습니다.",
     description: [
-      "AI 컨텐츠 빌더를 통해 흩어져있는 사내 정보를 한번에 분류 및 재정비",
+      "AI 컨텐츠 빌더를 통해 흩어져 있는\n사내 정보를 한번에 분류 및 재정비",
       "신규 입사자에게 필요한 콘텐츠를 빠르게 구성",
     ],
   },
@@ -23,7 +23,7 @@ const tabs = [
     image: "/images/people/smartWorkCare/welcoming/feature-vision.png",
     intro: "입사 첫 순간부터 회사의 방향성과 문화를 자연스럽게 전달합니다.",
     description: [
-      "모바일앱을 통해 정책, 조직문화, 핵심가치를 효과적으로 제공",
+      "모바일앱을 통해 정책, 조직문화,\n핵심가치를 효과적으로 제공",
       "신규 입사자가 회사를 빠르게 이해하도록 지원",
     ],
   },
@@ -34,7 +34,7 @@ const tabs = [
     image: "/images/people/smartWorkCare/welcoming/feature-documents.png",
     intro: "제출 요청부터 알림까지, 서류 관리를 자동화합니다.",
     description: [
-      "제출 서류 요청, 제출 현황 관리, 미제출 알림 자동화 기능 제공",
+      "제출 서류 요청, 제출 현황 관리,\n미제출 알림 자동화 기능 제공",
       "누락 없는 서류 관리로 HR 업무 부담 감소",
     ],
   },
@@ -45,7 +45,7 @@ const tabs = [
     image: "/images/people/smartWorkCare/welcoming/feature-support.png",
     intro: "궁금한 점이 생기면 언제든 바로 물어보고 답을 받을 수 있습니다.",
     description: [
-      "신규 직원이 쉽게 도움 요청 및 질의응답이 가능한 실시간 Q&A 제공",
+      "신규 직원이 쉽게 도움 요청 및\n질의응답이 가능한 실시간 Q&A 제공",
       "빠른 응답으로 입사 초기 적응을 지원",
     ],
   },
@@ -57,7 +57,7 @@ const tabs = [
     image: "/images/people/smartWorkCare/welcoming/feature-todo.png",
     intro: "입사자가 해야 할 일을 한눈에 확인하고 체계적으로 완료할 수 있습니다.",
     description: [
-      "온보딩 단계별 할 일을 체크리스트로 제공 (26년 하반기 예정)",
+      "온보딩 단계별 할 일을 체크리스트로 제공\n(26년 하반기 예정)",
       "진행 현황을 실시간으로 확인",
     ],
   },
@@ -104,7 +104,7 @@ export default function WelcomingFeaturesSection() {
 
         {/* 컨텐츠 영역 */}
         <div className="overflow-hidden rounded-[36px] border border-slate-100 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
-          <div className="grid grid-cols-1 lg:grid-cols-[52%_1fr]">
+          <div className="grid grid-cols-1 lg:grid-cols-[48%_1fr]">
             {/* 좌측 이미지 */}
             <div className="relative flex min-h-[240px] items-center justify-center overflow-hidden bg-gradient-to-br from-[#f3fbff] via-white to-[#eafff8] md:min-h-[420px]">
               <div className="absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00cc99]/10 blur-2xl md:h-[320px] md:w-[320px] md:blur-3xl" />
@@ -123,7 +123,7 @@ export default function WelcomingFeaturesSection() {
             </div>
 
             {/* 우측 텍스트 */}
-            <div className="flex flex-col justify-center px-7 py-9 md:px-12 lg:px-14">
+            <div className="flex flex-col justify-center px-7 py-9 md:px-12 lg:px-10">
               <div className="mb-4 flex flex-wrap items-center gap-3">
                 <h3 className="text-2xl font-bold leading-tight text-slate-950 md:text-3xl">
                   {activeFeature.title}
@@ -143,12 +143,12 @@ export default function WelcomingFeaturesSection() {
                 {activeFeature.description.map((desc, idx) => (
                   <li
                     key={idx}
-                    className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 px-4 py-3"
+                    className="@container flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 px-4 py-3"
                   >
                     <span className="mt-1.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#00cc99]">
                       <span className="h-1.5 w-1.5 rounded-full bg-white" />
                     </span>
-                    <span className="text-[15px] leading-relaxed text-slate-700 md:text-base">
+                    <span className="whitespace-pre text-[clamp(13px,2.6cqw,16px)] leading-relaxed text-slate-700">
                       {desc}
                     </span>
                   </li>

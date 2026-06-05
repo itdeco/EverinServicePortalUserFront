@@ -42,11 +42,11 @@ export default function PcOffTaglineSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {cards.map((card, idx) => (
             <ScrollReveal key={idx} delay={idx * 100}>
-              <div className="flex h-full flex-col items-center justify-start gap-5 rounded-2xl bg-gray-50 border border-gray-200 px-6 py-10 text-center transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer">
+              <div className="@container flex h-full flex-col items-center justify-start gap-5 rounded-2xl bg-gray-50 border border-gray-200 px-6 py-10 text-center transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#00cc99]/10">
                   <Image src={card.icon} alt="" width={36} height={36} />
                 </div>
-                <p className="text-sm md:text-base text-gray-700 font-medium leading-relaxed whitespace-pre-line">
+                <p className="whitespace-pre text-[clamp(14px,5cqw,25px)] font-medium leading-relaxed text-gray-700">
                   {card.text}
                 </p>
               </div>
