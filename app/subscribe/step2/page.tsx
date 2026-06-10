@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useMemo, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { Building2, CreditCard, CheckCircle, FileText, Lock, ArrowLeft, Plus, Trash2, ChevronRight } from "lucide-react";
@@ -19,9 +19,38 @@ import { UserActions } from "@/redux/actions/Users";
 import { PlanDetailDto, PlanPriceType } from "@/types/subscribe";
 import { CorporationDto, CorporationType, CreditCardDto, UserCorporationCardDto, UserStatusType } from "@/types/Users";
 import { SubscriptionDto, SubscriptionType, SubscriptionWithCorporationDto } from "@/types/Subscriptions";
+import { CommonCodeDto } from "@/types/CommonCode";
+import { readSubscribeSelectionSnapshot, SubscribeSelectionSnapshot } from "@/utils/subscribeSelection";
 import { alertMessage, confirmMessage } from "@/utils/messageBox";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+
+const FREE_MONTHS_CODE_CATEGORY = "subscription.free-months";
+const DEFAULT_FREE_MONTHS_WITH_PAYMENT_METHOD = 6;
+const DEFAULT_FREE_MONTHS_WITHOUT_PAYMENT_METHOD = 1;
+
+const getCardCorporationId = (card: CreditCardDto) => {
+  const c = card as CreditCardDto & {
+    corporationId?: number;
+    corporationID?: number;
+    companyId?: number;
+    companyID?: number;
+  };
+
+  return c.corporationId ?? c.corporationID ?? c.companyId ?? c.companyID;
+};
+
+const getCodeValue = (code: CommonCodeDto, aliases: string[], fallback: number) => {
+  const rawCode = String((code as any).code ?? (code as any).Code ?? code.name ?? "").toLowerCase();
+  const matched = aliases.some((alias) => rawCode === alias.toLowerCase());
+
+  if (!matched) return fallback;
+
+  const rawValue = (code as any).value ?? (code as any).Value ?? code.description ?? code.name;
+  const numeric = Number(rawValue);
+
+  return Number.isFinite(numeric) ? numeric : fallback;
+};
 
 function SubscribeStep2Content() {
   const router = useRouter();
@@ -56,9 +85,29 @@ function SubscribeStep2Content() {
   const [agreeTerms1, setAgreeTerms1] = useState(false);
   const [agreeTerms2, setAgreeTerms2] = useState(false);
   const [showNewCorporation, setShowNewCorporation] = useState(false);
+  const [selectionSnapshot, setSelectionSnapshot] = useState<SubscribeSelectionSnapshot | null>(null);
+  const [freeMonths, setFreeMonths] = useState({
+    withPaymentMethod: DEFAULT_FREE_MONTHS_WITH_PAYMENT_METHOD,
+    withoutPaymentMethod: DEFAULT_FREE_MONTHS_WITHOUT_PAYMENT_METHOD,
+  });
 
-  const totalPrice = userCount * (plan?.price || 0);
+  const isBmsCheckout = !!selectionSnapshot;
+  const snapshotTotal = selectionSnapshot?.total ?? 0;
+  const totalPrice = isBmsCheckout ? snapshotTotal : userCount * (plan?.price || 0);
   const vat = plan?.useVAT ? totalPrice * 0.1 : 0;
+  const selectedCorporation = corporations?.find(c => c.corporationId === selectedCorporationId);
+  const filteredCards = useMemo(() => {
+    if (!cards?.length) return [];
+
+    return cards.filter((card) => {
+      const cardCorporationId = getCardCorporationId(card);
+
+      return !selectedCorporationId || !cardCorporationId || Number(cardCorporationId) === Number(selectedCorporationId);
+    });
+  }, [cards, selectedCorporationId]);
+  const shouldShowPaymentSection = isBmsCheckout || PlanPriceType.Paid === plan?.priceType;
+  const selectedCard = filteredCards.find(c => c.cardId === selectedCardId);
+  const appliedFreeMonths = selectedCardId ? freeMonths.withPaymentMethod : freeMonths.withoutPaymentMethod;
 
   const loadUserCorporationAndCards = async () => {
     const result = await Api.Users.getMyCorporationsAndCards();
@@ -68,16 +117,36 @@ function SubscribeStep2Content() {
     dispatch(UserActions.setCards(payload!.creditCards! || []));
   };
 
+  const loadFreeMonths = async () => {
+    const result = await Api.CommonCodes.getCommonCodesByCategoryCode(FREE_MONTHS_CODE_CATEGORY);
+    if (!checkApiResult(result)) return;
+
+    const codes = (result?.payload || []) as CommonCodeDto[];
+
+    setFreeMonths({
+      withPaymentMethod: codes.reduce(
+        (value, code) => getCodeValue(code, ["withPaymentMethod", "WITH_PAYMENT_METHOD", "payment", "card", "cms"], value),
+        DEFAULT_FREE_MONTHS_WITH_PAYMENT_METHOD
+      ),
+      withoutPaymentMethod: codes.reduce(
+        (value, code) => getCodeValue(code, ["withoutPaymentMethod", "WITHOUT_PAYMENT_METHOD", "noPayment", "none"], value),
+        DEFAULT_FREE_MONTHS_WITHOUT_PAYMENT_METHOD
+      ),
+    });
+  };
+
   useEffect(() => {
     if (!isLoggedIn) {
-      router.replace("/login");
+      router.replace(`/login?url=${encodeURIComponent("/subscribe/step2?source=bms")}`);
       return;
     }
 
     const loadData = async () => {
       setIsLoading(true);
       try {
+        setSelectionSnapshot(readSubscribeSelectionSnapshot());
         await loadUserCorporationAndCards();
+        await loadFreeMonths();
         
         // 플랜 찾기
         const targetPlanId = upgradePlanId ? parseInt(upgradePlanId) : planId;
@@ -95,15 +164,25 @@ function SubscribeStep2Content() {
   useEffect(() => {
     if (corporations && corporations.length > 0 && !selectedCorporationId && !showNewCorporation) {
       setSelectedCorporationId(corporations[0].corporationId);
+      return;
+    }
+
+    if (corporations && corporations.length === 0) {
+      setShowNewCorporation(true);
     }
   }, [corporations]);
 
   // 카드 선택 시
   useEffect(() => {
-    if (cards && cards.length > 0 && !selectedCardId) {
-      setSelectedCardId(cards[0].cardId);
+    if (filteredCards.length === 0) {
+      setSelectedCardId(undefined);
+      return;
     }
-  }, [cards]);
+
+    if (!selectedCardId || !filteredCards.some((card) => card.cardId === selectedCardId)) {
+      setSelectedCardId(filteredCards[0].cardId);
+    }
+  }, [filteredCards, selectedCardId]);
 
   const canSubscribe = () => {
     // 기업 정보 확인
@@ -111,7 +190,7 @@ function SubscribeStep2Content() {
       if (!newCorporationName || !newBusinessNo) return false;
     }
     // 유료 플랜인 경우 카드 확인
-    if (PlanPriceType.Paid === plan?.priceType && !selectedCardId) return false;
+    if (!isBmsCheckout && PlanPriceType.Paid === plan?.priceType && !selectedCardId) return false;
     // 약관 동의 확인
     return agreeTerms1 && agreeTerms2;
   };
@@ -123,37 +202,57 @@ function SubscribeStep2Content() {
     try {
       const subscription: SubscriptionDto = {
         corporationId: showNewCorporation ? -1 : selectedCorporationId,
-        corporationName: showNewCorporation ? newCorporationName : corporations?.find(c => c.corporationId === selectedCorporationId)?.name,
-        corporationType: showNewCorporation ? corporationType : corporations?.find(c => c.corporationId === selectedCorporationId)?.type,
+        corporationName: showNewCorporation ? newCorporationName : selectedCorporation?.name,
+        corporationType: showNewCorporation ? corporationType : selectedCorporation?.type,
         planId: plan?.id,
-        planName: plan?.name,
+        planName: isBmsCheckout ? selectionSnapshot?.items.map((item) => item.name).join(", ") : plan?.name,
         cardId: selectedCardId,
-        cardCompany: cards?.find(c => c.cardId === selectedCardId)?.companyName,
-        type: PlanPriceType.Free === plan?.priceType ? SubscriptionType.Free : SubscriptionType.Monthly,
-        price: plan?.price,
-        userCount: userCount,
-        firstUserCount: userCount,
-        useVAT: plan?.useVAT ? 1 : 0,
+        cardCompany: selectedCard?.companyName,
+        type: isBmsCheckout || PlanPriceType.Free !== plan?.priceType ? SubscriptionType.Monthly : SubscriptionType.Free,
+        price: isBmsCheckout ? totalPrice : plan?.price,
+        userCount: isBmsCheckout ? Math.max(...(selectionSnapshot?.items.map((item) => item.userCount || 0) || [userCount])) : userCount,
+        firstUserCount: isBmsCheckout ? Math.max(...(selectionSnapshot?.items.map((item) => item.userCount || 0) || [userCount])) : userCount,
+        useVAT: isBmsCheckout ? 1 : plan?.useVAT ? 1 : 0,
+        items: selectionSnapshot?.items,
       };
+
+      const subscriptionPayload = isBmsCheckout
+        ? ({
+            ...subscription,
+            freeMonths: appliedFreeMonths,
+            bmsPortalId: selectionSnapshot?.portalId,
+            bmsContractItems: selectionSnapshot?.items.map((item) => ({
+              modelSeq: item.modelSeq,
+              serviceItemSeq: item.serviceItemSeq,
+              subServiceItemSeq: item.subServiceItemSeq ?? -1,
+              currSeq: item.currSeq,
+              qty: item.userCount,
+              price: item.unitPrice,
+              amt: item.amount,
+              policySeq: item.policySeq,
+              priceAppYm: item.appYm,
+            })),
+          } as SubscriptionDto)
+        : subscription;
 
       let result;
       
       if (isTrialUpgrade) {
         const subscriptionWithCorporation: SubscriptionWithCorporationDto = {
-          subscription,
+          subscription: subscriptionPayload,
           corporation: {
-            corporationId: subscription.corporationId,
-            name: subscription.corporationName,
-            type: subscription.corporationType,
+            corporationId: subscriptionPayload.corporationId,
+            name: subscriptionPayload.corporationName,
+            type: subscriptionPayload.corporationType,
             businessNo: showNewCorporation ? newBusinessNo : undefined,
           },
         };
         result = await Api.Subscriptions.upgradeTrialSubscription(subscriptionWithCorporation, trialSubscriptionId);
       } else if (isUpgrade) {
-        result = await Api.Subscriptions.upgradeSubscription(subscription);
+        result = await Api.Subscriptions.upgradeSubscription(subscriptionPayload);
       } else if (showNewCorporation) {
         const subscriptionWithCorporation: SubscriptionWithCorporationDto = {
-          subscription,
+          subscription: subscriptionPayload,
           corporation: {
             name: newCorporationName,
             type: corporationType,
@@ -162,7 +261,7 @@ function SubscribeStep2Content() {
         };
         result = await Api.Subscriptions.subscribeWithCorporation(subscriptionWithCorporation);
       } else {
-        result = await Api.Subscriptions.subscribe(subscription);
+        result = await Api.Subscriptions.subscribe(subscriptionPayload);
       }
 
       if (!checkApiResult(result)) {
@@ -336,7 +435,7 @@ function SubscribeStep2Content() {
               </Card>
 
               {/* 결제 수단 */}
-              {PlanPriceType.Paid === plan?.priceType && (
+              {shouldShowPaymentSection && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-lg flex items-center gap-2">
@@ -345,12 +444,12 @@ function SubscribeStep2Content() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {cards && cards.length > 0 ? (
+                    {filteredCards.length > 0 ? (
                       <RadioGroup
                         value={selectedCardId?.toString()}
                         onValueChange={(value) => setSelectedCardId(parseInt(value))}
                       >
-                        {cards.map((card) => (
+                        {filteredCards.map((card) => (
                           <div key={card.cardId} className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-muted/50">
                             <RadioGroupItem value={card.cardId!.toString()} id={`card-${card.cardId}`} />
                             <Label htmlFor={`card-${card.cardId}`} className="flex-1 cursor-pointer">
@@ -366,7 +465,13 @@ function SubscribeStep2Content() {
                       <p className="text-muted-foreground text-center py-4">등록된 카드가 없습니다.</p>
                     )}
 
-                    <Button variant="outline" className="w-full" onClick={() => router.push("/mypage/account?tab=1")}>
+                    {isBmsCheckout && !selectedCardId && (
+                      <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+                        결제수단 없이 진행하면 {freeMonths.withoutPaymentMethod}개월 무료가 적용됩니다. 결제수단 등록 시 {freeMonths.withPaymentMethod}개월 무료가 적용됩니다.
+                      </div>
+                    )}
+
+                    <Button variant="outline" className="w-full" onClick={() => router.push(`/mypage/account?tab=1${selectedCorporationId ? `&corporationId=${selectedCorporationId}` : ""}`)}>
                       <Plus className="w-4 h-4 mr-2" />
                       카드 등록/변경
                     </Button>
@@ -383,7 +488,30 @@ function SubscribeStep2Content() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   {/* Plan Info */}
-                  <div className="p-4 bg-muted/50 rounded-lg">
+                  {isBmsCheckout && (
+                    <div className="p-4 bg-muted/50 rounded-lg">
+                      <Badge className="mb-3">선택 서비스</Badge>
+                      <div className="space-y-2">
+                        {selectionSnapshot?.items.map((item, index) => (
+                          <div key={`${item.serviceId}-${index}`} className="flex items-start justify-between gap-3 text-sm">
+                            <span className="min-w-0 flex-1 truncate text-slate-700">{item.name}</span>
+                            <span className="shrink-0 font-semibold text-slate-900">
+                              {(item.amount || 0).toLocaleString()}원
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-4 border-t pt-4">
+                        <p className="text-sm text-muted-foreground">예상 월 과금</p>
+                        <p className="mt-1 text-2xl font-bold">{totalPrice.toLocaleString()}원</p>
+                        <p className="mt-2 text-sm font-semibold text-primary">
+                          무료 적용: {appliedFreeMonths}개월
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className={isBmsCheckout ? "hidden" : "p-4 bg-muted/50 rounded-lg"}>
                     <Badge className="mb-2">{plan?.name}</Badge>
                     {PlanPriceType.Free === plan?.priceType ? (
                       <p className="text-3xl font-bold">무료</p>
@@ -397,7 +525,7 @@ function SubscribeStep2Content() {
                     )}
                   </div>
 
-                  {PlanPriceType.Paid === plan?.priceType && (
+                  {!isBmsCheckout && PlanPriceType.Paid === plan?.priceType && (
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">VAT (10%)</span>

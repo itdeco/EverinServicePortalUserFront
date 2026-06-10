@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { COLORS } from "@/constants/brand-colors";
 
 export default function ModuleSection() {
     const modules = [
@@ -29,7 +30,7 @@ export default function ModuleSection() {
     ];
 
     return (
-        <section className="w-full bg-[#f8f9fb] py-20">
+        <section className="w-full bg-[#fff8f3] py-20">
             <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
 
                 {/* Header */}
@@ -47,10 +48,10 @@ export default function ModuleSection() {
                     {modules.map((m, idx) => (
                         <div
                             key={idx}
-                            className="min-w-[86%] sm:min-w-[70%] md:min-w-0 md:w-[480px] snap-center rounded-3xl border-2 border-[#00cc99] p-8 bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl hover:shadow-[#00cc99]/20">
+                            className="min-w-[86%] sm:min-w-[70%] md:min-w-0 md:w-[480px] snap-center rounded-3xl border-2 border-orange-200 p-8 bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl hover:shadow-orange-200/60">
                             {/* Title (pill) */}
                             <div className="text-center justify-center mb-6">
-                                <div className="bg-[#2bb673] text-white text-xl font-bold px-6 py-3 rounded-full">
+                                <div className="text-white text-xl font-bold px-6 py-3 rounded-full" style={{ backgroundColor: COLORS.everworks }}>
                                     {m.title}
                                 </div>
                             </div>
@@ -69,12 +70,13 @@ export default function ModuleSection() {
                                         alt="arrow"
                                         fill
                                         className="object-contain"
+                                        style={{ filter: "hue-rotate(-120deg) saturate(1.35) contrast(1.05)" }}
                                     />
                                 </div>
                             </div>
 
                             {/* Bottom Box */}
-                            <div className="bg-[#e8f8f3] text-[#009e75] text-xm rounded-xl px-5 py-5 text-center font-medium">
+                            <div className="bg-orange-50 text-xm rounded-xl px-5 py-5 text-center font-medium" style={{ color: COLORS.everworks }}>
                                 <div className="font-bold mb-1 text-xl">EverWorks</div>
                                 {m.bottom}
                             </div>

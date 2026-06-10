@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { COLORS } from "@/constants/brand-colors";
 
 const caseData = [
   {
@@ -44,9 +45,9 @@ export default function CaseSection() {
           {caseData.map((caseItem) => (
             <div
               key={caseItem.id}
-              className="bg-white border border-gray-200 rounded-lg p-6 text-center hover:shadow-md transition-shadow"
+              className="bg-white border border-orange-100 rounded-2xl p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-100"
             >
-              <h3 className="font-bold text-gray-900 text-lg mb-3">
+              <h3 className="font-bold text-lg mb-3" style={{ color: COLORS.everworks }}>
                 {caseItem.title}
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">

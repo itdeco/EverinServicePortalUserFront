@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { COLORS } from "@/constants/brand-colors";
 
 const features = [
   {
@@ -30,12 +31,12 @@ const functions = [
 
 export default function FeaturesSection() {
   return (
-    <section className="w-full bg-white py-16 md:py-24">
+    <section className="w-full bg-[#fff8f3] py-16 md:py-24">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
-            &quot;우리는 <span className="text-[#00cc99]">하나</span>로 흐릅니다.
+            &quot;우리는 <span style={{ color: COLORS.everworks }}>하나</span>로 흐릅니다.
             <br />
             그룹웨어가 곧 모든 시스템의 관문입니다.&quot;
           </h2>
@@ -46,8 +47,8 @@ export default function FeaturesSection() {
           {/* Left: Features List */}
           <div className="space-y-6">
             {features.map((feature, idx) => (
-              <div key={idx} className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-[#00cc99] font-bold mb-2 text-lg">{feature.title}</h3>
+              <div key={idx} className="rounded-2xl border border-orange-100 bg-white p-6 shadow-sm">
+                <h3 className="font-bold mb-2 text-lg" style={{ color: COLORS.everworks }}>{feature.title}</h3>
                 <p className="text-gray-700 text-sm leading-relaxed">{feature.description}</p>
               </div>
             ))}
@@ -60,6 +61,7 @@ export default function FeaturesSection() {
               alt="에버웍스 다이어그램"
               fill
               className="object-contain"
+              style={{ filter: "hue-rotate(-120deg) saturate(1.35) contrast(1.05)" }}
             />
           </div>
         </div>
@@ -69,7 +71,7 @@ export default function FeaturesSection() {
           <div className="grid grid-cols-5 gap-4 md:gap-6">
             {functions.map((func, idx) => (
               <div key={idx} className="flex flex-col items-center text-center">
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center mb-3">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center mb-3 bg-white shadow-sm ring-1 ring-orange-100">
                   <div className="relative w-8 h-8 md:w-14 md:h-14">
                     <Image
                         src={func.icon}

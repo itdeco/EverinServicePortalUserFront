@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
+import { COLORS } from "@/constants/brand-colors"
 
 const serviceTabs = [
   {
@@ -93,7 +94,7 @@ export default function ServiceSection() {
           className="relative w-full bg-white py-20 overflow-hidden"
       >
         {/* 히어로와 자연스럽게 이어지는 상단 그라데이션 */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#d9fff2]/70 via-white to-white" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-orange-100/80 via-white to-white" />
 
         <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12">
           <div
@@ -117,9 +118,10 @@ export default function ServiceSection() {
                     onClick={() => setActiveId(tab.id)}
                     className={`cursor-pointer px-7 py-3 rounded-full text-sm md:text-lg font-medium transition-all duration-200 whitespace-nowrap active:scale-95 ${
                         activeId === tab.id
-                            ? "bg-[#00cc99] text-white shadow-lg shadow-[#00cc99]/25 scale-105"
-                            : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:shadow-sm hover:scale-105"
+                            ? "text-white shadow-lg shadow-orange-200 scale-105"
+                            : "bg-orange-50 text-gray-700 hover:bg-orange-100 hover:shadow-sm hover:scale-105"
                     }`}
+                    style={activeId === tab.id ? { backgroundColor: COLORS.everworks } : undefined}
                 >
                   {tab.label}
                 </button>
@@ -127,7 +129,7 @@ export default function ServiceSection() {
           </div>
 
           <div
-              className={`bg-gray-50 rounded-2xl p-6 md:p-10 shadow-sm transition-all duration-700 delay-200 ${
+              className={`rounded-2xl border border-orange-100 bg-[#fffaf6] p-6 md:p-10 shadow-sm transition-all duration-700 delay-200 ${
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
               }`}
           >
@@ -137,7 +139,7 @@ export default function ServiceSection() {
             >
               <div className="space-y-6 max-w-[540px] lg:pr-8">
                 <div>
-                  <p className="text-[#00cc99] text-sm font-semibold mb-2">
+                  <p className="text-sm font-semibold mb-2" style={{ color: COLORS.everworks }}>
                     {activeService.eyebrow}
                   </p>
 
@@ -149,7 +151,7 @@ export default function ServiceSection() {
                 <ul className="space-y-4 text-gray-700 leading-relaxed">
                   {activeService.items.map((item) => (
                       <li key={item.title} className="flex items-start gap-3">
-                        <span className="mt-2 w-2 h-2 bg-[#00cc99] rounded-full shrink-0" />
+                        <span className="mt-2 w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: COLORS.everworks }} />
                         <span>
                       <strong>{item.title}</strong> : {item.desc}
                     </span>

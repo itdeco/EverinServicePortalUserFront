@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { COLORS } from "@/constants/brand-colors";
 
 export default function CharacteristicsSection() {
   const characteristics = [
@@ -42,11 +43,11 @@ export default function CharacteristicsSection() {
           {characteristics.map((char) => (
               <div key={char.id} className=" min-w-[80%] sm:min-w-[60%] md:min-w-0 snap-center flex flex-col items-center text-center ">
               {/* Circular Border Container */}
-              <div className="relative w-64 h-64 rounded-full border-4 border-[#00cc99] flex items-center justify-center mb-8">
+              <div className="relative w-64 h-64 rounded-full border-4 bg-white shadow-sm flex items-center justify-center mb-8" style={{ borderColor: COLORS.everworks }}>
                 {/* Content (점 포함) */}
                 <div className="flex flex-col items-center justify-center text-center px-6">
                   {/* 점 */}
-                  <div className="w-5 h-5 bg-[#00cc99] rounded-full mb-4"></div>
+                  <div className="w-5 h-5 rounded-full mb-4" style={{ backgroundColor: COLORS.everworks }}></div>
                   {/* 제목 */}
                   <h3 className="text-lg md:text-lg font-bold text-gray-900 mb-3">
                     {char.title}

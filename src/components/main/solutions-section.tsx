@@ -10,11 +10,12 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel"
+import { COLORS } from "@/constants/brand-colors"
 
 const tabs = [
-  {id: "hr", label: "People(인사관리)", color: "#03b565"},
-  {id: "culture", label: "Culture(기업문화)", color: "#3344e6"},
-  {id: "groupware", label: "에버웍스(그룹웨어)", color: "#0FA6EC"},
+  {id: "hr", label: "People(인사관리)", color: COLORS.people},
+  {id: "culture", label: "Culture(기업문화)", color: COLORS.culture},
+  {id: "groupware", label: "에버웍스(그룹웨어)", color: COLORS.everworks},
 ]
 
 const hrCards = [
@@ -73,21 +74,17 @@ const hrCards = [
 const cultureCards = [
   {
     title: "에버레스크",
-    subtitle: "EverASK",
-    desc: "조직간의 건강한 소통과 회의 문화를 만드는 소통 서비스",
-    img: ["/images/main/solutions/culture/culture-solutions-01.png",
-          "/images/main/solutions/culture/culture-solutions-02.png",
-          "/images/main/solutions/culture/culture-solutions-03.png"
+    subtitle: "AI시대, 질문하지 않고 과연 살아남을 수 있을까요?",
+    desc: "누구나 자유롭게 질문하고 의견을 나눌 수 있는 공간",
+    img: ["/images/main/solutions/culture/culture-solutions-01.png"
          ],
     href: "https://www.everin.co.kr/?section=EverAsk",
   },
   {
     title: "에버온사람",
-    subtitle: "EverOnsaram",
-    desc: "성찰과 성장의 질문으로 내면의 성장을 돋는 콘텐츠 앱",
-    img: ["/images/main/solutions/culture/culture-solutions-11.png",
-      "/images/main/solutions/culture/culture-solutions-12.png",
-      "/images/main/solutions/culture/culture-solutions-13.png"
+    subtitle: "매일 반복되는 일상 속, 나는 어떤 사람으로 성장하고 있을까요?",
+    desc: "매일의 기록과 성찰로 내면의 성장을 돋는 컨텐츠 서비스",
+    img: ["/images/main/solutions/culture/culture-solutions-11.png"
     ],
     href: "https://www.everin.co.kr/?section=EverOnSaram",
   },
@@ -171,9 +168,9 @@ function CultureCardImages({
   }, [active, api, images.length])
 
   return (
-    <div className="absolute right-0 top-0 h-full w-[44%] overflow-hidden md:w-[58%]">
+      <div className="absolute bottom-0 right-0 top-0 h-full w-[42%] overflow-hidden md:w-[52%]">
       <div
-        className="hidden h-full items-end gap-2 p-4 md:grid lg:gap-4 lg:p-6"
+        className="hidden h-full items-end gap-0 md:grid"
         style={{gridTemplateColumns: `repeat(${images.length}, minmax(0, 1fr))`}}
       >
         {images.map((src, index) => (
@@ -185,7 +182,8 @@ function CultureCardImages({
               loading="lazy"
               placeholder="blur"
               blurDataURL={blurDataURL}
-              className="object-contain object-right-bottom transition-transform duration-300 group-hover:scale-[1.03]"
+              className="object-contain object-bottom-right transition-transform duration-300 group-hover:scale-[1.03]"
+              style={{ transform: "translateY(40%) scale(1.5)", transformOrigin: "right bottom" }}
             />
           </div>
         ))}
@@ -199,7 +197,7 @@ function CultureCardImages({
         <CarouselContent className="ml-0 h-full">
           {images.map((src, index) => (
             <CarouselItem key={src} className="h-full pl-0">
-              <div className="relative h-full w-full p-3">
+              <div className="relative h-full w-full">
                 <Image
                   src={src}
                   alt={`${title} 화면 ${index + 1}`}
@@ -207,7 +205,8 @@ function CultureCardImages({
                   loading="lazy"
                   placeholder="blur"
                   blurDataURL={blurDataURL}
-                  className="object-contain object-right-bottom p-3"
+                  className="object-contain object-right-bottom"
+                  style={{ transform: "translateY(7%) scale(1.2)", transformOrigin: "right bottom" }}
                 />
               </div>
             </CarouselItem>
@@ -221,7 +220,7 @@ function CultureCardImages({
                 key={index}
                 className={cn(
                   "h-1.5 rounded-full transition-all duration-300",
-                  current === index ? "w-5 bg-[#3344e6]" : "w-1.5 bg-[#3344e6]/25"
+                  current === index ? "w-5 bg-[#0D99FF]" : "w-1.5 bg-[#0D99FF]/25"
                 )}
               />
             ))}
@@ -342,11 +341,11 @@ export function SolutionsSection() {
                       )}
                   >
                     {/* 텍스트 영역 */}
-                    <div className="relative z-10 w-[50%] md:w-[52%] px-5 md:px-7 py-5 md:py-6 flex flex-col justify-center h-full min-w-0">
+                    <div className="relative z-10 w-[60%] md:w-[60%] px-5 md:px-7 py-5 md:py-6 flex flex-col justify-center h-full min-w-0">
                       <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
                         {card.title}
                       </h3>
-                      <p className="text-sm md:text-base font-semibold text-emerald-600 mb-2">
+                      <p className="mb-2 text-base font-bold text-[#0D99FF] md:text-lg md:whitespace-nowrap">
                         {card.subtitle}
                       </p>
                       <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4 line-clamp-2">
@@ -360,7 +359,7 @@ export function SolutionsSection() {
                       </Link>
                     </div>
                     {/* 이미지 영역 — 남은 공간 꽉 채우기 */}
-                    <div className="absolute right-0 top-0 h-full w-[50%] md:w-[42%] overflow-hidden">
+                    <div className="absolute right-0 top-0 h-full w-[30%] md:w-[30%] overflow-hidden">
                       <Image
                           src={card.img}
                           alt={card.title}
@@ -388,17 +387,17 @@ export function SolutionsSection() {
                   onMouseMove={handleCardMouseMove}
                   onMouseLeave={handleCardMouseLeave}
                   className={cn(
-                    "group relative h-[230px] cursor-pointer overflow-hidden rounded-2xl border border-[#3344e6]/10 bg-[#f7f8ff] will-change-transform",
-                    "transition-[box-shadow,opacity,transform] duration-700 ease-out md:h-[280px] hover:shadow-xl",
+                    "group relative h-[230px] cursor-pointer overflow-hidden rounded-2xl border border-[#0D99FF]/15 bg-[#f2f9ff] will-change-transform",
+                    "transition-[box-shadow,opacity,transform] duration-700 ease-out md:h-[280px] hover:shadow-xl hover:shadow-[#0D99FF]/15",
                     isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
                     i === 0 ? "delay-100" : "delay-200"
                   )}
                 >
-                  <div className="relative z-10 flex h-full w-[60%] min-w-0 flex-col justify-center px-5 py-5 md:w-[42%] md:px-8 md:py-7">
+                  <div className="relative z-10 flex h-full w-[70%] min-w-0 flex-col justify-center px-5 py-5 md:w-[58%] md:px-8 md:py-7">
                     <h3 className="mb-1 text-lg font-bold text-gray-900 md:text-2xl">
                       {card.title}
                     </h3>
-                    <p className="mb-2 text-base font-bold text-[#3344e6] md:text-lg">
+                    <p className="mb-2 text-base font-bold text-[#0D99FF] md:text-lg">
                       {card.subtitle}
                     </p>
                     <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-gray-500 md:text-base">
@@ -408,7 +407,7 @@ export function SolutionsSection() {
                       href={card.href}
                       target={card.href.startsWith("http") ? "_blank" : undefined}
                       rel={card.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="relative z-10 inline-flex w-fit items-center justify-center rounded-full border border-[#3344e6]/25 bg-white/90 px-4 py-1.5 text-xs font-semibold text-[#3344e6] shadow-sm transition-all duration-300 hover:border-[#3344e6] hover:bg-[#3344e6] hover:text-white hover:shadow-md hover:shadow-[#3344e6]/20 active:scale-95 md:text-sm"
+                      className="relative z-10 inline-flex w-fit items-center justify-center rounded-full border border-[#0D99FF]/30 bg-white/90 px-4 py-1.5 text-xs font-semibold text-[#0D99FF] shadow-sm transition-all duration-300 hover:border-[#0D99FF] hover:bg-[#0D99FF] hover:text-white hover:shadow-md hover:shadow-[#0D99FF]/20 active:scale-95 md:text-sm"
                     >
                       자세히 보기
                     </Link>

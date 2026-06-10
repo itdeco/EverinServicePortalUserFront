@@ -123,14 +123,15 @@ export default function HeroSection() {
 
               <div className="flex flex-col gap-4 rounded-[24px] border border-[#f4c66a]/35 bg-[#c79a43]/95 px-5 py-4 shadow-[0_24px_80px_rgba(0,0,0,0.42)] md:flex-row md:items-center md:justify-between md:px-8 md:py-5">
                 <div className="min-w-0">
-                  <p className="mb-2 text-[11px] font-black tracking-[0.34em] text-slate-900/65">
+                  <p className="mb-2 text-[11px] font-black text-slate-900/65">
                     FREE · 진입장벽 0%
                   </p>
                   <p className="whitespace-nowrap text-[22px] font-black leading-tight text-slate-950 md:text-[30px]">
                     평생 무료로 시작하세요.
                   </p>
-                  <p className="mt-2 text-sm font-bold text-slate-900/75">
-                    카드 등록 불필요 · 설치 5분 · 신입 첫날 바로 사용
+                  <p className="mt-2 text-[11px] font-black text-slate-900/75">
+                    ✼ 에버웰커밍 기본 솔루션은 평생 무료이며,
+                    연동되는 외부 AI 모델의 과금 정책에 따라 일정량 사용초과분 LLM 사용료가 발생할 수 있습니다.
                   </p>
                 </div>
 

@@ -3,13 +3,14 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { COLORS } from "@/constants/brand-colors"
 
 export default function HeroSection() {
   return (
     <section
       className="relative overflow-hidden min-h-[760px] lg:min-h-175"
       style={{
-        backgroundImage: `url('/images/people/bg/bg-people-hero-00.png')`,
+        backgroundImage: `radial-gradient(circle at 18% 18%, ${COLORS.everworks}24 0, transparent 34%), linear-gradient(135deg, #fff7ed 0%, #ffffff 46%, #fff3e7 100%), url('/images/people/bg/bg-people-hero-00.png')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -26,7 +27,7 @@ export default function HeroSection() {
             <h1 className="text-[28px] sm:text-3xl md:text-4xl lg:text-[45px] font-black text-gray-900 leading-tight mb-6 whitespace-nowrap">
               하나로 흐르는 그룹웨어
               <br />
-              <span className="text-[#03b565]">에버웍스</span>
+              <span style={{ color: COLORS.everworks }}>에버웍스</span>
             </h1>
 
             <p className="text-gray-500 text-base leading-relaxed mb-8">
@@ -41,7 +42,7 @@ export default function HeroSection() {
                 asChild
                 size="lg"
                 className="px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
-                style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
+                style={{ background: `linear-gradient(135deg, ${COLORS.everworks} 0%, #ff9f1c 100%)` }}
               >
                 <Link href="/trial">체험하기</Link>
               </Button>
@@ -50,7 +51,8 @@ export default function HeroSection() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border border-[#00cc99] bg-white text-gray-700 px-10 h-14 text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
+                className="bg-white px-10 h-14 text-base font-semibold rounded-lg hover:bg-orange-50"
+                style={{ borderColor: COLORS.everworks, color: COLORS.everworks }}
               >
                 <Link href="/support/inquiry">도입문의</Link>
               </Button>

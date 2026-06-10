@@ -5,7 +5,7 @@ import { Shield, Award, CheckCircle2 } from "lucide-react"
 
 const stats = [
   { value: 33, suffix: "년", label: "HR 전문 경험", description: "영림원 33년 HR 노하우" },
-  { value: 3000, suffix: "+", label: "구축 사례", description: "코스닥 이상 기업 도입" },
+  { value: 2600, suffix: "+", label: "구축 사례", description: "코스닥 이상 기업 도입" },
   { value: 3, suffix: "년", label: "품질 1위", description: "KS-QEI 연속 수상" },
 ]
 
@@ -87,7 +87,7 @@ export default function TrustSection() {
             고객 신뢰 & 핵심 강점
           </h2>
           <p className="text-pretty text-lg text-muted-foreground">
-            33년 영림원의 HR 전문성과 3,000+ 도입 사례가 뒷받침하는 에버인의 핵심 강점입니다.
+            33년 영림원의 HR 전문성과 2,600+ 도입 사례가 뒷받침하는 에버인의 핵심 강점입니다.
           </p>
         </div>
 

@@ -547,7 +547,7 @@ export default function LoginPage() {
                                 <p className="text-sm text-gray-500 mt-1">Years</p>
                             </div>
                             <div>
-                                <p className="text-3xl font-bold text-[#4b6bf5]">3,000+</p>
+                                <p className="text-3xl font-bold text-[#4b6bf5]">2,600+</p>
                                 <p className="text-sm text-gray-500 mt-1">고객사</p>
                             </div>
                             <div>

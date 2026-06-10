@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="EditFile">
-  <path fill="#2ba09b" d="M19 9h-5a2 2 0 0 1-2-2V2Z" class="color6563ff svgShape"></path>
-  <path fill="#dcf1e8" d="m19 9-7-7H6a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3Z" class="colorb2b1ff svgShape"></path>
-  <path fill="#2ba09b" d="M19 9h-5a2 2 0 0 1-2-2V2zm-2.58 13H14a1 1 0 0 1-1-1v-2.42a1 1 0 0 1 .293-.707l3.58-3.58a1 1 0 0 1 1.414 0l2.42 2.42a1 1 0 0 1 0 1.414l-3.58 3.58a1 1 0 0 1-.707.293zM10 18H8a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2zm4-4H8a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2zm-5-4H8a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2z" class="color6563ff svgShape"></path>
+  <path fill="#D94B00" d="M19 9h-5a2 2 0 0 1-2-2V2Z" class="color6563ff svgShape"></path>
+  <path fill="#FFF1E6" d="m19 9-7-7H6a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3Z" class="colorb2b1ff svgShape"></path>
+  <path fill="#D94B00" d="M19 9h-5a2 2 0 0 1-2-2V2zm-2.58 13H14a1 1 0 0 1-1-1v-2.42a1 1 0 0 1 .293-.707l3.58-3.58a1 1 0 0 1 1.414 0l2.42 2.42a1 1 0 0 1 0 1.414l-3.58 3.58a1 1 0 0 1-.707.293zM10 18H8a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2zm4-4H8a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2zm-5-4H8a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2z" class="color6563ff svgShape"></path>
 </svg>

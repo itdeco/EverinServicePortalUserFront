@@ -20,6 +20,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import ApiSubscribe from "@/api/Subscribe";
+import { useLoginStatus } from "@/redux/selectors/Users";
+import {
+  readSubscribeSelectionSnapshot,
+  SubscribeSelectionItem,
+  SubscribeSelectionSnapshot,
+  writeSubscribeSelectionSnapshot,
+} from "@/utils/subscribeSelection";
 import {
   Category,
   Service,
@@ -30,6 +37,12 @@ type SelectedState = Record<string, boolean>;
 type PlanState = Record<string, string>;
 type HeadcountState = Record<string, number>;
 type OpenState = Record<string, boolean>;
+type SelectedSummaryItem = Partial<SubscribeSelectionItem> & {
+  name: string;
+  price?: number;
+  quoteOnly?: boolean;
+  groupOnly?: boolean;
+};
 type DetailTarget = {
   item: any;
   currentItem: any;
@@ -400,6 +413,75 @@ function buildInitialOpen(config: Category[]): OpenState {
   });
 
   return acc;
+}
+
+function mergeKnownKeys<T extends Record<string, any>>(
+    base: T,
+    saved?: Record<string, any> | null
+): T {
+  if (!saved) return base;
+
+  const next = { ...base };
+
+  Object.keys(base).forEach((key) => {
+    if (saved[key] !== undefined) {
+      next[key as keyof T] = saved[key];
+    }
+  });
+
+  return next;
+}
+
+function getModelSeq(item: any, headcount: number) {
+  return getMatchedRule(item, headcount)?.modelSeq ?? item.priceRules?.[0]?.modelSeq;
+}
+
+function buildSubscribeSelectionItem({
+                                       item,
+                                       parent,
+                                       plan,
+                                       headcount,
+                                       name,
+                                       quoteOnly,
+                                       groupOnly,
+                                     }: {
+  item: any;
+  parent?: Service;
+  plan?: PlanItem;
+  headcount: number;
+  name: string;
+  quoteOnly?: boolean;
+  groupOnly?: boolean;
+}): SelectedSummaryItem {
+  const amount = quoteOnly || groupOnly ? 0 : getItemTotal(item, headcount);
+  const unitPrice = quoteOnly || groupOnly ? 0 : getItemUnitPrice(item, headcount);
+
+  return {
+    name,
+    serviceId: parent?.serviceId ?? item.serviceId,
+    serviceName: parent?.serviceName ?? item.serviceName,
+    planId: plan?.planId,
+    planName: plan?.planName,
+    productName: item.serviceName ?? item.planName,
+    unitPrice,
+    amount,
+    price: amount,
+    quoteOnly,
+    groupOnly,
+    isGroupService: groupOnly,
+    isSubService: !!item.isSubService,
+    upperServiceId: parent?.serviceId,
+    upperServiceSeq: item.upperServiceSeq,
+    serviceItemSeq: item.serviceItemSeq,
+    subServiceItemSeq: item.subServiceItemSeq ?? -1,
+    policySeq: item.policySeq,
+    currSeq: item.currSeq,
+    priceSeq: item.priceSeq,
+    modelSeq: getModelSeq(item, headcount),
+    appYm: getMatchedRule(item, headcount)?.appYm ?? item.appYm,
+    smPriceType: getMatchedRule(item, headcount)?.smPriceType ?? item.smPriceType,
+    userCount: headcount,
+  };
 }
 
 function NativeCheckbox({
@@ -875,6 +957,7 @@ function ServiceRow({
 
 function SubscribeContent() {
   const router = useRouter();
+  const isLoggedIn = useLoginStatus();
 
   const initialConfig = sortServiceConfig(fallbackServiceConfig);
 
@@ -900,6 +983,15 @@ function SubscribeContent() {
 
   const [detailItem, setDetailItem] = useState<DetailTarget | null>(null);
 
+  const applySelectionState = (config: Category[]) => {
+    const snapshot = readSubscribeSelectionSnapshot();
+
+    setSelected(mergeKnownKeys(buildInitialSelected(config), snapshot?.selected));
+    setPlans(mergeKnownKeys(buildInitialPlans(config), snapshot?.plans));
+    setHeadcounts(mergeKnownKeys(buildInitialHeadcount(config), snapshot?.headcounts));
+    setOpen(buildInitialOpen(config));
+  };
+
   useEffect(() => {
     const loadServices = async () => {
       try {
@@ -914,10 +1006,7 @@ function SubscribeContent() {
         const nextConfig = sortServiceConfig(json.serviceConfig);
 
         setserviceConfig(nextConfig);
-        setSelected(buildInitialSelected(nextConfig));
-        setPlans(buildInitialPlans(nextConfig));
-        setHeadcounts(buildInitialHeadcount(nextConfig));
-        setOpen(buildInitialOpen(nextConfig));
+        applySelectionState(nextConfig);
         /*setActiveCategoryId(nextConfig[0].categoryId);*/
       } catch (error) {
         console.error("서비스 견적 API 호출 실패", error);
@@ -988,7 +1077,7 @@ function SubscribeContent() {
   }, [total]);
 
   const selectedItems = useMemo(() => {
-    const items: { name: string; price: number; quoteOnly?: boolean; groupOnly?: boolean }[] = [];
+    const items: SelectedSummaryItem[] = [];
 
     serviceConfig.forEach((cat) => {
       cat.services.forEach((svc) => {
@@ -999,17 +1088,17 @@ function SubscribeContent() {
 
           const headcount = headcounts[svc.serviceId] || 0;
 
-          items.push({
+          items.push(buildSubscribeSelectionItem({
+            item: plan ?? svc,
+            parent: svc,
+            plan,
+            headcount,
             name: plan
                 ? `${svc.serviceName} (${plan.planName})`
                 : svc.serviceName,
-            price:
-                svc.quoteOnly || plan?.quoteOnly || plan?.isGroupService
-                    ? 0
-                    : getItemTotal(plan ?? svc, headcount),
             quoteOnly: svc.quoteOnly || plan?.quoteOnly,
             groupOnly: !!plan?.isGroupService,
-          });
+          }));
 
           const allowedSubs = plan?.allowedChildren || [];
 
@@ -1017,13 +1106,14 @@ function SubscribeContent() {
             if (allowedSubs.includes(sub.serviceId) && selected[sub.serviceId]) {
               const subHeadcount = headcounts[sub.serviceId] || headcount;
 
-              items.push({
-                name: `└ ${sub.serviceName}`,
-                price: sub.quoteOnly
-                    ? 0
-                    : getItemTotal(sub, subHeadcount),
+              items.push(buildSubscribeSelectionItem({
+                item: sub,
+                parent: svc,
+                plan,
+                headcount: subHeadcount,
+                name: `ㄴ ${sub.serviceName}`,
                 quoteOnly: sub.quoteOnly,
-              });
+              }));
             }
           });
         }
@@ -1034,6 +1124,48 @@ function SubscribeContent() {
   }, [serviceConfig, selected, plans, headcounts]);
 
   const hasQuoteOnly = selectedItems.some((item) => item.quoteOnly);
+
+  const buildSelectionSnapshot = (): SubscribeSelectionSnapshot => ({
+    selected,
+    plans,
+    headcounts,
+    items: selectedItems.map((item) => ({
+      ...item,
+      amount: Number(item.amount ?? item.price ?? 0),
+      unitPrice: Number(item.unitPrice ?? 0),
+    })) as SubscribeSelectionItem[],
+    total,
+    hasQuoteOnly,
+    portalId: "EVERIN",
+    savedAt: new Date().toISOString(),
+  });
+
+  const persistSelectionSnapshot = () => {
+    writeSubscribeSelectionSnapshot(buildSelectionSnapshot());
+  };
+
+  const getStep2Url = () => {
+    const params = new URLSearchParams();
+
+    params.set("total", total.toString());
+    params.set("hasQuoteOnly", hasQuoteOnly.toString());
+    params.set("source", "bms");
+
+    return `/subscribe/step2?${params.toString()}`;
+  };
+
+  const handleSubscribeRequest = () => {
+    persistSelectionSnapshot();
+
+    const step2Url = getStep2Url();
+
+    if (!isLoggedIn) {
+      router.push(`/login?url=${encodeURIComponent(step2Url)}`);
+      return;
+    }
+
+    router.push(step2Url);
+  };
 
   const toggleSelected = (id: string, checked: boolean) => {
     setSelected((prev) => ({ ...prev, [id]: checked }));
@@ -1078,6 +1210,8 @@ function SubscribeContent() {
   };
 
   const handleEstimateRequest = () => {
+    persistSelectionSnapshot();
+
     const params = new URLSearchParams();
 
     params.set("total", total.toString());
@@ -1210,7 +1344,7 @@ function SubscribeContent() {
                                     ? "견적요청"
                                     : item.groupOnly
                                         ? "하위 항목 기준"
-                                        : currency(item.price)}
+                                        : currency(item.price ?? item.amount ?? 0)}
                               </span>
                                   </div>
                               ))
@@ -1226,9 +1360,7 @@ function SubscribeContent() {
                           className="w-full h-12 text-base font-semibold text-white border-0"
                           style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}
                           disabled={selectedItems.length === 0 || hasQuoteOnly}
-                          onClick={() =>
-                              router.push(`/subscribe/checkout?total=${total}`)
-                          }
+                          onClick={handleSubscribeRequest}
                       >
                         구독하기
                         <ArrowRight className="ml-2 h-5 w-5" />
@@ -1439,7 +1571,7 @@ function PriceDetailPanel({
                 )}
                 <div>
                   <h4 className="mb-3 text-sm font-bold text-slate-900">
-                    {selectedPlan?.name || selectedPlan?.planName || "선택 플랜"} 가격정책
+                    {selectedPlan?.planName || "선택 플랜"} 가격정책
                   </h4>
 
                   <div className="overflow-hidden rounded-2xl border">

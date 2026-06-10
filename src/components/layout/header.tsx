@@ -18,6 +18,7 @@ import { Menu, Users, Building2, Briefcase, ChevronDown, X, LogOut, UserCircle, 
 import { useLoginStatus, useUserProfile } from "@/redux/selectors/Users"
 import { UserActions } from "@/redux/actions/Users"
 import TokenUtil from "@/utils/tokenUtil"
+import { COLORS } from "@/constants/brand-colors"
 
 type MenuItem = {
   title: string;
@@ -140,15 +141,6 @@ const cultureMenu: Record<string, MenuItem[]> = {
     { title: "제도수립", href: "https://www.everin.co.kr/", external: true },
   ],
 };
-
-// 브랜드 컬러 상수
-const COLORS = {
-  people: "#03b565",       // 스마트 워크케어, 에버타임
-  payroll: "#3344e6",      // 급여, 에버페이롤
-  everworks: "#0FA6EC",    // 에버웍스, 그룹웨어
-  onboarding: "#00dcaa",   // 에버웰커밍, 온보딩
-  evaluation: "#0074ff",   // 에버평가, 평가
-} as const;
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -381,28 +373,28 @@ export default function Header() {
                           {/* ════════ Culture 섹션 (파란톤) ════════ */}
                           <div className="pr-8 border-r border-border/70 shrink-0">
                             {/* Culture 배지 */}
-                            <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-blue-500">
-                              <Building2 className="h-5 w-5 text-blue-500" />
-                              <span className="text-lg font-bold text-blue-500">Culture</span>
+                            <div className="flex items-center gap-2 mb-4 pb-3 border-b-2" style={{ borderColor: COLORS.culture }}>
+                              <Building2 className="h-5 w-5" style={{ color: COLORS.culture }} />
+                              <span className="text-lg font-bold" style={{ color: COLORS.culture }}>Culture</span>
                               <span className="text-sm text-muted-foreground">(기업문화)</span>
                             </div>
                             {/* Culture 카테고리들 */}
                             <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                               {Object.entries(cultureMenu).map(([category, items]) => (
                                 <div key={category} className="flex flex-col gap-3">
-                                  <div className="text-base font-bold text-blue-500 whitespace-nowrap">{category}</div>
+                                  <div className="text-base font-bold whitespace-nowrap" style={{ color: COLORS.culture }}>{category}</div>
                                   <div className="flex flex-col gap-2">
                                     {items.map((item) => (
                                       <SmartLink
                                         key={item.title}
                                         href={item.href}
                                         onClick={dismissMegaMenu}
-                                        className="text-base text-foreground hover:text-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-1.5"
+                                        className="text-base text-foreground transition-colors whitespace-nowrap inline-flex items-center gap-1.5 hover:opacity-80"
                                       >
                                         <span className="text-muted-foreground/50 text-sm">ㄴ</span>
                                         <span className="font-semibold">{item.title}</span>
                                         {item.subtitle && (
-                                          <span className="text-sm text-blue-500/70 font-normal">
+                                          <span className="text-sm font-normal" style={{ color: COLORS.culture }}>
                                             {item.subtitle}
                                           </span>
                                         )}
@@ -728,7 +720,7 @@ export default function Header() {
 
                 {/* Culture (파란톤) */}
                 <div className="space-y-3 rounded-2xl border bg-white p-4 shadow-sm">
-                  <h4 className="flex items-center gap-2 text-base font-bold uppercase text-blue-500">
+                  <h4 className="flex items-center gap-2 text-base font-bold uppercase" style={{ color: COLORS.culture }}>
                     <Building2 className="h-4 w-4" />
                     Culture (기업문화)
                   </h4>
@@ -740,11 +732,11 @@ export default function Header() {
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className="block py-1 text-sm leading-6 text-foreground/85 transition-colors hover:text-blue-500"
+                            className="block py-1 text-sm leading-6 text-foreground/85 transition-colors hover:opacity-80"
                             onClick={() => setIsOpen(false)}
                           >
                             {item.title}
-                            {item.subtitle && <span className="text-xs text-blue-500 ml-1">({item.subtitle})</span>}
+                            {item.subtitle && <span className="text-xs ml-1" style={{ color: COLORS.culture }}>({item.subtitle})</span>}
                           </SmartLink>
                         ))}
                       </div>

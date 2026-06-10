@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { COLORS } from "@/constants/brand-colors"
 
 export default function CtaSection() {
   return (
@@ -12,6 +13,7 @@ export default function CtaSection() {
               className="object-cover object-center"
           />
         </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-50/95 via-white/90 to-orange-100/85" />
 
         {/* Content */}
         <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
@@ -28,11 +30,11 @@ export default function CtaSection() {
           </p>
 
           <div className="flex justify-center gap-4 flex-wrap">
-            <button className="px-9 py-3.5 bg-black text-white rounded-lg font-semibold hover:bg-black/80 transition-colors">
+            <button className="px-9 py-3.5 text-white rounded-lg font-semibold transition-colors shadow-lg shadow-orange-200" style={{ backgroundColor: COLORS.everworks }}>
               브로셔 다운로드
             </button>
 
-            <button className="px-12 py-3.5 bg-white border border-black/50 text-black rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+            <button className="px-12 py-3.5 bg-white rounded-lg font-semibold hover:bg-orange-50 transition-colors" style={{ border: `1px solid ${COLORS.everworks}`, color: COLORS.everworks }}>
               견적요청
             </button>
           </div>
