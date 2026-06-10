@@ -218,7 +218,10 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* 상단 프로모션 배너 */}
-      <div className="bg-slate-900 text-primary-foreground py-2.5">
+      <div
+        className="text-primary-foreground py-2.5"
+        style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
+      >
         <div className="mx-auto max-w-[1280px] px-4 text-center text-sm">
           <span className="font-medium">AI 빌더를 활용한 강력한 온보딩 솔루션!</span>
           {" "}에버웰커밍 무료 사용 이벤트{" "}
@@ -529,6 +532,9 @@ export default function Header() {
 
                 <Button className="h-10 rounded-full px-5 bg-primary hover:bg-primary/90 text-sm xl:text-base font-semibold" asChild>
                   <SmartLink href="/trial">체험하기</SmartLink>
+                </Button>
+                <Button variant="secondary" className="h-10 px-4 xl:px-6 bg-foreground text-background hover:bg-foreground/90 text-sm xl:text-base font-semibold" asChild>
+                  <SmartLink href="/inquiry">도입문의</SmartLink>
                 </Button>
               </>
             ) : (

@@ -28,59 +28,6 @@ export default function HeroSection() {
         className="flex h-full transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
-        <div
-          className="flex min-w-full items-center bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/images/main/backgrounds/bg-hero-00.jpg')",
-          }}
-        >
-          <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-            <div className="grid grid-cols-1 items-center gap-8 pb-8 pt-12 lg:grid-cols-2 lg:gap-12 lg:pb-12 lg:pt-16">
-              <div className="flex max-w-[560px] flex-col justify-center">
-                <h2 className="mb-6 pt-4 text-[30px] font-black leading-[1.18] text-gray-900 md:pt-0 md:text-4xl lg:text-5xl">
-                  HR 업무가 벌써 5개 이상?
-                  <br />
-                  이제 하나로 통합해보세요.
-                </h2>
-
-                <p className="mb-8 text-base leading-relaxed text-gray-700 md:text-lg">
-                  온보딩, 근태, 급여, 평가, 기업문화, 그룹웨어까지 흩어진 HR 업무를
-                  <br className="hidden md:block" />
-                  에버인 하나로 자연스럽게 연결합니다.
-                </p>
-
-                <div className="flex flex-wrap gap-4">
-                  <Link
-                    href="/trial"
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-0 px-7 text-base font-semibold text-white transition-all md:h-14 md:px-10"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)",
-                    }}
-                  >
-                    에버인 맛보기
-                  </Link>
-
-                  <Link
-                    href="/inquiry"
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-2 border-[#00cc99] bg-white px-7 text-base font-semibold text-gray-700 transition-all hover:bg-[#f0fdf9] md:h-14 md:px-10"
-                  >
-                    도입 문의
-                  </Link>
-                </div>
-              </div>
-
-              <div className="flex h-[320px] w-full animate-[float_6s_ease-in-out_infinite] items-center justify-center overflow-hidden lg:h-[420px]">
-                <img
-                  src="/images/main/heroes/main_everin_01.png"
-                  alt="클라우드 HR 에버인"
-                  className="h-auto w-[82%] object-contain"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div className="welcoming-crisis-slide relative flex min-w-full items-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/88 to-slate-950/20" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/20" />
@@ -130,8 +77,7 @@ export default function HeroSection() {
                     평생 무료로 시작하세요.
                   </p>
                   <p className="mt-2 text-[11px] font-black text-slate-900/75">
-                    ✼ 에버웰커밍 기본 솔루션은 평생 무료이며,
-                    연동되는 외부 AI 모델의 과금 정책에 따라 일정량 사용초과분 LLM 사용료가 발생할 수 있습니다.
+                    에버웰커밍 기본 솔루션은 평생 무료이며, 연동되는 외부 AI 모델 과금 정책에 따라 일정 사용초과분 LLM 사용료가 발생할 수 있습니다.
                   </p>
                 </div>
 
@@ -155,65 +101,79 @@ export default function HeroSection() {
           </div>
         </div>
 
-        <div
-          className="flex min-w-full items-center bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/images/main/backgrounds/bg-hero-00.jpg')",
-          }}
-        >
-          <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-12">
-            <div className="grid grid-cols-1 items-center gap-8 pb-8 pt-12 lg:grid-cols-2 lg:gap-12 lg:pb-12 lg:pt-16">
-              <div className="flex max-w-[560px] flex-col justify-center">
-                <p
-                  className="mb-2 font-black leading-none"
+        <div className="integration-slide relative flex min-w-full items-center overflow-hidden bg-cover bg-center">
+          <div className="absolute inset-0 bg-slate-950/10" />
+          <div className="relative z-10 mx-auto flex w-full max-w-[1280px] justify-center px-6 lg:px-12">
+            <div className="flex max-w-[760px] flex-col items-center text-center">
+              <h2 className="text-[34px] font-black leading-[1.18] text-white drop-shadow-[0_6px_22px_rgba(0,0,0,0.28)] md:text-5xl lg:text-[58px]">
+                HR 솔루션이 혹시 5개 이상?
+                <br />
+                이제 하나로 통합해 보세요.
+              </h2>
+
+              <p className="mt-7 text-base font-semibold leading-relaxed text-white/92 drop-shadow-[0_4px_16px_rgba(0,0,0,0.22)] md:text-xl">
+                온보딩, 근태, 급여, 평가, 기업문화, 그룹웨어가 따로 노는 비효율은 그만!
+                <br className="hidden md:block" />
+                에버인 하나로 모든 HR 업무가 완벽하게 연결됩니다.
+              </p>
+
+              <div className="mt-9 flex flex-wrap justify-center gap-4">
+                <Link
+                  href="/trial"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-0 px-7 text-base font-semibold text-white transition-all md:h-14 md:px-10"
                   style={{
-                    fontSize: "clamp(72px, 10vw, 120px)",
                     background:
-                      "linear-gradient(135deg, #4b6bf5 0%, #00cc99 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
+                      "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)",
                   }}
                 >
-                  1 hr
-                </p>
-                <p className="mb-4 text-xl font-bold text-gray-700 md:text-2xl">
-                  시간 단위 정산도 더 정확하게
-                </p>
-                <h2 className="mb-8 text-2xl font-black leading-tight text-gray-900 md:text-3xl lg:text-4xl">
-                  “복잡한 근태관리,
-                  <br />
-                  에버타임이 쉽게 만듭니다”
-                </h2>
+                  에버인 맛보기
+                </Link>
 
-                <div className="flex flex-wrap gap-4">
-                  <Link
-                    href="/people/smartWorkCare/evertime"
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-0 px-7 text-base font-semibold text-white transition-all md:h-14 md:px-10"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)",
-                    }}
-                  >
-                    에버타임 맛보기
-                  </Link>
-
-                  <Link
-                    href="/people/smartWorkCare/evertime"
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-2 border-[#00cc99] bg-white px-7 text-base font-semibold text-gray-700 transition-all hover:bg-[#f0fdf9] md:h-14 md:px-10"
-                  >
-                    7개월 무료 사용
-                  </Link>
-                </div>
+                <Link
+                  href="/inquiry"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-2 border-[#00cc99] bg-white px-7 text-base font-semibold text-gray-700 transition-all hover:bg-[#f0fdf9] md:h-14 md:px-10"
+                >
+                  도입 문의
+                </Link>
               </div>
+            </div>
+          </div>
+        </div>
 
-              <div className="flex h-[320px] w-full items-center justify-center lg:h-[420px]">
-                <div className="relative h-full w-[82%] overflow-hidden rounded-[32px] shadow-2xl">
-                  <img
-                    src="/images/main/heroes/evertime-happy-woman.jpg"
-                    alt="1시간 정산으로 정확하게 퇴근하는 여성"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+        <div className="evertime-slide relative flex min-w-full items-center overflow-hidden bg-cover bg-center">
+          <div className="absolute inset-0 bg-gradient-to-r from-white/12 via-transparent to-emerald-950/18" />
+          <div className="relative z-10 mx-auto flex w-full max-w-[1280px] justify-center px-6 lg:px-12">
+            <div className="ml-auto flex w-full max-w-[560px] flex-col items-center text-center lg:mr-10">
+              <p className="font-black leading-none text-white drop-shadow-[0_10px_30px_rgba(0,70,35,0.28)] [font-size:clamp(72px,8vw,120px)]">
+                1시간
+              </p>
+              <h2 className="mt-3 text-[32px] font-black leading-tight text-white drop-shadow-[0_8px_24px_rgba(0,70,35,0.24)] md:text-5xl">
+                시간단위 연차신청
+              </h2>
+              <p className="mt-7 text-lg font-semibold leading-relaxed text-white/94 drop-shadow-[0_5px_18px_rgba(0,70,35,0.22)] md:text-2xl">
+                복잡한 근태관리
+                <br />
+                에버타임이 쉽게 만듭니다.
+              </p>
+
+              <div className="mt-9 flex flex-wrap justify-center gap-4">
+                <Link
+                  href="/people/smartWorkCare/evertime"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-0 px-7 text-base font-semibold text-white transition-all md:h-14 md:px-10"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)",
+                  }}
+                >
+                  에버타임 맛보기
+                </Link>
+
+                <Link
+                  href="/people/smartWorkCare/evertime"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-2 border-[#00cc99] bg-white px-7 text-base font-semibold text-gray-700 transition-all hover:bg-[#f0fdf9] md:h-14 md:px-10"
+                >
+                  7개월 무료 사용
+                </Link>
               </div>
             </div>
           </div>
@@ -263,9 +223,27 @@ export default function HeroSection() {
           background-position: center right;
         }
 
+        .integration-slide {
+          background-image: url("/images/main/backgrounds/bg-hero-01.jpg");
+          background-position: center center;
+        }
+
+        .evertime-slide {
+          background-image: url("/images/main/backgrounds/bg-hero-02.jpg");
+          background-position: center center;
+        }
+
         @media (max-width: 767px) {
           .welcoming-crisis-slide {
             background-position: 78% center;
+          }
+
+          .integration-slide {
+            background-position: 58% center;
+          }
+
+          .evertime-slide {
+            background-position: 34% center;
           }
         }
 

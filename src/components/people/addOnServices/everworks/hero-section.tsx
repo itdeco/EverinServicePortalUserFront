@@ -31,7 +31,7 @@ export default function HeroSection() {
             </h1>
 
             <p className="text-gray-500 text-base leading-relaxed mb-8">
-              근태 · 급여 · ERP가 하나로 흐르는 경험.<br />
+              근태 · 급여 · ERP가 하나로 흐르는 경험<br />
               데이터 파편화 없는 HR-Native 그룹웨어,<br />
               EverWorks
             </p>

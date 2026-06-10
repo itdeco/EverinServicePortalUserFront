@@ -39,7 +39,7 @@ export default function ModuleSection() {
                         핵심 모듈별 특장점
                     </h2>
                     <p className="text-gray-500">
-                        EverWorks만의 차별화된 경쟁력을 확인하세요.
+                        EverWorks만의 차별화된 경쟁력을 확인하세요
                     </p>
                 </div>
 

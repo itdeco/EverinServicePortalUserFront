@@ -26,7 +26,7 @@ export default function CaseSection() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">
-            업체가 다르면, 관리자의 고통은 배가 됩니다.
+            업체가 다르면, 관리자의 고통은 배가 됩니다
           </h2>
         </div>
 

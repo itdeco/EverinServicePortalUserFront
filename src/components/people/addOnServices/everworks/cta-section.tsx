@@ -26,7 +26,7 @@ export default function CtaSection() {
           </h2>
 
           <p className="text-black text-base md:text-lg mb-8">
-            업체별로 따로 노는 데이터, 이제 EverWorks가 하나로 묶어드립니다.
+            업체별로 따로 노는 데이터, 이제 EverWorks가 하나로 묶어드립니다
           </p>
 
           <div className="flex justify-center gap-4 flex-wrap">

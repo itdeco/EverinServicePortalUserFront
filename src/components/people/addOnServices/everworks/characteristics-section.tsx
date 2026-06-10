@@ -13,13 +13,13 @@ export default function CharacteristicsSection() {
       id: 2,
       title: "Hybrid OS 지원",
       description:
-        "Windows와 Mac 모두에서 최적화된 전용 앱을 제공합니다. 웹 브라우저보다 빠르고 안정적인 데스크톱 환경을 경험하십시오.",
+        "Windows와 Mac 모두에서 최적화된 전용 앱을 제공합니다. 웹 브라우저보다 빠르고 안정적인 데스크톱 환경을 경험하십시오",
     },
     {
       id: 3,
       title: "조직도 기반 메신저",
       description:
-        "전사 조직도가 실시간 반영되는 보안 메신저로 업무의 속도를 높이고, 개인 사생활과 업무를 완벽히 분리합니다.",
+        "전사 조직도가 실시간 반영되는 보안 메신저로 업무의 속도를 높이고, 개인 사생활과 업무를 완벽히 분리합니다",
     },
   ];
 
@@ -34,7 +34,7 @@ export default function CharacteristicsSection() {
           <p className="text-gray-700 text-base leading-relaxed">
             업무의 시작은 소통입니다. EverWorks 메신저는 단순한 채팅을 넘어
             <br />
-            모든 업무의 '허브' 역할을 수행합니다.
+            모든 업무의 '허브' 역할을 수행합니다
           </p>
         </div>
 

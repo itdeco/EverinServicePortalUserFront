@@ -12,7 +12,7 @@ const features = [
   },
   {
     title: "단일 창구 지원",
-    description: "모든 솔루션을 우리가 직접 만드니깐, 기술 지원도 단 한 곳에서 끝납니다."
+    description: "모든 솔루션을 우리가 직접 만드니깐, 기술 지원도 단 한 곳에서 끝납니다"
   }
 ];
 
@@ -36,9 +36,9 @@ export default function FeaturesSection() {
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
-            &quot;우리는 <span style={{ color: COLORS.everworks }}>하나</span>로 흐릅니다.
+            &quot;우리는 <span style={{ color: COLORS.everworks }}>하나</span>로 흐릅니다
             <br />
-            그룹웨어가 곧 모든 시스템의 관문입니다.&quot;
+            그룹웨어가 곧 모든 시스템의 관문입니다&quot;
           </h2>
         </div>
 

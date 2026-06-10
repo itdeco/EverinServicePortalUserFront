@@ -60,7 +60,30 @@ export default function MarketoInquiryForm() {
         onError={() => setHasLoadError(true)}
       />
       <div className="flex min-h-[360px] w-full flex-col items-center">
-        <form id={`mktoForm_${formId}`} className="w-full max-w-[720px]" />
+        <form id={`mktoForm_${formId}`} className="mkto-inquiry-form w-full max-w-[960px]" />
+        <style jsx global>{`
+          .mkto-inquiry-form.mktoForm,
+          .mkto-inquiry-form .mktoForm {
+            width: 100% !important;
+            max-width: 960px !important;
+          }
+
+          .mkto-inquiry-form .mktoFormRow {
+            width: 100% !important;
+          }
+
+          .mkto-inquiry-form .mktoFieldWrap,
+          .mkto-inquiry-form .mktoFormCol {
+            max-width: 100% !important;
+          }
+
+          @media (max-width: 767px) {
+            .mkto-inquiry-form.mktoForm,
+            .mkto-inquiry-form .mktoForm {
+              max-width: 100% !important;
+            }
+          }
+        `}</style>
         {!isScriptReady && !hasLoadError ? (
           <p className="mt-8 text-sm font-medium text-slate-500">문의 양식을 불러오는 중입니다.</p>
         ) : null}

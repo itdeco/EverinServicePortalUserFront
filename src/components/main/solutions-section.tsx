@@ -359,7 +359,7 @@ export function SolutionsSection() {
                       </Link>
                     </div>
                     {/* 이미지 영역 — 남은 공간 꽉 채우기 */}
-                    <div className="absolute right-0 top-0 h-full w-[30%] md:w-[30%] overflow-hidden">
+                    <div className="absolute right-0 top-0 h-full w-[40%] md:w-[40%] overflow-hidden">
                       <Image
                           src={card.img}
                           alt={card.title}
@@ -367,7 +367,7 @@ export function SolutionsSection() {
                           loading="lazy"
                           placeholder="blur"
                           blurDataURL={blurDataURL}
-                          className="object-contain object-right p-2 md:p-4 transition-all duration-300 group-hover:scale-105"
+                          className="object-contain object-right p-1 md:p-2 transition-all duration-300 group-hover:scale-105"
                       />
                     </div>
                   </div>

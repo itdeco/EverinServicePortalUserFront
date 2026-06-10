@@ -1091,25 +1091,21 @@ function SubscribeContent() {
               {/* Summary Card */}
               <div className="lg:sticky lg:top-28 lg:self-start">
                 <Card className="overflow-hidden border-0 shadow-xl" style={{background: "linear-gradient(to bottom right, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
-                  <CardHeader className="text-white py-3 gap-0 ">
-                    <CardTitle className="flex items-center justify-between text-xl">
+                  <CardHeader className="gap-0 px-6 py-0 text-white">
+                    <CardTitle className="flex items-center justify-between text-2xl">
                       <span className="flex items-center gap-2">
                         <Calculator className="h-5 w-5" />
-                        총 견적
+                        월 예상금액
                       </span>
                     </CardTitle>
                   </CardHeader>
 
-                  <CardContent className="space-y-5 p-6 bg-white rounded-t-3xl">
-                    <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-6 text-center">
-                      <div className="mb-2 text-sm font-medium text-slate-500">
-                        예상 월 과금
-                      </div>
-
+                  <CardContent className="space-y-5 bg-white rounded-t-2xl p-6">
+                    <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-5 text-center">
                       <RollingPrice value={displayTotal} currName={displayCurrencyName} />
 
                       <div className="mt-3 text-xs text-slate-400">
-                        요금은 가격정책에 따라 기본요금 + 인당요금 또는 인당 고정단가로 계산됩니다.
+                        가격정책에 따라 기본요금과 인당요금이 자동 계산됩니다.
                       </div>
                     </div>
 
@@ -1131,8 +1127,7 @@ function SubscribeContent() {
 
                     {hasQuoteOnly && (
                         <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-                          견적요청 항목이 포함되어 있습니다. 담당자가 별도로
-                          연락드립니다.
+                          견적요청 항목이 포함되어 있습니다. 담당자가 별도로 연락드립니다.
                         </div>
                     )}
 
@@ -1141,21 +1136,29 @@ function SubscribeContent() {
                     <div>
                       <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
                         <Calculator className="h-4 w-4 text-primary" />
-                        선택 상세
+                        {selectedItems.length === 0 ? "선택 가이드" : "선택 상세"}
                       </div>
 
-                      <ScrollArea className="h-[280px] pr-3">
+                      <ScrollArea className={selectedItems.length === 0 ? "h-[188px] pr-3" : "h-[280px] pr-3"}>
                         <div className="space-y-2">
                           {selectedItems.length === 0 ? (
-                              <div className="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-400">
-                                선택된 서비스가 없습니다.
+                              <div className="space-y-2">
+                                {[
+                                  "필요한 서비스를 체크하면 월 예상금액이 바로 계산됩니다.",
+                                  "인원 수를 바꾸면 구간별 단가가 자동 반영됩니다.",
+                                  "견적요청 항목은 별도 상담으로 이어집니다.",
+                                ].map((text) => (
+                                  <div key={text} className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-600">
+                                    {text}
+                                  </div>
+                                ))}
                               </div>
                           ) : (
                               selectedItems.map((item, idx) => (
                                   <div
                                       key={idx}
                                       className={`flex items-center justify-between rounded-xl border p-3 ${
-                                          item.name.startsWith("└")
+                                          item.name.startsWith("ㄴ")
                                               ? "ml-4 border-slate-200 bg-slate-50"
                                               : "border-primary/30 bg-primary/5"
                                       }`}
@@ -1192,8 +1195,7 @@ function SubscribeContent() {
 
                       {hasQuoteOnly && (
                           <p className="text-center text-xs text-slate-400">
-                            견적요청 항목이 포함되어 구독하기를 바로 진행할 수
-                            없습니다.
+                            견적요청 항목이 포함되어 구독하기를 바로 진행할 수 없습니다.
                           </p>
                       )}
 
