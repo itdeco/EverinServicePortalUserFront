@@ -22,49 +22,49 @@ const hrCards = [
   {
     title: "인사관리",
     subtitle: "모든 HR의 중심, 결국 탄탄한 인사정보부터",
-    desc: "에버인에서 HR의 시작, 인사 정보부터 스마트하게 관리하세요.",
+    desc: "에버인에서 HR의 시작, 인사 정보부터 스마트하게 관리하세요",
     img: "/images/main/solutions/hro/bg-solutions-02.png",
     href: "/people/smartWorkCare/hr",
   },
   {
     title: "온보딩(에버웰커밍)",
     subtitle: "신규입사자의 첫단추, 잘 끼워졌나요?",
-    desc: "첫날의 혼란 대신 성장의 확신으로, 모바일 온보딩으로 채워주세요.",
+    desc: "첫날의 혼란 대신 성장의 확신으로, 모바일 온보딩으로 채워주세요",
     img: "/images/main/solutions/hro/bg-solutions-01.png",
     href: "/people/smartWorkCare/welcoming",
   },
   {
     title: "근태관리(에버타임)",
     subtitle: "갈수록 다양해지는 근무형태, 관리의 한계에 부딪혔다면?",
-    desc: "그 모든 조건을 완벽하게 품은 근태관리 프로그램, 에버타임을 시작하세요.",
+    desc: "그 모든 조건을 완벽하게 품은 근태관리 프로그램, 에버타임을 시작하세요",
     img: "/images/main/solutions/hro/bg-solutions-03.png",
     href: "/people/smartWorkCare/evertime",
   },
   {
     title: "PC-OFF(에버PC-OFF)",
     subtitle: "근태 데이터와 실시간 연동되는 PC 자동 제어를 원하시나요?",
-    desc: "에버타임 근태정보 기반으로 이중 관리 스트레스 없는 원스톱 PC-OFF를 경험하세요.",
+    desc: "에버타임 근태정보 기반으로 이중 관리 스트레스 없는 원스톱 PC-OFF를 경험하세요",
     img: "/images/main/solutions/hro/bg-solutions-04.png",
     href: "/people/smartWorkCare/pcoff",
   },
   {
     title: "에버페이롤(급여아웃소싱)",
     subtitle: "매번 바뀌는 세법과 복잡한 수당 계산으로 오늘도 야근확정이라면?",
-    desc: "급여 산정의 복잡함은 사라지고, 결과의 정확함만 남습니다.",
+    desc: "급여 산정의 복잡함은 사라지고, 결과의 정확함만 남습니다",
     img: "/images/main/solutions/hro/bg-solutions-07.png",
     href: "/people/payroll/outsourcing",
   },
   {
     title: "에버평가",
     subtitle: "조직의 성과와 성장을 위한 평가를 원한다면?",
-    desc: "업적, 역량, 다면평가까지 다각도로 분석하고 공정하게 종합평가하세요.",
+    desc: "업적, 역량, 다면평가까지 다각도로 분석하고 공정하게 종합평가하세요",
     img: "/images/main/solutions/hro/bg-solutions-05.png",
-    href: "/",
+    href: "/people/evaluation",
   },
   {
     title: "시스템 연동 및 개발",
     subtitle: "System Integration & Customization",
-    desc: "기업의 업무 환경을 하나로 연결하여 효율성을 극대화합니다.",
+    desc: "기업의 업무 환경을 하나로 연결하여 효율성을 극대화합니다",
     img: "/images/main/solutions/hro/bg-solutions-08.png",
     href: "/",
   },
@@ -104,6 +104,16 @@ const groupwareSubCard = {
   img: "/images/main/solutions/tab2/tab2-solutions-02.png",
   href: "/",
 }
+
+const everworksCards = [
+  {
+    title: "에버웍스",
+    subtitle: "서로 다른 시스템의 데이터를 맞추는 일에 시간을 쓰고 있나요?",
+    desc: "업무의 시작부터 소통의 완성까지 하나로 흐르는 그룹웨어를 시작하세요",
+    img: "/images/main/solutions/everworks/everworks-solutions-01.png",
+    href: "/people/everworks",
+  },
+]
 
 const blurDataURL =
     "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzYwJyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPjxyZWN0IHdpZHRoPScxMDAnIGhlaWdodD0nNjAnIGZpbGw9JyNmM2Y0ZjYnLz48L3N2Zz4="
@@ -427,8 +437,73 @@ export function SolutionsSection() {
           <div className={cn(
               activeTab === "groupware" ? "block animate-tab-fade-slide" : "hidden"
           )}>
-            <div className="py-20 text-center text-gray-400">
-              준비 중입니다.
+            <div className="grid grid-cols-1 gap-5 pb-4">
+              {everworksCards.map((card, i) => (
+                <div
+                  key={card.title}
+                  onMouseMove={handleCardMouseMove}
+                  onMouseLeave={handleCardMouseLeave}
+                  className={cn(
+                    "group relative h-[280px] cursor-pointer overflow-hidden rounded-2xl border bg-[#fff7f2] will-change-transform",
+                    "transition-[box-shadow,opacity,transform] duration-700 ease-out md:h-[280px]",
+                    isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
+                    i === 0 && "delay-100"
+                  )}
+                  style={{
+                    borderColor: `${COLORS.everworks}22`,
+                  }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white via-[#fff7f2]/95 to-transparent" />
+
+                  <div className="relative z-10 flex h-full w-[72%] min-w-0 flex-col justify-center px-5 py-5 md:w-[48%] md:px-8 md:py-7">
+                    <h3 className="mb-1 text-lg font-bold text-gray-900 md:text-2xl">
+                      {card.title}
+                    </h3>
+                    <p
+                      className="mb-2 text-base font-bold md:text-lg"
+                      style={{ color: COLORS.everworks }}
+                    >
+                      {card.subtitle}
+                    </p>
+                    <p className="mb-5 line-clamp-3 text-sm leading-relaxed text-gray-600 md:text-base">
+                      {card.desc}
+                    </p>
+                    <Link
+                      href={card.href}
+                      className="relative z-10 inline-flex w-fit items-center justify-center rounded-full border bg-white/90 px-4 py-1.5 text-xs font-semibold shadow-sm transition-all duration-300 hover:text-white hover:shadow-md active:scale-95 md:text-sm"
+                      style={{
+                        borderColor: `${COLORS.everworks}45`,
+                        color: COLORS.everworks,
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = COLORS.everworks
+                        e.currentTarget.style.borderColor = COLORS.everworks
+                        e.currentTarget.style.color = "#fff"
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.9)"
+                        e.currentTarget.style.borderColor = `${COLORS.everworks}45`
+                        e.currentTarget.style.color = COLORS.everworks
+                      }}
+                    >
+                      자세히 보기
+                    </Link>
+                  </div>
+
+                  <div className="absolute bottom-0 right-0 top-0 h-full w-[48%] overflow-hidden md:w-[59%]">
+                    <Image
+                      src={card.img}
+                      alt={card.title}
+                      fill
+                      loading="lazy"
+                      placeholder="blur"
+                      blurDataURL={blurDataURL}
+                      className="object-contain object-right-bottom transition-transform duration-300 group-hover:scale-[1.03]"
+                      style={{ transform: "translateY(10%) scale(1.18)", transformOrigin: "right bottom" }}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 

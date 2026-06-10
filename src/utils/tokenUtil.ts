@@ -103,7 +103,7 @@ const TokenUtil = {
       return {
         success: false,
         code: TOKEN_INVALID,
-        message: "토큰이 없습니다."
+        message: "토큰이 없습니다"
       };
     }
     
@@ -113,7 +113,7 @@ const TokenUtil = {
       return {
         success: false,
         code: TOKEN_INVALID,
-        message: "유효하지 않은 토큰입니다."
+        message: "유효하지 않은 토큰입니다"
       };
     }
     
@@ -122,7 +122,7 @@ const TokenUtil = {
       return {
         success: false,
         code: TOKEN_EXPIRED,
-        message: "토큰이 만료되었습니다."
+        message: "토큰이 만료되었습니다"
       };
     }
     

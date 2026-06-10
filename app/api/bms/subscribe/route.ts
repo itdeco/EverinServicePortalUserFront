@@ -243,7 +243,7 @@ export async function POST(req: Request) {
         console.error("BMS Subscribe API 오류", error);
 
         return NextResponse.json(
-            { message: "구독 서비스/가격 API 처리 중 오류가 발생했습니다." },
+            { message: "구독 서비스/가격 API 처리 중 오류가 발생했습니다" },
             { status: 500 }
         );
     }

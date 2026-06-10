@@ -8,25 +8,25 @@ const SLIDE_DURATION = 5000
 const reviews = [
   {
     id: 1,
-    question: "이런 고민, 당신만의 문제가 아닙니다.",
+    question: "이런 고민, 당신만의 문제가 아닙니다",
     quote:
-      "퇴근시간이 지나도 PC를 켜놓는 직원들이 많아서 근로시간 관리가 항상 애매했어요.\n매일 반복되는 퇴근 독려도 부담스럽습니다.",
+      "퇴근시간이 지나도 PC를 켜놓는 직원들이 많아서 근로시간 관리가 항상 애매했어요.\n매일 반복되는 퇴근 독려도 부담스럽습니다",
     name: "김 담당자님",
     info: "(34세, IT기업 인사 담당자)",
     image: "/images/people/smartWorkCare/pcoff/bg-review-04.png",
   },
   {
     id: 2,
-    question: "이런 고민, 당신만의 문제가 아닙니다.",
+    question: "이런 고민, 당신만의 문제가 아닙니다",
     quote:
-      "퇴근 후 수동으로 PC를 끄는 업무 때문에 인사팀이 야근을 자주 합니다.\n단순 업무 때문에 매일 스트레스가 큽니다.",
+      "퇴근 후 수동으로 PC를 끄는 업무 때문에 인사팀이 야근을 자주 합니다.\n단순 업무 때문에 매일 스트레스가 큽니다",
     name: "이 팀장님",
     info: "(39세, 제조업 HR팀장)",
     image: "/images/people/smartWorkCare/pcoff/bg-review-05.png",
   },
   {
     id: 3,
-    question: "이런 고민, 당신만의 문제가 아닙니다.",
+    question: "이런 고민, 당신만의 문제가 아닙니다",
     quote:
       "연장근무나 연차 등 PC-OFF 예외사항이 많아 자동화가 어렵고 관리가 복잡합니다.\n예외처리 때마다 혼선이 생겨 너무 힘들어요.",
     name: "박 매니저님",

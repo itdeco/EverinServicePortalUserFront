@@ -95,7 +95,7 @@ function AccountContent() {
     const result = await Api.Users.cancelDelegationRequest();
     if (!checkApiResult(result)) return;
 
-    await alertMessage("권한위임 요청이 취소되었습니다.");
+    await alertMessage("권한위임 요청이 취소되었습니다");
     const newProfile = { ...profile, status: UserStatusType.Normal };
     dispatch(UserActions.setUserProfile(newProfile));
   };

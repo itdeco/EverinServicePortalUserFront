@@ -76,7 +76,7 @@ export default function SubscriptionExpirePage() {
       if (!checkApiResult(result)) return;
 
       updateSubscriptionRedux(result?.payload);
-      await alertMessage("멤버십(구독) 해지가 취소되었습니다.");
+      await alertMessage("멤버십(구독) 해지가 취소되었습니다");
       router.push("/mypage/subscription");
     }
   };
@@ -84,7 +84,7 @@ export default function SubscriptionExpirePage() {
   // 해지 요청
   const handleUnsubscribe = async () => {
     if (!expireDate) {
-      await alertMessage("해지 날짜를 선택해주세요.");
+      await alertMessage("해지 날짜를 선택해주세요");
       return;
     }
 
@@ -97,7 +97,7 @@ export default function SubscriptionExpirePage() {
       if (!checkApiResult(result)) return;
 
       updateSubscriptionRedux(result?.payload);
-      await alertMessage("멤버십 해지가 예약되었습니다.");
+      await alertMessage("멤버십 해지가 예약되었습니다");
       router.push("/mypage/subscription");
     }
   };
@@ -138,8 +138,8 @@ export default function SubscriptionExpirePage() {
         </h1>
         <p className="text-muted-foreground">
           {isExpireRequested 
-            ? "구독해지를 취소하시려면 아래의 내용을 확인해주시기 바랍니다."
-            : "구독을 해지하시려면 아래의 내용을 확인해주시기 바랍니다."}
+            ? "구독해지를 취소하시려면 아래의 내용을 확인해주시기 바랍니다"
+            : "구독을 해지하시려면 아래의 내용을 확인해주시기 바랍니다"}
         </p>
       </div>
 

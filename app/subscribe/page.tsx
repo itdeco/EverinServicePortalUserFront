@@ -1144,9 +1144,9 @@ function SubscribeContent() {
                           {selectedItems.length === 0 ? (
                               <div className="space-y-2">
                                 {[
-                                  "필요한 서비스를 체크하면 월 예상금액이 바로 계산됩니다.",
-                                  "인원 수를 바꾸면 구간별 단가가 자동 반영됩니다.",
-                                  "견적요청 항목은 별도 상담으로 이어집니다.",
+                                  "필요한 서비스를 체크하면 월 예상금액이 바로 계산됩니다",
+                                  "인원 수를 바꾸면 구간별 단가가 자동 반영됩니다",
+                                  "견적요청 항목은 별도 상담으로 이어집니다",
                                 ].map((text) => (
                                   <div key={text} className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-600">
                                     {text}

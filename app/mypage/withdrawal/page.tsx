@@ -75,7 +75,7 @@ export default function WithdrawalPage() {
       return;
     }
 
-    await alertMessage("탈퇴 처리되었습니다.");
+    await alertMessage("탈퇴 처리되었습니다");
     logout();
   };
 

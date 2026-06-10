@@ -105,23 +105,23 @@ export default function LoginPage() {
 
     const emailErrorText = useMemo(() => {
         if (emailValidation === EmailValidationType.empty) {
-            return "이메일을 입력하지 않았습니다.";
+            return "이메일을 입력하지 않았습니다";
         }
         if (emailValidation === EmailValidationType.invalid) {
-            return "이메일 형식에 맞지 않습니다.";
+            return "이메일 형식에 맞지 않습니다";
         }
         if (emailValidation === EmailValidationType.notFound) {
-            return "가입된 이메일이 아닙니다.";
+            return "가입된 이메일이 아닙니다";
         }
         return "";
     }, [emailValidation]);
 
     const passwordErrorText = useMemo(() => {
         if (loginInfo.password.length === 0) {
-            return "비밀번호를 입력하지 않았습니다.";
+            return "비밀번호를 입력하지 않았습니다";
         }
         if (passwordNotMatch) {
-            return "비밀번호가 일치하지 않습니다.";
+            return "비밀번호가 일치하지 않습니다";
         }
         return "";
     }, [loginInfo.password.length, passwordNotMatch]);
@@ -171,7 +171,7 @@ export default function LoginPage() {
 
         if (user.status === UserStatusType.Upgrading) {
             await alertMessage(
-                "무료체험 중인 상태에서 업그레이드 중입니다.<br/>플랜 업그레이드를 완료하기 위해 구독 페이지로 이동합니다."
+                "무료체험 중인 상태에서 업그레이드 중입니다.<br/>플랜 업그레이드를 완료하기 위해 구독 페이지로 이동합니다"
             );
             router.push(ROUTES.SUBSCRIBE);
             return;
@@ -267,7 +267,7 @@ export default function LoginPage() {
 
         if (user.status === UserStatusType.DelegationTarget) {
             await alertMessage(
-                "신용카드를 등록하지 않아 권한위임 절차가 완료되지 않았기 때문에 확인 버튼을 클릭하시면 신용카드 등록 절차를 계속 진행합니다."
+                "신용카드를 등록하지 않아 권한위임 절차가 완료되지 않았기 때문에 확인 버튼을 클릭하시면 신용카드 등록 절차를 계속 진행합니다"
             );
 
             const delegationResult = await Api.Users.getDelegationLogId(user.userId);
@@ -288,13 +288,13 @@ export default function LoginPage() {
 
         if (!tokenResult.success) {
             if (tokenResult.code === TOKEN_INVALID) {
-                await alertMessage("유효하지 않은 토큰입니다.");
+                await alertMessage("유효하지 않은 토큰입니다");
                 setIsLoading(false);
                 return;
             }
 
             if (tokenResult.code === TOKEN_EXPIRED) {
-                await alertMessage("토큰이 만료되었습니다.");
+                await alertMessage("토큰이 만료되었습니다");
                 setIsLoading(false);
                 return;
             }

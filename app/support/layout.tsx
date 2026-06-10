@@ -3,7 +3,7 @@ import Footer from "@/components/layout/footer";
 
 export const metadata = {
   title: "고객 지원 - EverinServicePortal",
-  description: "공지사항, FAQ, 도움말 등 다양한 고객 지원 서비스를 제공합니다.",
+  description: "공지사항, FAQ, 도움말 등 다양한 고객 지원 서비스를 제공합니다",
 }
 
 export default function SupportLayout({

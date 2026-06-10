@@ -76,11 +76,11 @@ export default function SignUpPage() {
             }
 
             if (TrialStatusType.SignedUp === status || TrialStatusType.UpgradeComplete === status) {
-                alertMessage("이미 가입이 완료된 체험판 사용자입니다</br>로그인 페이지로 이동합니다.").then(() => {
+                alertMessage("이미 가입이 완료된 체험판 사용자입니다</br>로그인 페이지로 이동합니다").then(() => {
                     router.replace(ROUTES.LOGIN);
                 });
             } else if (TrialStatusType.Expired === status) {
-                alertMessage("이미 만료된 구독정보입니다.").then(() => {
+                alertMessage("이미 만료된 구독정보입니다").then(() => {
                     router.replace(ROUTES.HOME);
                 });
             }
@@ -141,11 +141,11 @@ export default function SignUpPage() {
 
     const getEmailErrorText = () => {
         if (EmailStatus.Empty === emailStatus) {
-            return "이메일을 입력하지 않았습니다.";
+            return "이메일을 입력하지 않았습니다";
         } else if (EmailStatus.Occupied === emailStatus) {
-            return "사용할 수 없는 이메일입니다.";
+            return "사용할 수 없는 이메일입니다";
         } else if (EmailStatus.Invalid === emailStatus) {
-            return "이메일 형식이 맞지 않습니다.";
+            return "이메일 형식이 맞지 않습니다";
         }
         return "";
     }

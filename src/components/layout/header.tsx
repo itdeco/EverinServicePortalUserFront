@@ -72,7 +72,7 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
   },
   {
     label: "평가관리",
-    items: [{ title: "업적·역량·다면", href: "#" }],
+    items: [{ title: "업적·역량·다면", href: "/people/evaluation" }],
   },
   {
     label: "부가서비스",
@@ -102,7 +102,7 @@ const peopleMenu: Record<string, MenuItem[]> = {
     { title: "신고", href: "#" },
     { title: "연말정산", href: "#" },
   ],
-  평가관리: [{ title: "업적·역량·다면", href: "#" }],
+  평가관리: [{ title: "업적·역량·다면", href: "/people/evaluation" }],
   부가서비스: [
     { title: "전자계약", href: "#" },
     { title: "연동서비스", href: "#" },
@@ -220,7 +220,9 @@ export default function Header() {
       {/* 상단 프로모션 배너 */}
       <div
         className="text-primary-foreground py-2.5"
-        style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
+        style={{
+          background: `linear-gradient(90deg, ${COLORS.payroll} 0%, ${COLORS.culture} 28%, ${COLORS.onboarding} 58%, ${COLORS.people} 100%)`,
+        }}
       >
         <div className="mx-auto max-w-[1280px] px-4 text-center text-sm">
           <span className="font-medium">AI 빌더를 활용한 강력한 온보딩 솔루션!</span>

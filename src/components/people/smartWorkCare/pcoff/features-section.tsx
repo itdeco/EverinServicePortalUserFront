@@ -13,7 +13,7 @@ const tabs = [
     icon: "/images/people/smartWorkCare/pcoff/icon/Icon-pcoff-01.svg",
     image: "/images/people/smartWorkCare/pcoff/bg-service-carsoul-20.png",
     description:
-      "직원 PC에 설치된 Agent가 자동으로 PC를 제어하여,\n정해진 근태정보를 기준으로 정확히 PC-OFF를 진행합니다.",
+      "직원 PC에 설치된 Agent가 자동으로 PC를 제어하여,\n정해진 근태정보를 기준으로 정확히 PC-OFF를 진행합니다",
   },
   {
     id: "mouse",
@@ -23,7 +23,7 @@ const tabs = [
     icon: "/images/people/smartWorkCare/pcoff/icon/Icon-pcoff-02.svg",
     image: "/images/people/smartWorkCare/pcoff/bg-service-carsoul-21.png",
     description:
-      "마우스·키보드의 움직임을 통해 실시간으로 이석 여부를 감지하여,\n정확한 근무시간을 체크합니다.",
+      "마우스·키보드의 움직임을 통해 실시간으로 이석 여부를 감지하여,\n정확한 근무시간을 체크합니다",
   },
   {
     id: "personal",

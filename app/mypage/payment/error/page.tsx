@@ -30,7 +30,7 @@ export default function PaymentErrorPage() {
       if (paymentStatus.status === PaymentLogStatusType.Error) {
         const lockDays = profile?.preference?.paymentErrorLockDays || 5;
         const passedDays = DateUtil.calcIntervalDays(paymentStatus.errorDate, new Date());
-        setMessage(paymentStatus.errorMessage || "결제 처리 중 오류가 발생했습니다.");
+        setMessage(paymentStatus.errorMessage || "결제 처리 중 오류가 발생했습니다");
 
         if (passedDays > lockDays) {
           setIsPaused(true);
@@ -62,8 +62,8 @@ export default function PaymentErrorPage() {
         <p className="text-white/90 max-w-lg mx-auto">
           고객님의 {prevMonthDate.getFullYear()}년 {prevMonthDate.getMonth() + 1}월에 대한 결제 문제가 발생
           {isPaused 
-            ? "되었으며, 멤버십이 일시 중지되었습니다." 
-            : "되었습니다."}
+            ? "되었으며, 멤버십이 일시 중지되었습니다"
+            : "되었습니다"}
         </p>
       </div>
 

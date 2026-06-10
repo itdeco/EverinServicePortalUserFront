@@ -172,7 +172,7 @@ export default function SignUpStep4Page() {
                             {/* Info Notice */}
                             <div className="bg-gray-50 rounded-lg p-4 text-center">
                                 <p className="text-sm text-muted-foreground">
-                                    {"※ 가입하신 회원정보는 MY Page > 계정정보에서 확인하실 수 있습니다."}
+                                    {"※ 가입하신 회원정보는 MY Page > 계정정보에서 확인하실 수 있습니다"}
                                 </p>
                             </div>
 

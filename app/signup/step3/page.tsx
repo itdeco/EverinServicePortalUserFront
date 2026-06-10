@@ -227,18 +227,18 @@ export default function SignUpStep3Page() {
 
         const validationStatus = checkPasswordValidation(password);
         if (validationStatus === PasswordValidationStatus.InsufficientCharCount) {
-            await alertMessage("암호를 7자리 ~ 20자리 이내로 입력해주세요.");
+            await alertMessage("암호를 7자리 ~ 20자리 이내로 입력해주세요");
             return;
         } else if (validationStatus === PasswordValidationStatus.NotAllowedSpace) {
-            await alertMessage("암호를 공백 없이 입력해주세요.");
+            await alertMessage("암호를 공백 없이 입력해주세요");
             return;
         } else if (validationStatus === PasswordValidationStatus.NeedAlphabetAndNumeric) {
-            await alertMessage("암호를 영문, 숫자를 혼합하여 입력해주세요.");
+            await alertMessage("암호를 영문, 숫자를 혼합하여 입력해주세요");
             return;
         }
 
         if (!CommonUtil.isValidMobilePhone(phone)) {
-            await alertMessage("휴대전화번호가 형식에 맞지 않습니다.");
+            await alertMessage("휴대전화번호가 형식에 맞지 않습니다");
             return;
         }
 
@@ -312,21 +312,21 @@ export default function SignUpStep3Page() {
     const getErrorText = (field: string) => {
         switch (status) {
             case ValidationStatus.EmptyName:
-                return field === "name" ? "이름을 입력하지 않았습니다." : "";
+                return field === "name" ? "이름을 입력하지 않았습니다" : "";
             case ValidationStatus.EmptyPassword:
-                return field === "password" ? "비밀번호를 입력하지 않았습니다." : "";
+                return field === "password" ? "비밀번호를 입력하지 않았습니다" : "";
             case ValidationStatus.EmptyConfirmPassword:
-                return field === "confirmPassword" ? "확인 비밀번호를 입력하지 않았습니다." : "";
+                return field === "confirmPassword" ? "확인 비밀번호를 입력하지 않았습니다" : "";
             case ValidationStatus.NotMatchPassword:
-                return field === "confirmPassword" ? "비밀번호와 확인 비밀번호가 일치하지 않습니다." : "";
+                return field === "confirmPassword" ? "비밀번호와 확인 비밀번호가 일치하지 않습니다" : "";
             case ValidationStatus.InvalidPassword:
-                return field === "confirmPassword" ? "비밀번호가 조건에 맞지 않습니다." : "";
+                return field === "confirmPassword" ? "비밀번호가 조건에 맞지 않습니다" : "";
             case ValidationStatus.EmptyPhone:
-                return field === "phone" ? "휴대전화번호를 입력하지 않았습니다." : "";
+                return field === "phone" ? "휴대전화번호를 입력하지 않았습니다" : "";
             case ValidationStatus.InvalidPhone:
-                return field === "phone" ? "휴대전화번호가 형식에 맞지 않습니다." : "";
+                return field === "phone" ? "휴대전화번호가 형식에 맞지 않습니다" : "";
             case ValidationStatus.TimerExpired:
-                return field === "authCode" ? "인증시간이 만료되었습니다. 인증번호를 다시 요청하세요." : "";
+                return field === "authCode" ? "인증시간이 만료되었습니다. 인증번호를 다시 요청하세요" : "";
             default:
                 return "";
         }

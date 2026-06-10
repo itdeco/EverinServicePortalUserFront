@@ -82,11 +82,11 @@ export default function SubscriptionRecoverPage() {
       }
 
       updateSubscriptionRedux(result?.payload);
-      await alertMessage("멤버십이 복구되었습니다.");
+      await alertMessage("멤버십이 복구되었습니다");
       router.push("/mypage/subscription");
     } catch (error) {
       console.error("복구 실패:", error);
-      await alertMessage("복구 중 오류가 발생했습니다.");
+      await alertMessage("복구 중 오류가 발생했습니다");
     } finally {
       setIsProcessing(false);
     }
@@ -107,11 +107,11 @@ export default function SubscriptionRecoverPage() {
       }
 
       updateSubscriptionRedux(result?.payload);
-      await alertMessage("멤버십이 다시 시작되었습니다.");
+      await alertMessage("멤버십이 다시 시작되었습니다");
       router.push("/mypage/subscription");
     } catch (error) {
       console.error("재시작 실패:", error);
-      await alertMessage("재시작 중 오류가 발생했습니다.");
+      await alertMessage("재시작 중 오류가 발생했습니다");
     } finally {
       setIsProcessing(false);
     }
@@ -152,8 +152,8 @@ export default function SubscriptionRecoverPage() {
         <h1 className="text-3xl font-bold text-foreground mb-2">멤버십 복구</h1>
         <p className="text-muted-foreground">
           {isExpireRequested 
-            ? "구독해지를 취소하시려면 아래의 내용을 확인해주시기 바랍니다."
-            : "구독을 복구하시려면 아래의 내용을 확인해주시기 바랍니다."}
+            ? "구독해지를 취소하시려면 아래의 내용을 확인해주시기 바랍니다"
+            : "구독을 복구하시려면 아래의 내용을 확인해주시기 바랍니다"}
         </p>
       </div>
 

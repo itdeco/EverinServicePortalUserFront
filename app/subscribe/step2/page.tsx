@@ -283,7 +283,7 @@ function SubscribeStep2Content() {
       // 다음 단계로 이동
       router.push(`/subscribe/step3?subscriptionId=${newSubscription.id}&cardId=${newSubscription.cardId}${isUpgrade ? "&upgrade=1" : ""}`);
     } catch (error) {
-      await alertMessage("구독 처리 중 오류가 발생했습니다.");
+      await alertMessage("구독 처리 중 오류가 발생했습니다");
     } finally {
       setIsSubmitting(false);
     }

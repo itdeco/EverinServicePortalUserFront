@@ -29,6 +29,6 @@ export const METADATA = {
     EverPayroll: {
         title: "에버페이롤",
         metaTitle: "에버페이롤(급여아웃소싱)",
-        description: "복잡하고 까다로운 급여업무를 아웃소싱 서비스로 간편하게 해결하시고 가장 중요한 업무에 집중하세요.",
+        description: "복잡하고 까다로운 급여업무를 아웃소싱 서비스로 간편하게 해결하시고 가장 중요한 업무에 집중하세요",
     }
 }

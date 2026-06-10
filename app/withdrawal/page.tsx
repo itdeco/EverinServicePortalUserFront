@@ -46,7 +46,7 @@ export default function WithdrawalPage() {
 
   const handleConfirmWithdrawal = async () => {
     if (!password) {
-      setPasswordError("비밀번호를 입력해주세요.")
+      setPasswordError("비밀번호를 입력해주세요")
       return
     }
 
@@ -54,11 +54,11 @@ export default function WithdrawalPage() {
     try {
       const verifyResult = await Api.Users.verifyPassword({ password })
       if (!checkApiResult(verifyResult)) {
-        setPasswordError("비밀번호가 일치하지 않습니다.")
+        setPasswordError("비밀번호가 일치하지 않습니다")
         return
       }
     } catch {
-      setPasswordError("비밀번호 확인 중 오류가 발생했습니다.")
+      setPasswordError("비밀번호 확인 중 오류가 발생했습니다")
       return
     }
 
@@ -76,7 +76,7 @@ export default function WithdrawalPage() {
         // Clear user session and redirect
         localStorage.clear()
         sessionStorage.clear()
-        alert("탈퇴 처리가 완료되었습니다.")
+        alert("탈퇴 처리가 완료되었습니다")
         router.push("/")
       }
     } finally {
@@ -134,7 +134,7 @@ export default function WithdrawalPage() {
                   <Label htmlFor="description">탈퇴 사유를 간략히 적어주세요</Label>
                   <Textarea
                     id="description"
-                    placeholder="탈퇴 사유를 입력해주세요..."
+                    placeholder="탈퇴 사유를 입력해주세요.."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={5}

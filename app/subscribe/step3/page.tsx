@@ -51,7 +51,7 @@ function SubscribeStep3Content() {
             </h1>
             <p className="text-muted-foreground text-lg max-w-md mx-auto">
               {subscription?.corporationName || "회사"}님, 에버타임 서비스를 선택해 주셔서 감사합니다.
-              {!isUpgrade && " 이제 모든 기능을 이용하실 수 있습니다."}
+              {!isUpgrade && " 이제 모든 기능을 이용하실 수 있습니다"}
             </p>
           </div>
 

@@ -184,17 +184,17 @@ export default function TrialPage() {
   const getErrorMessage = () => {
     switch (status) {
       case ValidationStatus.EmptyName:
-        return "이름을 입력해주세요."
+        return "이름을 입력해주세요"
       case ValidationStatus.EmptyCompanyName:
-        return "회사명을 입력해주세요."
+        return "회사명을 입력해주세요"
       case ValidationStatus.EmptyPhone:
-        return "휴대전화번호를 입력해주세요."
+        return "휴대전화번호를 입력해주세요"
       case ValidationStatus.InvalidPhone:
-        return "올바른 휴대전화번호 형식이 아닙니다."
+        return "올바른 휴대전화번호 형식이 아닙니다"
       case ValidationStatus.AuthCodeNotMatch:
-        return "인증번호가 일치하지 않습니다."
+        return "인증번호가 일치하지 않습니다"
       case ValidationStatus.TimerExpired:
-        return "인증시간이 만료되었습니다. 다시 요청해주세요."
+        return "인증시간이 만료되었습니다. 다시 요청해주세요"
       default:
         return null
     }

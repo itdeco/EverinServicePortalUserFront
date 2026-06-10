@@ -17,7 +17,7 @@ const reviews = [
   {
     id: 2,
     question: "아직도 이렇게 관리하고 계신가요?",
-    quote: "부서 간 인사이동이나 조직개편이 있을 때마다 조직도를 매번 새로 만들어야 합니다. 인사이동 관리가 복잡하고 시간 소모가 너무 큽니다.",
+    quote: "부서 간 인사이동이나 조직개편이 있을 때마다 조직도를 매번 새로 만들어야 합니다. 인사이동 관리가 복잡하고 시간 소모가 너무 큽니다",
     name: "HR팀 박팀장",
     info: "(41세, 제조기업 HR 관리자)",
     image: "/images/people/smartWorkCare/hr/bg-review-02.png",
@@ -25,7 +25,7 @@ const reviews = [
   {
     id: 3,
     question: "HR 담당자라면 한 번쯤 겪는 문제",
-    quote: "직원 이력관리를 중앙에서 하지 않다 보니, 급여 승진 등 중요한 인사결정을 내릴 때 정확한 정보가 없어 곤란할 때가 있어요.",
+    quote: "직원 이력관리를 중앙에서 하지 않다 보니, 급여 승진 등 중요한 인사결정을 내릴 때 정확한 정보가 없어 곤란할 때가 있어요",
     name: "People팀 김 매니저",
     info: "(29세, 스타트업 인사 매니저)",
     image: "/images/people/smartWorkCare/hr/bg-review-03.png",
