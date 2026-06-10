@@ -543,8 +543,8 @@ export default function Header() {
                 <Button className="h-10 px-4 xl:px-6 bg-primary hover:bg-primary/90 text-sm xl:text-base font-semibold" asChild>
                   <SmartLink href="/trial">체험하기</SmartLink>
                 </Button>
-                <Button variant="secondary" className="h-10 px-4 xl:px-6 bg-foreground text-background hover:bg-foreground/90 text-sm xl:text-base font-semibold">
-                  도입문의
+                <Button variant="secondary" className="h-10 px-4 xl:px-6 bg-foreground text-background hover:bg-foreground/90 text-sm xl:text-base font-semibold" asChild>
+                  <SmartLink href="/inquiry">도입문의</SmartLink>
                 </Button>
               </>
             )}

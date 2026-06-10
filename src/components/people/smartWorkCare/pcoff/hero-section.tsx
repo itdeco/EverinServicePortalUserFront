@@ -45,7 +45,7 @@ export default function PcOffHeroSection() {
               className="px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
               style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
             >
-              <Link href="/support/inquiry">도입문의</Link>
+              <Link href="/inquiry">도입문의</Link>
             </Button>
 
             <Button

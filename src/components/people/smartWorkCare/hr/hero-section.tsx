@@ -59,7 +59,7 @@ export default function HrHeroSection() {
               variant="outline"
               className="border border-[#00cc99] bg-white text-gray-700 px-10 h-14 text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
             >
-              <Link href="/support/inquiry">도입문의</Link>
+              <Link href="/inquiry">도입문의</Link>
             </Button>
           </div>
         </div>

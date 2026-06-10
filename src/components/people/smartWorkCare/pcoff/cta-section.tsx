@@ -28,7 +28,7 @@ export default function PcOffCtaSection() {
 
         <div className="flex justify-center gap-4 flex-wrap mt-10">
           <Link
-            href="/support/inquiry"
+            href="/inquiry"
             className="px-10 py-3.5 rounded-lg font-semibold text-white transition-opacity hover:opacity-90 text-sm md:text-base"
             style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
           >

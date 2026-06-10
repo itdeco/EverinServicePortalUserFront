@@ -69,6 +69,8 @@ function convertPriceRules(priceList: any): PriceRule[] {
         perTo: toNumber(row.PerTo),
         currPrice: toNumber(row.CurrPrice),
         basicPrice: toNumber(row.BasicPrice),
+        currSeq: toNumber(row.CurrSeq),
+        currName: row.CurrName ?? "",
     }));
 }
 
@@ -111,6 +113,8 @@ function buildServiceConfig(serviceList: any, priceList: any): Category[] {
             smPriceTypeName: rules[0]?.smPriceTypeName,
             appYm: rules[0]?.appYm,
             priceSeq: rules[0]?.seq,
+            currSeq: rules[0]?.currSeq,
+            currName: rules[0]?.currName,
         };
     };
 
@@ -155,11 +159,12 @@ function buildServiceConfig(serviceList: any, priceList: any): Category[] {
                     isGroupService: toBool(plan.IsGroupService),
                     serviceItemSeq: planServiceItemSeq,
                     policySeq: toNumber(plan.PolicySeq),
-                    currSeq: toNumber(plan.CurrSeq),
                     allowedChildren: children.map(
                         (sub: any) => `${serviceSeq}-${planSeq}-${toNumber(sub.ServiceItemSeq)}-${toNumber(sub.SubServiceItemSeq, -1)}`
                     ),
                     ...priceMeta,
+                    currSeq: toNumber(plan.CurrSeq, priceMeta.currSeq),
+                    currName: plan.CurrName ?? priceMeta.currName,
                 };
             });
 
@@ -176,7 +181,6 @@ function buildServiceConfig(serviceList: any, priceList: any): Category[] {
             isExistPlan: toBool(row.IsExistPlan),
             serviceItemSeq,
             policySeq: toNumber(row.PolicySeq),
-            currSeq: toNumber(row.CurrSeq),
             plans: servicePlans,
             subServices: subServices
                 .filter((sub: any) => toNumber(sub.UpperServiceSeq) === serviceSeq)
@@ -201,11 +205,14 @@ function buildServiceConfig(serviceList: any, priceList: any): Category[] {
                         serviceItemSeq: subServiceItemSeq,
                         subServiceItemSeq: subSubServiceItemSeq,
                         policySeq: toNumber(sub.PolicySeq),
-                        currSeq: toNumber(sub.CurrSeq),
                         ...priceMeta,
+                        currSeq: toNumber(sub.CurrSeq, priceMeta.currSeq),
+                        currName: sub.CurrName ?? priceMeta.currName,
                     };
                 }),
             ...servicePriceMeta,
+            currSeq: toNumber(row.CurrSeq, servicePriceMeta.currSeq),
+            currName: row.CurrName ?? servicePriceMeta.currName,
         };
 
         categoryMap.get(categoryId)?.services.push(mappedService);

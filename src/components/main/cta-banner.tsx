@@ -36,7 +36,7 @@ export function CtaBanner() {
                   className="border-gray-300 bg-white/70 backdrop-blur-sm text-gray-700 hover:bg-white px-8 h-12 text-base font-semibold rounded-lg"
                   asChild
               >
-                <Link href="/support/inquiry">도입문의</Link>
+                <Link href="/inquiry">도입문의</Link>
               </Button>
             </div>
           </div>

@@ -54,7 +54,7 @@ export default function HeroSection() {
                 className="bg-white px-10 h-14 text-base font-semibold rounded-lg hover:bg-orange-50"
                 style={{ borderColor: COLORS.everworks, color: COLORS.everworks }}
               >
-                <Link href="/support/inquiry">도입문의</Link>
+                <Link href="/inquiry">도입문의</Link>
               </Button>
             </div>
           </div>

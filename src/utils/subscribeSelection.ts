@@ -9,6 +9,7 @@ export type SubscribeSelectionItem = SubscriptionItemDto & {
   modelSeq?: number;
   appYm?: string;
   smPriceType?: number;
+  currName?: string;
 };
 
 export type SubscribeSelectionSnapshot = {

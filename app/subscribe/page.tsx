@@ -51,235 +51,22 @@ type DetailTarget = {
   selectedPlanId?: string;
 };
 
-const fallbackServiceConfig: Category[] = [
-  {
-    categoryId: "smartcare",
-    categoryName: "스마트케어",
-    sortOrder: 1,
-    services: [
-      {
-        serviceId: "welcoming",
-        serviceName: "에버웰커밍",
-        description: "신규 입사자 온보딩 자동화",
-        price: 1500,
-        defaultUsercount: 30,
-        sortOrder: 1,
-      },
-      {
-        serviceId: "evertime",
-        serviceName: "에버타임",
-        description: "근태관리 통합 솔루션",
-        defaultUsercount: 30,
-        sortOrder: 2,
-        plans: [
-          {
-            planId: "standard",
-            planName: "스탠다드",
-            price: 2500,
-            sortOrder: 1,
-            allowedChildren: ["pcoff"],
-          },
-          {
-            planId: "enterprise",
-            planName: "엔터프라이즈",
-            price: 0,
-            quoteOnly: true,
-            sortOrder: 2,
-            allowedChildren: ["pcoff", "access", "setup"],
-          },
-        ],
-        subServices: [
-          {
-            serviceId: "pcoff",
-            serviceName: "PC-OFF",
-            description: "퇴근 시 PC 자동 종료",
-            price: 1000,
-            defaultUsercount: 30,
-            sortOrder: 1,
-          },
-          {
-            serviceId: "access",
-            serviceName: "출입시스템",
-            description: "출입게이트/보안장비 연동",
-            price: 1200,
-            defaultUsercount: 30,
-            sortOrder: 2,
-          },
-          {
-            serviceId: "setup",
-            serviceName: "근태셋업",
-            description: "교대근무/탄력근무 초기 구축",
-            price: 800,
-            defaultUsercount: 30,
-            sortOrder: 3,
-          },
-        ],
-      },
-      {
-        serviceId: "hr",
-        serviceName: "인사관리",
-        description: "인사정보 통합 관리",
-        price: 1800,
-        defaultUsercount: 30,
-        sortOrder: 3,
-      },
-      {
-        serviceId: "benefit",
-        serviceName: "복리후생",
-        description: "복리후생 포인트 관리",
-        price: 1200,
-        defaultUsercount: 30,
-        sortOrder: 4,
-      },
-    ],
-  },
-  {
-    categoryId: "payroll-category",
-    categoryName: "급여",
-    sortOrder: 2,
-    services: [
-      {
-        serviceId: "payroll",
-        serviceName: "에버페이롤",
-        description: "급여 계산 및 지급 관리",
-        defaultUsercount: 30,
-        sortOrder: 1,
-        plans: [
-          {
-            planId: "self",
-            planName: "자체운영",
-            price: 4500,
-            sortOrder: 1,
-            allowedChildren: ["payroll-setup-self"],
-          },
-          {
-            planId: "outsourcing",
-            planName: "아웃소싱",
-            price: 6000,
-            sortOrder: 2,
-            allowedChildren: [
-              "payroll-report",
-              "payroll-yearend",
-              "payroll-setup-out",
-            ],
-          },
-          {
-            planId: "erp-outsourcing",
-            planName: "ERP아웃소싱",
-            price: 6000,
-            sortOrder: 3,
-            allowedChildren: [
-              "payroll-report-erp",
-              "payroll-yearend-erp",
-              "payroll-setup-erp",
-            ],
-          },
-        ],
-        subServices: [
-          {
-            serviceId: "payroll-setup-self",
-            serviceName: "급여셋업",
-            description: "급여 규칙/수당/공제 설정",
-            price: 1000,
-            defaultUsercount: 30,
-            sortOrder: 1,
-          },
-          {
-            serviceId: "payroll-report",
-            serviceName: "신고서비스",
-            description: "급여 신고 대행",
-            price: 0,
-            quoteOnly: true,
-            sortOrder: 2,
-          },
-          {
-            serviceId: "payroll-yearend",
-            serviceName: "연말정산서비스",
-            description: "연말정산 대행",
-            price: 0,
-            quoteOnly: true,
-            sortOrder: 3,
-          },
-          {
-            serviceId: "payroll-setup-out",
-            serviceName: "급여셋업",
-            description: "아웃소싱 급여셋업",
-            price: 0,
-            quoteOnly: true,
-            sortOrder: 4,
-          },
-          {
-            serviceId: "payroll-report-erp",
-            serviceName: "신고서비스",
-            description: "ERP 급여 신고",
-            price: 0,
-            quoteOnly: true,
-            sortOrder: 5,
-          },
-          {
-            serviceId: "payroll-yearend-erp",
-            serviceName: "연말정산서비스",
-            description: "ERP 연말정산",
-            price: 0,
-            quoteOnly: true,
-            sortOrder: 6,
-          },
-          {
-            serviceId: "payroll-setup-erp",
-            serviceName: "급여셋업",
-            description: "ERP 급여셋업",
-            price: 0,
-            quoteOnly: true,
-            sortOrder: 7,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    categoryId: "evaluation-category",
-    categoryName: "평가",
-    sortOrder: 3,
-    services: [
-      {
-        serviceId: "evaluation",
-        serviceName: "에버평가",
-        description: "성과 평가 및 목표 관리",
-        price: 2200,
-        defaultUsercount: 30,
-        sortOrder: 1,
-      },
-    ],
-  },
-  {
-    categoryId: "addons",
-    categoryName: "부가서비스",
-    sortOrder: 4,
-    services: [
-      {
-        serviceId: "contract",
-        serviceName: "전자계약서",
-        description: "전자서명 기반 계약 관리",
-        price: 900,
-        defaultUsercount: 30,
-        sortOrder: 1,
-      },
-      {
-        serviceId: "custom",
-        serviceName: "추가개발",
-        description: "고객사 맞춤 기능 개발",
-        price: 0,
-        quoteOnly: true,
-        sortOrder: 2,
-      },
-    ],
-  },
-];
+const fallbackServiceConfig: Category[] = [];
 
-const currency = (n: number) => `${Math.round(n).toLocaleString("ko-KR")}원`;
+const getCurrencyLabel = (currName?: string) => {
+  if (!currName || currName.toUpperCase() === "KRW") return "\uC6D0";
 
-const perPerson = (n: number) =>
-    `${Math.round(n).toLocaleString("ko-KR")}원/인`;
+  return currName;
+};
+
+const getItemCurrencyName = (item?: any, headcount = 0) =>
+    getMatchedRule(item, headcount)?.currName ?? item?.currName;
+
+const currency = (n: number, currName?: string) =>
+    `${Math.round(n).toLocaleString("ko-KR")}${getCurrencyLabel(currName)}`;
+
+const perPerson = (n: number, currName?: string) =>
+    `${currency(n, currName)}/\uC778`;
 
 const getMatchedRule = (item: any, headcount: number) => {
   const rules = item.priceRules ?? [];
@@ -476,6 +263,7 @@ function buildSubscribeSelectionItem({
     subServiceItemSeq: item.subServiceItemSeq ?? -1,
     policySeq: item.policySeq,
     currSeq: item.currSeq,
+    currName: getItemCurrencyName(item, headcount),
     priceSeq: item.priceSeq,
     modelSeq: getModelSeq(item, headcount),
     appYm: getMatchedRule(item, headcount)?.appYm ?? item.appYm,
@@ -564,7 +352,7 @@ function RollingDigit({ digit }: { digit: string }) {
   );
 }
 
-function RollingPrice({ value }: { value: number }) {
+function RollingPrice({ value, currName }: { value: number; currName?: string }) {
   const formatted = Math.max(0, Math.round(value)).toLocaleString("ko-KR");
 
   return (
@@ -573,7 +361,7 @@ function RollingPrice({ value }: { value: number }) {
           <RollingDigit key={`${digit}-${index}`} digit={digit} />
       ))}
         <span className="ml-1 text-lg font-semibold text-slate-500">
-        원
+        {getCurrencyLabel(currName)}
       </span>
     </span>
   );
@@ -714,7 +502,9 @@ function ServiceRow({
               {isParentChargeTarget && (
                   <div className="flex items-center gap-2 flex-1 md:flex-none flex-wrap">
                     <span className="text-xs font-medium text-slate-500 whitespace-nowrap">요금 기준</span>
-                    <span className="text-xs font-semibold text-slate-900 whitespace-nowrap">{perPerson(unitPrice)}</span>
+                    <span className="text-xs font-semibold text-slate-900 whitespace-nowrap">
+                      {perPerson(unitPrice, getItemCurrencyName(currentPlan ?? service, headcount))}
+                    </span>
                     <div className="h-3 w-px bg-slate-300" />
                     <span className="text-xs font-medium text-slate-500 whitespace-nowrap">인원</span>
                     <Input
@@ -761,14 +551,14 @@ function ServiceRow({
                         </span>
                     ) : isGroupPlan ? (
                         serviceTotal > 0 ? (
-                            currency(serviceTotal)
+                            currency(serviceTotal, getItemCurrencyName(currentPlan ?? service, headcount))
                         ) : (
                             <span className="text-sm text-slate-400">
                               하위 항목 선택
                             </span>
                         )
                     ) : (
-                        currency(serviceTotal)
+                        currency(serviceTotal, getItemCurrencyName(currentPlan ?? service, headcount))
                     )}
                   </div>
                 </div>
@@ -823,7 +613,10 @@ function ServiceRow({
                               ? ""
                               : plan.quoteOnly
                                   ? "별도견적"
-                                  : perPerson(getItemUnitPrice(plan, headcounts[serviceId] || plan.defaultUsercount || 0))}
+                                  : perPerson(
+                                      getItemUnitPrice(plan, headcounts[serviceId] || plan.defaultUsercount || 0),
+                                      getItemCurrencyName(plan, headcounts[serviceId] || plan.defaultUsercount || 0)
+                                  )}
                         </span>
                         </Label>
                     );
@@ -887,7 +680,7 @@ function ServiceRow({
                                       {!sub.quoteOnly && (
                                           <div className="flex items-center gap-1">
                                             <span className="text-xs text-slate-400 md:whitespace-nowrap">
-                                              {perPerson(getItemUnitPrice(sub, subHeadcount))}
+                                              {perPerson(getItemUnitPrice(sub, subHeadcount), getItemCurrencyName(sub, subHeadcount))}
                                             </span>
 
                                             <Button
@@ -934,7 +727,7 @@ function ServiceRow({
                                             className="h-8 w-16 text-sm border-slate-200 bg-white text-center"
                                         />
                                         <span className="min-w-[80px] text-right text-sm font-semibold text-slate-900 whitespace-nowrap">
-                                          {currency(subTotal)}
+                                          {currency(subTotal, getItemCurrencyName(sub, subHeadcount))}
                                         </span>
                                       </>
                                   ) : (
@@ -962,6 +755,7 @@ function SubscribeContent() {
   const initialConfig = sortServiceConfig(fallbackServiceConfig);
 
   const [serviceConfig, setserviceConfig] = useState<Category[]>(initialConfig);
+  const [isServiceLoading, setIsServiceLoading] = useState(true);
 
   const [selected, setSelected] = useState<SelectedState>(() =>
       buildInitialSelected(initialConfig)
@@ -1000,6 +794,8 @@ function SubscribeContent() {
         const json = await api.getSubscribeServices(portalId);
 
         if (!json.serviceConfig || json.serviceConfig.length === 0) {
+          setserviceConfig([]);
+          applySelectionState([]);
           return;
         }
 
@@ -1010,6 +806,10 @@ function SubscribeContent() {
         /*setActiveCategoryId(nextConfig[0].categoryId);*/
       } catch (error) {
         console.error("서비스 견적 API 호출 실패", error);
+        setserviceConfig([]);
+        applySelectionState([]);
+      } finally {
+        setIsServiceLoading(false);
       }
     };
 
@@ -1124,6 +924,7 @@ function SubscribeContent() {
   }, [serviceConfig, selected, plans, headcounts]);
 
   const hasQuoteOnly = selectedItems.some((item) => item.quoteOnly);
+  const displayCurrencyName = selectedItems.find((item) => !item.quoteOnly)?.currName;
 
   const buildSelectionSnapshot = (): SubscribeSelectionSnapshot => ({
     selected,
@@ -1220,6 +1021,32 @@ function SubscribeContent() {
     router.push(`/subscribe/step2?${params.toString()}`);
   };
 
+  if (isServiceLoading) {
+    return null;
+  }
+
+  if (serviceConfig.length === 0) {
+    return (
+        <div className="flex min-h-screen flex-col bg-slate-50">
+          <Header />
+          <main className="flex flex-1 items-center justify-center px-4 py-20">
+            <Card className="w-full max-w-xl border-slate-200 bg-white text-center shadow-sm">
+              <CardContent className="px-6 py-16">
+                <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
+                  <Calculator className="h-7 w-7 text-slate-400" />
+                </div>
+                <h1 className="text-2xl font-bold text-slate-900">요금제 준비중입니다.</h1>
+                <p className="mt-3 text-sm leading-6 text-slate-500">
+                  현재 표시할 수 있는 요금제 데이터가 없습니다.
+                </p>
+              </CardContent>
+            </Card>
+          </main>
+          <Footer />
+        </div>
+    );
+  }
+
   return (
       <div className="flex min-h-screen flex-col bg-slate-50">
         <Header />
@@ -1264,15 +1091,12 @@ function SubscribeContent() {
               {/* Summary Card */}
               <div className="lg:sticky lg:top-28 lg:self-start">
                 <Card className="overflow-hidden border-0 shadow-xl" style={{background: "linear-gradient(to bottom right, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
-                  <CardHeader className="text-white py-3">
+                  <CardHeader className="text-white py-3 gap-0 ">
                     <CardTitle className="flex items-center justify-between text-xl">
                       <span className="flex items-center gap-2">
                         <Calculator className="h-5 w-5" />
                         총 견적
                       </span>
-                      <Badge className="bg-white/20 text-white hover:bg-white/20 border-white/30">
-                        실시간
-                      </Badge>
                     </CardTitle>
                   </CardHeader>
 
@@ -1282,7 +1106,7 @@ function SubscribeContent() {
                         예상 월 과금
                       </div>
 
-                      <RollingPrice value={displayTotal} />
+                      <RollingPrice value={displayTotal} currName={displayCurrencyName} />
 
                       <div className="mt-3 text-xs text-slate-400">
                         요금은 가격정책에 따라 기본요금 + 인당요금 또는 인당 고정단가로 계산됩니다.
@@ -1344,7 +1168,7 @@ function SubscribeContent() {
                                     ? "견적요청"
                                     : item.groupOnly
                                         ? "하위 항목 기준"
-                                        : currency(item.price ?? item.amount ?? 0)}
+                                        : currency(item.price ?? item.amount ?? 0, item.currName)}
                               </span>
                                   </div>
                               ))
@@ -1380,15 +1204,6 @@ function SubscribeContent() {
                           disabled={selectedItems.length === 0}
                       >
                         견적 요청하기
-                      </Button>
-
-                      <Button
-                          variant="ghost"
-                          className="w-full text-slate-600 hover:text-slate-900"
-                          onClick={() => router.push("/support/contact")}
-                      >
-                        <Building2 className="mr-2 h-4 w-4" />
-                        도입 상담 요청
                       </Button>
                     </div>
                   </CardContent>
@@ -1485,14 +1300,14 @@ function PriceDetailPanel({
                   <div className="rounded-2xl border bg-slate-50 p-2">
                     <div className="pl-2 text-xs font-medium tracking-tight text-slate-500">현재 요금 기준</div>
                     <div className="pl-2 mt-1 text-l font-bold text-slate-900">
-                      {perPerson(unitPrice)}
+                      {perPerson(unitPrice, getItemCurrencyName(item, headcount))}
                     </div>
                   </div>
 
                   <div className="rounded-2xl border bg-slate-50 p-2">
                     <div className="pl-2 text-xs font-medium tracking-tight text-slate-500">현재 총금액</div>
                     <div className="pl-2 mt-1 text-l font-bold text-slate-900">
-                      {currency(total)}
+                      {currency(total, getItemCurrencyName(item, headcount))}
                     </div>
                   </div>
                 </div>
@@ -1512,8 +1327,8 @@ function PriceDetailPanel({
                           </div>
 
                           <div className="mt-1 text-slate-500">
-                            기본단가 {currency(matchedRule.basicPrice ?? 0)} + 단가{" "}
-                            {currency(matchedRule.currPrice ?? 0)}
+                            기본단가 {currency(matchedRule.basicPrice ?? 0, matchedRule.currName)} + 단가{" "}
+                            {currency(matchedRule.currPrice ?? 0, matchedRule.currName)}
                           </div>
                         </div>
                       </div>
@@ -1551,7 +1366,7 @@ function PriceDetailPanel({
                                           ? "하위 항목 기준"
                                           : plan.quoteOnly
                                               ? "별도견적"
-                                              : perPerson(planUnit)}
+                                          : perPerson(planUnit, getItemCurrencyName(plan, headcount))}
                                     </div>
                                   </div>
 
@@ -1560,7 +1375,7 @@ function PriceDetailPanel({
                                         ? ""
                                         : plan.quoteOnly
                                             ? "견적요청"
-                                            : currency(planTotal)}
+                                            : currency(planTotal, getItemCurrencyName(plan, headcount))}
                                   </div>
                                 </div>
                               </div>
@@ -1610,10 +1425,10 @@ function PriceDetailPanel({
                                       : "전체"}
                                 </td>
                                 <td className="px-3 py-2 text-right">
-                                  {currency(rule.basicPrice ?? 0)}
+                                  {currency(rule.basicPrice ?? 0, rule.currName)}
                                 </td>
                                 <td className="px-3 py-2 text-right font-semibold">
-                                  {currency(rule.currPrice ?? 0)}
+                                  {currency(rule.currPrice ?? 0, rule.currName)}
                                 </td>
                               </tr>
                           ))

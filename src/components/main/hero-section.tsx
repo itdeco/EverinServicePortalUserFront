@@ -62,7 +62,7 @@ export default function HeroSection() {
                   </Link>
 
                   <Link
-                    href="/support/inquiry"
+                    href="/inquiry"
                     className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-2 border-[#00cc99] bg-white px-7 text-base font-semibold text-gray-700 transition-all hover:bg-[#f0fdf9] md:h-14 md:px-10"
                   >
                     도입 문의
@@ -144,7 +144,7 @@ export default function HeroSection() {
                     <span className="text-[#00cc99]">→</span>
                   </Link>
                   <Link
-                    href="/support/inquiry"
+                    href="/inquiry"
                     className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-full border-2 border-[#00cc99] bg-white px-6 text-base font-black text-slate-950 shadow-[0_12px_28px_rgba(255,255,255,0.16)] transition-transform hover:-translate-y-0.5 hover:bg-[#ecfff9] md:h-14 md:px-7 md:text-lg"
                   >
                     무료로 도입하기

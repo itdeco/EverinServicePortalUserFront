@@ -18,6 +18,7 @@ export type Service = Priceable & {
     serviceItemSeq?: number;
     policySeq?: number;
     currSeq?: number;
+    currName?: string;
     plans?: Plan[];
     subServices?: SubService[];
 };
@@ -33,6 +34,7 @@ export type Plan = Priceable & {
     serviceItemSeq?: number;
     policySeq?: number;
     currSeq?: number;
+    currName?: string;
     allowedChildren?: string[];
 };
 
@@ -51,6 +53,7 @@ export type SubService = Priceable & {
     subServiceItemSeq?: number;
     policySeq?: number;
     currSeq?: number;
+    currName?: string;
 };
 
 // OLD
@@ -114,6 +117,8 @@ export type PriceRule = {
     perTo: number;
     currPrice: number;
     basicPrice: number;
+    currSeq?: number;
+    currName?: string;
 };
 
 export type Priceable = {
@@ -122,5 +127,5 @@ export type Priceable = {
     smPriceTypeName?: string;
     appYm?: string;
     priceSeq?: number;
+    currName?: string;
 };
-
