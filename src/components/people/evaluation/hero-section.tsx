@@ -20,29 +20,29 @@ export default function EvaluationHeroSection() {
             className="hero-item mb-3 text-xl font-semibold tracking-wide md:text-2xl"
             style={{ color: COLORS.evaluation, animationDelay: "0.05s" }}
           >
-            Ever Evaluation
+            에버평가
           </p>
 
           <p
             className="hero-item mb-3 text-xl leading-relaxed text-gray-600 md:text-2xl"
             style={{ animationDelay: "0.18s" }}
           >
-            업적·역량·다면 평가를 하나의 기준으로
+            조직의 성과와 성장을 위한 평가를 원한다면?
           </p>
 
           <h1
             className="hero-item mb-2 text-[42px] font-black leading-tight text-gray-900 sm:text-5xl md:text-6xl"
             style={{ animationDelay: "0.3s" }}
           >
-            에버평가
+            평가관리
           </h1>
 
           <p
             className="hero-item mb-10 text-lg leading-relaxed text-gray-500 md:text-xl"
             style={{ animationDelay: "0.54s" }}
           >
-            목표 수립부터 평가 진행, 결과 분석까지<br />
-            조직의 성장을 위한 평가 프로세스를 체계적으로 관리하세요.
+            업적, 역량, 다면평가까지 다각도로 분석
+            그리고 종합평가까지
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 lg:justify-start">

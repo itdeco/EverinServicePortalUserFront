@@ -7,8 +7,8 @@ import {
   ChevronDown,
   ChevronRight,
   Calculator,
-  Building2,
   ArrowRight,
+  Gift,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -49,6 +49,18 @@ type DetailTarget = {
   headcount: number;
   plans?: PlanItem[];
   selectedPlanId?: string;
+};
+
+type PromotionBubbleTone = "evertime" | "free";
+type SummaryCardProps = {
+  displayTotal: number;
+  displayCurrencyName?: string;
+  selectedItems: SelectedSummaryItem[];
+  hasQuoteOnly: boolean;
+  onSubscribe: () => void;
+  onEstimate: () => void;
+  className?: string;
+  scrollClassName?: string;
 };
 
 const fallbackServiceConfig: Category[] = [];
@@ -324,6 +336,55 @@ function NativeRadio({
   );
 }
 
+const normalizePromotionKey = (value?: string) =>
+    (value ?? "").replace(/\s+/g, "").toLowerCase();
+
+const getServicePromotion = (service: Service) => {
+  const serviceName = normalizePromotionKey(service.serviceName);
+
+  if (serviceName.includes("에버웰커밍")) {
+    return { text: "평생무료", tone: "free" as PromotionBubbleTone };
+  }
+
+  return null;
+};
+
+const getPlanPromotion = (service: Service, plan: PlanItem) => {
+  const serviceName = normalizePromotionKey(service.serviceName);
+  const planName = normalizePromotionKey(plan.planName);
+
+  if (serviceName.includes("에버타임") && planName.includes("스탠다드")) {
+    return {
+      text: "1개월 무료 · 결제수단 등록 시 6개월 추가 무료",
+      tone: "evertime" as PromotionBubbleTone,
+    };
+  }
+
+  return null;
+};
+
+function PromotionBubble({
+                           text,
+                           tone,
+                         }: {
+  text: string;
+  tone: PromotionBubbleTone;
+}) {
+  const toneClass =
+      tone === "free"
+          ? "border-emerald-600 bg-emerald-600 text-white shadow-[0_8px_18px_rgba(5,150,105,0.28)] before:border-emerald-600 before:bg-emerald-600"
+          : "border-blue-600 bg-blue-600 text-white shadow-[0_8px_18px_rgba(37,99,235,0.28)] before:border-blue-600 before:bg-blue-600";
+
+  return (
+      <span
+          className={`relative inline-flex max-w-full items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-extrabold leading-tight shadow-md before:absolute before:-bottom-1 before:left-5 before:h-2 before:w-2 before:rotate-45 before:border-b before:border-r ${toneClass}`}
+      >
+        <Gift className="h-4 w-4 shrink-0" />
+        <span className="min-w-0 whitespace-normal sm:whitespace-nowrap">{text}</span>
+      </span>
+  );
+}
+
 function RollingDigit({ digit }: { digit: string }) {
   const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const target = Number.isNaN(Number(digit)) ? -1 : Number(digit);
@@ -363,7 +424,144 @@ function RollingPrice({ value, currName }: { value: number; currName?: string })
         <span className="ml-1 text-lg font-semibold text-slate-500">
         {getCurrencyLabel(currName)}
       </span>
-    </span>
+      </span>
+  );
+}
+
+function SummaryCard({
+                       displayTotal,
+                       displayCurrencyName,
+                       selectedItems,
+                       hasQuoteOnly,
+                       onSubscribe,
+                       onEstimate,
+                       className,
+                       scrollClassName,
+                     }: SummaryCardProps) {
+  return (
+      <Card
+          className={`overflow-hidden border-0 shadow-xl ${className ?? ""}`}
+          style={{background: "linear-gradient(to bottom right, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}
+      >
+        <CardHeader className="gap-0 px-6 py-0 text-white">
+          <CardTitle className="flex items-center justify-between text-2xl">
+            <span className="flex items-center gap-2">
+              <Calculator className="h-5 w-5" />
+              월 예상금액
+            </span>
+          </CardTitle>
+        </CardHeader>
+
+        <CardContent className="space-y-5 rounded-t-2xl bg-white p-6">
+          <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-5 text-center">
+            <RollingPrice value={displayTotal} currName={displayCurrencyName} />
+
+            <div className="mt-3 text-xs text-slate-400">
+              가격정책에 따라 기본요금과 인당요금이 자동 계산됩니다.
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="rounded-xl border border-slate-100 bg-slate-50 p-4">
+              <div className="text-slate-500">선택 서비스</div>
+              <div className="mt-1 text-2xl font-bold text-slate-900">
+                {selectedItems.length}
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-slate-100 bg-slate-50 p-4">
+              <div className="text-slate-500">견적요청 항목</div>
+              <div className="mt-1 text-2xl font-bold text-slate-900">
+                {selectedItems.filter((item) => item.quoteOnly).length}
+              </div>
+            </div>
+          </div>
+
+          {hasQuoteOnly && (
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                견적요청 항목이 포함되어 있습니다. 담당자가 별도로 연락드립니다.
+              </div>
+          )}
+
+          <Separator className="bg-slate-200" />
+
+          <div>
+            <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
+              <Calculator className="h-4 w-4 text-primary" />
+              {selectedItems.length === 0 ? "선택 가이드" : "선택 상세"}
+            </div>
+
+            <ScrollArea className={scrollClassName ?? (selectedItems.length === 0 ? "h-[188px] pr-3" : "h-[280px] pr-3")}>
+              <div className="space-y-2">
+                {selectedItems.length === 0 ? (
+                    <div className="space-y-2">
+                      {[
+                        "필요한 서비스를 체크하면 월 예상금액이 바로 계산됩니다",
+                        "인원 수를 바꾸면 구간별 단가가 자동 반영됩니다",
+                        "견적요청 항목은 별도 상담으로 이어집니다",
+                      ].map((text) => (
+                          <div key={text} className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-600">
+                            {text}
+                          </div>
+                      ))}
+                    </div>
+                ) : (
+                    selectedItems.map((item, idx) => (
+                        <div
+                            key={idx}
+                            className={`flex items-center justify-between gap-3 rounded-xl border p-3 ${
+                                item.name.startsWith("└")
+                                    ? "ml-4 border-slate-200 bg-slate-50"
+                                    : "border-primary/30 bg-primary/5"
+                            }`}
+                        >
+                          <span className="min-w-0 text-sm font-medium text-slate-700">
+                            {item.name}
+                          </span>
+                          <span className="shrink-0 text-sm font-semibold text-slate-900">
+                            {item.quoteOnly
+                                ? "견적요청"
+                                : item.groupOnly
+                                    ? "하위 항목 기준"
+                                    : currency(item.price ?? item.amount ?? 0, item.currName)}
+                          </span>
+                        </div>
+                    ))
+                )}
+              </div>
+            </ScrollArea>
+          </div>
+
+          <Separator className="bg-slate-200" />
+
+          <div className="space-y-3">
+            <Button
+                className="h-12 w-full border-0 text-base font-semibold text-white"
+                style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}
+                disabled={selectedItems.length === 0 || hasQuoteOnly}
+                onClick={onSubscribe}
+            >
+              구독하기
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+
+            {hasQuoteOnly && (
+                <p className="text-center text-xs text-slate-400">
+                  견적요청 항목이 포함되어 구독하기를 바로 진행할 수 없습니다.
+                </p>
+            )}
+
+            <Button
+                variant="outline"
+                className="h-12 w-full border-2 border-slate-200 text-base font-semibold hover:bg-slate-50"
+                onClick={onEstimate}
+                disabled={selectedItems.length === 0}
+            >
+              견적 요청하기
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
   );
 }
 
@@ -405,6 +603,10 @@ function ServiceRow({
   const hasSubServices = visibleSubServices.length > 0;
   const headcount = headcounts[serviceId] || 0;
   const unitPrice = getServiceUnitPrice(service, currentPlan, headcount);
+  const servicePromotion = getServicePromotion(service);
+  const currentPlanPromotion = currentPlan
+      ? getPlanPromotion(service, currentPlan)
+      : null;
 
   const isGroupPlan = !!currentPlan?.isGroupService;
   const isQuoteOnlyPlan = !!currentPlan?.quoteOnly;
@@ -459,6 +661,15 @@ function ServiceRow({
               </div>
               <div className="min-w-0 flex items-center gap-2 flex-wrap">
                 <span className="text-base font-bold text-slate-900">{service.serviceName}</span>
+                {servicePromotion && (
+                    <PromotionBubble text={servicePromotion.text} tone={servicePromotion.tone} />
+                )}
+                {!isSelected && currentPlanPromotion && (
+                    <PromotionBubble
+                        text={`${currentPlan?.planName} ${currentPlanPromotion.text}`}
+                        tone={currentPlanPromotion.tone}
+                    />
+                )}
                 {service.quoteOnly && (
                     <Badge variant="outline" className="text-slate-500 border-slate-300 text-xs">
                       별도견적
@@ -585,13 +796,20 @@ function ServiceRow({
           {isSelected && service.plans && service.plans.length > 0 && (
               <div className="flex items-center gap-3 pl-10 pt-1">
                 <span className="text-xs font-medium text-slate-500 whitespace-nowrap">플랜</span>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap items-end gap-2">
                   {service.plans.map((plan) => {
                     const isCurrentPlan = currentPlanId === plan.planId;
+                    const planPromotion = getPlanPromotion(service, plan);
 
                     return (
-                        <Label
+                        <div
                             key={plan.planId}
+                            className={`flex max-w-full ${planPromotion ? "flex-col items-start gap-1.5" : "items-center gap-2"}`}
+                        >
+                          {planPromotion && (
+                              <PromotionBubble text={planPromotion.text} tone={planPromotion.tone} />
+                          )}
+                          <Label
                             htmlFor={`${serviceId}-${plan.planId}`}
                             className={`flex cursor-pointer items-center gap-1 rounded-full border-2 px-3 py-1.5 text-xs transition flex-shrink-0 ${
                                 isCurrentPlan
@@ -619,6 +837,7 @@ function ServiceRow({
                                   )}
                         </span>
                         </Label>
+                        </div>
                     );
                   })}
                 </div>
@@ -653,15 +872,14 @@ function ServiceRow({
                         return (
                             <div
                                 key={subId}
-                                className={`rounded-xl border bg-white p-3 transition ${
+                                className={`rounded-xl border bg-white p-2.5 transition ${
                                     isSubSelected
                                         ? "border-primary/40 shadow-sm"
                                         : "border-slate-200"
                                 }`}
                             >
-                              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between md:gap-3">
-                                {/* Checkbox + name/desc/price */}
-                                <div className="flex items-center gap-3 min-w-0 flex-1">
+                              <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-2 gap-y-2 xl:grid-cols-[auto_minmax(0,1fr)_auto]">
+                                <div className="flex items-center">
                                   <NativeCheckbox
                                       checked={isSubSelected}
                                       onChange={(checked) =>
@@ -670,49 +888,52 @@ function ServiceRow({
                                       ariaLabel={`${sub.serviceName} 선택`}
                                       disabled={!isSelected}
                                   />
-                                  {/* Mobile: stacked / Desktop: inline */}
-                                  <div className="min-w-0 flex-1">
-                                    <div className="flex flex-col md:flex-row md:items-center md:gap-2">
-                                      <span className="text-sm font-semibold text-slate-900">{sub.serviceName}</span>
-                                      {sub.description && (
-                                          <span className="text-xs text-slate-500 md:whitespace-nowrap">{sub.description}</span>
-                                      )}
-                                      {!sub.quoteOnly && (
-                                          <div className="flex items-center gap-1">
-                                            <span className="text-xs text-slate-400 md:whitespace-nowrap">
-                                              {perPerson(getItemUnitPrice(sub, subHeadcount), getItemCurrencyName(sub, subHeadcount))}
-                                            </span>
-
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="sm"
-                                                className="h-6 px-2 text-[11px] text-primary hover:bg-primary/10"
-                                                onClick={() =>
-                                                    onOpenDetail({
-                                                      item: sub,
-                                                      currentItem: sub,
-                                                      headcount: subHeadcount,
-                                                    })
-                                                }
-                                            >
-                                              자세히보기
-                                            </Button>
-                                          </div>
-                                      )}
-                                      {sub.quoteOnly && (
-                                          <Badge variant="outline" className="text-xs text-slate-500 border-slate-300 w-fit">
-                                            견적요청
-                                          </Badge>
-                                      )}
-                                    </div>
-                                  </div>
                                 </div>
 
-                                {/* Right: headcount + total */}
-                                <div className="flex items-center gap-3 flex-shrink-0 pl-7 md:pl-0">
+                                <div className="flex min-w-0 items-center gap-1.5">
+                                  <span className="truncate text-sm font-semibold text-slate-900">{sub.serviceName}</span>
+                                  {isSubSelected && !sub.quoteOnly && (
+                                      <Badge
+                                          className="shrink-0 border-0 text-[10px] text-white"
+                                          style={{
+                                            background:
+                                                "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)",
+                                          }}
+                                      >
+                                        선택됨
+                                      </Badge>
+                                  )}
+                                  {sub.quoteOnly && (
+                                      <Badge variant="outline" className="w-fit shrink-0 border-slate-300 text-xs text-slate-500">
+                                        견적요청
+                                      </Badge>
+                                  )}
+                                  <Button
+                                      type="button"
+                                      variant="ghost"
+                                      size="sm"
+                                      className="h-6 shrink-0 px-1.5 text-[11px] text-primary hover:bg-primary/10"
+                                      onClick={() =>
+                                          onOpenDetail({
+                                            item: sub,
+                                            currentItem: sub,
+                                            headcount: subHeadcount,
+                                          })
+                                      }
+                                  >
+                                    자세히보기
+                                  </Button>
+                                </div>
+
+                                <div className="col-start-2 flex min-w-0 items-center gap-1.5 xl:col-start-auto">
                                   {!sub.quoteOnly ? (
                                       <>
+                                        <span className="whitespace-nowrap text-[11px] font-medium text-slate-500">요금 기준</span>
+                                        <span className="whitespace-nowrap text-[11px] font-semibold text-slate-900">
+                                          {perPerson(getItemUnitPrice(sub, subHeadcount), getItemCurrencyName(sub, subHeadcount))}
+                                        </span>
+                                        <div className="h-3 w-px shrink-0 bg-slate-300" />
+                                        <span className="whitespace-nowrap text-[11px] font-medium text-slate-500">인원</span>
                                         <Input
                                             type="number"
                                             min={0}
@@ -724,9 +945,10 @@ function ServiceRow({
                                                     Number(e.target.value || 0)
                                                 )
                                             }
-                                            className="h-8 w-16 text-sm border-slate-200 bg-white text-center"
+                                            className="h-7 w-12 border-slate-200 bg-white px-1 text-center text-xs sm:w-14"
                                         />
-                                        <span className="min-w-[80px] text-right text-sm font-semibold text-slate-900 whitespace-nowrap">
+                                        <span className="whitespace-nowrap text-[11px] text-slate-500">명</span>
+                                        <span className="ml-auto min-w-[78px] whitespace-nowrap text-right text-sm font-bold text-slate-900 xl:ml-2">
                                           {currency(subTotal, getItemCurrencyName(sub, subHeadcount))}
                                         </span>
                                       </>
@@ -776,6 +998,7 @@ function SubscribeContent() {
   const [displayTotal, setDisplayTotal] = useState(0);
 
   const [detailItem, setDetailItem] = useState<DetailTarget | null>(null);
+  const [isMobileSummaryOpen, setIsMobileSummaryOpen] = useState(false);
 
   const applySelectionState = (config: Category[]) => {
     const snapshot = readSubscribeSelectionSnapshot();
@@ -1051,7 +1274,7 @@ function SubscribeContent() {
       <div className="flex min-h-screen flex-col bg-slate-50">
         <Header />
 
-        <main className="flex-1">
+        <main className="flex-1 pb-24 lg:pb-0">
           <div className="mx-auto max-w-[1280px] px-4 py-8 md:px-8 md:py-12">
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
               <div className="space-y-8">
@@ -1089,7 +1312,7 @@ function SubscribeContent() {
               </div>
 
               {/* Summary Card */}
-              <div className="lg:sticky lg:top-28 lg:self-start">
+              <div className="hidden lg:block lg:sticky lg:top-28 lg:self-start">
                 <Card className="overflow-hidden border-0 shadow-xl" style={{background: "linear-gradient(to bottom right, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}>
                   <CardHeader className="gap-0 px-6 py-0 text-white">
                     <CardTitle className="flex items-center justify-between text-2xl">
@@ -1214,6 +1437,73 @@ function SubscribeContent() {
             </div>
           </div>
         </main>
+        <div className="lg:hidden">
+          <AnimatePresence>
+            {isMobileSummaryOpen && (
+                <motion.button
+                    type="button"
+                    aria-label="월 예상금액 닫기"
+                    className="fixed inset-0 z-40 bg-slate-950/35"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setIsMobileSummaryOpen(false)}
+                />
+            )}
+          </AnimatePresence>
+
+          <div className="fixed inset-x-0 bottom-0 z-50 px-3 pb-[calc(env(safe-area-inset-bottom)+10px)]">
+            <AnimatePresence initial={false}>
+              {isMobileSummaryOpen && (
+                  <motion.div
+                      className="mb-3 max-h-[calc(100vh-118px)] overflow-y-auto rounded-[24px]"
+                      initial={{ y: 28, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: 28, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 260, damping: 28 }}
+                  >
+                    <SummaryCard
+                        displayTotal={displayTotal}
+                        displayCurrencyName={displayCurrencyName}
+                        selectedItems={selectedItems}
+                        hasQuoteOnly={hasQuoteOnly}
+                        onSubscribe={handleSubscribeRequest}
+                        onEstimate={handleEstimateRequest}
+                        scrollClassName={selectedItems.length === 0 ? "h-[138px] pr-3" : "h-[180px] pr-3"}
+                    />
+                  </motion.div>
+              )}
+            </AnimatePresence>
+
+            <button
+                type="button"
+                aria-expanded={isMobileSummaryOpen}
+                onClick={() => setIsMobileSummaryOpen((prev) => !prev)}
+                className="flex w-full items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-[0_12px_35px_rgba(15,23,42,0.18)]"
+            >
+              <span className="flex min-w-0 items-center gap-2">
+                <span
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-white"
+                    style={{background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)"}}
+                >
+                  <Calculator className="h-4 w-4" />
+                </span>
+                <span className="min-w-0 text-left">
+                  <span className="block text-xs font-semibold text-slate-500">월 예상금액</span>
+                  <span className="block truncate text-lg font-bold text-slate-950">
+                    {currency(displayTotal, displayCurrencyName)}
+                  </span>
+                </span>
+              </span>
+
+              <span className="flex shrink-0 items-center gap-2 text-sm font-bold text-primary">
+                {isMobileSummaryOpen ? "닫기" : "보기"}
+                <ChevronDown className={`h-5 w-5 transition-transform ${isMobileSummaryOpen ? "" : "rotate-180"}`} />
+              </span>
+            </button>
+          </div>
+        </div>
+
         {detailItem && (
             <PriceDetailPanel
                 target={detailItem}

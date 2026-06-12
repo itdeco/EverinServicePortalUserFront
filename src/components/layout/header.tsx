@@ -25,6 +25,7 @@ type MenuItem = {
   subtitle?: string;
   href: string;
   badge?: string;
+  planned?: boolean;
   external?: boolean;
 };
 
@@ -50,11 +51,11 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
   {
     label: "스마트 워크케어",
     col1: [
-      { title: "채용", href: "#" },
+      { title: "채용", href: "#", planned: true },
       { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
       { title: "온보딩", href: "/people/smartWorkCare/welcoming", badge: "무료" },
-      { title: "교육·경력", href: "#" },
-      { title: "복리후생", href: "#" },
+      { title: "교육·경력", href: "#", planned: true },
+      { title: "복리후생", href: "#", planned: true },
     ],
     col2: [
       { title: "근태관리", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
@@ -88,13 +89,13 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
 // Culture 메뉴는 기존 유지 (모바일에서 사용)
 const peopleMenu: Record<string, MenuItem[]> = {
   "스마트 워크케어": [
-    { title: "채용", href: "#" },
+    { title: "채용", href: "#", planned: true },
     { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
     { title: "근태관리", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
     { title: "PC-OFF", href: "/people/smartWorkCare/pcoff" },
     { title: "온보딩", href: "/people/smartWorkCare/welcoming", badge: "무료" },
-    { title: "교육·경력", href: "#" },
-    { title: "복리후생", href: "#" },
+    { title: "교육·경력", href: "#", planned: true },
+    { title: "복리후생", href: "#", planned: true },
   ],
   급여: [
     { title: "급여/상여", href: "/people/payroll/salary-bonus" },
@@ -227,7 +228,7 @@ export default function Header() {
         <div className="mx-auto max-w-[1280px] px-4 text-center text-sm">
           <span className="font-medium">AI 빌더를 활용한 강력한 온보딩 솔루션!</span>
           {" "}에버웰커밍 무료 사용 이벤트{" "}
-          <SmartLink href="#" className="underline underline-offset-2 font-semibold hover:opacity">
+          <SmartLink href="/people/smartWorkCare/welcoming" className="underline underline-offset-2 font-semibold hover:opacity">
             확인하기 &gt;
           </SmartLink>
         </div>
@@ -318,6 +319,9 @@ export default function Header() {
                                             {item.badge && (
                                               <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
                                             )}
+                                            {item.planned && (
+                                              <span className="text-[11px] font-medium text-gray-400">*예정</span>
+                                            )}
                                           </SmartLink>
                                         ))}
                                       </div>
@@ -336,6 +340,9 @@ export default function Header() {
                                             )}
                                             {item.badge && (
                                               <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                                            )}
+                                            {item.planned && (
+                                              <span className="text-[11px] font-medium text-gray-400">*예정</span>
                                             )}
                                           </SmartLink>
                                         ))}
@@ -364,6 +371,9 @@ export default function Header() {
                                               background: col.label === "급여" ? `${COLORS.payroll}18` : col.label === "평가관리" ? `${COLORS.evaluation}18` : `${COLORS.people}18`,
                                               color: col.label === "급여" ? COLORS.payroll : col.label === "평가관리" ? COLORS.evaluation : COLORS.people
                                             }}>{item.badge}</span>
+                                          )}
+                                          {item.planned && (
+                                            <span className="text-[11px] font-medium text-gray-400">*예정</span>
                                           )}
                                         </SmartLink>
                                       ))}
@@ -713,6 +723,9 @@ export default function Header() {
                               {item.badge && (item.badge === "7개월 무료" || item.badge === "무료" ? null : (
                                 <span className="ml-1 rounded px-1.5 py-0.5 text-[11px]" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
                               ))}
+                              {item.planned && (
+                                <span className="ml-1 text-[11px] font-medium text-gray-400">*예정</span>
+                              )}
                             </span>
                             {item.badge && (item.badge === "7개월 무료" || item.badge === "무료") && (
                               <span className="pl-[1em] mt-0.5">

@@ -15,8 +15,9 @@ export function CtaBanner() {
       >
         <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 leading-tight mb-4">
-              33년 ERP 명가 영림원이 만든<br />
+            <h2 className="text-3xl md:text-4xl lg:text-4xl font-black text-gray-900 leading-tight mb-4">
+              <span className="block md:inline">33년 ERP 명가</span>{" "}
+              <span className="block md:inline">영림원이 만든</span><br />
               <span className="text-[#03b565]">클라우드 HR 플랫폼 에버人</span>
             </h2>
             <p className="text-gray-600 text-base md:text-lg mb-8">

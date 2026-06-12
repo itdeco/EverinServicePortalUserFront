@@ -16,13 +16,12 @@ export default function EvaluationCtaSection() {
       </div>
 
       <ScrollReveal className="relative mx-auto max-w-[1280px] px-6 text-center lg:px-12">
-        <h2 className="mb-4 text-[20px] font-medium leading-relaxed text-black md:text-[26px]">
-          &quot;평가가 끝나는 순간이 아니라, 성장 대화가 시작되는 순간으로&quot;
+        <h2 className="mb-4 text-3xl md:text-4xl lg:text-4xl font-medium leading-relaxed text-black">
+          &quot;데이터 기반의 공정한 인사평가&quot;
         </h2>
 
-        <p className="mb-3 text-base leading-relaxed text-black md:text-lg">
-          공정한 평가 프로세스와 구성원의 성장 데이터를<br />
-          에버평가가 함께 만들어드립니다.
+        <p className="mb-3 text-3xl md:text-4xl lg:text-4xl leading-relaxed text-black">
+          투명한 평가 에버평가로 시작하세요.
         </p>
 
         <div className="mt-10 flex flex-wrap justify-center gap-4">

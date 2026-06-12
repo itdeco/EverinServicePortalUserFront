@@ -17,7 +17,7 @@ export default function HrCtaSection() {
 
       {/* Content */}
       <ScrollReveal className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
-        <h2 className="text-[20px] md:text-[26px] font-medium text-black mb-4 leading-relaxed">
+        <h2 className="text-3xl md:text-4xl lg:text-4xl font-medium text-black mb-4 leading-relaxed">
           "흩어진 정보를 하나로, 인사는 더 체계적으로"
         </h2>
 

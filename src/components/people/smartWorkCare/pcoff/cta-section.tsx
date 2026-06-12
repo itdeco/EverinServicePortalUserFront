@@ -17,7 +17,7 @@ export default function PcOffCtaSection() {
 
       {/* Content */}
       <ScrollReveal className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
-        <h2 className="text-[20px] md:text-[26px] font-bold text-black mb-4 leading-relaxed">
+        <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold text-black mb-4 leading-relaxed">
           불필요한 야근, 이제는 기업의 리스크입니다.
         </h2>
 

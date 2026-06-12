@@ -16,7 +16,7 @@ export default function EvertimeCtaSection() {
 
       {/* Content */}
       <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
-        <h2 className="text-[20px] md:text-[26px] font-medium text-black mb-4 leading-relaxed">
+        <h2 className="text-3xl md:text-4xl lg:text-4xl font-medium text-black mb-4 leading-relaxed">
           &quot;근태관리, 바뀌면 조직이 달라집니다.&quot;
         </h2>
 

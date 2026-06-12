@@ -178,7 +178,7 @@ function CultureCardImages({
   }, [active, api, images.length])
 
   return (
-      <div className="absolute bottom-0 right-0 top-0 h-full w-[42%] overflow-hidden md:w-[52%]">
+      <div className="relative h-[170px] w-full overflow-hidden md:absolute md:bottom-0 md:right-0 md:top-0 md:h-full md:w-[52%]">
       <div
         className="hidden h-full items-end gap-0 md:grid"
         style={{gridTemplateColumns: `repeat(${images.length}, minmax(0, 1fr))`}}
@@ -340,8 +340,8 @@ export function SolutionsSection() {
                       onMouseMove={handleCardMouseMove}
                       onMouseLeave={handleCardMouseLeave}
                       className={cn(
-                          "rounded-2xl group relative cursor-pointer will-change-transform bg-[#f5fbf8] border border-[#03b565]/10 overflow-hidden relative",
-                          "h-[190px] md:h-[220px]",
+                          "group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-[#03b565]/10 bg-[#f5fbf8] will-change-transform md:block",
+                          "md:h-[220px]",
                           "transition-[box-shadow,opacity,transform] duration-700 ease-out hover:shadow-xl",
                           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
                           i === 0 && "delay-100",
@@ -351,14 +351,17 @@ export function SolutionsSection() {
                       )}
                   >
                     {/* 텍스트 영역 */}
-                    <div className="relative z-10 w-[60%] md:w-[60%] px-5 md:px-7 py-5 md:py-6 flex flex-col justify-center h-full min-w-0">
-                      <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
+                    <div className="relative z-10 flex min-w-0 flex-col px-5 pb-3 pt-6 md:h-full md:w-[60%] md:justify-center md:px-7 md:py-6">
+                      <h3 className="mb-1 break-keep text-[20px] font-bold leading-snug text-gray-900 md:text-xl">
                         {card.title}
                       </h3>
-                      <p className="mb-2 text-base font-bold text-[#0D99FF] md:text-lg md:whitespace-nowrap">
+                      <p
+                          className="mb-2 break-keep text-[17px] font-bold leading-snug md:text-lg md:whitespace-nowrap"
+                          style={{ color: COLORS.people }}
+                      >
                         {card.subtitle}
                       </p>
-                      <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line mb-4 line-clamp-2">
+                      <p className="mb-4 break-keep text-sm leading-relaxed text-gray-500 md:line-clamp-2 md:whitespace-pre-line">
                         {card.desc}
                       </p>
                       <Link
@@ -369,7 +372,7 @@ export function SolutionsSection() {
                       </Link>
                     </div>
                     {/* 이미지 영역 — 남은 공간 꽉 채우기 */}
-                    <div className="absolute right-0 top-0 h-full w-[40%] md:w-[40%] overflow-hidden">
+                    <div className="relative h-[150px] w-full overflow-hidden md:absolute md:right-0 md:top-0 md:h-full md:w-[40%]">
                       <Image
                           src={card.img}
                           alt={card.title}
@@ -377,7 +380,7 @@ export function SolutionsSection() {
                           loading="lazy"
                           placeholder="blur"
                           blurDataURL={blurDataURL}
-                          className="object-contain object-right p-1 md:p-2 transition-all duration-300 group-hover:scale-105"
+                          className="object-contain object-center-bottom p-2 transition-all duration-300 group-hover:scale-105 md:object-right md:p-2"
                       />
                     </div>
                   </div>
@@ -397,20 +400,20 @@ export function SolutionsSection() {
                   onMouseMove={handleCardMouseMove}
                   onMouseLeave={handleCardMouseLeave}
                   className={cn(
-                    "group relative h-[230px] cursor-pointer overflow-hidden rounded-2xl border border-[#0D99FF]/15 bg-[#f2f9ff] will-change-transform",
+                    "group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-[#0D99FF]/15 bg-[#f2f9ff] will-change-transform md:block",
                     "transition-[box-shadow,opacity,transform] duration-700 ease-out md:h-[280px] hover:shadow-xl hover:shadow-[#0D99FF]/15",
                     isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
                     i === 0 ? "delay-100" : "delay-200"
                   )}
                 >
-                  <div className="relative z-10 flex h-full w-[70%] min-w-0 flex-col justify-center px-5 py-5 md:w-[58%] md:px-8 md:py-7">
-                    <h3 className="mb-1 text-lg font-bold text-gray-900 md:text-2xl">
+                  <div className="relative z-10 flex min-w-0 flex-col px-5 pb-3 pt-6 md:h-full md:w-[58%] md:justify-center md:px-8 md:py-7">
+                    <h3 className="mb-1 break-keep text-[20px] font-bold leading-snug text-gray-900 md:text-2xl">
                       {card.title}
                     </h3>
-                    <p className="mb-2 text-base font-bold text-[#0D99FF] md:text-lg">
+                    <p className="mb-2 break-keep text-[17px] font-bold leading-snug text-[#0D99FF] md:text-lg">
                       {card.subtitle}
                     </p>
-                    <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-gray-500 md:text-base">
+                    <p className="mb-4 break-keep text-sm leading-relaxed text-gray-500 md:line-clamp-3 md:text-base">
                       {card.desc}
                     </p>
                     <Link
@@ -444,8 +447,8 @@ export function SolutionsSection() {
                   onMouseMove={handleCardMouseMove}
                   onMouseLeave={handleCardMouseLeave}
                   className={cn(
-                    "group relative h-[280px] cursor-pointer overflow-hidden rounded-2xl border bg-[#fff7f2] will-change-transform",
-                    "transition-[box-shadow,opacity,transform] duration-700 ease-out md:h-[280px]",
+                    "group relative min-h-[500px] cursor-pointer overflow-hidden rounded-2xl border bg-[#fff7f2] will-change-transform",
+                    "transition-[box-shadow,opacity,transform] duration-700 ease-out md:min-h-[520px]",
                     isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
                     i === 0 && "delay-100"
                   )}
@@ -453,9 +456,9 @@ export function SolutionsSection() {
                     borderColor: `${COLORS.everworks}22`,
                   }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white via-[#fff7f2]/95 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-white via-[#fff7f2]/95 to-[#fff1e8]" />
 
-                  <div className="relative z-10 flex h-full w-[72%] min-w-0 flex-col justify-center px-5 py-5 md:w-[48%] md:px-8 md:py-7">
+                  <div className="relative z-10 flex min-w-0 flex-col px-5 pb-3 pt-6 md:px-8 md:pb-4 md:pt-8">
                     <h3 className="mb-1 text-lg font-bold text-gray-900 md:text-2xl">
                       {card.title}
                     </h3>
@@ -490,7 +493,7 @@ export function SolutionsSection() {
                     </Link>
                   </div>
 
-                  <div className="absolute bottom-0 right-0 top-0 h-full w-[48%] overflow-hidden md:w-[59%]">
+                  <div className="relative z-0 h-[300px] w-full px-3 pb-0 md:h-[340px] md:px-8">
                     <Image
                       src={card.img}
                       alt={card.title}
@@ -498,8 +501,7 @@ export function SolutionsSection() {
                       loading="lazy"
                       placeholder="blur"
                       blurDataURL={blurDataURL}
-                      className="object-contain object-right-bottom transition-transform duration-300 group-hover:scale-[1.03]"
-                      style={{ transform: "translateY(10%) scale(1.18)", transformOrigin: "right bottom" }}
+                      className="object-contain object-center-bottom transition-transform duration-300 group-hover:scale-[1.015]"
                     />
                   </div>
                 </div>

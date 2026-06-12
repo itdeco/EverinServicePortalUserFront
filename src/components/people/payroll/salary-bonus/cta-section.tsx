@@ -16,7 +16,7 @@ export default function SalaryBonusCtaSection() {
 
       {/* 컨텐츠 */}
       <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
-        <h2 className="text-[22px] md:text-[28px] font-bold text-black mb-4 leading-relaxed">
+        <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold text-black mb-4 leading-relaxed">
           급여·상여, 이제는 더 똑똑하게
         </h2>
 
