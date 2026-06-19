@@ -66,29 +66,23 @@ function StatItem({
 
 const certifications = [
   {
-    icon: "🔒",
-    label: "ISO 27001",
-    sub: "정보보안 국제인증",
+    icon: "/images/main/trust/icon-security.png",
+    label: "보안",
+    sub: "ISO/IEC 27001 인증 획득\n국제표준기준\n정보보안경영시스템",
     color: "#586ffa",
   },
   {
-    icon: "🏆",
-    label: "품질경쟁력 1위",
-    sub: "한국생산성본부 선정",
+    icon: "/images/main/trust/icon-quality.png",
+    label: "품질",
+    sub: "한국품질만족지수(KS-QEI)\n한국표준협회 주관\nERP부분 3년 연속 1위",
     color: "#03b565",
   },
   {
-    icon: "✅",
-    label: "GS인증 1등급",
-    sub: "소프트웨어 품질 인증",
+    icon: "/images/main/trust/icon-performance.png",
+    label: "지속적 성능개선",
+    sub: "법·제도 변화 대응, 안정적 운영\n통합 관리 기반의 검증된 품질",
     color: "#586ffa",
-  },
-  {
-    icon: "🚀",
-    label: "벤처기업 확인",
-    sub: "기술보증기금 인증",
-    color: "#03b565",
-  },
+  }
 ]
 
 export function TrustBanner() {
@@ -141,20 +135,19 @@ export function TrustBanner() {
           </div>
 
           {/* Certification cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {certifications.map((cert, i) => (
                 <div
                     key={i}
-                    className="group bg-white border border-gray-100 rounded-2xl p-6 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                    className="group bg-white border border-gray-100 rounded-2xl p-8 min-h-[300px] flex flex-col items-center justify-center text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                 >
                   <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 transition-transform duration-300 group-hover:scale-110"
-                      style={{ background: `${cert.color}18` }}
+                      className="h-[112px] w-[112px] rounded-3xl flex items-center justify-center mb-7 transition-transform duration-300 group-hover:scale-105"
                   >
-                    {cert.icon}
+                    <img src={cert.icon} alt="" className="h-24 w-24 object-contain" />
                   </div>
-                  <p className="text-gray-900 text-sm font-bold leading-snug mb-1">{cert.label}</p>
-                  <p className="text-gray-400 text-xs leading-relaxed">{cert.sub}</p>
+                  <p className="text-gray-900 text-lg font-bold leading-snug mb-3">{cert.label}</p>
+                  <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line">{cert.sub}</p>
                 </div>
             ))}
           </div>

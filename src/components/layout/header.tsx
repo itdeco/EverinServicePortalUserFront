@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Menu, Users, Building2, Briefcase, ChevronDown, X, LogOut, UserCircle, CreditCard, Settings, Receipt, Phone } from "lucide-react"
+import { Menu, Users, Building2, Briefcase, ChevronDown, X, LogOut, UserCircle, CreditCard, Settings, Receipt, Phone, BookOpen, Handshake, Headphones } from "lucide-react"
 import { useLoginStatus, useUserProfile } from "@/redux/selectors/Users"
 import { UserActions } from "@/redux/actions/Users"
 import TokenUtil from "@/utils/tokenUtil"
@@ -471,7 +471,7 @@ export default function Header() {
               <SmartLink href="/subscribe" className="inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
                 요금제
               </SmartLink>
-              <SmartLink href="/support" className="inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
+              <SmartLink href="/stories" className="inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
                 리소스
               </SmartLink>
               <SmartLink href="/partners" className="inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
@@ -602,49 +602,59 @@ export default function Header() {
                 {isLoggedIn ? (
                   <div className="p-5">
                     {/* 사용자 정보 카드 */}
-                    <div className="mb-3 flex items-center gap-3 rounded-xl border border-primary/10 bg-gradient-to-r from-primary/5 to-primary/10 p-4 shadow-sm">
-                      <div className="w-11 h-11 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                        <UserCircle className="h-6 w-6 text-primary" />
+                    <div className="mb-3 overflow-hidden rounded-[22px] border border-primary/15 bg-white shadow-sm">
+                      <div className="h-1.5 bg-gradient-to-r from-primary to-[#4b6bf5]" />
+                      <div className="flex items-center gap-3 p-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 ring-1 ring-primary/15">
+                        <UserCircle className="h-7 w-7 text-primary" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-bold truncate">{userProfile?.name || userProfile?.loginId}</p>
-                        <p className="text-xs text-muted-foreground truncate">{userProfile?.loginId}</p>
+                        <p className="text-xs font-bold text-primary">내 계정</p>
+                        <p className="truncate text-base font-black text-slate-950">{userProfile?.name || userProfile?.loginId}</p>
+                        <p className="truncate text-xs font-medium text-slate-500">{userProfile?.loginId}</p>
                       </div>
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="shrink-0 h-8 px-2 text-xs text-muted-foreground hover:text-destructive"
+                        className="h-9 shrink-0 rounded-full px-3 text-xs font-bold text-slate-500 hover:bg-red-50 hover:text-destructive"
                         onClick={() => { handleLogout(); setIsOpen(false); }}
                       >
-                        <LogOut className="h-3.5 w-3.5 mr-1" />
+                        <LogOut className="mr-1 h-3.5 w-3.5" />
                         로그아웃
                       </Button>
+                      </div>
                     </div>
                     {/* 마이페이지 퀵 메뉴 */}
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-3 gap-2.5">
                       <SmartLink
                         href="/mypage/subscription"
                         onClick={() => setIsOpen(false)}
-                        className="flex flex-col items-center gap-1.5 rounded-xl border bg-white p-3 shadow-sm transition-colors hover:bg-muted"
+                        className="flex min-h-[76px] flex-col items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white p-3 text-center shadow-sm transition-colors hover:bg-slate-100"
                       >
-                        <CreditCard className="h-5 w-5 text-primary" />
-                        <span className="text-xs font-medium">구독정보</span>
+                        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-primary">
+                          <CreditCard className="h-5 w-5" />
+                        </span>
+                        <span className="text-xs font-bold text-slate-800">구독정보</span>
                       </SmartLink>
                       <SmartLink
                         href="/mypage/payment"
                         onClick={() => setIsOpen(false)}
-                        className="flex flex-col items-center gap-1.5 rounded-xl border bg-white p-3 shadow-sm transition-colors hover:bg-muted"
+                        className="flex min-h-[76px] flex-col items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white p-3 text-center shadow-sm transition-colors hover:bg-slate-100"
                       >
-                        <Receipt className="h-5 w-5 text-primary" />
-                        <span className="text-xs font-medium">청구/납부</span>
+                        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                          <Receipt className="h-5 w-5" />
+                        </span>
+                        <span className="text-xs font-bold text-slate-800">청구/납부</span>
                       </SmartLink>
                       <SmartLink
                         href="/mypage/account"
                         onClick={() => setIsOpen(false)}
-                        className="flex flex-col items-center gap-1.5 rounded-xl border bg-white p-3 shadow-sm transition-colors hover:bg-muted"
+                        className="flex min-h-[76px] flex-col items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white p-3 text-center shadow-sm transition-colors hover:bg-slate-100"
                       >
-                        <Settings className="h-5 w-5 text-primary" />
-                        <span className="text-xs font-medium">계정정보</span>
+                        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+                          <Settings className="h-5 w-5" />
+                        </span>
+                        <span className="text-xs font-bold text-slate-800">계정정보</span>
                       </SmartLink>
                     </div>
                   </div>
@@ -666,54 +676,92 @@ export default function Header() {
               </div>
 
               {/* 메뉴 영역 */}
-              <nav className="flex flex-col gap-5 p-5">
+              <nav className="flex flex-col gap-5 bg-slate-50 p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
                 {/* 퀵 */}
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-2.5">
                   <SmartLink
                     href="/subscribe"
                     onClick={() => setIsOpen(false)}
-                    className="rounded-xl border bg-white px-3 py-3 text-center text-base font-semibold shadow-sm transition-colors hover:bg-muted"
+                    className="group flex min-h-[58px] items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 text-left shadow-sm transition-colors hover:bg-slate-100"
                   >
-                    요금제
+                    <span className="flex items-center gap-2 text-[15px] font-black text-slate-950">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 text-primary">
+                        <Receipt className="h-4 w-4" />
+                      </span>
+                      요금제
+                    </span>
+                  </SmartLink>
+                  <SmartLink
+                    href="/stories"
+                    onClick={() => setIsOpen(false)}
+                    className="group flex min-h-[58px] items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 text-left shadow-sm transition-colors hover:bg-slate-100"
+                  >
+                    <span className="flex items-center gap-2 text-[15px] font-black text-slate-950">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                        <BookOpen className="h-4 w-4" />
+                      </span>
+                      리소스
+                    </span>
                   </SmartLink>
                   <SmartLink
                     href="/partners"
                     onClick={() => setIsOpen(false)}
-                    className="rounded-xl border bg-white px-3 py-3 text-center text-base font-semibold shadow-sm transition-colors hover:bg-muted"
+                    className="group flex min-h-[58px] items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 text-left shadow-sm transition-colors hover:bg-slate-100"
                   >
-                    파트너
+                    <span className="flex items-center gap-2 text-[15px] font-black text-slate-950">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-orange-50 text-orange-600">
+                        <Handshake className="h-4 w-4" />
+                      </span>
+                      파트너
+                    </span>
                   </SmartLink>
                   <SmartLink
                     href="/support/faq"
                     onClick={() => setIsOpen(false)}
-                    className="rounded-xl border bg-white px-3 py-3 text-center text-base font-semibold shadow-sm transition-colors hover:bg-muted"
+                    className="group flex min-h-[58px] items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 text-left shadow-sm transition-colors hover:bg-slate-100"
                   >
-                    고객센터
+                    <span className="flex items-center gap-2 text-[15px] font-black text-slate-950">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+                        <Headphones className="h-4 w-4" />
+                      </span>
+                      고객센터
+                    </span>
                   </SmartLink>
                 </div>
 
                 {/* People */}
-                <div className="space-y-3 rounded-2xl border bg-white p-4 shadow-sm">
-                  <h4 className="flex items-center gap-2 text-base font-bold uppercase" style={{ color: COLORS.people }}>
-                    <Users className="h-4 w-4" />
-                    People (인사관리)
+                <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm">
+                  <div className="h-1" style={{ backgroundColor: COLORS.people }} />
+                  <div className="space-y-4 p-4">
+                  <h4 className="flex items-center gap-2 rounded-2xl px-2 py-1 text-lg font-black" style={{ color: COLORS.people, backgroundColor: `${COLORS.people}08` }}>
+                    <span className="flex h-9 w-9 items-center justify-center rounded-2xl" style={{ background: `${COLORS.people}12` }}>
+                      <Users className="h-5 w-5" />
+                    </span>
+                    People <span className="text-sm font-bold text-slate-500">(인사관리)</span>
                   </h4>
-                  <div className="grid grid-cols-2 gap-x-5 gap-y-4 pl-1">
+                  <div className="grid grid-cols-1 gap-3">
                     {Object.entries(peopleMenu).map(([category, items]) => (
-                      <div key={category} className="space-y-0.5">
-                        <div className="pt-1 text-sm font-bold text-foreground">{category.replace('\n', ' ')}</div>
+                      <div
+                        key={category}
+                        className="overflow-hidden rounded-2xl border bg-white shadow-sm"
+                        style={{ borderColor: `${COLORS.people}18`, borderLeft: `4px solid ${COLORS.people}` }}
+                      >
+                        <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-3 py-2.5 text-[15px] font-black text-slate-950">
+                          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: COLORS.people }} />
+                          {category.replace('\n', ' ')}
+                        </div>
+                        <div className="grid gap-1">
                         {items.map((item) => (
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className={`py-1 text-sm leading-6 text-foreground/85 transition-colors hover:opacity-70 ${item.badge === "7개월 무료" || item.badge === "무료" ? "flex flex-col" : "block"}`}
+                            className="flex min-h-11 items-center justify-between gap-3 border-t border-slate-100 px-3 py-2 text-[15px] font-semibold text-slate-800 first:border-t-0 hover:bg-slate-50"
                             onClick={() => setIsOpen(false)}
                           >
-                            <span>
-                              <span className="text-muted-foreground/50 text-sm">ㄴ</span>
-                              {item.title}
+                            <span className="min-w-0">
+                              <span className="break-keep">{item.title}</span>
                               {item.subtitle && (
-                                <span className="text-xs ml-1" style={{
+                                <span className="ml-1 text-xs font-bold" style={{
                                   color: item.subtitle === "에버웰커밍" ? COLORS.onboarding
                                     : item.subtitle === "에버페이롤" ? COLORS.payroll
                                     : item.subtitle === "에버평가" ? COLORS.evaluation
@@ -727,67 +775,97 @@ export default function Header() {
                                 <span className="ml-1 text-[11px] font-medium text-gray-400">*예정</span>
                               )}
                             </span>
-                            {item.badge && (item.badge === "7개월 무료" || item.badge === "무료") && (
-                              <span className="pl-[1em] mt-0.5">
-                                <span className="rounded px-1.5 py-0.5 text-[11px]" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                            {item.badge && (
+                              <span className="shrink-0 rounded-full px-2 py-1 text-[11px] font-bold" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>
+                                {item.badge}
                               </span>
                             )}
                           </SmartLink>
                         ))}
+                        </div>
                       </div>
                     ))}
+                  </div>
                   </div>
                 </div>
 
                 {/* Culture (파란톤) */}
-                <div className="space-y-3 rounded-2xl border bg-white p-4 shadow-sm">
-                  <h4 className="flex items-center gap-2 text-base font-bold uppercase" style={{ color: COLORS.culture }}>
-                    <Building2 className="h-4 w-4" />
-                    Culture (기업문화)
+                <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm">
+                  <div className="h-1" style={{ backgroundColor: COLORS.culture }} />
+                  <div className="space-y-4 p-4">
+                  <h4 className="flex items-center gap-2 rounded-2xl px-2 py-1 text-lg font-black" style={{ color: COLORS.culture, backgroundColor: `${COLORS.culture}08` }}>
+                    <span className="flex h-9 w-9 items-center justify-center rounded-2xl" style={{ background: `${COLORS.culture}12` }}>
+                      <Building2 className="h-5 w-5" />
+                    </span>
+                    Culture <span className="text-sm font-bold text-slate-500">(기업문화)</span>
                   </h4>
-                  <div className="grid grid-cols-2 gap-x-5 gap-y-4 pl-1">
+                  <div className="grid grid-cols-1 gap-3">
                     {Object.entries(cultureMenu).map(([category, items]) => (
-                      <div key={category} className="space-y-0.5">
-                        <div className="pt-1 text-sm font-bold text-foreground">{category}</div>
+                      <div
+                        key={category}
+                        className="overflow-hidden rounded-2xl border bg-white shadow-sm"
+                        style={{ borderColor: `${COLORS.culture}18`, borderLeft: `4px solid ${COLORS.culture}` }}
+                      >
+                        <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-3 py-2.5 text-[15px] font-black text-slate-950">
+                          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: COLORS.culture }} />
+                          {category}
+                        </div>
+                        <div className="grid gap-1">
                         {items.map((item) => (
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className="block py-1 text-sm leading-6 text-foreground/85 transition-colors hover:opacity-80"
+                            className="flex min-h-11 items-center border-t border-slate-100 px-3 py-2 text-[15px] font-semibold text-slate-800 first:border-t-0 hover:bg-slate-50"
                             onClick={() => setIsOpen(false)}
                           >
                             {item.title}
-                            {item.subtitle && <span className="text-xs ml-1" style={{ color: COLORS.culture }}>({item.subtitle})</span>}
+                            {item.subtitle && <span className="ml-1 text-xs font-bold" style={{ color: COLORS.culture }}>({item.subtitle})</span>}
                           </SmartLink>
                         ))}
+                        </div>
                       </div>
                     ))}
+                  </div>
                   </div>
                 </div>
 
                 {/* Everworks */}
-                <div className="space-y-3 rounded-2xl border bg-white p-4 shadow-sm">
-                  <h4 className="flex items-center gap-2 text-base font-bold uppercase" style={{ color: COLORS.everworks }}>
-                    <Briefcase className="h-4 w-4" />
-                    에버웍스 (그룹웨어)
+                <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm">
+                  <div className="h-1" style={{ backgroundColor: COLORS.everworks }} />
+                  <div className="space-y-4 p-4">
+                  <h4 className="flex items-center gap-2 rounded-2xl px-2 py-1 text-lg font-black" style={{ color: COLORS.everworks, backgroundColor: `${COLORS.everworks}08` }}>
+                    <span className="flex h-9 w-9 items-center justify-center rounded-2xl" style={{ background: `${COLORS.everworks}12` }}>
+                      <Briefcase className="h-5 w-5" />
+                    </span>
+                    에버웍스 <span className="text-sm font-bold text-slate-500">(그룹웨어)</span>
                   </h4>
-                  <div className="grid grid-cols-2 gap-x-5 gap-y-4 pl-1">
+                  <div className="grid grid-cols-1 gap-3">
                     {Object.entries(everworksMenu).map(([category, items]) => (
-                      <div key={category} className="space-y-0.5">
-                        <div className="pt-1 text-sm font-bold text-foreground">{category}</div>
+                      <div
+                        key={category}
+                        className="overflow-hidden rounded-2xl border bg-white shadow-sm"
+                        style={{ borderColor: `${COLORS.everworks}18`, borderLeft: `4px solid ${COLORS.everworks}` }}
+                      >
+                        <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-3 py-2.5 text-[15px] font-black text-slate-950">
+                          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: COLORS.everworks }} />
+                          {category}
+                        </div>
+                        <div className="grid gap-1">
                         {items.map((item) => (
                           <SmartLink
                             key={item.title}
                             href={item.href}
-                            className="block py-1 text-sm leading-6 text-foreground/85 transition-colors hover:opacity-70"
+                            className="flex min-h-11 items-center border-t border-slate-100 px-3 py-2 text-[15px] font-semibold text-slate-800 first:border-t-0 hover:bg-slate-50"
                             onClick={() => setIsOpen(false)}
                           >
                             {item.title}
-                            {item.subtitle && <span className="text-xs ml-1" style={{ color: COLORS.everworks }}>({item.subtitle})</span>}
+                            {item.subtitle && <span className="ml-1 text-xs font-bold" style={{ color: COLORS.everworks }}>({item.subtitle})</span>}
                           </SmartLink>
                         ))}
+                        </div>
                       </div>
                     ))}
+                  </div>
                   </div>
                 </div>
 

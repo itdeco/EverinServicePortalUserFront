@@ -48,9 +48,9 @@ export default function EvertimeTaglineSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {lawCards.map((item, idx) => (
             <ScrollReveal key={idx} delay={idx * 120}>
-              <div className="relative flex flex-col items-start p-8 rounded-2xl bg-gray-50 border border-gray-200 h-full min-h-[340px] transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer">
-                <h3 className="text-xl font-bold text-gray-900 mb-2 pr-16">{item.title}</h3>
-                <p className="text-sm text-gray-500 mb-4 leading-relaxed">{item.desc}</p>
+              <div className="relative flex h-full min-h-[320px] cursor-pointer flex-col items-start rounded-2xl border border-gray-200 bg-gray-50 p-8 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl">
+                <h3 className="mb-2 break-keep text-xl font-bold leading-snug text-gray-900">{item.title}</h3>
+                <p className="mb-4 text-sm leading-relaxed text-gray-500">{item.desc}</p>
                 <ul className="space-y-2">
                   {item.items.map((li, i) => (
                     <li key={i} className="flex items-start gap-2 text-[15px] text-gray-700">
@@ -59,8 +59,13 @@ export default function EvertimeTaglineSection() {
                     </li>
                   ))}
                 </ul>
-                <div className="absolute top-6 right-6 w-14 h-14">
-                  <Image src={item.icon} alt={item.title} fill className="object-contain" />
+                <div
+                  className="pointer-events-none absolute h-14 w-14"
+                  style={{ right: 32, bottom: 32 }}
+                >
+                  <div className="relative h-full w-full">
+                    <Image src={item.icon} alt={item.title} fill className="object-contain object-right-bottom" />
+                  </div>
                 </div>
               </div>
             </ScrollReveal>
@@ -80,11 +85,11 @@ export default function EvertimeTaglineSection() {
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             {smartCards.map((item, idx) => (
               <ScrollReveal key={idx} delay={idx * 100}>
-                <div className="flex h-full flex-row md:flex-col items-center gap-4 md:gap-0 p-4 md:p-6 bg-white rounded-2xl shadow-sm transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer">
+                <div className="flex h-full cursor-pointer flex-row items-center gap-4 rounded-2xl bg-white p-4 shadow-sm transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl md:flex-col md:gap-0 md:p-5">
                   <div className="w-12 h-12 md:w-16 md:h-16 md:mb-4 relative shrink-0">
                     <Image src={item.icon} alt={item.title} fill className="object-contain" />
                   </div>
-                  <p className="text-sm md:text-base text-gray-700 text-left md:text-center font-medium leading-relaxed">
+                  <p className="break-keep text-left text-sm font-medium leading-relaxed text-gray-700 md:text-center md:text-[13px] md:leading-7 lg:text-sm xl:text-[15px]">
                     {item.title}
                     <br />
                     {item.subtitle}

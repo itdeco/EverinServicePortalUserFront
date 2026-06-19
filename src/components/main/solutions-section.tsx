@@ -48,14 +48,14 @@ const hrCards = [
     href: "/people/smartWorkCare/pcoff",
   },
   {
-    title: "에버페이롤(급여아웃소싱)",
+    title: "급여아웃소싱(에버페이롤)",
     subtitle: "매번 바뀌는 세법과 복잡한 수당 계산으로 오늘도 야근확정이라면?",
     desc: "급여 산정의 복잡함은 사라지고, 결과의 정확함만 남습니다",
     img: "/images/main/solutions/hro/bg-solutions-07.png",
     href: "/people/payroll/outsourcing",
   },
   {
-    title: "에버평가",
+    title: "평가(에버평가)",
     subtitle: "조직의 성과와 성장을 위한 평가를 원한다면?",
     desc: "업적, 역량, 다면평가까지 다각도로 분석하고 공정하게 종합평가하세요",
     img: "/images/main/solutions/hro/bg-solutions-05.png",
@@ -63,7 +63,7 @@ const hrCards = [
   },
   {
     title: "시스템 연동 및 개발",
-    subtitle: "System Integration & Customization",
+    subtitle: "ERP 연동, 세콤/캡스 연동 및 우리 기업만의 커스텀이 필요하다면?",
     desc: "기업의 업무 환경을 하나로 연결하여 효율성을 극대화합니다",
     img: "/images/main/solutions/hro/bg-solutions-08.png",
     href: "/",
@@ -270,7 +270,7 @@ export function SolutionsSection() {
 
           {/* Header */}
           <div className="mb-3">
-            <p className="text-sm text-emerald-500 font-semibold mb-2">에버인 솔루션</p>
+            <p className="text-sm text-emerald-500 font-semibold mb-2">클라우드 HR 플랫폼 에버인</p>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug">
               반복 업무는 줄이고,<br/>
               진짜 가치 있는 일에 집중하는 HR 솔루션을 경험하세요.

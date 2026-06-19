@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { COLORS } from "@/constants/brand-colors"
+import {COLORS} from "@/constants/brand-colors";
 
 export default function CtaSection() {
   return (
@@ -7,13 +7,12 @@ export default function CtaSection() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-              src="/images/people/bg/bg-People-foot.jpg"
+              src="/images/people/addOnServices/everworks/bg/bg-foot.jpg"
               alt="CTA 배경"
               fill
               className="object-cover object-center"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-50/95 via-white/90 to-orange-100/85" />
 
         {/* Content */}
         <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">

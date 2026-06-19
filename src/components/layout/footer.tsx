@@ -1,17 +1,43 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Globe, Smartphone } from "lucide-react";
+import { ChevronDown, ChevronUp, Globe, Smartphone, X } from "lucide-react";
+
+import { Api } from "@/api";
+import { TermsDto, TermsType } from "@/types/Terms";
+import { checkApiResult } from "@/utils/apiUtil";
 
 const familySites = [
-  { name: "Ever Japan Co., Ltd.", url: "https://www.everjapan.co.jp/" },
-  { name: "PT SYSTEM EVER INDONESIA", url: "https://www.systemever.co.id/" },
-  { name: "K.SYSTEM JSC (Vietnam)", url: "http://www.ksystem.vn/" },
-  { name: "시스템에버 SystemEver", url: "https://www.systemever.kr/html/main.html" },
+  {url: "https://www.ksystem.co.kr", name: "영림원소프트랩"},
+  {url: "https://www.everjapan.co.jp", name: "Ever Japan Co,Ltd"},
+  {url: "https://www.systemever.co.id", name: "PT SYSTEM EVER INDONESIA"},
+  {url: "https://www.ksystem.vn", name: "K.SYSTEM JSC (Vietnam)"},
+  {url: "https://www.systemever.kr", name: "시스템에버 SystemEver"},
+  {url: "https://www.everpayroll.co.kr", name: "에버페이롤 EverPayroll"},
+  {url: "https://systemevernpo.co.kr", name: "시스템에버 비영리 SystemEver NPO"},
+  {url: "https://flextudio.com", name: "플렉스튜디오 Flextudio"},
+  {url: "https://www.everin.co.kr", name: "에버인 EverIn"}
 ];
 
 export default function Footer() {
   const [isFamilySiteOpen, setIsFamilySiteOpen] = useState(false);
+  const [isIsoModalOpen, setIsIsoModalOpen] = useState(false);
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+  const [isTermsLoading, setIsTermsLoading] = useState(false);
+  const [serviceTerms, setServiceTerms] = useState<TermsDto | null>(null);
+
+  const openServiceTerms = async () => {
+    setIsTermsModalOpen(true);
+
+    if (serviceTerms?.content) return;
+
+    setIsTermsLoading(true);
+    const result = await Api.Terms.getLatestTypeTerms(TermsType.Service);
+    if (checkApiResult(result)) {
+      setServiceTerms(result.payload as TermsDto);
+    }
+    setIsTermsLoading(false);
+  };
 
   return (
     <footer className="bg-slate-900 text-slate-300 border-t-0">
@@ -63,12 +89,13 @@ export default function Footer() {
                 회사소개
               </a>
               <span className="px-2 text-slate-600">|</span>
-              <a 
-                href="#" 
+              <button
+                type="button"
+                onClick={openServiceTerms}
                 className="text-slate-400 hover:text-white transition-colors"
               >
                 서비스이용약관
-              </a>
+              </button>
               <span className="px-2 text-slate-600">|</span>
               <a 
                 href="https://www.ksystem.co.kr/privacy-statement/" 
@@ -114,13 +141,17 @@ export default function Footer() {
               )}
             </div>
 
-            {/* ISO 27001 인증 배지 */}
-            <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-lg">
+            {/* ISO 27001 인증 버튼 */}
+            <button
+              type="button"
+              onClick={() => setIsIsoModalOpen(true)}
+              className="flex items-center gap-2 px-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-lg text-left hover:border-emerald-500/60 hover:bg-slate-800 transition-colors"
+            >
               <Globe className="w-5 h-5 text-slate-400" />
               <span className="text-sm text-slate-300">
                 {"'"}ISO 27001{"'"} 국제표준 정보보호 인증 획득
               </span>
-            </div>
+            </button>
 
             {/* 앱 다운로드 버튼들 */}
             <div className="flex flex-wrap items-center gap-3">
@@ -172,6 +203,83 @@ export default function Footer() {
           </p>
         </div>
       </div>
+
+      {isIsoModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 px-4 py-8 backdrop-blur-sm">
+          <button
+            type="button"
+            aria-label="ISO 27001 인증서 닫기"
+            className="absolute inset-0 cursor-default"
+            onClick={() => setIsIsoModalOpen(false)}
+          />
+          <div className="relative flex max-h-[86vh] w-fit max-w-[calc(100vw-32px)] flex-col overflow-hidden rounded-xl bg-white shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+              <div>
+                <p className="text-lg font-bold text-slate-950">ISO/IEC 27001 인증서</p>
+                <p className="text-sm text-slate-500">에버페이롤 & 에버타임 서비스</p>
+              </div>
+              <button
+                type="button"
+                aria-label="닫기"
+                onClick={() => setIsIsoModalOpen(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="overflow-auto bg-slate-100 p-3">
+              <img
+                src="/images/certificates/iso27001-certificate.png"
+                alt="ISO/IEC 27001 인증서"
+                className="mx-auto h-auto max-h-[68vh] w-auto max-w-[calc(100vw-64px)] rounded-lg bg-white object-contain shadow-sm"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isTermsModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 px-4 py-8 backdrop-blur-sm">
+          <button
+            type="button"
+            aria-label="서비스이용약관 닫기"
+            className="absolute inset-0 cursor-default"
+            onClick={() => setIsTermsModalOpen(false)}
+          />
+          <div
+            className="relative flex w-full max-w-[min(760px,calc(100vw-32px))] flex-col overflow-hidden rounded-xl bg-white shadow-2xl"
+            style={{ height: "min(760px, calc(100vh - 64px))" }}
+          >
+            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+              <div>
+                <p className="text-lg font-bold text-slate-950">서비스이용약관</p>
+                <p className="text-sm text-slate-500">에버인 서비스 이용 약관</p>
+              </div>
+              <button
+                type="button"
+                aria-label="닫기"
+                onClick={() => setIsTermsModalOpen(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden bg-white p-5">
+              {isTermsLoading ? (
+                <div className="flex h-full items-center justify-center text-sm font-medium text-slate-500">
+                  약관을 불러오는 중입니다.
+                </div>
+              ) : (
+                <iframe
+                  title="서비스이용약관"
+                  srcDoc={serviceTerms?.content || `<p style="text-align:center;">적용기간에 맞는 약관이 없습니다.</p>`}
+                  className="h-full w-full border-0"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </footer>
   );
 }
