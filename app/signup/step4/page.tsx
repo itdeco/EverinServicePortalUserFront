@@ -142,8 +142,8 @@ export default function SignUpStep4Page() {
                             </div>
 
                             {/* User Info Card */}
-                            <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-7 shadow-[0_24px_70px_rgba(15,23,42,0.10)] mb-6">
-                                <div className="bg-primary/5 rounded-2xl p-6 text-center mb-6">
+                            <div className="rounded-3xl border border-slate-200/70 bg-white p-7 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/[0.02] mb-6">
+                                <div className="bg-primary/[0.06] rounded-2xl p-6 text-center mb-6">
                                     <p className="text-lg text-foreground mb-1">{name}님</p>
                                     <p className="text-xl font-bold text-primary">{CommonUtil.hideEmailPart(email)}</p>
                                 </div>
@@ -151,7 +151,7 @@ export default function SignUpStep4Page() {
                                 {/* Action Buttons */}
                                 <div className="flex flex-col sm:flex-row gap-3">
                                     <Button
-                                        className="flex-1 h-11 rounded-lg text-base font-semibold border-2 border-gray-200 hover:bg-gray-50 transition-all text-foreground bg-white"
+                                        className="flex-1 h-12 rounded-xl text-base font-semibold border-2 border-slate-200 hover:border-primary/40 hover:bg-slate-50 transition-all text-foreground bg-white"
                                         asChild
                                     >
                                         <Link href="/public" className="flex items-center justify-center gap-2">
@@ -160,7 +160,7 @@ export default function SignUpStep4Page() {
                                         </Link>
                                     </Button>
                                     <Button
-                                        className="flex-1 h-11 rounded-lg text-base font-semibold text-white border-0 hover:opacity-90 hover:scale-[1.01] transition-all"
+                                        className="flex-1 h-12 rounded-xl text-base font-semibold text-white border-0 shadow-md shadow-primary/20 hover:opacity-90 hover:scale-[1.01] transition-all"
                                         style={{ background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)" }}
                                         asChild
                                     >
@@ -173,7 +173,7 @@ export default function SignUpStep4Page() {
                             </div>
 
                             {/* Info Notice */}
-                            <div className="bg-gray-50 rounded-lg p-4 text-center">
+                            <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 text-center">
                                 <p className="text-sm text-muted-foreground">
                                     {"※ 가입하신 회원정보는 MY Page > 계정정보에서 확인하실 수 있습니다"}
                                 </p>

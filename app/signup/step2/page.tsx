@@ -233,7 +233,7 @@ export default function SignUpStep2Page() {
                             </div>
 
                             {/* Form Card */}
-                            <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-7 shadow-[0_24px_70px_rgba(15,23,42,0.10)] mb-6">
+                            <div className="rounded-3xl border border-slate-200/70 bg-white p-7 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/[0.02] mb-6">
                                 <div className="space-y-6">
                                     {/* Code Input */}
                                     <div className="flex justify-center gap-2 md:gap-3">
@@ -253,7 +253,7 @@ export default function SignUpStep2Page() {
                                                     onChange={(e) => handleInputChange(index, e.target.value)}
                                                     onKeyDown={(e) => handleKeyDown(index, e)}
                                                     onPaste={handlePaste}
-                                                    className="w-12 h-14 md:w-14 md:h-16 text-center text-xl md:text-2xl font-bold rounded-lg border-2 border-gray-200 focus:border-primary focus:ring-primary/10 uppercase"
+                                                    className="w-12 h-14 md:w-14 md:h-16 text-center text-xl md:text-2xl font-bold rounded-xl border-2 border-slate-200 bg-white shadow-sm transition-all focus:border-primary focus:ring-2 focus:ring-primary/15 uppercase"
                                                 />
                                             </div>
                                         ))}
@@ -270,7 +270,7 @@ export default function SignUpStep2Page() {
                                     <Button
                                         onClick={onCodeResendClick}
                                         disabled={isResending}
-                                        className="w-full h-11 rounded-lg text-base font-semibold border-2 border-gray-200 hover:bg-gray-50 transition-all text-foreground bg-white"
+                                        className="w-full h-12 rounded-xl text-base font-semibold border-2 border-slate-200 hover:border-primary/40 hover:bg-slate-50 transition-all text-foreground bg-white"
                                     >
                                         {isResending ? (
                                             <>

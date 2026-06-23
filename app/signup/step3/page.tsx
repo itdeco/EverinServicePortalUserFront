@@ -429,7 +429,7 @@ export default function SignUpStep3Page() {
                             </div>
 
                             {/* Form Card */}
-                            <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-7 shadow-[0_24px_70px_rgba(15,23,42,0.10)] mb-6">
+                            <div className="rounded-3xl border border-slate-200/70 bg-white p-7 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/[0.02] mb-6">
                                 <div className="space-y-4">
                                     {/* Name Field */}
                                     <div className="space-y-2">
@@ -443,10 +443,10 @@ export default function SignUpStep3Page() {
                                                 value={name}
                                                 onChange={(e) => setName(e.target.value)}
                                                 autoComplete="off"
-                                                className={`h-11 pl-12 pr-4 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                                className={`h-12 pl-12 pr-4 rounded-xl border bg-white text-sm shadow-sm transition-all ${
                                                     status === ValidationStatus.EmptyName
-                                                        ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10"
-                                                        : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
+                                                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/15"
+                                                        : "border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/15"
                                                 }`}
                                                 placeholder="홍길동"
                                             />
@@ -470,10 +470,10 @@ export default function SignUpStep3Page() {
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
                                                 autoComplete="new-password"
-                                                className={`h-11 pl-12 pr-12 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                                className={`h-12 pl-12 pr-12 rounded-xl border bg-white text-sm shadow-sm transition-all ${
                                                     status === ValidationStatus.EmptyPassword
-                                                        ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10"
-                                                        : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
+                                                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/15"
+                                                        : "border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/15"
                                                 }`}
                                                 placeholder="비밀번호 입력"
                                             />
@@ -504,10 +504,10 @@ export default function SignUpStep3Page() {
                                                 value={confirmPassword}
                                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                                 autoComplete="new-password"
-                                                className={`h-11 pl-12 pr-12 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                                className={`h-12 pl-12 pr-12 rounded-xl border bg-white text-sm shadow-sm transition-all ${
                                                     [ValidationStatus.EmptyConfirmPassword, ValidationStatus.NotMatchPassword, ValidationStatus.InvalidPassword].includes(status)
-                                                        ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10"
-                                                        : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
+                                                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/15"
+                                                        : "border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/15"
                                                 }`}
                                                 placeholder="비밀번호 재입력"
                                             />
@@ -542,10 +542,10 @@ export default function SignUpStep3Page() {
                                                         if (status === ValidationStatus.InvalidPhone) setStatus(ValidationStatus.Valid);
                                                     }}
                                                     disabled={isFromTrial}
-                                                    className={`h-11 pl-12 pr-4 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                                    className={`h-12 pl-12 pr-4 rounded-xl border bg-white text-sm shadow-sm transition-all ${
                                                         [ValidationStatus.EmptyPhone, ValidationStatus.InvalidPhone].includes(status)
-                                                            ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10"
-                                                            : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
+                                                            ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/15"
+                                                            : "border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/15"
                                                     }`}
                                                     placeholder="01012345678"
                                                 />
@@ -579,10 +579,10 @@ export default function SignUpStep3Page() {
                                                         value={authenticationCode}
                                                         onChange={(e) => setAuthenticationCode(e.target.value)}
                                                         disabled={authCodeVerified}
-                                                        className={`h-12 px-4 rounded-xl border-2 ${
+                                                        className={`h-12 px-4 rounded-xl border-2 bg-white shadow-sm transition-all ${
                                                             status === ValidationStatus.TimerExpired
                                                                 ? "border-destructive"
-                                                                : "border-input focus:border-primary"
+                                                                : "border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/15"
                                                         }`}
                                                         placeholder="인증번호 입력"
                                                     />

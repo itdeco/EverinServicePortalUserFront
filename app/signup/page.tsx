@@ -272,7 +272,7 @@ export default function SignUpPage() {
                             </div>
 
                             {/* Form Card */}
-                            <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-7 shadow-[0_24px_70px_rgba(15,23,42,0.10)] mb-6">
+                            <div className="rounded-3xl border border-slate-200/70 bg-white p-7 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/[0.02] mb-6">
                                 <div className="space-y-5">
                                     {/* Email Field */}
                                     <div className="space-y-2">
@@ -290,10 +290,10 @@ export default function SignUpPage() {
                                                 onKeyDown={onEmailKeyDown}
                                                 disabled={!available || EmailStatus.Sending === emailStatus}
                                                 autoComplete="off"
-                                                className={`h-11 pl-12 pr-4 rounded-lg border transition-all bg-gray-50 text-sm ${
+                                                className={`h-12 pl-12 pr-4 rounded-xl border bg-white text-sm shadow-sm transition-all ${
                                                     isEmailInvalid
-                                                        ? "border-red-300 focus:border-red-500 focus:bg-white focus:ring-red-500/10"
-                                                        : "border-gray-200 focus:border-primary focus:bg-white focus:ring-primary/10"
+                                                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/15"
+                                                        : "border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/15"
                                                 }`}
                                                 placeholder="name@example.com"
                                             />
@@ -312,9 +312,9 @@ export default function SignUpPage() {
                                     <Button
                                         onClick={onStartClick}
                                         disabled={!available || !checkCanSend() || EmailStatus.Sending === emailStatus}
-                                        className={`w-full h-11 rounded-lg text-base font-semibold transition-all mt-2 ${
+                                        className={`w-full h-12 rounded-xl text-base font-semibold transition-all mt-2 ${
                                             checkCanSend()
-                                                ? "bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg hover:scale-[1.01]"
+                                                ? "bg-primary hover:bg-primary/90 text-white shadow-md shadow-primary/25 hover:shadow-lg hover:scale-[1.01]"
                                                 : "bg-gray-100 text-gray-400 cursor-not-allowed"
                                         }`}
                                     >
@@ -337,7 +337,7 @@ export default function SignUpPage() {
                             </div>
 
                             {/* 무료 혜택 안내 */}
-                            <div className="mb-6 rounded-2xl border border-primary/15 bg-primary/5 p-4">
+                            <div className="mb-6 rounded-2xl border border-primary/15 bg-primary/[0.06] p-5">
                                 <div className="space-y-3">
                                     <div className="flex items-start gap-3">
                                         <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
@@ -382,7 +382,7 @@ export default function SignUpPage() {
                                 <p className="text-muted-foreground mb-4 text-sm">이미 서비스 포털 계정이 있으신가요?</p>
                                 <Button
                                     asChild
-                                    className="w-full h-11 rounded-lg text-base font-semibold text-white border-0 hover:opacity-90 hover:scale-[1.01] transition-all"
+                                    className="w-full h-12 rounded-xl text-base font-semibold text-white border-0 shadow-md shadow-primary/20 hover:opacity-90 hover:scale-[1.01] transition-all"
                                     style={{ background: "linear-gradient(135deg, rgb(75, 107, 245) 0%, rgb(0, 204, 153) 100%)" }}
                                 >
                                     <Link href={ROUTES.LOGIN}>
