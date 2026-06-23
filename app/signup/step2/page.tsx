@@ -177,22 +177,25 @@ export default function SignUpStep2Page() {
                             <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-6">
                                 지금 시작하면<br />
                                 <span className="bg-gradient-to-r from-[#00cc99] to-[#4b6bf5] bg-clip-text text-transparent">
-                                    6개월 무료!
+                                    에버타임 7개월 혜택
                                 </span>
                             </h1>
                             <p className="text-lg text-gray-400 leading-relaxed">
-                                급여, 근태, 평가, 온보딩까지<br />
-                                하나의 플랫폼에서 모든 HR 업무를 관리하세요.
+                                에버타임 스탠다드 1개월 무료 ·<br />
+                                결제수단 등록 시 6개월 추가 무료
+                            </p>
+                            <p className="mt-4 text-base font-semibold text-[#00cc99]">
+                                에버웰커밍은 평생무료로 시작하세요.
                             </p>
                             {/* 혜택 */}
                             <div className="grid grid-cols-2 gap-6 mt-12 pt-8 border-t border-white/10">
                                 <div>
-                                    <p className="text-3xl font-bold text-[#00cc99]">6개월</p>
-                                    <p className="text-sm text-gray-500 mt-1">무료 체험</p>
+                                    <p className="text-3xl font-bold text-[#00cc99]">1개월</p>
+                                    <p className="text-sm text-gray-500 mt-1">스탠다드 무료체험</p>
                                 </div>
                                 <div>
-                                    <p className="text-3xl font-bold text-[#4b6bf5]">100%</p>
-                                    <p className="text-sm text-gray-500 mt-1">전 기능</p>
+                                    <p className="text-3xl font-bold text-[#4b6bf5]">+6개월</p>
+                                    <p className="text-sm text-gray-500 mt-1">결제수단 등록 시</p>
                                 </div>
                             </div>
                         </div>
