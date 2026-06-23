@@ -183,9 +183,10 @@ export default function SignUpStep3Page() {
             return;
         }
 
+        const normalizedPhone = phone.replace(/\D/g, "").trim();
         const params: SmsAuthenticationRequestBaseDto = {
             needToCheckUserName: false,
-            phone: phone
+            phone: normalizedPhone
         };
 
         const result = await Api.Sms.requestAuthenticationCode(params);
@@ -198,9 +199,10 @@ export default function SignUpStep3Page() {
     }
 
     const onVerifyCertNumberClick = async () => {
+        const normalizedPhone = phone.replace(/\D/g, "").trim();
         const params: SmsAuthenticationVerifyDto = {
             userName: name,
-            phone: phone,
+            phone: normalizedPhone,
             authenticationCode: authenticationCode,
         };
 
