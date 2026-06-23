@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const SIGNUP_STEPS = [
     { value: 1, label: "이메일등록" },
     { value: 2, label: "이메일인증" },
-    { value: 3, label: "개인정보등록 및 핸드폰인증" },
+    { value: 3, label: "정보등록" },
     { value: 4, label: "가입완료" },
 ] as const;
 
@@ -18,44 +18,53 @@ interface SignupProgressProps {
 }
 
 export function SignupProgress({ currentStep }: SignupProgressProps) {
+    const totalSteps = SIGNUP_STEPS.length;
+    const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+
     return (
-        <nav
-            aria-label="회원가입 진행 단계"
-            className="mb-8 rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur"
-        >
-            <ol className="grid grid-cols-4 gap-2">
+        <nav aria-label="회원가입 진행 단계" className="mb-8">
+            <div className="px-1">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-primary">
+                    Step {currentStep}
+                    <span className="text-slate-300"> / {totalSteps}</span>
+                </span>
+            </div>
+
+            <ol className="relative mt-3 flex items-center justify-between">
+                {/* 연결선 (배경) */}
+                <div className="absolute left-0 right-0 top-[9px] h-[2px] rounded-full bg-slate-100" />
+                {/* 연결선 (진행) */}
+                <div
+                    className="absolute left-0 top-[9px] h-[2px] rounded-full bg-primary transition-all duration-500"
+                    style={{ width: `${progress}%` }}
+                />
+
                 {SIGNUP_STEPS.map((step) => {
                     const isComplete = step.value < currentStep;
                     const isActive = step.value === currentStep;
 
                     return (
-                        <li
-                            key={step.value}
-                            className={cn(
-                                "relative flex min-h-[76px] flex-col items-center justify-center rounded-xl px-2 py-3 text-center transition-colors",
-                                isActive
-                                    ? "bg-primary/10 text-primary"
-                                    : isComplete
-                                        ? "bg-emerald-50 text-emerald-700"
-                                        : "bg-slate-50 text-slate-500"
-                            )}
-                        >
+                        <li key={step.value} className="relative z-10 flex flex-col items-center">
                             <span
                                 className={cn(
-                                    "mb-2 flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold",
+                                    "flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold transition-colors duration-300",
                                     isActive
-                                        ? "bg-primary text-white shadow-lg shadow-primary/20"
+                                        ? "bg-primary text-white ring-4 ring-primary/15"
                                         : isComplete
-                                            ? "bg-emerald-500 text-white"
+                                            ? "bg-primary text-white"
                                             : "bg-white text-slate-400 ring-1 ring-slate-200"
                                 )}
                             >
-                                {isComplete ? <Check className="h-4 w-4" /> : step.value}
+                                {isComplete ? <Check className="h-3 w-3" /> : step.value}
                             </span>
                             <span
                                 className={cn(
-                                    "break-keep text-[11px] font-semibold leading-snug sm:text-xs",
-                                    isActive ? "text-primary" : isComplete ? "text-emerald-700" : "text-slate-500"
+                                    "mt-2 whitespace-nowrap break-keep text-[11px] font-medium transition-colors duration-300",
+                                    isActive
+                                        ? "text-primary"
+                                        : isComplete
+                                            ? "text-slate-500"
+                                            : "text-slate-400"
                                 )}
                             >
                                 {step.label}
