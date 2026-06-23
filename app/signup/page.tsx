@@ -9,6 +9,7 @@ import { Mail, ArrowRight, Shield, Clock, Sparkles } from "lucide-react";
 
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { SignupProgress } from "@/components/signup/signup-progress";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -240,7 +241,7 @@ export default function SignUpPage() {
                 </div>
 
                 {/* 오른쪽: 회원가입 폼 */}
-                <div className="flex-1 lg:w-1/2 xl:w-[45%] flex flex-col bg-background">
+                <div className="flex-1 lg:w-1/2 xl:w-[45%] flex flex-col bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_45%,#f6fffb_100%)]">
                     {/* 모바일 헤더 */}
                     <div className="lg:hidden">
                         <Header />
@@ -256,20 +257,22 @@ export default function SignUpPage() {
                         </p>
                     </div>
 
-                    <main className="flex-1 flex items-center justify-center px-6 py-8 lg:px-12 xl:px-16">
-                        <div className="w-full max-w-md">
+                    <main className="flex-1 flex items-center justify-center px-6 py-10 lg:px-12 xl:px-16">
+                        <div className="w-full max-w-lg">
+                            <SignupProgress currentStep={1} />
+
                             {/* Title */}
-                            <div className="mb-10">
-                                <h1 className="text-3xl font-bold text-foreground mb-3">
+                            <div className="mb-8">
+                                <h1 className="text-3xl font-bold tracking-tight text-foreground mb-3">
                                     에버人 계정 만들기
                                 </h1>
-                                <p className="text-base text-muted-foreground">
+                                <p className="text-base leading-relaxed text-muted-foreground">
                                     현재 근무 중인 직장의 이메일 주소를 추천드립니다.
                                 </p>
                             </div>
 
                             {/* Form Card */}
-                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+                            <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-7 shadow-[0_24px_70px_rgba(15,23,42,0.10)] mb-6">
                                 <div className="space-y-5">
                                     {/* Email Field */}
                                     <div className="space-y-2">
@@ -370,7 +373,7 @@ export default function SignUpPage() {
                                     <div className="w-full border-t border-gray-200" />
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-4 bg-background text-muted-foreground font-medium">또는</span>
+                                    <span className="px-4 bg-white text-muted-foreground font-medium">또는</span>
                                 </div>
                             </div>
 

@@ -8,6 +8,7 @@ import { Mail, RefreshCw } from "lucide-react";
 
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { SignupProgress } from "@/components/signup/signup-progress";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -210,27 +211,29 @@ export default function SignUpStep2Page() {
                 </div>
 
                 {/* 오른쪽: 인증 폼 */}
-                <div className="flex-1 lg:w-1/2 xl:w-[45%] flex flex-col bg-background">
+                <div className="flex-1 lg:w-1/2 xl:w-[45%] flex flex-col bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_45%,#f6fffb_100%)]">
                     {/* 모바일 헤더 */}
                     <div className="lg:hidden">
                         <Header />
                     </div>
 
-                    <main className="flex-1 flex items-center justify-center px-6 py-8 lg:px-12 xl:px-16">
-                        <div className="w-full max-w-md">
+                    <main className="flex-1 flex items-center justify-center px-6 py-10 lg:px-12 xl:px-16">
+                        <div className="w-full max-w-lg">
+                            <SignupProgress currentStep={2} />
+
                             {/* Title */}
-                            <div className="mb-10">
-                                <h1 className="text-3xl font-bold text-foreground mb-3">
+                            <div className="mb-8">
+                                <h1 className="text-3xl font-bold tracking-tight text-foreground mb-3">
                                     인증 코드 입력
                                 </h1>
-                                <p className="text-base text-muted-foreground">
+                                <p className="text-base leading-relaxed text-muted-foreground">
                                     <span className="font-medium text-foreground">{email}</span>
                                     <br />로 6자리 코드를 전송했습니다.
                                 </p>
                             </div>
 
                             {/* Form Card */}
-                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+                            <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-7 shadow-[0_24px_70px_rgba(15,23,42,0.10)] mb-6">
                                 <div className="space-y-6">
                                     {/* Code Input */}
                                     <div className="flex justify-center gap-2 md:gap-3">

@@ -8,6 +8,7 @@ import { CheckCircle2, Home, LogIn, PartyPopper } from "lucide-react";
 
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { SignupProgress } from "@/components/signup/signup-progress";
 import { Button } from "@/components/ui/button";
 
 import CommonUtil from "@/utils/commonUtil";
@@ -109,14 +110,16 @@ export default function SignUpStep4Page() {
                 </div>
 
                 {/* 오른쪽: 완료 페이지 */}
-                <div className="flex-1 lg:w-1/2 xl:w-[45%] flex flex-col bg-background">
+                <div className="flex-1 lg:w-1/2 xl:w-[45%] flex flex-col bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_45%,#f6fffb_100%)]">
                     {/* 모바일 헤더 */}
                     <div className="lg:hidden">
                         <Header />
                     </div>
 
-                    <main className="flex-1 flex items-center justify-center px-6 py-8 lg:px-12 xl:px-16">
-                        <div className="w-full max-w-md">
+                    <main className="flex-1 flex items-center justify-center px-6 py-10 lg:px-12 xl:px-16">
+                        <div className="w-full max-w-lg">
+                            <SignupProgress currentStep={4} />
+
                             {/* Success Animation */}
                             <div className="text-center mb-8">
                                 <div className="relative inline-flex items-center justify-center">
@@ -139,7 +142,7 @@ export default function SignUpStep4Page() {
                             </div>
 
                             {/* User Info Card */}
-                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
+                            <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-7 shadow-[0_24px_70px_rgba(15,23,42,0.10)] mb-6">
                                 <div className="bg-primary/5 rounded-2xl p-6 text-center mb-6">
                                     <p className="text-lg text-foreground mb-1">{name}님</p>
                                     <p className="text-xl font-bold text-primary">{CommonUtil.hideEmailPart(email)}</p>
