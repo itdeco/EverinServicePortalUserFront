@@ -1184,7 +1184,7 @@ function SubscribeContent() {
     const step2Url = getStep2Url();
 
     if (!isLoggedIn) {
-      router.push(`/login?url=${encodeURIComponent(step2Url)}`);
+      router.push(`/login?url=${encodeURIComponent("/subscribe")}`);
       return;
     }
 

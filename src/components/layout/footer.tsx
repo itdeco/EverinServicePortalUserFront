@@ -13,10 +13,9 @@ const familySites = [
   {url: "https://www.systemever.co.id", name: "PT SYSTEM EVER INDONESIA"},
   {url: "https://www.ksystem.vn", name: "K.SYSTEM JSC (Vietnam)"},
   {url: "https://www.systemever.kr", name: "시스템에버 SystemEver"},
-  {url: "https://www.everpayroll.co.kr", name: "에버페이롤 EverPayroll"},
   {url: "https://systemevernpo.co.kr", name: "시스템에버 비영리 SystemEver NPO"},
   {url: "https://flextudio.com", name: "플렉스튜디오 Flextudio"},
-  {url: "https://www.everin.co.kr", name: "에버인 EverIn"}
+  {url: "https://www.everin.co.kr", name: "에버인 기업문화"}
 ];
 
 export default function Footer() {

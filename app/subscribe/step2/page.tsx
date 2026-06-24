@@ -467,7 +467,7 @@ function SubscribeStep2Content() {
 
                     {isBmsCheckout && !selectedCardId && (
                       <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
-                        결제수단 없이 진행하면 {freeMonths.withoutPaymentMethod}개월 무료가 적용됩니다. 결제수단 등록 시 {freeMonths.withPaymentMethod}개월 무료가 추가 적용됩니다.
+                        결제수단 없이 진행하면 {freeMonths.withoutPaymentMethod}개월 무료가 적용됩니다. <br/>결제수단 등록 시 {freeMonths.withPaymentMethod}개월 무료가 추가 적용됩니다.
                       </div>
                     )}
 

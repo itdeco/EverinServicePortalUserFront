@@ -246,7 +246,7 @@ export default class ApiUsers {
     }
 
     async getMyCorporationsAndCards() {
-        const url = `${Config.apiServer}/api/v2/users/corporations-cards/`;
+        const url = `${Config.apiServer}/api/v1/users/corporations-cards/`;
 
         return callApi({
             url: url,

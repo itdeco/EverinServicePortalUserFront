@@ -144,7 +144,7 @@ export default function SignUpPage() {
         if (EmailStatus.Empty === emailStatus) {
             return "이메일을 입력하지 않았습니다";
         } else if (EmailStatus.Occupied === emailStatus) {
-            return "사용할 수 없는 이메일입니다";
+            return "사용중인 이메일입니다";
         } else if (EmailStatus.Invalid === emailStatus) {
             return "이메일 형식이 맞지 않습니다";
         }

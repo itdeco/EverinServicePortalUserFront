@@ -380,17 +380,6 @@ export default function PaymentPage() {
         </p>
       </div>
 
-      {isUsingDemoData && (
-        <Card className="mb-4 border-amber-200 bg-amber-50">
-          <CardContent className="flex gap-3 py-4 text-sm text-amber-800">
-            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-            <p>
-              API 청구/납부 데이터가 없어 화면 확인용 임시 데이터를 표시하고 있습니다. 실제 DataBlock1이 조회되면 임시 데이터는
-              자동으로 사라집니다.
-            </p>
-          </CardContent>
-        </Card>
-      )}
 
       {rows.length === 0 ? (
         <Card className="border-2">

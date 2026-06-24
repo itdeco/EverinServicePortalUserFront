@@ -32,6 +32,7 @@ export type UserProfileState = {
     preference?: UserPreferenceDto;
     usedTrial?: boolean;
     regPortalType?:number;
+    totUserSeq?: number;
 }
 
 export const initialUserProfileState: UserProfileState = {

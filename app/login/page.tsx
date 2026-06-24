@@ -401,6 +401,11 @@ export default function LoginPage() {
             return;
         }
 
+        if (url) {
+            router.replace(url);
+            return;
+        }
+
         if (profile?.status === UserStatusType.Upgrading) {
             alertMessage(
                 "무료체험 중인 상태에서 업그레이드 중입니다.<br/>플랜 업그레이드를 완료하기 위해 구독 페이지로 이동합니다."
