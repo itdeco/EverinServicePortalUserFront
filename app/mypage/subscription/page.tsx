@@ -6,7 +6,6 @@ import {
   AlertCircle,
   Building2,
   ChevronDown,
-  ChevronRight,
   CircleCheck,
   CreditCard,
   Layers3,
@@ -251,11 +250,11 @@ function getContractPeriod(master: BmsRecord) {
 }
 
 function getStatusBadgeClass(status: string) {
-  if (status.includes("이용중")) return "border-emerald-200 bg-emerald-50 text-emerald-700";
-  if (status.includes("대기")) return "border-sky-200 bg-sky-50 text-sky-700";
-  if (status.includes("만료")) return "border-slate-200 bg-slate-100 text-slate-600";
+  if (status.includes("이용중")) return "border-transparent bg-primary/10 text-primary";
+  if (status.includes("대기")) return "border-transparent bg-sky-100 text-sky-700";
+  if (status.includes("만료")) return "border-transparent bg-muted text-muted-foreground";
 
-  return "border-slate-200 bg-slate-50 text-slate-600";
+  return "border-transparent bg-muted text-muted-foreground";
 }
 
 function formatQuantity(value: any) {
@@ -357,39 +356,49 @@ export default function SubscriptionPage() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            <div className="h-8 w-8 animate-spin rounded-full border-3 border-primary border-t-transparent" />
+      <div className="flex min-h-[70vh] items-center justify-center px-4">
+        <div className="flex flex-col items-center gap-5 text-center">
+          <div className="relative flex h-16 w-16 items-center justify-center">
+            <span className="absolute inset-0 animate-ping rounded-full bg-primary/15" />
+            <span className="absolute inset-0 rounded-full border border-primary/20" />
+            <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-primary/25 border-t-primary" />
           </div>
-          <p className="text-muted-foreground">구독 정보를 불러오는 중입니다.</p>
+          <div className="space-y-1">
+            <p className="text-base font-semibold text-foreground">구독 정보를 불러오는 중</p>
+            <p className="text-sm text-muted-foreground">잠시만 기다려 주세요</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-[calc(100vh-96px)] bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_42%,#f6fffb_100%)]">
-      <div className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-12">
-        <section className="mb-6 overflow-hidden rounded-3xl border border-slate-200/80 bg-white/90 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur md:p-8">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-3 py-1 text-sm font-semibold text-primary">
-                <Layers3 className="h-4 w-4" />
-                구독정보
+    <div className="min-h-[calc(100vh-96px)] bg-muted/30">
+      <div className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-12">
+        <header className="mb-8">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary">
+                <Layers3 className="h-3.5 w-3.5" />
+                SUBSCRIPTION
               </div>
-              <h1 className="text-3xl font-black tracking-tight text-slate-950 md:text-4xl">
+              <h1 className="text-pretty text-3xl font-bold tracking-tight text-foreground md:text-4xl">
                 회사별 구독 현황
               </h1>
-              <p className="mt-3 max-w-2xl text-base leading-relaxed text-slate-600">
-                계약정보를 회사별로 묶어 확인하고, 계약별 상세보기에서 서비스와 금액을 확인할 수 있습니다.
+              <p className="max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground md:text-base">
+                계약 정보를 회사별로 묶어 확인하고, 계약을 펼치면 서비스와 금액을 한눈에 볼 수 있어요.
               </p>
             </div>
 
             {profile && (
-              <div className="rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-sm text-slate-600">
-                <p className="font-semibold text-slate-950">{profile.name || "사용자"}</p>
-                <p className="mt-1">{profile.loginId}</p>
+              <div className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                  {(profile.name || "U").slice(0, 1)}
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-foreground">{profile.name || "사용자"}</p>
+                  <p className="truncate text-xs text-muted-foreground">{profile.loginId}</p>
+                </div>
               </div>
             )}
           </div>
@@ -404,6 +413,7 @@ export default function SubscriptionPage() {
               icon={<CircleCheck className="h-5 w-5" />}
               label="이용중 계약"
               value={`${activeContractCount.toLocaleString()}건`}
+              highlight
             />
             <SummaryStat
               icon={<CreditCard className="h-5 w-5" />}
@@ -411,18 +421,18 @@ export default function SubscriptionPage() {
               value={formatCurrency(totalAmount)}
             />
           </div>
-        </section>
+        </header>
 
         {companyGroups.length === 0 ? (
-          <Card className="border-slate-200 bg-white/90 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
-            <CardContent className="py-16 text-center">
-              <AlertCircle className="mx-auto mb-4 h-12 w-12 text-slate-400" />
-              <h3 className="mb-2 text-lg font-bold text-slate-950">현재 구독 정보가 없습니다.</h3>
-              <p className="text-slate-500">조회된 계약 정보가 없습니다.</p>
-            </CardContent>
-          </Card>
+          <div className="rounded-3xl border border-dashed border-border bg-card py-20 text-center">
+            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-muted text-muted-foreground">
+              <AlertCircle className="h-7 w-7" />
+            </div>
+            <h3 className="mb-1.5 text-lg font-bold text-foreground">구독 정보가 없습니다</h3>
+            <p className="text-sm text-muted-foreground">조회된 계약 정보가 아직 없어요.</p>
+          </div>
         ) : (
-          <div className="space-y-5">
+          <div className="space-y-6">
             {companyGroups.map((group) => {
               const companyAmount = getAmountTotal(group.details);
               const serviceCount = getServiceCount(group.details);
@@ -431,44 +441,39 @@ export default function SubscriptionPage() {
               return (
                 <Card
                   key={group.key}
-                  className="overflow-hidden border-slate-200/80 bg-white/95 shadow-[0_20px_70px_rgba(15,23,42,0.08)]"
+                  className="overflow-hidden rounded-3xl border-border bg-card shadow-sm transition-shadow hover:shadow-md"
                 >
-                  <CardHeader className="border-b border-slate-100 bg-[linear-gradient(135deg,#ffffff_0%,#f8fbff_52%,#f0fff9_100%)] p-5 md:p-6">
+                  <CardHeader className="gap-5 border-b border-border/70 p-5 md:p-6">
                     <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-                      <div className="flex min-w-0 items-start gap-4">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                      <div className="flex min-w-0 items-center gap-4">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary ring-1 ring-inset ring-primary/15">
                           <Building2 className="h-6 w-6" />
                         </div>
                         <div className="min-w-0">
-                          <CardTitle className="truncate text-xl font-black text-slate-950">
+                          <CardTitle className="truncate text-lg font-bold text-foreground md:text-xl">
                             {group.name}
                           </CardTitle>
-                          <div className="mt-2 flex flex-wrap gap-2 text-xs font-medium text-slate-500">
-                            {group.totCompanySeq && <span>TotCompanySeq {group.totCompanySeq}</span>}
-                            {group.bizCompanySeq && <span>BizCompanySeq {group.bizCompanySeq}</span>}
+                          <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                            <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+                              이용중 {activeCount}건
+                            </span>
+                            <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+                              전체 {group.masters.length}건
+                            </span>
                           </div>
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-2 lg:min-w-[420px]">
+                      <div className="grid grid-cols-3 gap-2 lg:min-w-[400px]">
                         <CompanyMetric label="계약" value={`${group.masters.length}건`} />
                         <CompanyMetric label="서비스" value={`${serviceCount}개`} />
                         <CompanyMetric label="이용금액" value={formatCurrency(companyAmount)} />
                       </div>
                     </div>
-
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      <Badge className="border border-emerald-200 bg-emerald-50 text-emerald-700">
-                        이용중 {activeCount}건
-                      </Badge>
-                      <Badge className="border border-slate-200 bg-white text-slate-600">
-                        전체 {group.masters.length}건
-                      </Badge>
-                    </div>
                   </CardHeader>
 
-                  <CardContent className="p-4 md:p-5">
-                    <div className="space-y-3">
+                  <CardContent className="p-3 md:p-4">
+                    <div className="space-y-2.5">
                       {group.masters.map((master, index) => {
                         const key = getMasterKey(master) || `${group.key}-${index}`;
                         const detailRows = getDetailRows(master, details);
@@ -478,44 +483,50 @@ export default function SubscriptionPage() {
                         return (
                           <div
                             key={key}
-                            className="overflow-hidden rounded-2xl border border-slate-200 bg-white transition-colors hover:border-primary/30"
+                            className={`overflow-hidden rounded-2xl border bg-card transition-all ${
+                              isOpen
+                                ? "border-primary/40 ring-1 ring-primary/10"
+                                : "border-border hover:border-primary/30 hover:bg-muted/40"
+                            }`}
                           >
                             <button
                               type="button"
-                              className="grid w-full gap-4 p-4 text-left md:grid-cols-[minmax(0,1.5fr)_180px_140px_44px] md:items-center"
+                              className="grid w-full gap-4 p-4 text-left md:grid-cols-[minmax(0,1.5fr)_190px_150px_40px] md:items-center"
                               onClick={() => setOpenKey(isOpen ? null : key)}
                             >
                               <div className="min-w-0">
                                 <div className="mb-2 flex flex-wrap items-center gap-2">
-                                  <Badge className={`border ${getStatusBadgeClass(status)}`}>{status}</Badge>
-                                  <span className="text-xs font-semibold text-slate-500">
+                                  <Badge className={`border font-semibold ${getStatusBadgeClass(status)}`}>{status}</Badge>
+                                  <span className="text-xs font-medium text-muted-foreground">
                                     계약번호 {getContractNo(master)}
                                   </span>
                                 </div>
-                                <p className="truncate text-base font-bold text-slate-950">
+                                <p className="truncate text-base font-bold text-foreground">
                                   {getServiceSummary(detailRows)}
                                 </p>
-                                <p className="mt-1 text-sm text-slate-500">구독일자 {getContractDate(master)}</p>
+                                <p className="mt-1 text-xs text-muted-foreground">구독일자 {getContractDate(master)}</p>
                               </div>
 
-                              <div className="text-sm text-slate-600">
-                                <p className="font-semibold text-slate-950">서비스 기간</p>
-                                <p className="mt-1">{getContractPeriod(master)}</p>
+                              <div className="text-sm">
+                                <p className="text-xs font-medium text-muted-foreground">서비스 기간</p>
+                                <p className="mt-1 font-medium text-foreground">{getContractPeriod(master)}</p>
                               </div>
 
                               <div className="text-sm md:text-right">
-                                <p className="font-semibold text-slate-500">금액</p>
-                                <p className="mt-1 text-lg font-black text-slate-950">
+                                <p className="text-xs font-medium text-muted-foreground">금액</p>
+                                <p className="mt-1 text-lg font-bold text-foreground">
                                   {formatCurrency(getAmountTotal(detailRows))}
                                 </p>
                               </div>
 
-                              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-50 text-slate-500 md:justify-self-end">
-                                {isOpen ? (
-                                  <ChevronDown className="h-5 w-5" />
-                                ) : (
-                                  <ChevronRight className="h-5 w-5" />
-                                )}
+                              <span
+                                className={`flex h-9 w-9 items-center justify-center rounded-full transition-colors md:justify-self-end ${
+                                  isOpen ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                                }`}
+                              >
+                                <ChevronDown
+                                  className={`h-5 w-5 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                                />
                               </span>
                             </button>
 
@@ -535,23 +546,43 @@ export default function SubscriptionPage() {
   );
 }
 
-function SummaryStat({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
+function SummaryStat({
+  icon,
+  label,
+  value,
+  highlight = false,
+}: {
+  icon: ReactNode;
+  label: string;
+  value: string;
+  highlight?: boolean;
+}) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-        {icon}
+    <div
+      className={`group relative overflow-hidden rounded-2xl border p-5 transition-colors ${
+        highlight ? "border-primary/30 bg-primary/5" : "border-border bg-card hover:border-primary/30"
+      }`}
+    >
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium text-muted-foreground">{label}</p>
+        <span
+          className={`flex h-9 w-9 items-center justify-center rounded-xl ${
+            highlight ? "bg-primary text-primary-foreground" : "bg-primary/10 text-primary"
+          }`}
+        >
+          {icon}
+        </span>
       </div>
-      <p className="text-sm font-semibold text-slate-500">{label}</p>
-      <p className="mt-1 text-2xl font-black tracking-tight text-slate-950">{value}</p>
+      <p className="mt-3 text-2xl font-bold tracking-tight text-foreground md:text-3xl">{value}</p>
     </div>
   );
 }
 
 function CompanyMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white/80 px-3 py-3 text-center">
-      <p className="text-xs font-semibold text-slate-500">{label}</p>
-      <p className="mt-1 truncate text-sm font-black text-slate-950 md:text-base">{value}</p>
+    <div className="rounded-2xl bg-muted/60 px-3 py-2.5 text-center">
+      <p className="text-xs font-medium text-muted-foreground">{label}</p>
+      <p className="mt-0.5 truncate text-sm font-bold text-foreground md:text-base">{value}</p>
     </div>
   );
 }
@@ -559,37 +590,37 @@ function CompanyMetric({ label, value }: { label: string; value: string }) {
 function DetailTable({ rows }: { rows: BmsRecord[] }) {
   if (rows.length === 0) {
     return (
-      <div className="border-t border-slate-100 bg-slate-50/70 p-5 text-sm text-slate-500">
+      <div className="border-t border-border bg-muted/40 px-5 py-4 text-sm text-muted-foreground">
         매칭되는 상세 내역이 없습니다.
       </div>
     );
   }
 
   return (
-    <div className="border-t border-slate-100 bg-slate-50/70 p-4 md:p-5">
-      <div className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-900">
+    <div className="border-t border-border bg-muted/40 p-4 md:p-5">
+      <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
         <ReceiptText className="h-4 w-4 text-primary" />
         서비스 상세내역
       </div>
-      <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+      <div className="overflow-x-auto rounded-2xl border border-border bg-card">
         <Table className="min-w-[680px]">
-          <TableHeader className="bg-slate-50">
-            <TableRow>
-              <TableHead>서비스</TableHead>
-              <TableHead className="w-[90px] text-right">인원</TableHead>
-              <TableHead className="w-[120px] text-right">단가</TableHead>
-              <TableHead className="w-[120px] text-right">금액</TableHead>
-              <TableHead className="w-[110px]">적용년월</TableHead>
+          <TableHeader>
+            <TableRow className="border-border hover:bg-transparent">
+              <TableHead className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스</TableHead>
+              <TableHead className="w-[90px] text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">인원</TableHead>
+              <TableHead className="w-[120px] text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">단가</TableHead>
+              <TableHead className="w-[120px] text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">금액</TableHead>
+              <TableHead className="w-[110px] text-xs font-semibold uppercase tracking-wide text-muted-foreground">적용년월</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {rows.map((row, index) => (
-              <TableRow key={index} className="hover:bg-slate-50/70">
-                <TableCell className="font-medium">{getServiceName(row)}</TableCell>
-                <TableCell className="text-right">{formatQuantity(valueOf(row, ["Qty", "UserCount"]))}</TableCell>
-                <TableCell className="text-right">{formatCurrency(valueOf(row, ["Price", "UnitPrice"]))}</TableCell>
-                <TableCell className="text-right font-semibold">{formatCurrency(valueOf(row, ["Amt", "Amount"]))}</TableCell>
-                <TableCell>{formatYearMonth(valueOf(row, ["PriceAppYm", "AppYm"]))}</TableCell>
+              <TableRow key={index} className="border-border/60 hover:bg-muted/40">
+                <TableCell className="font-medium text-foreground">{getServiceName(row)}</TableCell>
+                <TableCell className="text-right text-muted-foreground">{formatQuantity(valueOf(row, ["Qty", "UserCount"]))}</TableCell>
+                <TableCell className="text-right text-muted-foreground">{formatCurrency(valueOf(row, ["Price", "UnitPrice"]))}</TableCell>
+                <TableCell className="text-right font-semibold text-foreground">{formatCurrency(valueOf(row, ["Amt", "Amount"]))}</TableCell>
+                <TableCell className="text-muted-foreground">{formatYearMonth(valueOf(row, ["PriceAppYm", "AppYm"]))}</TableCell>
               </TableRow>
             ))}
           </TableBody>
