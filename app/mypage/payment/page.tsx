@@ -52,7 +52,7 @@ const DEMO_PAYMENT_PAYLOAD: BmsPaymentPayload = {
       BillYm: "202606",
       BillDate: "20260601",
       CompanyName: "참존(주)",
-      ServiceItemName: "에버웰커밍, 에버타임 PC-OFF",
+      ServiceItemName: "에버웰커밍, 에버타임",
       ServiceStartDate: "20260601",
       ServiceEndDate: "20260630",
       CardCompany: "신한카드",
@@ -76,7 +76,7 @@ const DEMO_PAYMENT_PAYLOAD: BmsPaymentPayload = {
       BillYm: "202607",
       BillDate: "20260701",
       CompanyName: "참존(주)",
-      ServiceItemName: "에버웰커밍, 에버타임 PC-OFF",
+      ServiceItemName: "에버웰커밍, 에버타임",
       ServiceStartDate: "20260701",
       ServiceEndDate: "20260731",
       CardCompany: "신한카드",
@@ -211,7 +211,7 @@ function formatBillingMonth(row: BmsRecord) {
 
   const year = valueOf(row, ["year", "Year"]);
   const month = valueOf(row, ["month", "Month"]);
-  if (year && month) return `${year}.${String(month).padStart(2, "0")}`;
+  if (year && month) return `${year}-${String(month).padStart(2, "0")}`;
 
   return "-";
 }
@@ -376,7 +376,7 @@ export default function PaymentPage() {
       <div className="mb-8">
         <h1 className="mb-2 text-3xl font-bold text-foreground">청구요금 및 납부내역</h1>
         <p className="text-muted-foreground">
-          BMS 청구/납부 DataBlock1 기준으로 월별 청구금액, 납부상태, 납부수단을 확인할 수 있습니다.
+          BMS 청구/납부 기준으로 월별 청구금액, 납부상태, 납부수단을 확인할 수 있습니다.
         </p>
       </div>
 
@@ -394,7 +394,7 @@ export default function PaymentPage() {
           <CardHeader className="border-b bg-slate-50/70">
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-primary" />
-              <CardTitle className="text-lg">청구/납부내역 DataBlock1</CardTitle>
+              <CardTitle className="text-lg">청구/납부내역</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="p-0">
@@ -402,10 +402,10 @@ export default function PaymentPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[110px]">청구월</TableHead>
-                    <TableHead className="w-[180px]">회사명(법인명)</TableHead>
-                    <TableHead>서비스상품명</TableHead>
-                    <TableHead className="w-[210px]">서비스기간</TableHead>
+                    <TableHead className="w-[110px]">청구년월</TableHead>
+                    <TableHead className="w-[180px]">회사명</TableHead>
+                    <TableHead>서비스</TableHead>
+                    <TableHead className="w-[210px]">기간</TableHead>
                     <TableHead className="w-[150px]">납부방법</TableHead>
                     <TableHead className="w-[130px] text-right">청구금액</TableHead>
                     <TableHead className="w-[120px] text-center">납부상태</TableHead>
@@ -419,9 +419,6 @@ export default function PaymentPage() {
                       <TableCell className="font-medium">{formatBillingMonth(row)}</TableCell>
                       <TableCell>
                         <div className="font-semibold text-slate-900">{getCompanyName(row)}</div>
-                        <div className="text-xs text-muted-foreground">
-                          TotCompanySeq {valueOf(row, ["TotCompanySeq"]) || "-"}
-                        </div>
                       </TableCell>
                       <TableCell>
                         <div className="max-w-[320px] truncate font-medium">{getServiceName(row)}</div>

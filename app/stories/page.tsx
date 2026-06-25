@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ArrowRight } from "lucide-react"
 import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
-import EverStoryModal from "@/components/stories/ever-story-modal"
 import { Api } from "@/api"
 import { checkApiResult } from "@/utils/apiUtil"
 import { CommonCode, CommonCodeDto } from "@/types/CommonCode"
@@ -18,7 +18,6 @@ export default function StoriesPage() {
   const [categories, setCategories] = useState<CommonCodeDto[]>([])
   const [stories, setStories] = useState<ThumbnailPostDto[]>([])
   const [selectedCategory, setSelectedCategory] = useState(0)
-  const [selectedStory, setSelectedStory] = useState<ThumbnailPostDto | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [showTrialCta, setShowTrialCta] = useState(false)
 
@@ -46,14 +45,6 @@ export default function StoriesPage() {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const handleStoryClick = (story: ThumbnailPostDto) => {
-    if (story.id) {
-      Api.Posts.increaseThumbnailPostViewCount(story.id).then()
-    }
-
-    setSelectedStory(story)
   }
 
   useEffect(() => {
@@ -129,10 +120,9 @@ export default function StoriesPage() {
           ) : filteredStories.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {filteredStories.map((story) => (
-                <button
+                <Link
                   key={story.id}
-                  type="button"
-                  onClick={() => handleStoryClick(story)}
+                  href={story.id ? `/stories/${story.id}` : "/stories"}
                   className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white text-left shadow-sm transition-all hover:-translate-y-1 hover:border-[#03b565] hover:shadow-xl"
                 >
                   <div
@@ -154,7 +144,7 @@ export default function StoriesPage() {
                       {story.searchText}
                     </p>
                   </div>
-                </button>
+                </Link>
               ))}
             </div>
           ) : (
@@ -179,15 +169,6 @@ export default function StoriesPage() {
       ) : null}
 
       <Footer />
-      <EverStoryModal
-        story={selectedStory}
-        open={!!selectedStory}
-        onOpenChange={(open) => {
-          if (!open) {
-            setSelectedStory(null)
-          }
-        }}
-      />
     </main>
   )
 }

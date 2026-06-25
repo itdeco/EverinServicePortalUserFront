@@ -1,249 +1,151 @@
-'use client'
+﻿"use client";
 
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useUserProfile } from '@/redux/selectors/Users'
-import { Api } from '@/api'
-import { checkApiResult } from '@/utils/apiUtil'
-import { FaqCommonCodeDto, PostDto } from '@/types/Posts'
-import { CommonCode } from '@/types/CommonCode'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { ChevronDown, Search, HelpCircle, MessageCircle } from 'lucide-react'
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { ChevronDown, MessageSquareText } from "lucide-react";
+import { Api } from "@/api";
+import { checkApiResult } from "@/utils/apiUtil";
+import { CommonCode } from "@/types/CommonCode";
+import { FaqCommonCodeDto, PostDto } from "@/types/Posts";
+import { cn } from "@/lib/utils";
+import { EmptyState, Pager, SearchPanel, SectionTitle, SupportFrame, SupportHero } from "../_components/support-ui";
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 10;
 
-export default function FaqPage() {
-  const router = useRouter()
-  const profile = useUserProfile()
-  
-  const [searchKeyword, setSearchKeyword] = useState('')
-  const [allFaqs, setAllFaqs] = useState<FaqCommonCodeDto[]>([])
-  const [searchedFaqs, setSearchedFaqs] = useState<FaqCommonCodeDto[]>([])
-  const [allPosts, setAllPosts] = useState<PostDto[]>([])
-  const [pagePosts, setPagePosts] = useState<PostDto[]>([])
-  const [selectedTabIndex, setSelectedTabIndex] = useState<string | null>(null)
-  const [currentPage, setCurrentPage] = useState(0)
-  const [isLoading, setIsLoading] = useState(false)
+type FaqItem = PostDto & { categoryName?: string };
 
-  const haveSignedIn = profile && profile.loginId && profile.loginId.length > 0
-  const faqs = searchKeyword && searchedFaqs.length > 0 ? searchedFaqs : allFaqs
-
-  const loadFaq = async () => {
-    setIsLoading(true)
-    try {
-      const result = await Api.Posts.getFaqPosts(CommonCode.Faq.type)
-      if (!checkApiResult(result)) {
-        return
-      }
-
-      const payload: FaqCommonCodeDto[] = result!.payload
-      setAllFaqs(payload)
-      setSelectedTabIndex(payload.length > 0 ? '0' : null)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const loadAllPosts = (tabIndex: number | string) => {
-    let posts: PostDto[] = []
-    const index = typeof tabIndex === 'string' ? parseInt(tabIndex) : tabIndex
-
-    if (index < 0) {
-      faqs.forEach((faq: FaqCommonCodeDto) => {
-        if (faq.posts) {
-          posts.push(...faq.posts)
-        }
-      })
-    } else {
-      const faq = faqs[index]
-      if (faq && faq.posts) {
-        posts.push(...faq.posts)
-      }
-    }
-
-    setAllPosts(posts)
-    loadPagePosts(0, posts)
-  }
-
-  const loadPagePosts = (page: number, posts?: PostDto[]) => {
-    const targetPosts = posts || allPosts
-    if (targetPosts.length === 0) {
-      setPagePosts([])
-      return
-    }
-
-    const startIndex = page * PAGE_SIZE
-    const endIndex = Math.min(startIndex + PAGE_SIZE, targetPosts.length)
-    setPagePosts(targetPosts.slice(startIndex, endIndex))
-    setCurrentPage(page)
-  }
-
-  const onSearch = (keyword: string) => {
-    setSearchKeyword(keyword)
-    setCurrentPage(0)
-
-    if (keyword.length === 0) {
-      setSearchedFaqs([])
-      return
-    }
-
-    const searched = allFaqs.map((faq) => ({
-      ...faq,
-      posts: faq.posts?.filter((post) => 
-        post.title?.includes(keyword) || post.searchText?.includes(keyword)
-      ) || [],
-    }))
-
-    setSearchedFaqs(searched)
-    setSelectedTabIndex('-1')
-  }
-
-  const onInquiryClick = () => {
-    router.push('/support/inquiry')
-  }
-
-  const onFaqClick = async (postId: number) => {
-    try {
-      const result = await Api.Posts.increasePostViewCount(postId)
-      checkApiResult(result)
-    } catch (error) {
-      console.error('Failed to increase post view count:', error)
-    }
-  }
+export default function SupportFaqPage() {
+  const [categories, setCategories] = useState<FaqCommonCodeDto[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [keyword, setKeyword] = useState("");
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
-    loadFaq()
-  }, [])
+    const loadFaqs = async () => {
+      const result = await Api.Posts.getFaqPosts(CommonCode.Faq.type);
+      if (checkApiResult(result)) {
+        setCategories((result?.payload || []) as FaqCommonCodeDto[]);
+      }
+    };
 
-  useEffect(() => {
-    const tabIndex = selectedTabIndex !== null ? parseInt(selectedTabIndex) : -1
-    loadAllPosts(tabIndex)
-  }, [allFaqs, searchedFaqs, selectedTabIndex])
+    loadFaqs();
+  }, []);
+
+  const items = useMemo(() => {
+    const source = selectedIndex < 0 ? categories : categories.slice(selectedIndex, selectedIndex + 1);
+    const normalizedKeyword = keyword.trim().toLowerCase();
+
+    return source.flatMap((category) =>
+      (category.posts || [])
+        .filter((post) => {
+          if (!normalizedKeyword) return true;
+          return [post.title, post.searchText, post.content, category.commonCodeName]
+            .filter(Boolean)
+            .some((value) => String(value).toLowerCase().includes(normalizedKeyword));
+        })
+        .map((post) => ({ ...post, categoryName: category.commonCodeName })),
+    ) as FaqItem[];
+  }, [categories, keyword, selectedIndex]);
+
+  const totalPage = Math.ceil(items.length / PAGE_SIZE);
+  const pageItems = items.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+
+  const handleSearch = (value: string) => {
+    setKeyword(value);
+    setPage(0);
+  };
+
+  const handleCategory = (index: number) => {
+    setSelectedIndex(index);
+    setPage(0);
+  };
+
+  const increaseView = async (post?: FaqItem) => {
+    if (!post?.id) return;
+    try {
+      await Api.Posts.increasePostViewCount(post.id);
+    } catch {
+      // 조회수 증가는 실패해도 화면 이용을 막지 않습니다.
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary/5 to-primary/10 border-b border-border/50 py-12">
-        <div className="container max-w-7xl mx-auto px-4">
-          <div className="flex items-center gap-3 mb-3">
-            <HelpCircle className="h-8 w-8 text-primary" />
-            <h1 className="text-4xl font-bold text-foreground">자주 묻는 질문</h1>
-          </div>
-          <p className="text-muted-foreground text-lg">서비스 이용 중 자주 문의하시는 질문에 대한 답변입니다.</p>
+    <>
+      <SupportHero
+        eyebrow="FAQ"
+        title="자주 묻는 질문"
+        description="에버타임 이용 중 자주 접수되는 질문을 카테고리별로 확인하세요."
+      />
+      <SupportFrame activeHref="/support/faq">
+        <SectionTitle
+          label="Question List"
+          title="FAQ"
+          description="궁금한 내용을 검색하거나 카테고리를 선택해 확인할 수 있습니다."
+          action={
+            <Link href="/support/inquiry" className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-black text-white hover:bg-[#03b565]">
+              <MessageSquareText className="h-4 w-4" />
+              1:1 문의
+            </Link>
+          }
+        />
+
+        <SearchPanel value={keyword} onChange={handleSearch} placeholder="궁금한 내용을 검색하세요." />
+
+        <div className="mb-6 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => handleCategory(-1)}
+            className={cn(
+              "rounded-full border px-4 py-2 text-sm font-black transition-colors",
+              selectedIndex < 0 ? "border-slate-950 bg-slate-950 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-[#03b565] hover:text-[#03b565]",
+            )}
+          >
+            전체
+          </button>
+          {categories.map((category, index) => (
+            <button
+              key={`${category.commonCodeId}-${index}`}
+              type="button"
+              onClick={() => handleCategory(index)}
+              className={cn(
+                "rounded-full border px-4 py-2 text-sm font-black transition-colors",
+                selectedIndex === index ? "border-[#03b565] bg-emerald-50 text-[#03b565]" : "border-slate-200 bg-white text-slate-600 hover:border-[#03b565] hover:text-[#03b565]",
+              )}
+            >
+              {category.commonCodeName}
+            </button>
+          ))}
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="container max-w-7xl mx-auto px-4 py-12">
-        {/* Search Section */}
-        <Card className="mb-8">
-          <CardContent className="pt-6">
-            <div className="flex gap-2">
-              <Input
-                placeholder="검색어를 입력하세요"
-                value={searchKeyword}
-                onChange={(e) => onSearch(e.target.value)}
-                className="flex-1"
-              />
-              <Button variant="outline" size="icon">
-                <Search className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* FAQ Categories */}
-        {allFaqs.length > 0 && (
-          <Tabs value={selectedTabIndex || '0'} onValueChange={setSelectedTabIndex} className="mb-8">
-            <TabsList className="grid grid-cols-auto gap-2 w-full justify-start flex-wrap h-auto p-2">
-              {allFaqs.map((faq, index) => (
-                <TabsTrigger key={index} value={index.toString()}>
-                  {faq.commonCodeName}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
-        )}
-
-        {/* FAQs List */}
-        <div className="space-y-3 mb-8">
-          {pagePosts.length > 0 ? (
-            pagePosts.map((post, index) => (
-              <Collapsible key={index} onOpenChange={() => onFaqClick(post.id!)}>
-                <Card className="hover:border-primary/50 transition-colors">
-                  <CollapsibleTrigger asChild>
-                    <button className="w-full text-left p-6 flex items-start justify-between gap-4 hover:bg-accent/30 transition-colors">
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-foreground group-hover:text-primary">
-                          {post.title}
-                        </h3>
-                      </div>
-                      <ChevronDown className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                    </button>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <div className="px-6 pb-6 pt-2 border-t border-border/50 text-sm text-muted-foreground whitespace-pre-line">
-                      {post.content}
-                    </div>
-                  </CollapsibleContent>
-                </Card>
-              </Collapsible>
+        <div className="space-y-3">
+          {pageItems.length > 0 ? (
+            pageItems.map((post) => (
+              <details
+                key={post.id || `${post.categoryName}-${post.title}`}
+                className="group rounded-2xl border border-slate-200 bg-white shadow-sm open:border-[#03b565]/40"
+                onToggle={(event) => {
+                  if ((event.currentTarget as HTMLDetailsElement).open) increaseView(post);
+                }}
+              >
+                <summary className="flex cursor-pointer list-none items-center gap-5 px-5 py-5">
+                  <div className="min-w-0 flex-1">
+                    <p className="mb-1 text-xs font-black text-[#03b565]">{post.categoryName || "FAQ"}</p>
+                    <h2 className="text-base font-black leading-7 text-slate-950">{post.title}</h2>
+                  </div>
+                  <ChevronDown className="h-5 w-5 shrink-0 text-slate-400 transition-transform group-open:rotate-180" />
+                </summary>
+                <div className="border-t border-slate-100 px-5 py-5 text-sm font-medium leading-7 text-slate-600">
+                  <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: post.content || post.searchText || "" }} />
+                </div>
+              </details>
             ))
           ) : (
-            <Card>
-              <CardContent className="pt-6 text-center py-12">
-                <p className="text-muted-foreground">등록된 FAQ가 없습니다.</p>
-              </CardContent>
-            </Card>
+            <EmptyState title="검색 결과가 없습니다." description="다른 검색어를 입력하거나 1:1 문의를 이용해주세요." />
           )}
         </div>
 
-        {/* Pagination */}
-        {allPosts.length > PAGE_SIZE && (
-          <div className="flex justify-center gap-2 mb-8">
-            {Array.from({ length: Math.ceil(allPosts.length / PAGE_SIZE) }).map((_, i) => (
-              <Button
-                key={i}
-                variant={currentPage === i ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => loadPagePosts(i)}
-              >
-                {i + 1}
-              </Button>
-            ))}
-          </div>
-        )}
-
-        {/* Contact Section */}
-        {haveSignedIn && (
-          <Card className="bg-primary/5 border-primary/20">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <MessageCircle className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="font-semibold text-foreground">찾는 답변이 없으신가요?</p>
-                    <p className="text-sm text-muted-foreground">1:1로 문의해주세요</p>
-                  </div>
-                </div>
-                <Button onClick={onInquiryClick}>문의하기</Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Home Link */}
-        <div className="mt-12 text-center">
-          <Link href="/">
-            <Button variant="outline">홈으로 돌아가기</Button>
-          </Link>
-        </div>
-      </div>
-    </div>
-  )
+        <Pager currentPage={page} totalPage={totalPage} onChange={setPage} />
+      </SupportFrame>
+    </>
+  );
 }

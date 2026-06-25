@@ -2,6 +2,7 @@ import Config from "@/utils/config";
 import {callApi, callNonJsonApi, callPublicApi} from "@/utils/apiUtil";
 import {Method} from "@/api/ApiClient";
 import {CreatePostDto, PagedPostRequestDto, ThumbnailPostDto} from "@/types/Posts";
+import {PORTAL_TYPE, PORTAL_TYPE_HEADER_NAME} from "@/utils/constant";
 
 export default class ApiPosts {
     async getPost(postId: number) {
@@ -139,9 +140,15 @@ export default class ApiPosts {
     async increaseThumbnailPostViewCount(thumbnailPostId: number) {
         const url = `${Config.apiServer}/api/v1/thumb-posts/${thumbnailPostId}/view`;
 
-        return callPublicApi({
-            url: url,
-            method: Method.Get
+        return fetch(url, {
+            method: Method.Get,
+            headers: {
+                "Accept": "*/*",
+                "Accept-Language": "ko-KR",
+                "Cache-Control": "no-cache",
+                "Content-Type": "application/json;charset=UTF-8",
+                [PORTAL_TYPE_HEADER_NAME]: PORTAL_TYPE,
+            },
         });
     }
 
@@ -170,5 +177,38 @@ export default class ApiPosts {
             url: url,
             method: Method.Get
         });
+    }
+
+    async getEverStory(thumbnailPostId: number) {
+        const url = `${Config.apiServer}/api/v1/thumb-posts/everstories/detail/${thumbnailPostId}`;
+
+        const response = await fetch(url, {
+            method: Method.Get,
+            headers: {
+                "Accept": "application/json",
+            },
+            cache: "no-store",
+        });
+
+        if (!response.ok) {
+            return {
+                code: response.status,
+                payload: null,
+            };
+        }
+
+        const text = await response.text();
+        if (!text) {
+            return {
+                code: response.status,
+                payload: null,
+            };
+        }
+
+        const data = JSON.parse(text);
+        return {
+            code: data.code,
+            payload: data.contents,
+        };
     }
 }

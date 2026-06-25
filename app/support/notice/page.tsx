@@ -1,205 +1,114 @@
-'use client'
+﻿"use client";
 
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useUserProfile } from '@/redux/selectors/Users'
-import { Api } from '@/api'
-import { checkApiResult } from '@/utils/apiUtil'
-import { PagedPostRequestDto, PagedPostsDto, PostDto, PostSearchKeywordType, PostType } from '@/types/Posts'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import { AlertCircle, Search, Share2 } from 'lucide-react'
-import { PAGINATION_PAGE_SIZE } from '@/utils/constant'
-import DateUtil from '@/utils/dateUtil'
+import { useEffect, useState } from "react";
+import { Megaphone } from "lucide-react";
+import { Api } from "@/api";
+import { checkApiResult } from "@/utils/apiUtil";
+import { PagedPostRequestDto, PagedPostsDto, PostDto, PostSearchKeywordType, PostType } from "@/types/Posts";
+import { EmptyState, formatSupportDate, Pager, PostContentModal, SearchPanel, SectionTitle, SupportFrame, SupportHero } from "../_components/support-ui";
 
-const NOTICE_PAGE_SIZE = 10
+const PAGE_SIZE = 10;
 
-export default function NoticePage() {
-  const router = useRouter()
-  const profile = useUserProfile()
-  
-  const [searchResult, setSearchResult] = useState<PagedPostsDto>({
+export default function SupportNoticePage() {
+  const [keyword, setKeyword] = useState("");
+  const [page, setPage] = useState(0);
+  const [selectedNotice, setSelectedNotice] = useState<PostDto | null>(null);
+  const [result, setResult] = useState<PagedPostsDto>({
     posts: [],
-    pagination: {
-      currentPage: 0,
-      totalCount: 0,
-      totalPage: 0,
-    },
-  })
-  const [searchKeyword, setSearchKeyword] = useState('')
-  const [pageNumber, setPageNumber] = useState(0)
-  const [isLoading, setIsLoading] = useState(false)
-  const [selectedNotice, setSelectedNotice] = useState<PostDto | null>(null)
+    pagination: { currentPage: 0, totalCount: 0, totalPage: 0 },
+  });
 
-  const searchNotice = async () => {
-    setIsLoading(true)
-    try {
+  useEffect(() => {
+    const loadNotices = async () => {
       const params: PagedPostRequestDto = {
         postType: PostType.Notice,
         searchOption: PostSearchKeywordType.TitleOrSearchText,
-        keyword: searchKeyword,
-        pageNumber: pageNumber,
-        pageSize: NOTICE_PAGE_SIZE,
+        keyword,
+        pageNumber: page,
+        pageSize: PAGE_SIZE,
+      };
+
+      const apiResult = await Api.Posts.getPagedNoticePosts(params);
+      if (checkApiResult(apiResult)) {
+        const payload: any = apiResult?.payload;
+        setResult({
+          posts: payload?.list || [],
+          pagination: {
+            currentPage: payload?.currentPage || 0,
+            totalCount: payload?.totalCount || 0,
+            totalPage: payload?.totalPages || 0,
+          },
+        });
       }
+    };
 
-      const result = await Api.Posts.getPagedNoticePosts(params)
-      
-      if (!checkApiResult(result)) {
-        setIsLoading(false)
-        return
-      }
+    loadNotices();
+  }, [keyword, page]);
 
-      const payload: any = result!.payload
-      setSearchResult({
-        posts: payload.list,
-        pagination: {
-          currentPage: payload.currentPage,
-          totalCount: payload.totalCount,
-          totalPage: payload.totalPages,
-        },
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    searchNotice()
-  }, [searchKeyword, pageNumber])
+  const handleSearch = (value: string) => {
+    setKeyword(value);
+    setPage(0);
+  };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary/5 to-primary/10 border-b border-border/50 py-12">
-        <div className="container max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-foreground mb-2">공지사항</h1>
-          <p className="text-muted-foreground text-lg">업데이트 정보 등 다양한 소식을 알려드립니다.</p>
-        </div>
-      </div>
+    <>
+      <SupportHero
+        eyebrow="Notice"
+        title="공지사항"
+        description="서비스 업데이트, 점검, 운영 안내 등 중요한 소식을 확인하세요."
+      />
+      <SupportFrame activeHref="/support/notice">
+        <SectionTitle
+          label="Notice List"
+          title="공지사항"
+          description="최신 공지와 서비스 안내를 확인할 수 있습니다."
+        />
 
-      {/* Main Content */}
-      <div className="container max-w-7xl mx-auto px-4 py-12">
-        {/* Search Section */}
-        <Card className="mb-8">
-          <CardContent className="pt-6">
-            <div className="flex gap-2">
-              <Input
-                placeholder="검색어를 입력하세요"
-                value={searchKeyword}
-                onChange={(e) => {
-                  setSearchKeyword(e.target.value)
-                  setPageNumber(0)
-                }}
-                className="flex-1"
-              />
-              <Button variant="outline" size="icon">
-                <Search className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <SearchPanel value={keyword} onChange={handleSearch} placeholder="공지사항을 검색하세요." />
 
-        {/* Search Results Info */}
-        {searchKeyword && (
-          <div className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
-            <AlertCircle className="h-4 w-4" />
-            <span>
-              &quot;<span className="font-semibold text-foreground">{searchKeyword}</span>&quot;에 대해 총{' '}
-              <span className="font-semibold text-foreground">{searchResult.pagination.totalCount}</span>건의 내역이 검색되었습니다.
-            </span>
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="grid grid-cols-[88px_1fr_132px] gap-4 border-b border-slate-200 bg-slate-50 px-5 py-4 text-sm font-black text-slate-500 max-md:hidden">
+            <span>번호</span>
+            <span>제목</span>
+            <span className="text-right">등록일</span>
           </div>
-        )}
 
-        {/* Notices List */}
-        <div className="space-y-3">
-          {searchResult.posts.length > 0 ? (
-            searchResult.posts.map((post, index) => (
-              <Card
-                key={index}
-                className="cursor-pointer hover:bg-accent/50 transition-colors"
-                onClick={() => setSelectedNotice(post)}
-              >
-                <CardContent className="pt-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xs text-muted-foreground">#{post.postNo}</span>
-                        {post.options === 1 && (
-                          <Badge variant="destructive" className="text-xs">
-                            새로움
-                          </Badge>
-                        )}
-                      </div>
-                      <h3 className="font-semibold text-lg text-foreground hover:text-primary transition-colors">
-                        {post.title}
-                      </h3>
-                    </div>
-                    <div className="text-sm text-muted-foreground whitespace-nowrap">
-                      {DateUtil.formattedDate(post.registerDate)}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
+          {result.posts.length > 0 ? (
+            <div className="divide-y divide-slate-100">
+              {result.posts.map((post) => (
+                <button
+                  key={post.id}
+                  type="button"
+                  onClick={() => setSelectedNotice(post)}
+                  className="grid w-full gap-3 px-5 py-5 text-left transition-colors hover:bg-emerald-50/40 md:grid-cols-[88px_1fr_132px] md:items-center md:gap-4"
+                >
+                  <span className="text-sm font-black text-slate-400">#{post.postNo || post.id}</span>
+                  <span className="min-w-0 text-base font-black text-slate-950">
+                    {post.options ? <span className="mr-2 rounded-full bg-[#03b565] px-2 py-1 text-xs text-white">NEW</span> : null}
+                    {post.title}
+                  </span>
+                  <span className="text-sm font-semibold text-slate-500 md:text-right">{formatSupportDate(post.registerDate)}</span>
+                </button>
+              ))}
+            </div>
           ) : (
-            <Card>
-              <CardContent className="pt-6 text-center py-12">
-                <p className="text-muted-foreground">공지사항이 없습니다.</p>
-              </CardContent>
-            </Card>
+            <div className="p-6">
+              <EmptyState title="등록된 공지사항이 없습니다." description="새로운 공지가 등록되면 이곳에 표시됩니다." />
+            </div>
           )}
         </div>
 
-        {/* Pagination */}
-        {searchResult.pagination.totalCount > NOTICE_PAGE_SIZE && (
-          <div className="flex justify-center gap-2 mt-8">
-            {Array.from({ length: searchResult.pagination.totalPage }).map((_, i) => (
-              <Button
-                key={i}
-                variant={pageNumber === i ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setPageNumber(i)}
-              >
-                {i + 1}
-              </Button>
-            ))}
-          </div>
-        )}
+        {keyword ? (
+          <p className="mt-4 flex items-center gap-2 text-sm font-semibold text-slate-500">
+            <Megaphone className="h-4 w-4 text-[#03b565]" />
+            검색 결과 {result.pagination.totalCount.toLocaleString()}건
+          </p>
+        ) : null}
 
-        {/* Home Link */}
-        <div className="mt-12 text-center">
-          <Link href="/">
-            <Button variant="outline">홈으로 돌아가기</Button>
-          </Link>
-        </div>
-      </div>
+        <Pager currentPage={page} totalPage={result.pagination.totalPage} onChange={setPage} />
+      </SupportFrame>
 
-      {/* Detail Modal */}
-      {selectedNotice && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedNotice(null)}>
-          <Card className="max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <CardHeader>
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  <CardTitle>{selectedNotice.title}</CardTitle>
-                  <CardDescription>#{selectedNotice.postNo} • {DateUtil.formattedDate(selectedNotice.registerDate)}</CardDescription>
-                </div>
-                <Button variant="ghost" size="sm" onClick={() => setSelectedNotice(null)}>
-                  ✕
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="prose max-w-none whitespace-pre-line text-sm text-muted-foreground">
-                {selectedNotice.content}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-    </div>
-  )
+      <PostContentModal post={selectedNotice} onClose={() => setSelectedNotice(null)} />
+    </>
+  );
 }
