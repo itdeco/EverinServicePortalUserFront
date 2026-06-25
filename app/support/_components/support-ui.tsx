@@ -386,9 +386,9 @@ export function VideoCard({
     <button
       type="button"
       onClick={onClick}
-      className="group overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition-all hover:-translate-y-1 hover:border-[#03b565]/40 hover:shadow-lg"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition-all hover:-translate-y-1 hover:border-[#03b565]/40 hover:shadow-lg"
     >
-      <div className="relative aspect-video overflow-hidden bg-slate-100">
+      <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-slate-100">
         {thumbnailUrl ? (
           <img src={thumbnailUrl} alt="" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
         ) : null}
@@ -398,9 +398,9 @@ export function VideoCard({
           </span>
         </span>
       </div>
-      <div className="p-5">
-        <h3 className="line-clamp-2 text-lg font-black leading-7 text-slate-950">{video.title}</h3>
-        <p className="mt-2 line-clamp-3 text-sm font-semibold leading-6 text-slate-500">{video.searchText}</p>
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="line-clamp-2 min-h-[3.5rem] text-lg font-black leading-7 text-slate-950">{video.title}</h3>
+        <p className="mt-2 line-clamp-2 min-h-[3rem] text-sm font-semibold leading-6 text-slate-500">{video.searchText}</p>
       </div>
     </button>
   );
