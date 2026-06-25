@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
-import { ArrowRight, BookOpenText, FileQuestion, Headphones, Megaphone, MessageSquareText, PlayCircle, Search, X } from "lucide-react";
+import { useState, type ReactNode } from "react";
+import { ArrowRight, BookOpenText, ChevronDown, FileQuestion, Headphones, Megaphone, MessageSquareText, PlayCircle, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Api } from "@/api";
 import { PostDto, ThumbnailPostDto } from "@/types/Posts";
@@ -107,6 +107,45 @@ export function SupportHero({
   );
 }
 
+function SupportMenuList({ activeHref }: { activeHref: string }) {
+  return (
+    <div className="grid p-2">
+      {supportMenus.map((menu) => {
+        const Icon = menu.icon;
+        const active = activeHref === menu.href;
+
+        return (
+          <Link
+            key={menu.href}
+            href={menu.href}
+            className={cn(
+              "flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-bold text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-950",
+              active && "bg-emerald-50 text-[#03b565]",
+            )}
+          >
+            <Icon className="h-4 w-4" />
+            {menu.title}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+function SupportContactCard() {
+  return (
+    <div className="rounded-2xl border border-emerald-100 bg-white p-5 shadow-sm">
+      <p className="text-sm font-black text-[#03b565]">고객센터</p>
+      <p className="mt-3 text-2xl font-black text-slate-950">02-2093-3226</p>
+      <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
+        평일 오전 9시 - 오후 6시
+        <br />
+        토요일 및 공휴일 제외
+      </p>
+    </div>
+  );
+}
+
 export function SupportFrame({
   activeHref,
   children,
@@ -114,47 +153,59 @@ export function SupportFrame({
   activeHref: string;
   children: ReactNode;
 }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const activeMenu = supportMenus.find((menu) => menu.href === activeHref) ?? supportMenus[0];
+  const ActiveIcon = activeMenu.icon;
+
   return (
     <div className="bg-slate-50">
-      <div className="mx-auto grid max-w-[1180px] gap-8 px-5 py-10 lg:grid-cols-[236px_1fr]">
-        <aside className="lg:sticky lg:top-28 lg:self-start">
+      <div className="mx-auto grid max-w-[1180px] gap-6 px-5 py-6 lg:gap-8 lg:py-10 lg:grid-cols-[236px_1fr]">
+        {/* Mobile: collapsible menu */}
+        <div className="lg:hidden">
+          <nav className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <button
+              type="button"
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-expanded={menuOpen}
+              className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left"
+            >
+              <span className="flex items-center gap-3">
+                <ActiveIcon className="h-5 w-5 text-[#03b565]" />
+                <span>
+                  <span className="block text-base font-black text-slate-950">{activeMenu.title}</span>
+                  <span className="block text-xs font-medium text-slate-500">고객센터 메뉴</span>
+                </span>
+              </span>
+              <ChevronDown className={cn("h-5 w-5 text-slate-400 transition-transform", menuOpen && "rotate-180")} />
+            </button>
+            {menuOpen ? (
+              <div className="border-t border-slate-100">
+                <SupportMenuList activeHref={activeHref} />
+              </div>
+            ) : null}
+          </nav>
+        </div>
+
+        {/* Desktop: sticky sidebar */}
+        <aside className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
           <nav className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="border-b border-slate-100 px-5 py-4">
               <p className="text-lg font-black text-slate-950">고객센터</p>
               <p className="mt-1 text-sm font-medium text-slate-500">필요한 도움을 빠르게 찾아보세요.</p>
             </div>
-            <div className="grid p-2">
-              {supportMenus.map((menu) => {
-                const Icon = menu.icon;
-                const active = activeHref === menu.href;
-
-                return (
-                  <Link
-                    key={menu.href}
-                    href={menu.href}
-                    className={cn(
-                      "flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-bold text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-950",
-                      active && "bg-emerald-50 text-[#03b565]",
-                    )}
-                  >
-                    <Icon className="h-4 w-4" />
-                    {menu.title}
-                  </Link>
-                );
-              })}
-            </div>
+            <SupportMenuList activeHref={activeHref} />
           </nav>
-          <div className="mt-4 rounded-2xl border border-emerald-100 bg-white p-5 shadow-sm">
-            <p className="text-sm font-black text-[#03b565]">고객센터</p>
-            <p className="mt-3 text-2xl font-black text-slate-950">02-2093-3226</p>
-            <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
-              평일 오전 9시 - 오후 6시
-              <br />
-              토요일 및 공휴일 제외
-            </p>
+          <div className="mt-4">
+            <SupportContactCard />
           </div>
         </aside>
+
         <main className="min-w-0">{children}</main>
+
+        {/* Mobile: contact card moved below content */}
+        <div className="lg:hidden">
+          <SupportContactCard />
+        </div>
       </div>
     </div>
   );
