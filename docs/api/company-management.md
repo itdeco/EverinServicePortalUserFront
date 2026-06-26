@@ -1,7 +1,7 @@
 # 회사 관리 API 명세서 (계정정보 > 회사 탭)
 
 마이페이지 `계정정보`의 `회사` 탭에서 사용하는 API 명세입니다.
-회사별 **관리자 조회/초대/삭제**와 **회사별 결제수단 조회**를 다룹니다.
+회사별 **관리자 조회/초대/삭제**와 **회사별 결제수단(카드/CMS) 조회/등록/삭제**를 다룹니다.
 
 ## 공통 사항
 
@@ -15,7 +15,8 @@
     "message": "..."     // 오류 시 메시지
   }
   ```
-- 권한: 관리자 초대/삭제는 **마스터 관리자(`isMaster=true`)** 에게만 허용하는 것을 권장합니다. (현재 프론트는 모든 사용자에게 버튼을 노출하므로, 서버에서 권한 검증 필요)
+- 관리자 권한: **모든 관리자는 동일한 권한**을 가집니다. 마스터/등급 구분은 없습니다.
+- 삭제 제약: **본인(로그인 사용자)은 관리자 목록에서 삭제할 수 없습니다.** 프론트에서 본인 행의 삭제 버튼을 숨기지만, 서버에서도 `userId == 로그인 사용자` 인 경우 거부해야 합니다.
 
 ---
 
@@ -37,25 +38,36 @@
     "corporationId": 1,
     "name": "참존(주)",
     "businessNo": "212-12-12222",
-    "isMaster": true,                  // 로그인 사용자가 이 회사의 마스터 관리자인지
     "admins": [
       {
         "adminId": 101,                // 관리자 레코드 PK
         "userId": 5001,                // 가입 사용자일 경우 사용자 PK (초대 대기중이면 null)
         "name": "홍길동",
         "email": "test@test.com",
-        "isMaster": true,
         "status": 0,                   // 0: Active(수락완료), 1: Invited(초대 대기)
         "invitedDate": "2026-02-10",   // status=1 일 때
         "joinedDate": "2026-01-01"     // status=0 일 때
       }
     ],
-    "creditCards": [
+    "paymentMethods": [
       {
-        "cardId": 201,
-        "companyName": "신한카드",
-        "number": "5570-****-****-1234", // 마스킹된 카드번호
-        "primary": 1                     // 1: 기본 결제수단, 0: 예비
+        "methodId": 201,
+        "type": 0,                       // 0: Card(신용카드), 1: Cms(계좌이체)
+        "primary": 1,                    // 1: 기본 결제수단, 0: 예비
+        // type=0 (카드)
+        "cardCompany": "신한카드",
+        "cardNumber": "5570-****-****-1234", // 마스킹된 카드번호
+        "expirationYear": "28",
+        "expirationMonth": "12"
+      },
+      {
+        "methodId": 202,
+        "type": 1,                       // CMS
+        "primary": 0,
+        // type=1 (CMS)
+        "bankName": "국민은행",
+        "accountNumber": "123456-**-******", // 마스킹된 계좌번호
+        "accountHolder": "참존(주)"
       }
     ]
   }
@@ -93,9 +105,34 @@
 ```
 
 **처리 요구사항**:
-- 각 `email` 로 초대 메일 발송 (가입 링크/수락 링크 포함)
+- 각 `email` 로 초대 메일 발송 (가입/수락 링크 포함)
 - 이미 해당 회사 관리자이거나 초대 대기중인 이메일은 중복 처리(스킵 또는 오류 메시지)
+- 초대 만료: **7일** (메일 안내 문구와 동일)
 - 부분 성공 시 처리 결과를 알 수 있으면 좋음
+
+**초대 메일 템플릿** (제목: `[에버人] 사내 관리자 초대 안내`):
+
+```
+[에버人] 사내 관리자 초대 안내
+
+안녕하세요, 에버人(EverIn)입니다.
+
+{초대한 관리자명}님 귀하를 사내 관리자로 {초대 대상명}님을 초대했습니다.
+아래 버튼을 클릭하여 가입을 완료해주세요.
+
+[ 관리자초대수락하기 ]   ← 수락 링크 버튼
+
+이 초대는 7일 후 만료됩니다.
+
+본 초대와 관련해 궁금한 사항이 있으시면 에버人 고객센터 또는 관리자에게 문의해 주세요.
+
+감사합니다.
+에버人 드림
+
+본 메일은 관련법령에 의거하여 이메일 수신여부와 관계없이 발송되는 메일입니다.
+```
+
+- 치환 변수: `{초대한 관리자명}`(초대를 발송한 로그인 사용자), `{초대 대상명}`(invitee.name), 수락 링크 버튼 URL
 
 **Response `contents`**:
 ```jsonc
@@ -119,32 +156,69 @@
 - `adminId` (number) — 관리자 레코드 PK
 
 **처리 요구사항**:
-- 마스터 관리자 자기 자신 또는 마지막 마스터는 삭제 불가 처리 권장
+- **본인(로그인 사용자)은 삭제 불가** — 요청자의 `userId` 와 대상 관리자의 `userId` 가 같으면 거부
 - 초대 대기(`Invited`) 상태 레코드도 삭제 가능(초대 취소)
 
 **Response `contents`**: `true` 또는 삭제된 `adminId`
 
 ---
 
-## 5. 회사별 결제수단 조회
+## 5. 회사별 결제수단 조회 (카드 + CMS)
 
-### `GET /api/v1/users/corporation/{corporationId}/cards`
+### `GET /api/v1/users/corporation/{corporationId}/payment-methods`
 
-> 기존 `GET /api/v1/users/cards/` (사용자별) 를 **회사별**로 변경/추가하는 엔드포인트입니다.
+> 기존 `GET /api/v1/users/cards/` (사용자별) 를 **회사별**로 변경/확장하는 엔드포인트입니다. 카드와 CMS(계좌이체)를 모두 반환합니다.
 
 **Path**: `corporationId` (number)
 
-**Response `contents`**: `CreditCard[]`
+**Response `contents`**: `CompanyPaymentMethod[]` (위 `paymentMethods` 항목과 동일 스키마)
+
+---
+
+## 6. 회사별 결제수단 등록
+
+### `POST /api/v1/users/corporation/{corporationId}/payment-methods`
+
+**Path**: `corporationId` (number)
+
+**Request Body** (카드):
 ```jsonc
-[
-  {
-    "cardId": 201,
-    "companyName": "신한카드",
-    "number": "5570-****-****-1234",
-    "primary": 1
-  }
-]
+{
+  "type": 0,
+  "cardCompany": "신한카드",
+  "cardNumber": "5570111122223333",
+  "expirationMonth": "12",
+  "expirationYear": "28"
+}
 ```
+
+**Request Body** (CMS):
+```jsonc
+{
+  "type": 1,
+  "bankName": "국민은행",
+  "accountNumber": "12345678901234",
+  "accountHolder": "참존(주)"
+}
+```
+
+**처리 요구사항**:
+- 카드번호/계좌번호는 저장 시 암호화 및 응답 시 마스킹
+- 회사 첫 결제수단이면 `primary=1` 자동 지정 권장
+
+**Response `contents`**: 생성된 `CompanyPaymentMethod`
+
+---
+
+## 7. 회사별 결제수단 삭제
+
+### `DELETE /api/v1/users/corporation/{corporationId}/payment-methods/{methodId}`
+
+**Path**:
+- `corporationId` (number)
+- `methodId` (number) — 결제수단 PK
+
+**Response `contents`**: `true` 또는 삭제된 `methodId`
 
 ---
 
@@ -158,7 +232,6 @@ type CompanyAdminDto = {
   userId?: number;
   name?: string;
   email?: string;
-  isMaster?: boolean;
   status?: CompanyAdminStatus;
   invitedDate?: string;
   joinedDate?: string;
@@ -167,17 +240,34 @@ type CompanyAdminDto = {
 type CompanyAdminInviteeDto = { name: string; email: string; };
 type CompanyAdminInviteDto = { corporationId: number; invitees: CompanyAdminInviteeDto[]; };
 
+enum CompanyPaymentMethodType { Card = 0, Cms = 1 }
+
+type CompanyPaymentMethodDto = {
+  methodId?: number;
+  corporationId?: number;
+  type?: CompanyPaymentMethodType;
+  primary?: number;
+  // 카드
+  cardCompany?: string;
+  cardNumber?: string;
+  expirationYear?: string;
+  expirationMonth?: string;
+  // CMS(계좌이체)
+  bankName?: string;
+  accountNumber?: string;
+  accountHolder?: string;
+};
+
 type CompanyManagementDto = {
   corporationId?: number;
   name?: string;
   businessNo?: string;
-  isMaster?: boolean;
   admins?: CompanyAdminDto[];
-  creditCards?: CreditCardDto[];
+  paymentMethods?: CompanyPaymentMethodDto[];
 };
 ```
 
 ## 권장 사항 (단일 vs 개별 API)
 
 - **단일 통합 API(`#1`) 사용을 권장합니다.** 회사 탭 진입 시 1회 호출로 화면을 모두 그릴 수 있어 회사 수만큼의 N+1 호출을 피할 수 있습니다.
-- 개별 조회 API(`#2`, `#5`)는 초대/삭제 후 특정 회사만 새로고침할 때 보조적으로 사용합니다.
+- 개별 조회 API(`#2`, `#5`)는 초대/삭제/등록 후 특정 회사만 새로고침할 때 보조적으로 사용합니다.

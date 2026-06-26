@@ -2,6 +2,7 @@ import { API_SUCCESS } from "@/utils/exception";
 import {
     CompanyAdminStatus,
     CompanyManagementDto,
+    CompanyPaymentMethodType,
 } from "@/types/Users";
 
 // 서버 미구현 시 화면 확인용 목업 데이터.
@@ -12,14 +13,12 @@ export function getMockCompanyManagement(): CompanyManagementDto[] {
             corporationId: 1,
             name: "참존(주)",
             businessNo: "212-12-12222",
-            isMaster: true,
             admins: [
                 {
                     adminId: 101,
                     userId: 5001,
                     name: "홍길동",
                     email: "test@test.com",
-                    isMaster: true,
                     status: CompanyAdminStatus.Active,
                     joinedDate: "2026-01-01",
                 },
@@ -28,7 +27,6 @@ export function getMockCompanyManagement(): CompanyManagementDto[] {
                     userId: 5002,
                     name: "김철수",
                     email: "chulsoo@test.com",
-                    isMaster: false,
                     status: CompanyAdminStatus.Active,
                     joinedDate: "2026-01-05",
                 },
@@ -36,22 +34,24 @@ export function getMockCompanyManagement(): CompanyManagementDto[] {
                     adminId: 103,
                     name: "이영희",
                     email: "younghee@test.com",
-                    isMaster: false,
                     status: CompanyAdminStatus.Invited,
                     invitedDate: "2026-02-10",
                 },
             ],
-            creditCards: [
+            paymentMethods: [
                 {
-                    cardId: 201,
-                    companyName: "신한카드",
-                    number: "5570-****-****-1234",
+                    methodId: 201,
+                    type: CompanyPaymentMethodType.Card,
+                    cardCompany: "신한카드",
+                    cardNumber: "5570-****-****-1234",
                     primary: 1,
                 },
                 {
-                    cardId: 202,
-                    companyName: "국민카드",
-                    number: "4012-****-****-5678",
+                    methodId: 202,
+                    type: CompanyPaymentMethodType.Cms,
+                    bankName: "국민은행",
+                    accountNumber: "123456-**-******",
+                    accountHolder: "참존(주)",
                     primary: 0,
                 },
             ],
@@ -60,19 +60,17 @@ export function getMockCompanyManagement(): CompanyManagementDto[] {
             corporationId: 2,
             name: "에버인테스트 법인",
             businessNo: "212-12-33333",
-            isMaster: false,
             admins: [
                 {
                     adminId: 111,
                     userId: 5001,
                     name: "홍길동",
                     email: "test@test.com",
-                    isMaster: false,
                     status: CompanyAdminStatus.Active,
                     joinedDate: "2026-06-01",
                 },
             ],
-            creditCards: [],
+            paymentMethods: [],
         },
     ];
 }

@@ -211,7 +211,12 @@ function AccountContent() {
           ) : (
             <div className="flex flex-col gap-5">
               {companies.map((company) => (
-                <CompanyCard key={company.corporationId} company={company} onChanged={loadCompanies} />
+                <CompanyCard
+                  key={company.corporationId}
+                  company={company}
+                  currentUserId={profile?.userId}
+                  onChanged={loadCompanies}
+                />
               ))}
             </div>
           )}
@@ -229,7 +234,7 @@ function AccountContent() {
             <ChevronRight className="w-5 h-5 text-primary" />
           </CardContent>
         </Card>
-        <Card className="hover:border-primary/50 transition-colors cursor-pointer" onClick={() => router.push("/support/contact")}>
+        <Card className="hover:border-primary/50 transition-colors cursor-pointer" onClick={() => router.push("/support/inquiry")}>
           <CardContent className="py-4 flex items-center justify-between">
             <div>
               <h3 className="font-semibold">문의가 있으신가요?</h3>

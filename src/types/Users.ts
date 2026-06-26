@@ -130,13 +130,12 @@ export enum CompanyAdminStatus {
     Invited = 1,    // 초대 메일 발송됨(수락 대기)
 }
 
-// 회사별 관리자
+// 회사별 관리자 (모든 관리자는 동일한 권한)
 export type CompanyAdminDto = {
     adminId?: number;
     userId?: number;
     name?: string;
     email?: string;
-    isMaster?: boolean;             // 마스터 관리자 여부
     status?: CompanyAdminStatus;    // 활성 / 초대됨
     invitedDate?: string;
     joinedDate?: string;
@@ -154,14 +153,42 @@ export type CompanyAdminInviteDto = {
     invitees: CompanyAdminInviteeDto[];
 }
 
+// 결제수단 종류 (0: 카드, 1: CMS/계좌이체)
+export enum CompanyPaymentMethodType {
+    Card = 0,
+    Cms = 1,
+}
+
+// 회사별 결제수단 (카드 또는 CMS)
+export type CompanyPaymentMethodDto = {
+    methodId?: number;
+    corporationId?: number;
+    type?: CompanyPaymentMethodType;
+    primary?: number;
+    // 카드 결제
+    cardCompany?: string;
+    cardNumber?: string;
+    expirationYear?: string;
+    expirationMonth?: string;
+    // CMS(계좌이체)
+    bankName?: string;
+    accountNumber?: string;
+    accountHolder?: string;
+}
+
+// 결제수단 등록 요청
+export type CompanyPaymentMethodCreateDto = CompanyPaymentMethodDto & {
+    corporationId: number;
+    type: CompanyPaymentMethodType;
+}
+
 // 회사별 통합 관리 정보(회사 + 관리자 + 결제수단)
 export type CompanyManagementDto = {
     corporationId?: number;
     name?: string;
     businessNo?: string;
-    isMaster?: boolean;
     admins?: CompanyAdminDto[];
-    creditCards?: CreditCardDto[];
+    paymentMethods?: CompanyPaymentMethodDto[];
 }
 
 export type ChangePasswordDto = {

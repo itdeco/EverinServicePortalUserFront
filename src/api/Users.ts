@@ -4,6 +4,7 @@ import {
     ChangePasswordDto,
     ChangePhoneDto,
     CompanyAdminInviteDto,
+    CompanyPaymentMethodCreateDto,
     CreditCardDto, DelegationAcceptDto, DelegationCompleteDto, DelegationCreditCardDto,
     DelegationRequestDto,
     LogInRequestDto, RedisAuthenticationDto,
@@ -309,13 +310,34 @@ export default class ApiUsers {
         });
     }
 
-    // 회사별 결제수단 조회
-    async getCompanyCreditCards(corporationId: number) {
-        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/cards`;
+    // 회사별 결제수단 조회 (카드 + CMS)
+    async getCompanyPaymentMethods(corporationId: number) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/payment-methods`;
 
         return callApi({
             url: url,
             method: Method.Get
+        });
+    }
+
+    // 회사별 결제수단 등록 (카드 또는 CMS)
+    async addCompanyPaymentMethod(params: CompanyPaymentMethodCreateDto) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${params.corporationId}/payment-methods`;
+
+        return callApi({
+            url: url,
+            method: Method.Post,
+            body: params
+        });
+    }
+
+    // 회사별 결제수단 삭제
+    async deleteCompanyPaymentMethod(corporationId: number, methodId: number) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/payment-methods/${methodId}`;
+
+        return callApi({
+            url: url,
+            method: Method.Delete
         });
     }
 
