@@ -477,7 +477,7 @@ export default function Header() {
               <SmartLink href="/partners" className="inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
                 파트너
               </SmartLink>
-              <SmartLink href="/support/faq" className="inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
+              <SmartLink href="/support" className="inline-flex h-10 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-colors hover:bg-accent hover:text-accent-foreground whitespace-nowrap">
                 고객센터
               </SmartLink>
 
