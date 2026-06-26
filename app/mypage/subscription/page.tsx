@@ -7,13 +7,13 @@ import {
     Building2,
     Calendar,
     ChevronDown,
-    ChevronRight,
     MoreVertical,
 } from "lucide-react";
 import { Api } from "@/api";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import {
     Table,
     TableBody,
@@ -417,40 +417,37 @@ export default function SubscriptionPage() {
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-12">
-            <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                <div>
-                    <h1 className="mb-2 text-2xl font-bold text-foreground md:text-3xl">
-                        <span className="text-primary">{profile?.name ?? "고객"}</span>님 안녕하세요! 언제든지 환영합니다.
-                    </h1>
-                    <p className="text-muted-foreground">
-                        현재 이용 중인 플랜을 확인하고 관리하세요. 조직의 규모와 환경에 맞는 최적의 옵션�� 선택하여 더욱 효율적으로 활용해보세요.
-                    </p>
-                </div>
+            <div className="mb-8">
+                <h1 className="text-2xl font-bold tracking-tight text-foreground md:text-[28px]">
+                    <span className="text-primary">{profile?.name ?? "고객"}</span>님, 안녕하세요!
+                </h1>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                    현재 이용 중인 플랜을 확인하고 관리하세요. 조직의 규모와 환경에 맞는 최적의 옵션을 선택하여 더욱 효율적으로 활용해보세요.
+                </p>
             </div>
 
             {profile && (
-                <Card className="mb-6 py-0">
-                    <CardContent className="px-4 py-3">
-                        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                            <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
-                                <div className="flex items-center gap-3">
-                                    <span className="min-w-[48px] text-sm text-muted-foreground">이름</span>
-                                    <span className="font-medium">{profile.name}</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <span className="min-w-[48px] text-sm text-muted-foreground">이메일</span>
-                                    <span className="font-medium">{profile.loginId}</span>
-                                </div>
+                <Card className="mb-8 border-border/70 py-0 shadow-sm">
+                    <CardContent className="flex flex-col gap-3 px-5 py-4 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-col gap-3 md:flex-row md:items-center">
+                            <div className="flex items-center gap-3">
+                                <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">이름</span>
+                                <span className="text-sm font-semibold text-foreground">{profile.name}</span>
                             </div>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="w-full md:w-auto"
-                                onClick={() => router.push("/mypage/account")}
-                            >
-                                계정정보 변경
-                            </Button>
+                            <Separator orientation="vertical" className="hidden h-4 md:block" />
+                            <div className="flex items-center gap-3">
+                                <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">이메일</span>
+                                <span className="text-sm font-semibold text-foreground">{profile.loginId}</span>
+                            </div>
                         </div>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-full md:w-auto"
+                            onClick={() => router.push("/mypage/account")}
+                        >
+                            계정정보 변경
+                        </Button>
                     </CardContent>
                 </Card>
             )}
@@ -465,35 +462,38 @@ export default function SubscriptionPage() {
                 </Card>
             ) : (
                 <div className="flex flex-col gap-6">
-                    <h2 className="border-b-2 border-foreground pb-2 text-lg font-bold text-foreground">
-                        멤버십(구독)정보
-                    </h2>
+                    <div className="flex items-center gap-2">
+                        <h2 className="text-lg font-bold text-foreground">멤버십(구독)정보</h2>
+                        <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+                            {companyGroups.length}개 사업자
+                        </span>
+                    </div>
                     {companyGroups.map((group) => (
-                        <Card key={group.key} className="overflow-hidden border-2">
+                        <Card key={group.key} className="overflow-hidden border-border/70 py-0 shadow-sm">
                             {/* 회사(사업자) 그룹 헤더 */}
-                            <CardHeader className="border-b bg-slate-100/80 py-3">
-                                <div className="flex items-center gap-2">
-                                    <Building2 className="h-5 w-5 text-primary" />
-                                    <CardTitle className="text-base font-bold text-slate-900">
-                                        {group.label}
-                                    </CardTitle>
-                                </div>
+                            <CardHeader className="flex-row items-center gap-2.5 border-b bg-muted/40 px-5 py-3.5">
+                                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+                                    <Building2 className="h-4 w-4 text-primary" />
+                                </span>
+                                <CardTitle className="text-base font-bold text-foreground">
+                                    {group.label}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent className="p-0">
                                 {/* 데스크톱 테이블 */}
                                 <div className="hidden lg:block">
                                     <Table>
                                         <TableHeader>
-                                            <TableRow>
-                                                <TableHead className="w-[56px]" />
-                                                <TableHead className="w-[120px]">구독일자</TableHead>
-                                                <TableHead>서비스명</TableHead>
-                                                <TableHead className="w-[130px]">서비스시작일</TableHead>
-                                                <TableHead className="w-[130px]">서비스만료일</TableHead>
-                                                <TableHead className="w-[90px]">사용자인원</TableHead>
-                                                <TableHead className="w-[120px]">서비스요금</TableHead>
-                                                <TableHead className="w-[100px]">이용상태</TableHead>
-                                                <TableHead className="w-[72px] text-center">상세</TableHead>
+                                            <TableRow className="border-b bg-muted/20 hover:bg-muted/20">
+                                                <TableHead className="w-[52px]" />
+                                                <TableHead className="h-11 w-[116px] text-xs font-semibold uppercase tracking-wide text-muted-foreground">구독일자</TableHead>
+                                                <TableHead className="h-11 text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스명</TableHead>
+                                                <TableHead className="h-11 w-[124px] text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스시작일</TableHead>
+                                                <TableHead className="h-11 w-[124px] text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스만료일</TableHead>
+                                                <TableHead className="h-11 w-[88px] text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">사용자인원</TableHead>
+                                                <TableHead className="h-11 w-[120px] text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스요금</TableHead>
+                                                <TableHead className="h-11 w-[100px] text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">이용상태</TableHead>
+                                                <TableHead className="h-11 w-[64px] text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">상세</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -504,42 +504,37 @@ export default function SubscriptionPage() {
 
                                                 return (
                                                     <Fragment key={key}>
-                                                        <TableRow className="hover:bg-slate-50">
-                                                            <TableCell className="text-center">
+                                                        <TableRow
+                                                            className={`cursor-pointer border-b transition-colors hover:bg-muted/30 ${isOpen ? "bg-muted/30" : ""}`}
+                                                            onClick={() => setOpenKey(isOpen ? null : key)}
+                                                        >
+                                                            <TableCell className="text-center" onClick={(e) => e.stopPropagation()}>
                                                                 <ContractMenu />
                                                             </TableCell>
-                                                            <TableCell className="font-medium">{getContractDate(master)}</TableCell>
+                                                            <TableCell className="font-medium text-foreground">{getContractDate(master)}</TableCell>
                                                             <TableCell>
-                                                                <div className="max-w-[320px] truncate font-medium">
+                                                                <div className="max-w-[320px] truncate font-medium text-foreground">
                                                                     {getServiceSummary(detailRows)}
                                                                 </div>
                                                             </TableCell>
-                                                            <TableCell>{getServiceStartDate(master)}</TableCell>
-                                                            <TableCell>{getServiceEndDate(master)}</TableCell>
-                                                            <TableCell>{getTotalQty(detailRows)}</TableCell>
-                                                            <TableCell className="font-medium">{getTotalAmount(detailRows)}</TableCell>
-                                                            <TableCell>
-                                                                <Badge className="bg-green-100 text-green-800">{getUseStatus(master)}</Badge>
+                                                            <TableCell className="text-muted-foreground">{getServiceStartDate(master)}</TableCell>
+                                                            <TableCell className="text-muted-foreground">{getServiceEndDate(master)}</TableCell>
+                                                            <TableCell className="text-right tabular-nums text-foreground">{getTotalQty(detailRows)}</TableCell>
+                                                            <TableCell className="text-right font-semibold tabular-nums text-foreground">{getTotalAmount(detailRows)}</TableCell>
+                                                            <TableCell className="text-center">
+                                                                <Badge variant="secondary" className="border-0 bg-primary/10 font-medium text-primary">
+                                                                    {getUseStatus(master)}
+                                                                </Badge>
                                                             </TableCell>
                                                             <TableCell className="text-center">
-                                                                <Button
-                                                                    variant="ghost"
-                                                                    size="sm"
-                                                                    className="h-8 w-8 p-0"
-                                                                    onClick={() => setOpenKey(isOpen ? null : key)}
-                                                                    aria-label="상세보기"
-                                                                >
-                                                                    {isOpen ? (
-                                                                        <ChevronDown className="h-4 w-4" />
-                                                                    ) : (
-                                                                        <ChevronRight className="h-4 w-4" />
-                                                                    )}
-                                                                </Button>
+                                                                <ChevronDown
+                                                                    className={`mx-auto h-4 w-4 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
+                                                                />
                                                             </TableCell>
                                                         </TableRow>
                                                         {isOpen && (
-                                                            <TableRow>
-                                                                <TableCell colSpan={9} className="bg-slate-50/80 p-0">
+                                                            <TableRow className="hover:bg-transparent">
+                                                                <TableCell colSpan={9} className="bg-muted/20 p-0">
                                                                     <DetailTable rows={detailRows} />
                                                                 </TableCell>
                                                             </TableRow>
@@ -560,7 +555,7 @@ export default function SubscriptionPage() {
 
                                         return (
                                             <div key={key} className="p-4">
-                                                <div className="flex items-start justify-between gap-3">
+                                                <div className="flex items-start gap-2">
                                                     <ContractMenu />
                                                     <button
                                                         type="button"
@@ -568,23 +563,23 @@ export default function SubscriptionPage() {
                                                         onClick={() => setOpenKey(isOpen ? null : key)}
                                                     >
                                                         <div className="min-w-0">
-                                                            <div className="mb-1 flex items-center gap-2">
+                                                            <div className="mb-1.5 flex items-center gap-2">
                                                                 <span className="text-xs text-muted-foreground">{getContractDate(master)}</span>
-                                                                <Badge className="bg-green-100 text-green-800">{getUseStatus(master)}</Badge>
+                                                                <Badge variant="secondary" className="border-0 bg-primary/10 font-medium text-primary">
+                                                                    {getUseStatus(master)}
+                                                                </Badge>
                                                             </div>
-                                                            <p className="truncate text-sm font-medium">{getServiceSummary(detailRows)}</p>
+                                                            <p className="truncate text-sm font-semibold text-foreground">{getServiceSummary(detailRows)}</p>
                                                             <p className="mt-2 text-xs text-muted-foreground">
-                                                                {getServiceStartDate(master)} - {getServiceEndDate(master)}
+                                                                {getServiceStartDate(master)} ~ {getServiceEndDate(master)}
                                                             </p>
-                                                            <p className="mt-1 text-xs text-muted-foreground">
+                                                            <p className="mt-1 text-xs font-medium text-foreground">
                                                                 {getTotalQty(detailRows)} · {getTotalAmount(detailRows)}
                                                             </p>
                                                         </div>
-                                                        {isOpen ? (
-                                                            <ChevronDown className="mt-1 h-5 w-5 shrink-0" />
-                                                        ) : (
-                                                            <ChevronRight className="mt-1 h-5 w-5 shrink-0" />
-                                                        )}
+                                                        <ChevronDown
+                                                            className={`mt-1 h-5 w-5 shrink-0 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
+                                                        />
                                                     </button>
                                                 </div>
 
@@ -640,15 +635,15 @@ function DetailTable({ rows, compact = false }: { rows: BmsRecord[]; compact?: b
 
     if (compact) {
         return (
-            <div className="mt-4 space-y-3 rounded-2xl bg-slate-50 p-3">
+            <div className="mt-3 flex flex-col gap-2 rounded-xl bg-muted/50 p-3">
                 {rows.map((row, index) => (
-                    <div key={index} className="rounded-xl bg-white p-3 text-sm">
-                        <p className="font-semibold text-slate-900">{getServiceName(row)}</p>
-                        <div className="mt-2 grid grid-cols-2 gap-2 text-xs text-muted-foreground">
-                            <span>수량 {valueOf(row, ["Qty", "UserCount"]) || "-"}</span>
-                            <span>단가 {formatCurrency(valueOf(row, ["Price", "UnitPrice"]))}</span>
-                            <span>금액 {formatCurrency(valueOf(row, ["Amt", "Amount"]))}</span>
-                            <span>적용년월 {formatYearMonth(valueOf(row, ["PriceAppYm", "AppYm"]))}</span>
+                    <div key={index} className="rounded-lg border border-border/60 bg-card p-3 text-sm">
+                        <p className="font-semibold text-foreground">{getServiceName(row)}</p>
+                        <div className="mt-2 grid grid-cols-2 gap-y-1.5 text-xs">
+                            <span className="text-muted-foreground">인원 <span className="font-medium text-foreground">{valueOf(row, ["Qty", "UserCount"]) || "-"}</span></span>
+                            <span className="text-muted-foreground">단가 <span className="font-medium text-foreground">{formatCurrency(valueOf(row, ["Price", "UnitPrice"]))}</span></span>
+                            <span className="text-muted-foreground">금액 <span className="font-semibold text-foreground">{formatCurrency(valueOf(row, ["Amt", "Amount"]))}</span></span>
+                            <span className="text-muted-foreground">적용년월 <span className="font-medium text-foreground">{formatYearMonth(valueOf(row, ["PriceAppYm", "AppYm"]))}</span></span>
                         </div>
                     </div>
                 ))}
@@ -657,30 +652,30 @@ function DetailTable({ rows, compact = false }: { rows: BmsRecord[]; compact?: b
     }
 
     return (
-        <div className="p-5">
-            <div className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-900">
-                <Calendar className="h-4 w-4 text-primary" />
+        <div className="px-5 py-4">
+            <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                <Calendar className="h-3.5 w-3.5 text-primary" />
                 상세내역
             </div>
-            <div className="overflow-hidden rounded-2xl border bg-white">
+            <div className="overflow-hidden rounded-xl border border-border/60 bg-card">
                 <Table>
                     <TableHeader>
-                        <TableRow>
-                            <TableHead>서비스</TableHead>
-                            <TableHead className="w-[90px] text-right">인원</TableHead>
-                            <TableHead className="w-[120px] text-right">단가</TableHead>
-                            <TableHead className="w-[120px] text-right">금액</TableHead>
-                            <TableHead className="w-[100px]">적용년월</TableHead>
+                        <TableRow className="border-b bg-muted/30 hover:bg-muted/30">
+                            <TableHead className="h-10 text-xs font-semibold text-muted-foreground">서비스</TableHead>
+                            <TableHead className="h-10 w-[100px] text-right text-xs font-semibold text-muted-foreground">인원</TableHead>
+                            <TableHead className="h-10 w-[130px] text-right text-xs font-semibold text-muted-foreground">단가</TableHead>
+                            <TableHead className="h-10 w-[130px] text-right text-xs font-semibold text-muted-foreground">금액</TableHead>
+                            <TableHead className="h-10 w-[110px] text-right text-xs font-semibold text-muted-foreground">적용년월</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {rows.map((row, index) => (
-                            <TableRow key={index}>
-                                <TableCell className="font-medium">{getServiceName(row)}</TableCell>
-                                <TableCell className="text-right">{valueOf(row, ["Qty", "UserCount"]) || "-"}</TableCell>
-                                <TableCell className="text-right">{formatCurrency(valueOf(row, ["Price", "UnitPrice"]))}</TableCell>
-                                <TableCell className="text-right font-semibold">{formatCurrency(valueOf(row, ["Amt", "Amount"]))}</TableCell>
-                                <TableCell>{formatYearMonth(valueOf(row, ["PriceAppYm", "AppYm"]))}</TableCell>
+                            <TableRow key={index} className="border-b last:border-0 hover:bg-muted/20">
+                                <TableCell className="font-medium text-foreground">{getServiceName(row)}</TableCell>
+                                <TableCell className="text-right tabular-nums text-muted-foreground">{valueOf(row, ["Qty", "UserCount"]) || "-"}</TableCell>
+                                <TableCell className="text-right tabular-nums text-muted-foreground">{formatCurrency(valueOf(row, ["Price", "UnitPrice"]))}</TableCell>
+                                <TableCell className="text-right font-semibold tabular-nums text-foreground">{formatCurrency(valueOf(row, ["Amt", "Amount"]))}</TableCell>
+                                <TableCell className="text-right tabular-nums text-muted-foreground">{formatYearMonth(valueOf(row, ["PriceAppYm", "AppYm"]))}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
