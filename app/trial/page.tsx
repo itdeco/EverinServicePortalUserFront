@@ -19,6 +19,7 @@ import { SmsAuthenticationRequestBaseDto, SmsAuthenticationVerifyDto } from "@/t
 import { TrialRequestDto } from "@/types/Trials"
 import { TermsDto, TermsType } from "@/types/Terms"
 import CommonUtil from "@/utils/commonUtil"
+import { COLORS } from "@/constants/brand-colors"
 
 enum ValidationStatus {
   Valid,
@@ -35,13 +36,15 @@ const TRIAL_SERVICES = [
     name: "에버타임 스탠다드",
     category: "근태관리",
     description: "출퇴근, 근무시간, 휴가까지 한 번에 관리",
-    icon: Clock
+    icon: Clock,
+    color: COLORS.people
   },
   {
     name: "에버웰커밍",
     category: "온보딩",
     description: "신규 입사자 온보딩 프로세스를 간편하게",
-    icon: UserPlus
+    icon: UserPlus,
+    color: COLORS.onboarding
   }
 ]
 
@@ -271,14 +274,25 @@ export default function TrialPage() {
                     return (
                       <div
                         key={service.name}
-                        className="relative flex flex-col gap-2 rounded-xl border border-primary/20 bg-primary/5 p-4"
+                        className="relative flex flex-col gap-2 rounded-xl border p-4"
+                        style={{
+                          borderColor: `${service.color}40`,
+                          backgroundColor: `${service.color}0d`
+                        }}
                       >
-                        <CheckCircle2 className="absolute right-3 top-3 h-5 w-5 text-primary" />
+                        <CheckCircle2 className="absolute right-3 top-3 h-5 w-5" style={{ color: service.color }} />
                         <div className="flex items-center gap-2">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-                            <Icon className="h-5 w-5 text-primary" />
+                          <div
+                            className="flex h-9 w-9 items-center justify-center rounded-lg"
+                            style={{ backgroundColor: `${service.color}1a` }}
+                          >
+                            <Icon className="h-5 w-5" style={{ color: service.color }} />
                           </div>
-                          <Badge variant="secondary" className="bg-primary/10 text-primary border-0 text-xs">
+                          <Badge
+                            variant="secondary"
+                            className="border-0 text-xs"
+                            style={{ backgroundColor: `${service.color}1a`, color: service.color }}
+                          >
                             {service.category}
                           </Badge>
                         </div>
@@ -288,9 +302,6 @@ export default function TrialPage() {
                     )
                   })}
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  * 두 가지 서비스를 함께 체험합니다. 개별 선택은 불가능합니다.
-                </p>
               </div>
 
               {/* Name Input */}
