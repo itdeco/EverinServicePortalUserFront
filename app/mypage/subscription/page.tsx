@@ -9,7 +9,6 @@ import {
     ChevronDown,
     ChevronRight,
     MoreVertical,
-    Share2,
 } from "lucide-react";
 import { Api } from "@/api";
 import { Badge } from "@/components/ui/badge";
@@ -424,13 +423,9 @@ export default function SubscriptionPage() {
                         <span className="text-primary">{profile?.name ?? "고객"}</span>님 안녕하세요! 언제든지 환영합니다.
                     </h1>
                     <p className="text-muted-foreground">
-                        현재 이용 중인 플랜을 확인하고 관리하세요. 조직의 규모와 환경에 맞는 최적의 옵션을 선택하여 더욱 효율적으로 활용해보세요.
+                        현재 이용 중인 플랜을 확인하고 관리하세요. 조직의 규모와 환경에 맞는 최적의 옵션�� 선택하여 더욱 효율적으로 활용해보세요.
                     </p>
                 </div>
-                <Button variant="outline" size="sm" className="shrink-0">
-                    <Share2 className="mr-2 h-4 w-4" />
-                    공유
-                </Button>
             </div>
 
             {profile && (
