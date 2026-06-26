@@ -4,6 +4,8 @@ import {
     ChangePasswordDto,
     ChangePhoneDto,
     CompanyAdminInviteDto,
+    CompanyAdminInviteJoinDto,
+    CompanyAdminInviteSignUpDto,
     CompanyPaymentMethodCreateDto,
     CreditCardDto, DelegationAcceptDto, DelegationCompleteDto, DelegationCreditCardDto,
     DelegationRequestDto,
@@ -11,7 +13,7 @@ import {
     SignUpRequestDto, WithdrawalLogDto
 } from "@/types/Users";
 import {Method} from "@/api/ApiClient";
-import {withCompanyMgmtMock} from "@/api/mocks/CompanyManagement";
+import {withCompanyMgmtMock, withInvitationMock} from "@/api/mocks/CompanyManagement";
 
 export default class ApiUsers {
     async signUp(params: SignUpRequestDto) {
@@ -338,6 +340,50 @@ export default class ApiUsers {
         return callApi({
             url: url,
             method: Method.Delete
+        });
+    }
+
+    // 회사별 기본 결제수단 변경 (선택한 수단을 기본으로, 나머지는 예비)
+    async setPrimaryCompanyPaymentMethod(corporationId: number, methodId: number) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/payment-methods/${methodId}/primary`;
+
+        return callApi({
+            url: url,
+            method: Method.Put
+        });
+    }
+
+    // [초대] 토큰으로 초대 정보 조회 (메일 링크 진입 시) - 비로그인 호출
+    async getAdminInvitation(token: string) {
+        const url = `${Config.apiServer}/api/v1/users/invitations/${token}`;
+
+        const result = await callPublicApi({
+            url: url,
+            method: Method.Get
+        });
+
+        return withInvitationMock(result, token);
+    }
+
+    // [초대] 신규 회원가입으로 초대 수락 - 비로그인 호출
+    async acceptInvitationSignUp(params: CompanyAdminInviteSignUpDto) {
+        const url = `${Config.apiServer}/api/v1/users/invitations/${params.token}/signup`;
+
+        return callPublicApi({
+            url: url,
+            method: Method.Post,
+            body: params
+        });
+    }
+
+    // [초대] 기존 회원 로그인으로 초대 수락(회사 합류) - 비로그인 호출
+    async acceptInvitationJoin(params: CompanyAdminInviteJoinDto) {
+        const url = `${Config.apiServer}/api/v1/users/invitations/${params.token}/join`;
+
+        return callPublicApi({
+            url: url,
+            method: Method.Post,
+            body: params
         });
     }
 

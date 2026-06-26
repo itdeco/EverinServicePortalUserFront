@@ -182,6 +182,34 @@ export type CompanyPaymentMethodCreateDto = CompanyPaymentMethodDto & {
     type: CompanyPaymentMethodType;
 }
 
+// 관리자 초대 토큰 조회 결과 (초대 메일의 링크로 진입 시)
+export type CompanyAdminInvitationDto = {
+    token?: string;
+    corporationId?: number;
+    corporationName?: string;
+    inviterName?: string;        // 초대한 관리자 성함
+    inviteeName?: string;        // 초대 대상 성함(초기값, 수정 가능)
+    email?: string;              // 초대된 이메일(고정, 변경 불가)
+    isExistingUser?: boolean;    // 이미 가입된 회원인지 여부
+    expired?: boolean;           // 만료 여부
+}
+
+// 초대 수락(신규 가입)
+export type CompanyAdminInviteSignUpDto = {
+    token: string;
+    email: string;
+    name: string;
+    password: string;
+    phone: string;
+}
+
+// 초대 수락(기존 회원 로그인 → 회사 합류)
+export type CompanyAdminInviteJoinDto = {
+    token: string;
+    loginId: string;
+    password: string;
+}
+
 // 회사별 통합 관리 정보(회사 + 관리자 + 결제수단)
 export type CompanyManagementDto = {
     corporationId?: number;

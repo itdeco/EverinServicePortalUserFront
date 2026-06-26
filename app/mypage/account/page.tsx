@@ -215,6 +215,7 @@ function AccountContent() {
                   key={company.corporationId}
                   company={company}
                   currentUserId={profile?.userId}
+                  currentEmail={profile?.loginId}
                   onChanged={loadCompanies}
                 />
               ))}

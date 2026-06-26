@@ -29,22 +29,33 @@ function describePaymentMethod(method: CompanyPaymentMethodDto) {
   return method.cardCompany ? `${method.cardCompany} ${number}` : number;
 }
 
+const MAX_PAYMENT_METHODS = 2;
+
 export function CompanyCard({
   company,
   currentUserId,
+  currentEmail,
   onChanged,
 }: {
   company: CompanyManagementDto;
   currentUserId?: number;
+  currentEmail?: string;
   onChanged: () => void;
 }) {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const admins = company.admins ?? [];
   const methods = company.paymentMethods ?? [];
+  const reachedMethodLimit = methods.length >= MAX_PAYMENT_METHODS;
+
+  const isSelfAdmin = (admin: CompanyAdminDto) => {
+    if (currentUserId && admin.userId === currentUserId) return true;
+    if (currentEmail && admin.email && admin.email.toLowerCase() === currentEmail.toLowerCase()) return true;
+    return false;
+  };
 
   const onDeleteAdmin = async (admin: CompanyAdminDto) => {
-    if (currentUserId && admin.userId === currentUserId) {
+    if (isSelfAdmin(admin)) {
       await alertMessage("본인은 삭제할 수 없습니다.");
       return;
     }
@@ -68,6 +79,24 @@ export function CompanyCard({
 
     await alertMessage("결제수단이 삭제되었습니다.");
     onChanged();
+  };
+
+  const onSetPrimary = async (method: CompanyPaymentMethodDto) => {
+    if (method.primary === 1) return;
+
+    const result = await Api.Users.setPrimaryCompanyPaymentMethod(company.corporationId!, method.methodId!);
+    if (!checkApiResult(result)) return;
+
+    await alertMessage("기본 결제수단으로 변경되었습니다.");
+    onChanged();
+  };
+
+  const onAddPaymentClick = async () => {
+    if (reachedMethodLimit) {
+      await alertMessage(`결제수단은 최대 ${MAX_PAYMENT_METHODS}개까지 등록할 수 있습니다.`);
+      return;
+    }
+    setPaymentOpen(true);
   };
 
   return (
@@ -100,7 +129,7 @@ export function CompanyCard({
           ) : (
             <div className="flex flex-col gap-2">
               {admins.map((admin) => {
-                const isSelf = !!currentUserId && admin.userId === currentUserId;
+                const isSelf = isSelfAdmin(admin);
                 return (
                   <div
                     key={admin.adminId}
@@ -152,9 +181,9 @@ export function CompanyCard({
           <div className="mb-3 flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">
               <CreditCard className="h-3.5 w-3.5 text-primary" />
-              결제수단 ({methods.length})
+              결제수단 ({methods.length}/{MAX_PAYMENT_METHODS})
             </div>
-            <Button size="sm" variant="outline" onClick={() => setPaymentOpen(true)}>
+            <Button size="sm" variant="outline" onClick={onAddPaymentClick} disabled={reachedMethodLimit}>
               <Plus className="mr-1 h-4 w-4" />
               결제수단 등록
             </Button>
@@ -186,10 +215,24 @@ export function CompanyCard({
                     </div>
                   </div>
                   <div className="flex shrink-0 items-center gap-2">
-                    {method.primary === 1 && (
+                    {method.primary === 1 ? (
                       <Badge variant="secondary" className="border-0 bg-primary/10 font-medium text-primary">
                         기본
                       </Badge>
+                    ) : (
+                      <>
+                        <Badge variant="secondary" className="border-0 bg-muted font-medium text-muted-foreground">
+                          예비
+                        </Badge>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-8"
+                          onClick={() => onSetPrimary(method)}
+                        >
+                          기본으로 설정
+                        </Button>
+                      </>
                     )}
                     <Button
                       variant="ghost"

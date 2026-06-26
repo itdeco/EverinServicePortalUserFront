@@ -86,3 +86,31 @@ export function withCompanyMgmtMock(result: any) {
         payload: getMockCompanyManagement(),
     };
 }
+
+// 초대 토큰 조회 목업.
+// 토큰에 "exist" 가 포함되면 기존 회원으로 간주(로그인 분기 확인용).
+export function getMockInvitation(token: string) {
+    const isExistingUser = token.includes("exist");
+
+    return {
+        token,
+        corporationId: 1,
+        corporationName: "참존(주)",
+        inviterName: "홍길동",
+        inviteeName: "박은경",
+        email: isExistingUser ? "exist@test.com" : "invitee@test.com",
+        isExistingUser,
+        expired: false,
+    };
+}
+
+export function withInvitationMock(result: any, token: string) {
+    if (result && typeof result.code === "number" && result.code <= API_SUCCESS && result.payload) {
+        return result;
+    }
+
+    return {
+        code: API_SUCCESS,
+        payload: getMockInvitation(token),
+    };
+}
