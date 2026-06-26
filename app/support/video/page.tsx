@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 import { Api } from "@/api";
 import { checkApiResult } from "@/utils/apiUtil";
 import { ThumbnailPostDto } from "@/types/Posts";
-import { EmptyState, SearchPanel, SectionTitle, SupportFrame, SupportHero, VideoCard, VideoModal } from "../_components/support-ui";
+import { EmptyState, SearchPanel, SectionTitle, SupportFrame, SupportHero, VideoCard } from "../_components/support-ui";
 
 export default function SupportVideoPage() {
   const [keyword, setKeyword] = useState("");
   const [videos, setVideos] = useState<ThumbnailPostDto[]>([]);
-  const [selectedVideo, setSelectedVideo] = useState<ThumbnailPostDto | null>(null);
 
   useEffect(() => {
     const loadVideos = async () => {
@@ -42,15 +41,13 @@ export default function SupportVideoPage() {
         {videos.length > 0 ? (
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {videos.map((video) => (
-              <VideoCard key={video.id} video={video} onClick={() => setSelectedVideo(video)} />
+              <VideoCard key={video.id} video={video} href={video.id ? `/support/video/${video.id}` : "/support/video"} />
             ))}
           </div>
         ) : (
           <EmptyState title="등록된 동영상이 없습니다." description="검색어를 바꾸거나 잠시 후 다시 확인해주세요." />
         )}
       </SupportFrame>
-
-      <VideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />
     </>
   );
 }

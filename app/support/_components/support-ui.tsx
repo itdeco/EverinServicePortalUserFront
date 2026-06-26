@@ -376,18 +376,15 @@ export function VideoModal({
 export function VideoCard({
   video,
   onClick,
+  href,
 }: {
   video: ThumbnailPostDto;
-  onClick: () => void;
+  onClick?: () => void;
+  href?: string;
 }) {
   const thumbnailUrl = video.id && video.thumbnailFileId ? Api.Files.getThumbnailUrl(video.id, video.thumbnailFileId) : "";
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition-all hover:-translate-y-1 hover:border-[#03b565]/40 hover:shadow-lg"
-    >
+  const content = (
+    <>
       <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-slate-100">
         {thumbnailUrl ? (
           <img src={thumbnailUrl} alt="" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
@@ -402,6 +399,27 @@ export function VideoCard({
         <h3 className="line-clamp-2 min-h-[3.5rem] text-lg font-black leading-7 text-slate-950">{video.title}</h3>
         <p className="mt-2 line-clamp-2 min-h-[3rem] text-sm font-semibold leading-6 text-slate-500">{video.searchText}</p>
       </div>
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition-all hover:-translate-y-1 hover:border-[#03b565]/40 hover:shadow-lg"
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition-all hover:-translate-y-1 hover:border-[#03b565]/40 hover:shadow-lg"
+    >
+      {content}
     </button>
   );
 }

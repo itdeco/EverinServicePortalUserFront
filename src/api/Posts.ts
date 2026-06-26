@@ -152,6 +152,15 @@ export default class ApiPosts {
         });
     }
 
+    async getNoticePost(postId: number) {
+        const url = `${Config.apiServer}/api/v1/posts/notice/${postId}`;
+
+        return callPublicApi({
+            url: url,
+            method: Method.Get
+        });
+    }
+
     async getVideoGuides() {
         const url = `${Config.apiServer}/api/v1/thumb-posts/video-guides`;
 
@@ -172,6 +181,15 @@ export default class ApiPosts {
 
     async getEverStories() {
         const url = `${Config.apiServer}/api/v1/thumb-posts/everstories`;
+
+        return callPublicApi({
+            url: url,
+            method: Method.Get
+        });
+    }
+
+    async getVideoGuide(thumbnailPostId: number) {
+        const url = `${Config.apiServer}/api/v1/thumb-posts/video-guides/${thumbnailPostId}`;
 
         return callPublicApi({
             url: url,

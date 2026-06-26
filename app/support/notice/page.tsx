@@ -1,18 +1,18 @@
 ﻿"use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Megaphone } from "lucide-react";
 import { Api } from "@/api";
 import { checkApiResult } from "@/utils/apiUtil";
 import { PagedPostRequestDto, PagedPostsDto, PostDto, PostSearchKeywordType, PostType } from "@/types/Posts";
-import { EmptyState, formatSupportDate, Pager, PostContentModal, SearchPanel, SectionTitle, SupportFrame, SupportHero } from "../_components/support-ui";
+import { EmptyState, formatSupportDate, Pager, SearchPanel, SectionTitle, SupportFrame, SupportHero } from "../_components/support-ui";
 
 const PAGE_SIZE = 10;
 
 export default function SupportNoticePage() {
   const [keyword, setKeyword] = useState("");
   const [page, setPage] = useState(0);
-  const [selectedNotice, setSelectedNotice] = useState<PostDto | null>(null);
   const [result, setResult] = useState<PagedPostsDto>({
     posts: [],
     pagination: { currentPage: 0, totalCount: 0, totalPage: 0 },
@@ -76,10 +76,9 @@ export default function SupportNoticePage() {
           {result.posts.length > 0 ? (
             <div className="divide-y divide-slate-100">
               {result.posts.map((post) => (
-                <button
+                <Link
                   key={post.id}
-                  type="button"
-                  onClick={() => setSelectedNotice(post)}
+                  href={post.id ? `/support/notice/${post.id}` : "/support/notice"}
                   className="grid w-full gap-3 px-5 py-5 text-left transition-colors hover:bg-emerald-50/40 md:grid-cols-[88px_1fr_132px] md:items-center md:gap-4"
                 >
                   <span className="text-sm font-black text-slate-400">#{post.postNo || post.id}</span>
@@ -88,7 +87,7 @@ export default function SupportNoticePage() {
                     {post.title}
                   </span>
                   <span className="text-sm font-semibold text-slate-500 md:text-right">{formatSupportDate(post.registerDate)}</span>
-                </button>
+                </Link>
               ))}
             </div>
           ) : (
@@ -107,8 +106,6 @@ export default function SupportNoticePage() {
 
         <Pager currentPage={page} totalPage={result.pagination.totalPage} onChange={setPage} />
       </SupportFrame>
-
-      <PostContentModal post={selectedNotice} onClose={() => setSelectedNotice(null)} />
     </>
   );
 }

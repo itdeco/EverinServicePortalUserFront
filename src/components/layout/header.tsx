@@ -716,7 +716,7 @@ export default function Header() {
                     </span>
                   </SmartLink>
                   <SmartLink
-                    href="/support/faq"
+                    href="/support"
                     onClick={() => setIsOpen(false)}
                     className="group flex min-h-[58px] items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 text-left shadow-sm transition-colors hover:bg-slate-100"
                   >

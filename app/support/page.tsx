@@ -10,12 +10,10 @@ import {
   EmptyState,
   formatSupportDate,
   HELP_LINKS,
-  PostContentModal,
   SectionTitle,
   SupportFrame,
   SupportHero,
   VideoCard,
-  VideoModal,
 } from "./_components/support-ui";
 
 const quickMenus = [
@@ -55,8 +53,6 @@ export default function SupportPage() {
   const [videos, setVideos] = useState<ThumbnailPostDto[]>([]);
   const [notices, setNotices] = useState<PostDto[]>([]);
   const [faqs, setFaqs] = useState<PostDto[]>([]);
-  const [selectedVideo, setSelectedVideo] = useState<ThumbnailPostDto | null>(null);
-  const [selectedNotice, setSelectedNotice] = useState<PostDto | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -133,7 +129,7 @@ export default function SupportPage() {
           {videos.length > 0 ? (
             <div className="grid gap-5 md:grid-cols-3">
               {videos.map((video) => (
-                <VideoCard key={video.id} video={video} onClick={() => setSelectedVideo(video)} />
+                <VideoCard key={video.id} video={video} href={video.id ? `/support/video/${video.id}` : "/support/video"} />
               ))}
             </div>
           ) : (
@@ -147,15 +143,14 @@ export default function SupportPage() {
             <div className="divide-y divide-slate-100">
               {notices.length > 0 ? (
                 notices.map((notice) => (
-                  <button
+                  <Link
                     key={notice.id}
-                    type="button"
-                    onClick={() => setSelectedNotice(notice)}
+                    href={notice.id ? `/support/notice/${notice.id}` : "/support/notice"}
                     className="flex w-full items-center justify-between gap-5 py-4 text-left"
                   >
                     <span className="min-w-0 flex-1 truncate text-sm font-bold text-slate-800">{notice.title}</span>
                     <span className="shrink-0 text-xs font-semibold text-slate-400">{formatSupportDate(notice.registerDate)}</span>
-                  </button>
+                  </Link>
                 ))
               ) : (
                 <p className="py-10 text-center text-sm font-semibold text-slate-500">등록된 공지사항이 없습니다.</p>
@@ -196,8 +191,6 @@ export default function SupportPage() {
         </section>
       </SupportFrame>
 
-      <PostContentModal post={selectedNotice} onClose={() => setSelectedNotice(null)} />
-      <VideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />
     </>
   );
 }
