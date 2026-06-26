@@ -468,7 +468,7 @@ export default function SubscriptionPage() {
                         </span>
                     </div>
                     {companyGroups.map((group) => (
-                        <Card key={group.key} className="overflow-hidden border-border/70 py-0 shadow-sm">
+                        <Card key={group.key} className="overflow-hidden gap-0 border-border/70 py-0 shadow-sm">
                             {/* 회사(사업자) 그룹 헤더 */}
                             <div className="border-b bg-muted/40 px-5 py-3">
                                 <h3 className="text-base font-bold text-foreground">
