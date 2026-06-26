@@ -1,23 +1,58 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink, PlayCircle } from "lucide-react";
 import { Api } from "@/api";
 import { checkApiResult } from "@/utils/apiUtil";
 import { ThumbnailPostDto } from "@/types/Posts";
-import { formatSupportDate, getYoutubeEmbedUrl, SupportFrame, SupportHero } from "../../_components/support-ui";
+import { formatSupportDate, getYoutubeEmbedUrl, SupportFrame, SupportHero, VideoCard } from "../../_components/support-ui";
 
 export default function SupportVideoDetailPage() {
   const params = useParams();
   const router = useRouter();
   const [video, setVideo] = useState<ThumbnailPostDto | null>(null);
+  const [videos, setVideos] = useState<ThumbnailPostDto[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const videoId = Number(Array.isArray(params.id) ? params.id[0] : params.id);
 
+  const relatedVideos = useMemo(() => {
+    if (!video?.id || videos.length === 0) {
+      return [];
+    }
+
+    const currentIndex = videos.findIndex((item) => item.id === video.id);
+    if (currentIndex < 0) {
+      return videos.filter((item) => item.id !== video.id).slice(0, 4);
+    }
+
+    const previousVideos = videos.slice(Math.max(0, currentIndex - 2), currentIndex);
+    const nextVideos = videos.slice(currentIndex + 1, currentIndex + 3);
+    const items = [...previousVideos, ...nextVideos];
+
+    if (items.length >= 4) {
+      return items;
+    }
+
+    const fillItems = videos
+      .filter((item) => item.id !== video.id && !items.some((related) => related.id === item.id))
+      .slice(0, 4 - items.length);
+
+    return [...items, ...fillItems];
+  }, [video?.id, videos]);
+
   useEffect(() => {
+    const loadVideoList = async () => {
+      const result = await Api.Posts.getVideoGuides();
+      if (!checkApiResult(result)) {
+        return;
+      }
+
+      setVideos((result?.payload || []) as ThumbnailPostDto[]);
+    };
+
     const loadVideo = async () => {
       try {
         const result = await Api.Posts.getVideoGuide(videoId);
@@ -29,6 +64,8 @@ export default function SupportVideoDetailPage() {
             Api.Posts.increaseThumbnailPostViewCount(payload.id).then();
           }
         }
+
+        await loadVideoList();
       } finally {
         setIsLoading(false);
       }
@@ -47,7 +84,7 @@ export default function SupportVideoDetailPage() {
       <SupportHero
         eyebrow="Video Guide"
         title="동영상 가이드"
-        description="에버타임 기능과 설정 방법을 영상으로 자세히 확인하세요."
+        description="에버타임 주요 기능과 설정 방법을 영상으로 자세히 확인하세요."
       />
       <SupportFrame activeHref="/support/video">
         {isLoading ? (
@@ -93,6 +130,38 @@ export default function SupportVideoDetailPage() {
                 </a>
               ) : null}
             </div>
+
+            {relatedVideos.length > 0 ? (
+              <section className="border-t border-slate-200 bg-slate-50/70 p-6 md:p-8">
+                <div className="mb-6 flex w-full flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                  <div className="min-w-0">
+                    <p className="mb-2 flex items-center gap-2 text-sm font-black text-[#03b565]">
+                      <PlayCircle className="h-4 w-4" />
+                      Video Guide
+                    </p>
+                    <h2 className="text-2xl font-black tracking-normal text-slate-950">다른 동영상 보기</h2>
+                    <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">
+                      이전과 다음 영상을 이어서 확인해보세요.
+                    </p>
+                  </div>
+                  <Link
+                    href="/support/video"
+                    className="group inline-flex h-10 w-fit shrink-0 items-center rounded-full text-sm font-black text-slate-950 transition-colors hover:text-[#03b565]"
+                  >
+                    전체 목록 보기
+                    <span className="ml-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-950 text-white transition-colors group-hover:bg-[#03b565]">
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </Link>
+                </div>
+
+                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+                  {relatedVideos.map((item) => (
+                    <VideoCard key={item.id} video={item} href={item.id ? `/support/video/${item.id}` : "/support/video"} />
+                  ))}
+                </div>
+              </section>
+            ) : null}
           </article>
         ) : (
           <div className="rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center shadow-sm">

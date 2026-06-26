@@ -198,7 +198,7 @@ export default function Footer() {
         {/* 저작권 */}
         <div className="pt-8 mt-8 border-t border-slate-800">
           <p className="text-xs text-slate-500 text-center">
-            Copyright &copy; {new Date().getFullYear()} Younglimwon Soft-Lab Co., Ltd. All Rights Reserved.
+            Copyright &copy; {new Date().getFullYear()} YOUNGLIMWONSOFTLAB Co., Ltd. All Rights Reserved.
           </p>
         </div>
       </div>
