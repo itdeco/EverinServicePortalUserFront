@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   AlertCircle,
-  Calendar,
   CheckCircle,
   ChevronRight,
   Clock,
@@ -14,7 +13,7 @@ import {
 import { Api } from "@/api";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -52,6 +51,7 @@ const DEMO_PAYMENT_PAYLOAD: BmsPaymentPayload = {
       BillYm: "202606",
       BillDate: "20260601",
       CompanyName: "참존(주)",
+      BizNo: "212-12-12222",
       ServiceItemName: "에버웰커밍, 에버타임",
       ServiceStartDate: "20260601",
       ServiceEndDate: "20260630",
@@ -76,6 +76,7 @@ const DEMO_PAYMENT_PAYLOAD: BmsPaymentPayload = {
       BillYm: "202607",
       BillDate: "20260701",
       CompanyName: "참존(주)",
+      BizNo: "212-12-12222",
       ServiceItemName: "에버웰커밍, 에버타임",
       ServiceStartDate: "20260701",
       ServiceEndDate: "20260731",
@@ -100,6 +101,7 @@ const DEMO_PAYMENT_PAYLOAD: BmsPaymentPayload = {
       BillYm: "202606",
       BillDate: "20260601",
       CompanyName: "에버인테스트 법인",
+      BizNo: "212-12-33333",
       ServiceItemName: "급여관리",
       ServiceStartDate: "20260601",
       ServiceEndDate: "20260630",
@@ -116,41 +118,41 @@ const DEMO_PAYMENT_PAYLOAD: BmsPaymentPayload = {
   ],
 };
 
-const StatusTitle: Record<number, { text: string; icon: React.ReactNode; variant: string }> = {
+const StatusTitle: Record<number, { text: string; icon: React.ReactNode; className: string }> = {
   [PaymentLogStatusType.NotPaid]: {
     text: "미납",
-    icon: <Clock className="h-4 w-4" />,
-    variant: "bg-yellow-100 text-yellow-800",
+    icon: <Clock className="h-3.5 w-3.5" />,
+    className: "bg-amber-500/10 text-amber-600",
   },
   [PaymentLogStatusType.Paid]: {
     text: "납부완료",
-    icon: <CheckCircle className="h-4 w-4" />,
-    variant: "bg-green-100 text-green-800",
+    icon: <CheckCircle className="h-3.5 w-3.5" />,
+    className: "bg-primary/10 text-primary",
   },
   [PaymentLogStatusType.ManualPaid]: {
     text: "수동납부",
-    icon: <CheckCircle className="h-4 w-4" />,
-    variant: "bg-blue-100 text-blue-800",
+    icon: <CheckCircle className="h-3.5 w-3.5" />,
+    className: "bg-primary/10 text-primary",
   },
   [PaymentLogStatusType.Refund]: {
     text: "환불",
-    icon: <Receipt className="h-4 w-4" />,
-    variant: "bg-slate-100 text-slate-800",
+    icon: <Receipt className="h-3.5 w-3.5" />,
+    className: "bg-muted text-muted-foreground",
   },
   [PaymentLogStatusType.Cancel]: {
     text: "취소",
-    icon: <Receipt className="h-4 w-4" />,
-    variant: "bg-slate-100 text-slate-800",
+    icon: <Receipt className="h-3.5 w-3.5" />,
+    className: "bg-muted text-muted-foreground",
   },
   [PaymentLogStatusType.Error]: {
     text: "실패",
-    icon: <XCircle className="h-4 w-4" />,
-    variant: "bg-red-100 text-red-800",
+    icon: <XCircle className="h-3.5 w-3.5" />,
+    className: "bg-destructive/10 text-destructive",
   },
   [PaymentLogStatusType.Pause]: {
     text: "중지",
-    icon: <AlertCircle className="h-4 w-4" />,
-    variant: "bg-red-100 text-red-800",
+    icon: <AlertCircle className="h-3.5 w-3.5" />,
+    className: "bg-destructive/10 text-destructive",
   },
 };
 
@@ -235,6 +237,34 @@ function getCompanyName(row: BmsRecord) {
   );
 }
 
+function getBizNo(row: BmsRecord) {
+  return valueOf(row, ["BizNo", "BizRegNo", "BizRegNumber", "CompanyRegNo", "RegNo"]);
+}
+
+function getCompanyLabel(row: BmsRecord) {
+  const name = getCompanyName(row);
+  const bizNo = getBizNo(row);
+  return bizNo ? `${name} (${bizNo})` : name;
+}
+
+function groupByCompany(rows: BmsRecord[]) {
+  const groups: { key: string; label: string; rows: BmsRecord[] }[] = [];
+  const indexMap = new Map<string, number>();
+
+  rows.forEach((row) => {
+    const key = String(valueOf(row, ["TotCompanySeq", "BizCompanySeq"]) ?? getCompanyName(row));
+
+    if (!indexMap.has(key)) {
+      indexMap.set(key, groups.length);
+      groups.push({ key, label: getCompanyLabel(row), rows: [] });
+    }
+
+    groups[indexMap.get(key)!].rows.push(row);
+  });
+
+  return groups;
+}
+
 function getServiceName(row: BmsRecord) {
   return (
     valueOf(row, [
@@ -264,7 +294,7 @@ function getPaymentMethod(row: BmsRecord) {
 
   if (cardCompany || cardNo) {
     const cardText = cardNo ? String(cardNo).slice(-4) : "";
-    return `${cardCompany || "카드"}${cardText ? ` (${cardText})` : ""}`;
+    return `${cardCompany || "카드"}${cardText ? ` ${cardText}` : ""}`;
   }
 
   return methodName || "-";
@@ -285,7 +315,7 @@ function getStatusBadge(row: BmsRecord) {
   const statusInfo = StatusTitle[status] || StatusTitle[PaymentLogStatusType.NotPaid];
 
   return (
-    <Badge className={`${statusInfo.variant} inline-flex items-center gap-1 whitespace-nowrap`}>
+    <Badge className={`${statusInfo.className} inline-flex items-center gap-1 border-0 font-medium whitespace-nowrap`}>
       {statusInfo.icon}
       {statusText || statusInfo.text}
     </Badge>
@@ -308,7 +338,6 @@ export default function PaymentPage() {
   const isLoggedIn = useLoginStatus();
   const [isLoading, setIsLoading] = useState(true);
   const [payload, setPayload] = useState<BmsPaymentPayload>({});
-  const [isUsingDemoData, setIsUsingDemoData] = useState(false);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -328,7 +357,6 @@ export default function PaymentPage() {
 
         if (!checkApiResult(result)) {
           setPayload(DEMO_PAYMENT_PAYLOAD);
-          setIsUsingDemoData(true);
           return;
         }
 
@@ -336,7 +364,6 @@ export default function PaymentPage() {
         const hasData = !!nextPayload.DataBlock1?.length;
 
         setPayload(hasData ? nextPayload : DEMO_PAYMENT_PAYLOAD);
-        setIsUsingDemoData(!hasData);
       } finally {
         setIsLoading(false);
       }
@@ -351,6 +378,7 @@ export default function PaymentPage() {
     const start = (page - 1) * PAGE_SIZE;
     return rows.slice(start, start + PAGE_SIZE);
   }, [page, rows]);
+  const companyGroups = useMemo(() => groupByCompany(pagedRows), [pagedRows]);
 
   const onViewInvoiceClick = (row: BmsRecord, index: number) => {
     router.push(`/mypage/payment/invoice?id=${getInvoiceId(row, index)}`);
@@ -374,105 +402,112 @@ export default function PaymentPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-12">
       <div className="mb-8">
-        <h1 className="mb-2 text-3xl font-bold text-foreground">청구요금 및 납부내역</h1>
-        <p className="text-muted-foreground">
-          BMS 청구/납부 기준으로 월별 청구금액, 납부상태, 납부수단을 확인할 수 있습니다.
-        </p>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground md:text-[28px]">
+          청구요금 및 납부내역
+        </h1>
       </div>
 
-
       {rows.length === 0 ? (
-        <Card className="border-2">
-          <CardContent className="py-12 text-center">
-            <Receipt className="mx-auto mb-4 h-12 w-12 text-muted-foreground opacity-50" />
-            <h3 className="mb-2 text-lg font-semibold">청구/납부 내역이 없습니다.</h3>
-            <p className="text-muted-foreground">조회된 청구 데이터가 없습니다.</p>
+        <Card className="border-border/70 shadow-sm">
+          <CardContent className="py-14 text-center">
+            <Receipt className="mx-auto mb-4 h-12 w-12 text-muted-foreground opacity-40" />
+            <h3 className="mb-1 text-base font-semibold text-foreground">청구/납부 내역이 없습니다.</h3>
+            <p className="text-sm text-muted-foreground">조회된 청구 데이터가 없습니다.</p>
           </CardContent>
         </Card>
       ) : (
-        <Card className="overflow-hidden border-2">
-          <CardHeader className="border-b bg-slate-50/70">
-            <div className="flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" />
-              <CardTitle className="text-lg">청구/납부내역</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="hidden lg:block">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[110px]">청구년월</TableHead>
-                    <TableHead className="w-[180px]">회사명</TableHead>
-                    <TableHead>서비스</TableHead>
-                    <TableHead className="w-[210px]">기간</TableHead>
-                    <TableHead className="w-[150px]">납부방법</TableHead>
-                    <TableHead className="w-[130px] text-right">청구금액</TableHead>
-                    <TableHead className="w-[120px] text-center">납부상태</TableHead>
-                    <TableHead className="w-[120px] text-center">납부일</TableHead>
-                    <TableHead className="w-[80px] text-center">상세</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {pagedRows.map((row, index) => (
-                    <TableRow key={`${getInvoiceId(row, index)}-${index}`} className="hover:bg-slate-50">
-                      <TableCell className="font-medium">{formatBillingMonth(row)}</TableCell>
-                      <TableCell>
-                        <div className="font-semibold text-slate-900">{getCompanyName(row)}</div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="max-w-[320px] truncate font-medium">{getServiceName(row)}</div>
-                      </TableCell>
-                      <TableCell>{getServicePeriod(row)}</TableCell>
-                      <TableCell>{getPaymentMethod(row)}</TableCell>
-                      <TableCell className="text-right font-semibold">{formatCurrency(getTotalAmount(row))}</TableCell>
-                      <TableCell className="text-center">{getStatusBadge(row)}</TableCell>
-                      <TableCell className="text-center">{getPayDate(row)}</TableCell>
-                      <TableCell className="text-center">
-                        <Button variant="ghost" size="sm" onClick={() => onViewInvoiceClick(row, index)}>
-                          <ChevronRight className="h-4 w-4" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-bold text-foreground">청구/납부내역</h2>
+            <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+              {companyGroups.length}개 사업자
+            </span>
+          </div>
 
-            <div className="divide-y lg:hidden">
-              {pagedRows.map((row, index) => (
-                <button
-                  key={`${getInvoiceId(row, index)}-${index}`}
-                  type="button"
-                  className="block w-full p-4 text-left transition-colors hover:bg-slate-50"
-                  onClick={() => onViewInvoiceClick(row, index)}
-                >
-                  <div className="mb-3 flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <p className="font-bold text-slate-900">{formatBillingMonth(row)}</p>
-                      <p className="truncate text-sm text-muted-foreground">{getCompanyName(row)}</p>
-                    </div>
-                    {getStatusBadge(row)}
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between gap-4">
-                      <span className="text-muted-foreground">서비스</span>
-                      <span className="truncate font-medium">{getServiceName(row)}</span>
-                    </div>
-                    <div className="flex justify-between gap-4">
-                      <span className="text-muted-foreground">납부방법</span>
-                      <span>{getPaymentMethod(row)}</span>
-                    </div>
-                    <div className="flex justify-between gap-4">
-                      <span className="text-muted-foreground">청구금액</span>
-                      <span className="font-bold">{formatCurrency(getTotalAmount(row))}</span>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+          {companyGroups.map((group) => (
+            <Card key={group.key} className="overflow-hidden gap-0 border-border/70 py-0 shadow-sm">
+              {/* 회사(사업자) 그룹 헤더 */}
+              <div className="border-b bg-muted/40 px-5 py-3">
+                <h3 className="text-base font-bold text-foreground">{group.label}</h3>
+              </div>
+              <CardContent className="p-0">
+                {/* 데스크톱 테이블 */}
+                <div className="hidden lg:block">
+                  <Table className="text-[13px]">
+                    <TableHeader>
+                      <TableRow className="border-b bg-muted/20 hover:bg-muted/20">
+                        <TableHead className="h-9 w-[88px] text-xs font-semibold text-muted-foreground">청구년월</TableHead>
+                        <TableHead className="h-9 text-xs font-semibold text-muted-foreground">서비스</TableHead>
+                        <TableHead className="h-9 w-[176px] text-xs font-semibold text-muted-foreground">기간</TableHead>
+                        <TableHead className="h-9 w-[124px] text-xs font-semibold text-muted-foreground">납부방법</TableHead>
+                        <TableHead className="h-9 w-[110px] text-right text-xs font-semibold text-muted-foreground">청구금액</TableHead>
+                        <TableHead className="h-9 w-[104px] text-center text-xs font-semibold text-muted-foreground">납부상태</TableHead>
+                        <TableHead className="h-9 w-[92px] text-center text-xs font-semibold text-muted-foreground">납부일</TableHead>
+                        <TableHead className="h-9 w-[52px] text-center text-xs font-semibold text-muted-foreground">상세</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {group.rows.map((row, index) => (
+                        <TableRow
+                          key={`${getInvoiceId(row, index)}-${index}`}
+                          className="cursor-pointer border-b transition-colors hover:bg-muted/30"
+                          onClick={() => onViewInvoiceClick(row, index)}
+                        >
+                          <TableCell className="font-medium tabular-nums text-foreground">{formatBillingMonth(row)}</TableCell>
+                          <TableCell>
+                            <div className="max-w-[260px] truncate font-medium text-foreground">{getServiceName(row)}</div>
+                          </TableCell>
+                          <TableCell className="tabular-nums text-muted-foreground">{getServicePeriod(row)}</TableCell>
+                          <TableCell className="text-muted-foreground">{getPaymentMethod(row)}</TableCell>
+                          <TableCell className="text-right font-semibold tabular-nums text-foreground">{formatCurrency(getTotalAmount(row))}</TableCell>
+                          <TableCell className="text-center">{getStatusBadge(row)}</TableCell>
+                          <TableCell className="text-center tabular-nums text-muted-foreground">{getPayDate(row)}</TableCell>
+                          <TableCell className="text-center">
+                            <ChevronRight className="mx-auto h-4 w-4 text-muted-foreground" />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+
+                {/* 모바일 카드 */}
+                <div className="divide-y lg:hidden">
+                  {group.rows.map((row, index) => (
+                    <button
+                      key={`${getInvoiceId(row, index)}-${index}`}
+                      type="button"
+                      className="block w-full p-4 text-left transition-colors hover:bg-muted/30"
+                      onClick={() => onViewInvoiceClick(row, index)}
+                    >
+                      <div className="mb-3 flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="font-bold tabular-nums text-foreground">{formatBillingMonth(row)}</p>
+                          <p className="truncate text-sm text-muted-foreground">{getServiceName(row)}</p>
+                        </div>
+                        {getStatusBadge(row)}
+                      </div>
+                      <div className="flex flex-col gap-1.5 text-sm">
+                        <div className="flex justify-between gap-4">
+                          <span className="text-muted-foreground">기간</span>
+                          <span className="tabular-nums text-foreground">{getServicePeriod(row)}</span>
+                        </div>
+                        <div className="flex justify-between gap-4">
+                          <span className="text-muted-foreground">납부방법</span>
+                          <span className="text-foreground">{getPaymentMethod(row)}</span>
+                        </div>
+                        <div className="flex justify-between gap-4">
+                          <span className="text-muted-foreground">청구금액</span>
+                          <span className="font-bold tabular-nums text-foreground">{formatCurrency(getTotalAmount(row))}</span>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       )}
 
       {totalPage > 1 && (
