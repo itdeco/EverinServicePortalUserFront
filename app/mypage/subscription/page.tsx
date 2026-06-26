@@ -427,10 +427,10 @@ export default function SubscriptionPage() {
             </div>
 
             {profile && (
-                <Card className="mb-6">
-                    <CardContent className="py-4">
-                        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                            <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-8">
+                <Card className="mb-6 py-0">
+                    <CardContent className="px-4 py-3">
+                        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                            <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
                                 <div className="flex items-center gap-3">
                                     <span className="min-w-[48px] text-sm text-muted-foreground">이름</span>
                                     <span className="font-medium">{profile.name}</span>
