@@ -53,7 +53,7 @@ function TrialStep2Content() {
               무료체험 신청이 완료되었습니다!
             </h1>
             <p className="text-muted-foreground text-lg">
-              에버타임의 모든 기능을 30일간 무료로 체험하실 수 있습니다.
+              에버타임 스탠다드와 에버웰커밍을 30일간 무료로 체험하실 수 있습니다.
             </p>
           </div>
 
@@ -76,8 +76,8 @@ function TrialStep2Content() {
                     <User className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">이름 (회사명)</p>
-                    <p className="font-medium">{name} ({corporationName})</p>
+                    <p className="text-sm text-muted-foreground">이름</p>
+                    <p className="font-medium">{corporationName ? `${name} (${corporationName})` : name}</p>
                   </div>
                 </div>
 

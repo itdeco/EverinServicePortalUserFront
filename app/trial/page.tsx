@@ -7,10 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Loader2, User, Building2, Phone, Shield, Clock, CheckCircle2, Sparkles, Gift, ArrowRight, ExternalLink } from "lucide-react"
+import { Loader2, User, Phone, Shield, Clock, CheckCircle2, Sparkles, Gift, ArrowRight, ExternalLink, UserPlus, X } from "lucide-react"
 import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
 import { Api } from "@/api"
@@ -18,32 +17,46 @@ import { checkApiResult } from "@/utils/apiUtil"
 import { PlanDto } from "@/types/subscribe"
 import { SmsAuthenticationRequestBaseDto, SmsAuthenticationVerifyDto } from "@/types/Users"
 import { TrialRequestDto } from "@/types/Trials"
+import { TermsDto, TermsType } from "@/types/Terms"
 import CommonUtil from "@/utils/commonUtil"
 
 enum ValidationStatus {
   Valid,
   EmptyName,
-  EmptyCompanyName,
   EmptyPhone,
   InvalidPhone,
   AuthCodeNotMatch,
   TimerExpired
 }
 
+// 동시에 체험되는 서비스 목록 (선택 불가, 2개 동시 체험)
+const TRIAL_SERVICES = [
+  {
+    name: "에버타임 스탠다드",
+    category: "근태관리",
+    description: "출퇴근, 근무시간, 휴가까지 한 번에 관리",
+    icon: Clock
+  },
+  {
+    name: "에버웰커밍",
+    category: "온보딩",
+    description: "신규 입사자 온보딩 프로세스를 간편하게",
+    icon: UserPlus
+  }
+]
+
 export default function TrialPage() {
   const router = useRouter()
   const [freePlans, setFreePlans] = useState<PlanDto[]>([])
-  const [planId, setPlanId] = useState<string>("")
   const [name, setName] = useState("")
-  const [corporationName, setCorporationName] = useState("")
   const [phone, setPhone] = useState("")
   const [authCode, setAuthCode] = useState("")
-  
+
   const [agreeAll, setAgreeAll] = useState(false)
   const [confirmAge, setConfirmAge] = useState(false)
   const [serviceTerms, setServiceTerms] = useState(false)
   const [privacyTerms, setPrivacyTerms] = useState(false)
-  
+
   const [status, setStatus] = useState<ValidationStatus>(ValidationStatus.Valid)
   const [timerStarted, setTimerStarted] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
@@ -53,14 +66,16 @@ export default function TrialPage() {
   const [isRequestingCode, setIsRequestingCode] = useState(false)
   const [isVerifying, setIsVerifying] = useState(false)
 
+  // 서비스 이용약관 모달 (푸터와 동일)
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false)
+  const [isTermsLoading, setIsTermsLoading] = useState(false)
+  const [serviceTermsContent, setServiceTermsContent] = useState<TermsDto | null>(null)
+
   // Load free plans
   useEffect(() => {
     Api.Plans.getAllFreePlans().then(result => {
       if (checkApiResult(result) && result?.payload) {
         setFreePlans(result.payload)
-        if (result.payload.length > 0) {
-          setPlanId(result.payload[0].id?.toString() || "")
-        }
       }
     })
   }, [])
@@ -90,7 +105,7 @@ export default function TrialPage() {
     return `${min}:${sec.toString().padStart(2, '0')}`
   }
 
-  const canSubmit = name.length > 0 && corporationName.length > 0 && phone.length > 0 && 
+  const canSubmit = name.length > 0 && phone.length > 0 &&
                     authCodeVerified && confirmAge && serviceTerms && privacyTerms
 
   const handleAgreeAll = (checked: boolean) => {
@@ -98,6 +113,19 @@ export default function TrialPage() {
     setConfirmAge(checked)
     setServiceTerms(checked)
     setPrivacyTerms(checked)
+  }
+
+  const openServiceTerms = async () => {
+    setIsTermsModalOpen(true)
+
+    if (serviceTermsContent?.content) return
+
+    setIsTermsLoading(true)
+    const result = await Api.Terms.getLatestTypeTerms(TermsType.Service)
+    if (checkApiResult(result)) {
+      setServiceTermsContent(result.payload as TermsDto)
+    }
+    setIsTermsLoading(false)
   }
 
   const handleRequestAuthCode = async () => {
@@ -153,28 +181,30 @@ export default function TrialPage() {
       setStatus(ValidationStatus.EmptyName)
       return
     }
-    if (!corporationName) {
-      setStatus(ValidationStatus.EmptyCompanyName)
-      return
-    }
     if (!phone) {
       setStatus(ValidationStatus.EmptyPhone)
       return
     }
 
-    const params: TrialRequestDto = {
-      trialUserName: name,
-      corporationName: corporationName,
-      phone: phone,
-      termsConsent: 1,
-      planId: parseInt(planId)
-    }
-
     setIsSubmitting(true)
     try {
-      const result = await Api.Trials.requestTrial(params)
-      if (checkApiResult(result)) {
-        router.push(`/trial/step2?name=${encodeURIComponent(name)}&corporationName=${encodeURIComponent(corporationName)}`)
+      // 무료 플랜(에버타임 스탠다드 / 에버웰커밍)을 동시에 체험 신청
+      let allOk = freePlans.length > 0
+      for (const plan of freePlans) {
+        const params: TrialRequestDto = {
+          trialUserName: name,
+          phone: phone,
+          termsConsent: 1,
+          planId: plan.id
+        }
+        const result = await Api.Trials.requestTrial(params)
+        if (!checkApiResult(result)) {
+          allOk = false
+        }
+      }
+
+      if (allOk) {
+        router.push(`/trial/step2?name=${encodeURIComponent(name)}`)
       }
     } finally {
       setIsSubmitting(false)
@@ -185,8 +215,6 @@ export default function TrialPage() {
     switch (status) {
       case ValidationStatus.EmptyName:
         return "이름을 입력해주세요"
-      case ValidationStatus.EmptyCompanyName:
-        return "회사명을 입력해주세요"
       case ValidationStatus.EmptyPhone:
         return "휴대전화번호를 입력해주세요"
       case ValidationStatus.InvalidPhone:
@@ -203,7 +231,6 @@ export default function TrialPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/5 via-background to-background">
       <Header />
-      {/* Removed local header - using main Header component instead */}
 
       <main className="container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-2xl mx-auto">
@@ -231,25 +258,39 @@ export default function TrialPage() {
                 무료 체험 신청
               </CardTitle>
               <CardDescription>
-                에버타임의 모든 기능을 30일간 무료로 체험해보세요
+                에버타임 스탠다드와 에버웰커밍을 30일간 함께 무료로 체험해보세요
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6 md:p-8 space-y-5">
-              {/* Plan Selection */}
+              {/* Trial Services (선택 불가, 2개 동시 체험) */}
               <div className="space-y-2">
-                <Label htmlFor="plan" className="text-sm font-medium">플랜 선택</Label>
-                <Select value={planId} onValueChange={setPlanId}>
-                  <SelectTrigger id="plan" className="h-12">
-                    <SelectValue placeholder="플랜을 선택하세요" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {freePlans.map((plan) => (
-                      <SelectItem key={plan.id} value={plan.id?.toString() || ""}>
-                        {plan.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Label className="text-sm font-medium">체험 서비스</Label>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {TRIAL_SERVICES.map((service) => {
+                    const Icon = service.icon
+                    return (
+                      <div
+                        key={service.name}
+                        className="relative flex flex-col gap-2 rounded-xl border border-primary/20 bg-primary/5 p-4"
+                      >
+                        <CheckCircle2 className="absolute right-3 top-3 h-5 w-5 text-primary" />
+                        <div className="flex items-center gap-2">
+                          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
+                            <Icon className="h-5 w-5 text-primary" />
+                          </div>
+                          <Badge variant="secondary" className="bg-primary/10 text-primary border-0 text-xs">
+                            {service.category}
+                          </Badge>
+                        </div>
+                        <p className="font-semibold text-foreground">{service.name}</p>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{service.description}</p>
+                      </div>
+                    )
+                  })}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  * 두 가지 서비스를 함께 체험합니다. 개별 선택은 불가능합니다.
+                </p>
               </div>
 
               {/* Name Input */}
@@ -269,28 +310,6 @@ export default function TrialPage() {
                     className={`pl-10 h-12 ${status === ValidationStatus.EmptyName ? 'border-destructive focus-visible:ring-destructive' : ''}`}
                   />
                 </div>
-              </div>
-
-              {/* Company Name Input */}
-              <div className="space-y-2">
-                <Label htmlFor="company" className="text-sm font-medium">회사명</Label>
-                <div className="relative">
-                  <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <Input
-                    id="company"
-                    type="text"
-                    placeholder="회사명을 입력하세요"
-                    value={corporationName}
-                    onChange={(e) => {
-                      setCorporationName(e.target.value)
-                      if (status === ValidationStatus.EmptyCompanyName) setStatus(ValidationStatus.Valid)
-                    }}
-                    className={`pl-10 h-12 ${status === ValidationStatus.EmptyCompanyName ? 'border-destructive focus-visible:ring-destructive' : ''}`}
-                  />
-                </div>
-                <p className="text-xs text-destructive">
-                  * 체험판(구독) 후에는 회사명을 변경할 수 없습니다.
-                </p>
               </div>
 
               {/* Phone Input with Verification */}
@@ -430,10 +449,14 @@ export default function TrialPage() {
                         <span className="text-destructive">[필수]</span> 서비스 이용약관 동의
                       </Label>
                     </div>
-                    <Button variant="link" size="sm" className="text-xs h-auto p-0 text-muted-foreground" asChild>
-                      <Link href="/terms/service" target="_blank">
-                        내용보기 <ExternalLink className="w-3 h-3 ml-1" />
-                      </Link>
+                    <Button
+                      type="button"
+                      variant="link"
+                      size="sm"
+                      className="text-xs h-auto p-0 text-muted-foreground"
+                      onClick={openServiceTerms}
+                    >
+                      내용보기 <ExternalLink className="w-3 h-3 ml-1" />
                     </Button>
                   </div>
 
@@ -449,9 +472,9 @@ export default function TrialPage() {
                       </Label>
                     </div>
                     <Button variant="link" size="sm" className="text-xs h-auto p-0 text-muted-foreground" asChild>
-                      <Link href="/terms/privacy" target="_blank">
+                      <a href="https://www.ksystem.co.kr/privacy-statement/" target="_blank" rel="noopener noreferrer">
                         내용보기 <ExternalLink className="w-3 h-3 ml-1" />
-                      </Link>
+                      </a>
                     </Button>
                   </div>
                 </div>
@@ -506,6 +529,50 @@ export default function TrialPage() {
       </main>
 
       <Footer />
+
+      {/* 서비스 이용약관 모달 (푸터와 동일) */}
+      {isTermsModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 px-4 py-8 backdrop-blur-sm">
+          <button
+            type="button"
+            aria-label="서비스이용약관 닫기"
+            className="absolute inset-0 cursor-default"
+            onClick={() => setIsTermsModalOpen(false)}
+          />
+          <div
+            className="relative flex w-full max-w-[min(760px,calc(100vw-32px))] flex-col overflow-hidden rounded-xl bg-white shadow-2xl"
+            style={{ height: "min(760px, calc(100vh - 64px))" }}
+          >
+            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+              <div>
+                <p className="text-lg font-bold text-slate-950">서비스이용약관</p>
+                <p className="text-sm text-slate-500">에버인 서비스 이용 약관</p>
+              </div>
+              <button
+                type="button"
+                aria-label="닫기"
+                onClick={() => setIsTermsModalOpen(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden bg-white p-5">
+              {isTermsLoading ? (
+                <div className="flex h-full items-center justify-center text-sm font-medium text-slate-500">
+                  약관을 불러오는 중입니다.
+                </div>
+              ) : (
+                <iframe
+                  title="서비스이용약관"
+                  srcDoc={serviceTermsContent?.content || `<p style="text-align:center;">적용기간에 맞는 약관이 없습니다.</p>`}
+                  className="h-full w-full border-0"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
