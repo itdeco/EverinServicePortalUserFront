@@ -20,6 +20,7 @@ import { TrialRequestDto } from "@/types/Trials"
 import { TermsDto, TermsType } from "@/types/Terms"
 import CommonUtil from "@/utils/commonUtil"
 import { COLORS } from "@/constants/brand-colors"
+import { useLoginStatus, useUserProfile } from "@/redux/selectors/Users"
 
 enum ValidationStatus {
   Valid,
@@ -50,6 +51,8 @@ const TRIAL_SERVICES = [
 
 export default function TrialPage() {
   const router = useRouter()
+  const isLoggedIn = Boolean(useLoginStatus())
+  const userProfile = useUserProfile()
   const [freePlans, setFreePlans] = useState<PlanDto[]>([])
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
@@ -83,6 +86,14 @@ export default function TrialPage() {
     })
   }, [])
 
+  // 로그인 상태면 프로필의 이름/전화번호를 사용 (별도 입력/인증 불필요)
+  useEffect(() => {
+    if (isLoggedIn && userProfile) {
+      setName(userProfile.name || "")
+      setPhone(userProfile.phone || "")
+    }
+  }, [isLoggedIn, userProfile])
+
   // Timer countdown
   useEffect(() => {
     if (!timerStarted || timerExpired) return
@@ -108,8 +119,11 @@ export default function TrialPage() {
     return `${min}:${sec.toString().padStart(2, '0')}`
   }
 
-  const canSubmit = name.length > 0 && phone.length > 0 &&
-                    authCodeVerified && confirmAge && serviceTerms && privacyTerms
+  // 로그인 시 이름/전화 인증 생략, 비로그인 시 입력 + SMS 인증 필요
+  const identityVerified = isLoggedIn
+    ? name.length > 0 && phone.length > 0
+    : name.length > 0 && phone.length > 0 && authCodeVerified
+  const canSubmit = identityVerified && confirmAge && serviceTerms && privacyTerms
 
   const handleAgreeAll = (checked: boolean) => {
     setAgreeAll(checked)
@@ -304,6 +318,26 @@ export default function TrialPage() {
                 </div>
               </div>
 
+              {isLoggedIn ? (
+                /* 로그인 시: 프로필 정보로 자동 신청 (입력/인증 생략) */
+                <div className="rounded-xl border bg-muted/40 p-4 space-y-3">
+                  <p className="text-sm font-medium text-foreground flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                    로그인된 정보로 신청합니다
+                  </p>
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div className="flex items-center gap-2">
+                      <User className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-foreground">{name || "-"}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Phone className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-foreground">{phone || "-"}</span>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+              <>
               {/* Name Input */}
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-sm font-medium">이름</Label>
@@ -420,6 +454,8 @@ export default function TrialPage() {
                 <p className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-md">
                   {getErrorMessage()}
                 </p>
+              )}
+              </>
               )}
 
               {/* Terms Agreement */}
