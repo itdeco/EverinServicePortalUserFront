@@ -4,11 +4,11 @@ import { Fragment, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
     AlertCircle,
+    Building2,
     Calendar,
     ChevronDown,
     ChevronRight,
-    FileText,
-    Layers3,
+    MoreVertical,
 } from "lucide-react";
 import { Api } from "@/api";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +22,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { checkApiResult } from "@/utils/apiUtil";
 import { useLoginStatus, useUserProfile } from "@/redux/selectors/Users";
 
@@ -44,6 +51,7 @@ const DEMO_SUBSCRIPTION_PAYLOAD: BmsSubscriptionPayload = {
             ContSeq: 1,
             ContNo: "20260101-001",
             CompanyName: "참존(주)",
+            BizNo: "212-12-12222",
             ContDate: "20260101",
             ServiceStartDate: "20260101",
             ServiceEndDate: "20261231",
@@ -59,6 +67,7 @@ const DEMO_SUBSCRIPTION_PAYLOAD: BmsSubscriptionPayload = {
             ContSeq: 2,
             ContNo: "20260601-002",
             CompanyName: "에버인테스트 법인",
+            BizNo: "212-12-33333",
             ContDate: "20260601",
             ServiceStartDate: "20260601",
             ServiceEndDate: "20270531",
@@ -296,6 +305,58 @@ function getDetailRows(master: BmsRecord, details: BmsRecord[]) {
     return details.filter((detail) => isSameContract(master, detail));
 }
 
+function getBizNo(master: BmsRecord) {
+    return valueOf(master, ["BizNo", "BizRegNo", "BizRegNumber", "CompanyRegNo", "RegNo"]);
+}
+
+function getCompanyLabel(master: BmsRecord) {
+    const name = getCompanyName(master);
+    const bizNo = getBizNo(master);
+    return bizNo ? `${name} (${bizNo})` : name;
+}
+
+function getTotalQty(rows: BmsRecord[]) {
+    const qty = rows.reduce((max, row) => {
+        const value = Number(valueOf(row, ["Qty", "UserCount"]) || 0);
+        return Math.max(max, value);
+    }, 0);
+    return qty > 0 ? `${qty}명` : "-";
+}
+
+function getTotalAmount(rows: BmsRecord[]) {
+    const total = rows.reduce((sum, row) => sum + Number(valueOf(row, ["Amt", "Amount"]) || 0), 0);
+    return total > 0 ? formatCurrency(total) : "무료";
+}
+
+// 회사(사업자) 단위로 계약을 그룹핑
+function groupByCompany(masters: BmsRecord[]) {
+    const groups: { key: string; label: string; masters: BmsRecord[] }[] = [];
+    const indexMap = new Map<string, number>();
+
+    masters.forEach((master) => {
+        const key = String(
+            valueOf(master, ["TotCompanySeq", "BizCompanySeq"]) ?? getCompanyName(master),
+        );
+
+        if (!indexMap.has(key)) {
+            indexMap.set(key, groups.length);
+            groups.push({ key, label: getCompanyLabel(master), masters: [] });
+        }
+
+        groups[indexMap.get(key)!].masters.push(master);
+    });
+
+    return groups;
+}
+
+const CONTRACT_MENU_ITEMS = [
+    "계약 추가/변경",
+    "결제수단변경",
+    "청구요금 및 납부내역",
+    "관리자 추가",
+    "멤버십(구독)해지",
+];
+
 export default function SubscriptionPage() {
     const router = useRouter();
     const isLoggedIn = useLoginStatus();
@@ -337,6 +398,7 @@ export default function SubscriptionPage() {
 
     const masters = useMemo(() => payload.DataBlock1 || [], [payload]);
     const details = useMemo(() => payload.DataBlock2 || [], [payload]);
+    const companyGroups = useMemo(() => groupByCompany(masters), [masters]);
 
     if (!isLoggedIn) return null;
 
@@ -393,119 +455,165 @@ export default function SubscriptionPage() {
                     </CardContent>
                 </Card>
             ) : (
-                <Card className="overflow-hidden border-2">
-                    <CardHeader className="border-b bg-slate-50/70">
-                        <div className="flex items-center gap-2">
-                            <Layers3 className="h-5 w-5 text-primary" />
-                            <CardTitle className="text-lg">구독정보</CardTitle>
-                        </div>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                        <div className="hidden lg:block">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="w-[120px]">구독일자</TableHead>
-                                        <TableHead className="w-[180px]">회사명</TableHead>
-                                        <TableHead>서비스명</TableHead>
-                                        <TableHead className="w-[130px]">서비스시작일</TableHead>
-                                        <TableHead className="w-[130px]">서비스만료일</TableHead>
-                                        <TableHead className="w-[110px]">이용상태</TableHead>
-                                        <TableHead className="w-[88px] text-center">상세</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {masters.map((master, index) => {
-                                        const key = getMasterKey(master) || String(index);
+                <div className="flex flex-col gap-6">
+                    {companyGroups.map((group) => (
+                        <Card key={group.key} className="overflow-hidden border-2">
+                            {/* 회사(사업자) 그룹 헤더 */}
+                            <CardHeader className="border-b bg-slate-100/80 py-3">
+                                <div className="flex items-center gap-2">
+                                    <Building2 className="h-5 w-5 text-primary" />
+                                    <CardTitle className="text-base font-bold text-slate-900">
+                                        {group.label}
+                                    </CardTitle>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="p-0">
+                                {/* 데스크톱 테이블 */}
+                                <div className="hidden lg:block">
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead className="w-[56px]" />
+                                                <TableHead className="w-[120px]">구독일자</TableHead>
+                                                <TableHead>서비스명</TableHead>
+                                                <TableHead className="w-[130px]">서비스시작일</TableHead>
+                                                <TableHead className="w-[130px]">서비스만료일</TableHead>
+                                                <TableHead className="w-[90px]">사용자인원</TableHead>
+                                                <TableHead className="w-[120px]">서비스요금</TableHead>
+                                                <TableHead className="w-[100px]">이용상태</TableHead>
+                                                <TableHead className="w-[72px] text-center">상세</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {group.masters.map((master, index) => {
+                                                const key = getMasterKey(master) || `${group.key}-${index}`;
+                                                const detailRows = getDetailRows(master, details);
+                                                const isOpen = openKey === key;
+
+                                                return (
+                                                    <Fragment key={key}>
+                                                        <TableRow className="hover:bg-slate-50">
+                                                            <TableCell className="text-center">
+                                                                <ContractMenu />
+                                                            </TableCell>
+                                                            <TableCell className="font-medium">{getContractDate(master)}</TableCell>
+                                                            <TableCell>
+                                                                <div className="max-w-[320px] truncate font-medium">
+                                                                    {getServiceSummary(detailRows)}
+                                                                </div>
+                                                            </TableCell>
+                                                            <TableCell>{getServiceStartDate(master)}</TableCell>
+                                                            <TableCell>{getServiceEndDate(master)}</TableCell>
+                                                            <TableCell>{getTotalQty(detailRows)}</TableCell>
+                                                            <TableCell className="font-medium">{getTotalAmount(detailRows)}</TableCell>
+                                                            <TableCell>
+                                                                <Badge className="bg-green-100 text-green-800">{getUseStatus(master)}</Badge>
+                                                            </TableCell>
+                                                            <TableCell className="text-center">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    className="h-8 w-8 p-0"
+                                                                    onClick={() => setOpenKey(isOpen ? null : key)}
+                                                                    aria-label="상세보기"
+                                                                >
+                                                                    {isOpen ? (
+                                                                        <ChevronDown className="h-4 w-4" />
+                                                                    ) : (
+                                                                        <ChevronRight className="h-4 w-4" />
+                                                                    )}
+                                                                </Button>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                        {isOpen && (
+                                                            <TableRow>
+                                                                <TableCell colSpan={9} className="bg-slate-50/80 p-0">
+                                                                    <DetailTable rows={detailRows} />
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        )}
+                                                    </Fragment>
+                                                );
+                                            })}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+
+                                {/* 모바일 카드 */}
+                                <div className="divide-y lg:hidden">
+                                    {group.masters.map((master, index) => {
+                                        const key = getMasterKey(master) || `${group.key}-${index}`;
                                         const detailRows = getDetailRows(master, details);
                                         const isOpen = openKey === key;
 
                                         return (
-                                            <Fragment key={key}>
-                                                <TableRow className="hover:bg-slate-50">
-                                                    <TableCell className="font-medium">{getContractDate(master)}</TableCell>
-                                                    <TableCell>
-                                                        <div className="font-semibold text-slate-900">{getCompanyName(master)}</div>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <div className="max-w-[360px] truncate font-medium">
-                                                            {getServiceSummary(detailRows)}
+                                            <div key={key} className="p-4">
+                                                <div className="flex items-start justify-between gap-3">
+                                                    <ContractMenu />
+                                                    <button
+                                                        type="button"
+                                                        className="flex flex-1 items-start justify-between gap-4 text-left"
+                                                        onClick={() => setOpenKey(isOpen ? null : key)}
+                                                    >
+                                                        <div className="min-w-0">
+                                                            <div className="mb-1 flex items-center gap-2">
+                                                                <span className="text-xs text-muted-foreground">{getContractDate(master)}</span>
+                                                                <Badge className="bg-green-100 text-green-800">{getUseStatus(master)}</Badge>
+                                                            </div>
+                                                            <p className="truncate text-sm font-medium">{getServiceSummary(detailRows)}</p>
+                                                            <p className="mt-2 text-xs text-muted-foreground">
+                                                                {getServiceStartDate(master)} - {getServiceEndDate(master)}
+                                                            </p>
+                                                            <p className="mt-1 text-xs text-muted-foreground">
+                                                                {getTotalQty(detailRows)} · {getTotalAmount(detailRows)}
+                                                            </p>
                                                         </div>
-                                                    </TableCell>
-                                                    <TableCell>{getServiceStartDate(master)}</TableCell>
-                                                    <TableCell>{getServiceEndDate(master)}</TableCell>
-                                                    <TableCell>
-                                                        <Badge className="bg-green-100 text-green-800">{getUseStatus(master)}</Badge>
-                                                    </TableCell>
-                                                    <TableCell className="text-center">
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            className="h-8 w-8 p-0"
-                                                            onClick={() => setOpenKey(isOpen ? null : key)}
-                                                            aria-label="상세보기"
-                                                        >
-                                                            {isOpen ? (
-                                                                <ChevronDown className="h-4 w-4" />
-                                                            ) : (
-                                                                <ChevronRight className="h-4 w-4" />
-                                                            )}
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                                {isOpen && (
-                                                    <TableRow>
-                                                        <TableCell colSpan={7} className="bg-slate-50/80 p-0">
-                                                            <DetailTable rows={detailRows} />
-                                                        </TableCell>
-                                                    </TableRow>
-                                                )}
-                                            </Fragment>
+                                                        {isOpen ? (
+                                                            <ChevronDown className="mt-1 h-5 w-5 shrink-0" />
+                                                        ) : (
+                                                            <ChevronRight className="mt-1 h-5 w-5 shrink-0" />
+                                                        )}
+                                                    </button>
+                                                </div>
+
+                                                {isOpen && <DetailTable rows={detailRows} compact />}
+                                            </div>
                                         );
                                     })}
-                                </TableBody>
-                            </Table>
-                        </div>
-
-                        <div className="divide-y lg:hidden">
-                            {masters.map((master, index) => {
-                                const key = getMasterKey(master) || String(index);
-                                const detailRows = getDetailRows(master, details);
-                                const isOpen = openKey === key;
-
-                                return (
-                                    <div key={key} className="p-4">
-                                        <button
-                                            type="button"
-                                            className="flex w-full items-start justify-between gap-4 text-left"
-                                            onClick={() => setOpenKey(isOpen ? null : key)}
-                                        >
-                                            <div className="min-w-0">
-                                                <div className="mb-1 flex items-center gap-2">
-                                                    <span className="font-bold text-slate-900">{getCompanyName(master)}</span>
-                                                    <Badge className="bg-green-100 text-green-800">{getUseStatus(master)}</Badge>
-                                                </div>
-                                                <p className="truncate text-sm font-medium">{getServiceSummary(detailRows)}</p>
-                                                <p className="mt-2 text-xs text-muted-foreground">
-                                                    {getServiceStartDate(master)} - {getServiceEndDate(master)}
-                                                </p>
-                                            </div>
-                                            {isOpen ? (
-                                                <ChevronDown className="mt-1 h-5 w-5 shrink-0" />
-                                            ) : (
-                                                <ChevronRight className="mt-1 h-5 w-5 shrink-0" />
-                                            )}
-                                        </button>
-
-                                        {isOpen && <DetailTable rows={detailRows} compact />}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </CardContent>
-                </Card>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
             )}
         </div>
+    );
+}
+
+function ContractMenu() {
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0" aria-label="계약 관리 메뉴">
+                    <MoreVertical className="h-4 w-4" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-44">
+                {CONTRACT_MENU_ITEMS.map((label, index) => (
+                    <Fragment key={label}>
+                        {index === CONTRACT_MENU_ITEMS.length - 1 && <DropdownMenuSeparator />}
+                        <DropdownMenuItem
+                            onSelect={() => {
+                                console.log("[v0] contract menu action:", label);
+                            }}
+                            className={index === CONTRACT_MENU_ITEMS.length - 1 ? "text-destructive focus:text-destructive" : ""}
+                        >
+                            {label}
+                        </DropdownMenuItem>
+                    </Fragment>
+                ))}
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
 }
 
