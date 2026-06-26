@@ -205,6 +205,7 @@
 **처리 요구사항**:
 - 카드번호/계좌번호는 저장 시 암호화 및 응답 시 마스킹
 - 회사 첫 결제수단이면 `primary=1` 자동 지정 권장
+- **회사당 결제수단은 최대 2개까지만 등록 가능** — 이미 2개면 거부(프론트에서도 차단하나 서버 검증 필수)
 
 **Response `contents`**: 생성된 `CompanyPaymentMethod`
 
@@ -218,7 +219,135 @@
 - `corporationId` (number)
 - `methodId` (number) — 결제수단 PK
 
+**처리 요구사항**:
+- 삭제 대상이 `primary=1`(기본)이고 다른 결제수단이 남아있으면, 남은 수단 중 하나를 자동으로 기본(`primary=1`)으로 승격 권장
+
 **Response `contents`**: `true` 또는 삭제된 `methodId`
+
+---
+
+## 8. 회사별 기본 결제수단 변경
+
+### `PUT /api/v1/users/corporation/{corporationId}/payment-methods/{methodId}/primary`
+
+지정한 결제수단을 **기본(primary)** 으로 설정하고, 같은 회사의 나머지 결제수단은 **예비(primary=0)** 로 변경합니다.
+
+**Path**:
+- `corporationId` (number)
+- `methodId` (number) — 기본으로 지정할 결제수단 PK
+
+**처리 요구사항**:
+- 회사당 `primary=1` 은 항상 1개만 유지
+
+**Response `contents`**: `true` 또는 갱신된 `CompanyPaymentMethod[]`
+
+---
+
+## 9. [초대] 토큰으로 초대 정보 조회 (비로그인)
+
+### `GET /api/v1/users/invitations/{token}`
+
+초대 메일의 링크(`/invite?token=...`)로 진입했을 때 호출합니다. **인증 불필요.**
+
+**Path**: `token` (string) — 초대 토큰
+
+**Response `contents`** (`CompanyAdminInvitation`):
+```jsonc
+{
+  "token": "abc123",
+  "corporationId": 1,
+  "corporationName": "참존(주)",
+  "inviterName": "홍길동",      // 초대한 관리자
+  "inviteeName": "박은경",      // 초대 시 입력한 성함(초기값, 수정 가능)
+  "email": "invitee@test.com",  // 초대된 이메일(고정, 변경 불가)
+  "isExistingUser": false,      // 이미 가입된 회원이면 true → 로그인 분기
+  "expired": false              // 발송 후 7일 경과 시 true
+}
+```
+
+**처리 요구사항**:
+- `email` 이 이미 가입된 회원이면 `isExistingUser=true` 로 반환 → 프론트는 로그인 폼 노출
+- 발송 후 7일 경과 시 `expired=true`
+
+---
+
+## 10. [초대] 신규 가입으로 초대 수락 (비로그인)
+
+### `POST /api/v1/users/invitations/{token}/signup`
+
+신규 사용자가 초대를 수락하며 계정을 생성합니다. **인증 불필요.**
+
+**Request Body**:
+```jsonc
+{
+  "token": "abc123",
+  "email": "invitee@test.com",  // 초대된 이메일과 반드시 일치(서버 검증)
+  "name": "박은경",
+  "password": "********",
+  "phone": "01012345678"        // SMS 인증 완료된 번호
+}
+```
+
+**처리 요구사항**:
+- `email` 은 초대 토큰의 이메일과 일치하는지 검증(불일치 시 거부)
+- 계정 생성 후 초대된 회사(`corporationId`)의 관리자로 자동 등록(`status=Active`)
+- 초대 토큰 만료 처리
+- 가입과 동시에 로그인 처리하여 세션/프로필 반환 권장
+
+**Response `contents`**: 로그인된 `UserDto`(프로필) — 프론트에서 즉시 로그인 상태로 전환
+
+---
+
+## 11. [초대] 기존 회원 로그인으로 초대 수락 (비로그인)
+
+### `POST /api/v1/users/invitations/{token}/join`
+
+이미 가입된 회원이 로그인하여 초대된 회사에 관리자로 합류합니다. **인증 불필요(로그인 처리 포함).**
+
+**Request Body**:
+```jsonc
+{
+  "token": "abc123",
+  "loginId": "exist@test.com",  // 초대된 이메일(고정)
+  "password": "********"
+}
+```
+
+**처리 요구사항**:
+- 로그인 검증 후, 해당 사용자를 초대된 회사(`corporationId`)의 관리자로 추가(`status=Active`)
+- 이미 해당 회사 관리자면 중복 추가하지 않고 성공 처리
+- 초대 토큰 만료 처리
+
+**Response `contents`**: 로그인된 `UserDto`(프로필)
+
+---
+
+## 초대 메일 템플릿
+
+제목: `[에버人] 사내 관리자 초대 안내`
+
+본문(치환 변수):
+- `{inviterName}` — 초대한(기존) 관리자 성함
+- `{inviteeName}` — 초대 대상 성함
+- `{corporationName}` — 회사명
+
+```
+안녕하세요, 에버人(EverIn)입니다.
+
+{inviterName}님 귀하를 사내 관리자로 {inviteeName}님을 초대했습니다.
+아래 버튼을 클릭하여 가입을 완료해주세요.
+
+[ 관리자초대수락하기 ]   → /invite?token={token}
+
+이 초대는 7일 후 만료됩니다.
+
+본 초대와 관련해 궁금한 사항이 있으시면 에버人 고객센터 또는 관리자에게 문의해 주세요.
+
+감사합니다.
+에버人 드림
+```
+
+> 버튼 링크는 프론트 초대 수락 페이지 `/invite?token={token}` 로 연결합니다.
 
 ---
 
@@ -264,6 +393,32 @@ type CompanyManagementDto = {
   businessNo?: string;
   admins?: CompanyAdminDto[];
   paymentMethods?: CompanyPaymentMethodDto[];
+};
+
+// 초대 수락 플로우
+type CompanyAdminInvitationDto = {
+  token?: string;
+  corporationId?: number;
+  corporationName?: string;
+  inviterName?: string;
+  inviteeName?: string;
+  email?: string;            // 고정
+  isExistingUser?: boolean;
+  expired?: boolean;
+};
+
+type CompanyAdminInviteSignUpDto = {
+  token: string;
+  email: string;
+  name: string;
+  password: string;
+  phone: string;
+};
+
+type CompanyAdminInviteJoinDto = {
+  token: string;
+  loginId: string;
+  password: string;
 };
 ```
 
