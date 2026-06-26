@@ -4,7 +4,6 @@ import { Fragment, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
     AlertCircle,
-    Building2,
     Calendar,
     ChevronDown,
     MoreVertical,
@@ -12,7 +11,7 @@ import {
 import { Api } from "@/api";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
     Table,
@@ -471,14 +470,11 @@ export default function SubscriptionPage() {
                     {companyGroups.map((group) => (
                         <Card key={group.key} className="overflow-hidden border-border/70 py-0 shadow-sm">
                             {/* 회사(사업자) 그룹 헤더 */}
-                            <CardHeader className="flex-row items-center gap-2.5 border-b bg-muted/40 px-5 py-3.5">
-                                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-                                    <Building2 className="h-4 w-4 text-primary" />
-                                </span>
-                                <CardTitle className="text-base font-bold text-foreground">
+                            <div className="border-b bg-muted/40 px-5 py-3">
+                                <h3 className="text-base font-bold text-foreground">
                                     {group.label}
-                                </CardTitle>
-                            </CardHeader>
+                                </h3>
+                            </div>
                             <CardContent className="p-0">
                                 {/* 데스크톱 테이블 */}
                                 <div className="hidden lg:block">
@@ -486,14 +482,14 @@ export default function SubscriptionPage() {
                                         <TableHeader>
                                             <TableRow className="border-b bg-muted/20 hover:bg-muted/20">
                                                 <TableHead className="w-[52px]" />
-                                                <TableHead className="h-11 w-[116px] text-xs font-semibold uppercase tracking-wide text-muted-foreground">구독일자</TableHead>
-                                                <TableHead className="h-11 text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스명</TableHead>
-                                                <TableHead className="h-11 w-[124px] text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스시작일</TableHead>
-                                                <TableHead className="h-11 w-[124px] text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스만료일</TableHead>
-                                                <TableHead className="h-11 w-[88px] text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">사용자인원</TableHead>
-                                                <TableHead className="h-11 w-[120px] text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스요금</TableHead>
-                                                <TableHead className="h-11 w-[100px] text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">이용상태</TableHead>
-                                                <TableHead className="h-11 w-[64px] text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">상세</TableHead>
+                                                <TableHead className="h-9 w-[116px] text-xs font-semibold uppercase tracking-wide text-muted-foreground">구독일자</TableHead>
+                                                <TableHead className="h-9 text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스명</TableHead>
+                                                <TableHead className="h-9 w-[124px] text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스시작일</TableHead>
+                                                <TableHead className="h-9 w-[124px] text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스만료일</TableHead>
+                                                <TableHead className="h-9 w-[88px] text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">사용자인원</TableHead>
+                                                <TableHead className="h-9 w-[120px] text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">서비스요금</TableHead>
+                                                <TableHead className="h-9 w-[100px] text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">이용상태</TableHead>
+                                                <TableHead className="h-9 w-[64px] text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">상세</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
