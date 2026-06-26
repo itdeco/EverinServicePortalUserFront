@@ -241,7 +241,7 @@ export default function TrialPage() {
           <div className="text-center mb-8">
             <Badge variant="secondary" className="mb-4 px-4 py-1.5 text-sm font-medium bg-primary/10 text-primary border-0">
               <Gift className="w-4 h-4 mr-1.5" />
-              30일 무료 체험
+              15일 무료 체험
             </Badge>
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3 text-balance">
               HR 혁신, 단 10초면 충분합니다
@@ -261,7 +261,7 @@ export default function TrialPage() {
                 무료 체험 신청
               </CardTitle>
               <CardDescription>
-                에버타임 스탠다드와 에버웰커밍을 30일간 함께 무료로 체험해보세요
+                에버타임 스탠다드와 에버웰커밍을 15일간 함께 무료로 체험해보세요
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6 md:p-8 space-y-5">
@@ -529,7 +529,7 @@ export default function TrialPage() {
             </div>
             <div className="flex items-center gap-2">
               <Clock className="h-5 w-5 text-primary" />
-              <span>30일 무료 체험</span>
+              <span>15일 무료 체험</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-primary" />

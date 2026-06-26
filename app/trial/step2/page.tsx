@@ -53,7 +53,7 @@ function TrialStep2Content() {
               무료체험 신청이 완료되었습니다!
             </h1>
             <p className="text-muted-foreground text-lg">
-              에버타임 스탠다드와 에버웰커밍을 30일간 무료로 체험하실 수 있습니다.
+              에버타임 스탠다드와 에버웰커밍을 15일간 무료로 체험하실 수 있습니다.
             </p>
           </div>
 
