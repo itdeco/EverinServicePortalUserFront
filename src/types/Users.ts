@@ -124,6 +124,101 @@ export type UserCorporationCardDto = {
     creditCards?: CreditCardDto[];
 }
 
+// 회사 관리자 상태
+export enum CompanyAdminStatus {
+    Active = 0,     // 수락 완료(활성)
+    Invited = 1,    // 초대 메일 발송됨(수락 대기)
+}
+
+// 회사별 관리자 (모든 관리자는 동일한 권한)
+export type CompanyAdminDto = {
+    adminId?: number;
+    userId?: number;
+    name?: string;
+    email?: string;
+    status?: CompanyAdminStatus;    // 활성 / 초대됨
+    invitedDate?: string;
+    joinedDate?: string;
+}
+
+// 관리자 초대 입력(개별)
+export type CompanyAdminInviteeDto = {
+    name: string;
+    email: string;
+}
+
+// 관리자 초대 요청(회사별, N명)
+export type CompanyAdminInviteDto = {
+    corporationId: number;
+    invitees: CompanyAdminInviteeDto[];
+}
+
+// 결제수단 종류 (0: 카드, 1: CMS/계좌이체)
+export enum CompanyPaymentMethodType {
+    Card = 0,
+    Cms = 1,
+}
+
+// 회사별 결제수단 (카드 또는 CMS)
+export type CompanyPaymentMethodDto = {
+    methodId?: number;
+    corporationId?: number;
+    type?: CompanyPaymentMethodType;
+    primary?: number;
+    // 카드 결제
+    cardCompany?: string;
+    cardNumber?: string;
+    expirationYear?: string;
+    expirationMonth?: string;
+    // CMS(계좌이체)
+    bankName?: string;
+    accountNumber?: string;
+    accountHolder?: string;
+}
+
+// 결제수단 등록 요청
+export type CompanyPaymentMethodCreateDto = CompanyPaymentMethodDto & {
+    corporationId: number;
+    type: CompanyPaymentMethodType;
+}
+
+// 관리자 초대 토큰 조회 결과 (초대 메일의 링크로 진입 시)
+export type CompanyAdminInvitationDto = {
+    token?: string;
+    corporationId?: number;
+    corporationName?: string;
+    inviterName?: string;        // 초대한 관리자 성함
+    inviteeName?: string;        // 초대 대상 성함(초기값, 수정 가능)
+    email?: string;              // 초대된 이메일(고정, 변경 불가)
+    isExistingUser?: boolean;    // 이미 가입된 회원인지 여부
+    expired?: boolean;           // 만료 여부
+}
+
+// 초대 수락(신규 가입)
+export type CompanyAdminInviteSignUpDto = {
+    token: string;
+    email: string;
+    name: string;
+    password: string;
+    phone: string;
+}
+
+// 초대 수락(기존 회원 로그인 → 회사 합류)
+export type CompanyAdminInviteJoinDto = {
+    token: string;
+    loginId: string;
+    password: string;
+}
+
+// 회사별 통합 관리 정보(회사 + 관리자 + 결제수단)
+export type CompanyManagementDto = {
+    corporationId?: number;
+    name?: string;
+    businessNo?: string;
+    admins?: CompanyAdminDto[];
+    paymentMethods?: CompanyPaymentMethodDto[];
+}
+
 export type ChangePasswordDto = {
     password: string;
     newPassword: string;

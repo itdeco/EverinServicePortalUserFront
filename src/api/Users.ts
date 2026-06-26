@@ -3,12 +3,17 @@ import Config from "@/utils/config";
 import {
     ChangePasswordDto,
     ChangePhoneDto,
+    CompanyAdminInviteDto,
+    CompanyAdminInviteJoinDto,
+    CompanyAdminInviteSignUpDto,
+    CompanyPaymentMethodCreateDto,
     CreditCardDto, DelegationAcceptDto, DelegationCompleteDto, DelegationCreditCardDto,
     DelegationRequestDto,
     LogInRequestDto, RedisAuthenticationDto,
     SignUpRequestDto, WithdrawalLogDto
 } from "@/types/Users";
 import {Method} from "@/api/ApiClient";
+import {withCompanyMgmtMock, withInvitationMock} from "@/api/mocks/CompanyManagement";
 
 export default class ApiUsers {
     async signUp(params: SignUpRequestDto) {
@@ -260,6 +265,125 @@ export default class ApiUsers {
         return callApi({
             url: url,
             method: Method.Get
+        });
+    }
+
+    // [통합] 내 회사 목록 + 회사별 관리자 + 회사별 결제수단을 한 번에 조회
+    // 서버 미구현 시 목업 데이터로 폴백
+    async getMyCompanyManagement() {
+        const url = `${Config.apiServer}/api/v1/users/companies/management`;
+
+        const result = await callApi({
+            url: url,
+            method: Method.Get
+        });
+
+        return withCompanyMgmtMock(result);
+    }
+
+    // 회사별 관리자 조회
+    async getCompanyAdmins(corporationId: number) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/admins`;
+
+        return callApi({
+            url: url,
+            method: Method.Get
+        });
+    }
+
+    // 회사별 관리자 초대 (이메일/성함 N건, 메일 발송)
+    async inviteCompanyAdmins(params: CompanyAdminInviteDto) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${params.corporationId}/admins/invite`;
+
+        return callApi({
+            url: url,
+            method: Method.Post,
+            body: { invitees: params.invitees }
+        });
+    }
+
+    // 회사별 관리자 삭제
+    async deleteCompanyAdmin(corporationId: number, adminId: number) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/admins/${adminId}`;
+
+        return callApi({
+            url: url,
+            method: Method.Delete
+        });
+    }
+
+    // 회사별 결제수단 조회 (카드 + CMS)
+    async getCompanyPaymentMethods(corporationId: number) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/payment-methods`;
+
+        return callApi({
+            url: url,
+            method: Method.Get
+        });
+    }
+
+    // 회사별 결제수단 등록 (카드 또는 CMS)
+    async addCompanyPaymentMethod(params: CompanyPaymentMethodCreateDto) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${params.corporationId}/payment-methods`;
+
+        return callApi({
+            url: url,
+            method: Method.Post,
+            body: params
+        });
+    }
+
+    // 회사별 결제수단 삭제
+    async deleteCompanyPaymentMethod(corporationId: number, methodId: number) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/payment-methods/${methodId}`;
+
+        return callApi({
+            url: url,
+            method: Method.Delete
+        });
+    }
+
+    // 회사별 기본 결제수단 변경 (선택한 수단을 기본으로, 나머지는 예비)
+    async setPrimaryCompanyPaymentMethod(corporationId: number, methodId: number) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/payment-methods/${methodId}/primary`;
+
+        return callApi({
+            url: url,
+            method: Method.Put
+        });
+    }
+
+    // [초대] 토큰으로 초대 정보 조회 (메일 링크 진입 시) - 비로그인 호출
+    async getAdminInvitation(token: string) {
+        const url = `${Config.apiServer}/api/v1/users/invitations/${token}`;
+
+        const result = await callPublicApi({
+            url: url,
+            method: Method.Get
+        });
+
+        return withInvitationMock(result, token);
+    }
+
+    // [초대] 신규 회원가입으로 초대 수락 - 비로그인 호출
+    async acceptInvitationSignUp(params: CompanyAdminInviteSignUpDto) {
+        const url = `${Config.apiServer}/api/v1/users/invitations/${params.token}/signup`;
+
+        return callPublicApi({
+            url: url,
+            method: Method.Post,
+            body: params
+        });
+    }
+
+    // [초대] 기존 회원 로그인으로 초대 수락(회사 합류) - 비로그인 호출
+    async acceptInvitationJoin(params: CompanyAdminInviteJoinDto) {
+        const url = `${Config.apiServer}/api/v1/users/invitations/${params.token}/join`;
+
+        return callPublicApi({
+            url: url,
+            method: Method.Post,
+            body: params
         });
     }
 

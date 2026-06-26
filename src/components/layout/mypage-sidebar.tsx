@@ -28,7 +28,7 @@ export default function MypageSidebar() {
 
   return (
     <aside className="w-full lg:w-64 shrink-0">
-      <div className="sticky top-24">
+      <div>
         {/* My Page 타이틀 */}
         <h2 className="text-2xl font-bold mb-6">My Page</h2>
 
