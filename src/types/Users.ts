@@ -124,6 +124,46 @@ export type UserCorporationCardDto = {
     creditCards?: CreditCardDto[];
 }
 
+// 회사 관리자 상태
+export enum CompanyAdminStatus {
+    Active = 0,     // 수락 완료(활성)
+    Invited = 1,    // 초대 메일 발송됨(수락 대기)
+}
+
+// 회사별 관리자
+export type CompanyAdminDto = {
+    adminId?: number;
+    userId?: number;
+    name?: string;
+    email?: string;
+    isMaster?: boolean;             // 마스터 관리자 여부
+    status?: CompanyAdminStatus;    // 활성 / 초대됨
+    invitedDate?: string;
+    joinedDate?: string;
+}
+
+// 관리자 초대 입력(개별)
+export type CompanyAdminInviteeDto = {
+    name: string;
+    email: string;
+}
+
+// 관리자 초대 요청(회사별, N명)
+export type CompanyAdminInviteDto = {
+    corporationId: number;
+    invitees: CompanyAdminInviteeDto[];
+}
+
+// 회사별 통합 관리 정보(회사 + 관리자 + 결제수단)
+export type CompanyManagementDto = {
+    corporationId?: number;
+    name?: string;
+    businessNo?: string;
+    isMaster?: boolean;
+    admins?: CompanyAdminDto[];
+    creditCards?: CreditCardDto[];
+}
+
 export type ChangePasswordDto = {
     password: string;
     newPassword: string;

@@ -3,12 +3,14 @@ import Config from "@/utils/config";
 import {
     ChangePasswordDto,
     ChangePhoneDto,
+    CompanyAdminInviteDto,
     CreditCardDto, DelegationAcceptDto, DelegationCompleteDto, DelegationCreditCardDto,
     DelegationRequestDto,
     LogInRequestDto, RedisAuthenticationDto,
     SignUpRequestDto, WithdrawalLogDto
 } from "@/types/Users";
 import {Method} from "@/api/ApiClient";
+import {withCompanyMgmtMock} from "@/api/mocks/CompanyManagement";
 
 export default class ApiUsers {
     async signUp(params: SignUpRequestDto) {
@@ -256,6 +258,60 @@ export default class ApiUsers {
 
     async getMyCorporations() {
         const url = `${Config.apiServer}/api/v1/users/corporations/`;
+
+        return callApi({
+            url: url,
+            method: Method.Get
+        });
+    }
+
+    // [통합] 내 회사 목록 + 회사별 관리자 + 회사별 결제수단을 한 번에 조회
+    // 서버 미구현 시 목업 데이터로 폴백
+    async getMyCompanyManagement() {
+        const url = `${Config.apiServer}/api/v1/users/companies/management`;
+
+        const result = await callApi({
+            url: url,
+            method: Method.Get
+        });
+
+        return withCompanyMgmtMock(result);
+    }
+
+    // 회사별 관리자 조회
+    async getCompanyAdmins(corporationId: number) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/admins`;
+
+        return callApi({
+            url: url,
+            method: Method.Get
+        });
+    }
+
+    // 회사별 관리자 초대 (이메일/성함 N건, 메일 발송)
+    async inviteCompanyAdmins(params: CompanyAdminInviteDto) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${params.corporationId}/admins/invite`;
+
+        return callApi({
+            url: url,
+            method: Method.Post,
+            body: { invitees: params.invitees }
+        });
+    }
+
+    // 회사별 관리자 삭제
+    async deleteCompanyAdmin(corporationId: number, adminId: number) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/admins/${adminId}`;
+
+        return callApi({
+            url: url,
+            method: Method.Delete
+        });
+    }
+
+    // 회사별 결제수단 조회
+    async getCompanyCreditCards(corporationId: number) {
+        const url = `${Config.apiServer}/api/v1/users/corporation/${corporationId}/cards`;
 
         return callApi({
             url: url,
