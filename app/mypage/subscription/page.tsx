@@ -428,19 +428,26 @@ export default function SubscriptionPage() {
 
             {profile && (
                 <Card className="mb-6">
-                    <CardHeader>
-                        <CardTitle className="text-lg">회원 정보</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="grid gap-4 md:grid-cols-2">
-                            <div className="flex items-center gap-4 rounded-lg bg-muted/50 p-3">
-                                <span className="min-w-[60px] text-sm text-muted-foreground">이름</span>
-                                <span className="font-medium">{profile.name}</span>
+                    <CardContent className="py-4">
+                        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                            <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-8">
+                                <div className="flex items-center gap-3">
+                                    <span className="min-w-[48px] text-sm text-muted-foreground">이름</span>
+                                    <span className="font-medium">{profile.name}</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <span className="min-w-[48px] text-sm text-muted-foreground">이메일</span>
+                                    <span className="font-medium">{profile.loginId}</span>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-4 rounded-lg bg-muted/50 p-3">
-                                <span className="min-w-[60px] text-sm text-muted-foreground">이메일</span>
-                                <span className="font-medium">{profile.loginId}</span>
-                            </div>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="w-full md:w-auto"
+                                onClick={() => router.push("/mypage/account")}
+                            >
+                                계정정보 변경
+                            </Button>
                         </div>
                     </CardContent>
                 </Card>
