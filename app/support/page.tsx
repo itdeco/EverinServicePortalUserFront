@@ -100,14 +100,14 @@ export default function SupportPage() {
               <Link
                 key={menu.href}
                 href={menu.href}
-                className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-1 hover:border-[#03b565]/40 hover:shadow-lg"
+                className="group flex h-full min-h-[250px] flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-1 hover:border-[#03b565]/40 hover:shadow-lg"
               >
                 <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-[#03b565]">
                   <Icon className="h-5 w-5" />
                 </span>
                 <h2 className="text-lg font-black text-slate-950">{menu.title}</h2>
                 <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">{menu.description}</p>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[#03b565]">
+                <span className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-black text-[#03b565]">
                   바로가기 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </Link>

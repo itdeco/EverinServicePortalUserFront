@@ -76,6 +76,29 @@ export function getYoutubeEmbedUrl(url?: string) {
   return url;
 }
 
+function getYoutubeThumbnailUrl(url?: string) {
+  if (!url) return "";
+
+  try {
+    const parsed = new URL(url);
+    let id = "";
+
+    if (parsed.hostname.includes("youtu.be")) {
+      id = parsed.pathname.replace("/", "");
+    } else {
+      id = parsed.searchParams.get("v") || "";
+    }
+
+    if (!id && parsed.pathname.includes("/embed/")) {
+      id = parsed.pathname.split("/embed/")[1]?.split("/")[0] || "";
+    }
+
+    return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : "";
+  } catch {
+    return "";
+  }
+}
+
 export function SupportHero({
   eyebrow,
   title,
@@ -382,10 +405,12 @@ export function VideoCard({
   onClick?: () => void;
   href?: string;
 }) {
-  const thumbnailUrl = video.id && video.thumbnailFileId ? Api.Files.getThumbnailUrl(video.id, video.thumbnailFileId) : "";
+  const thumbnailUrl = video.id && video.thumbnailFileId
+    ? Api.Files.getThumbnailUrl(video.id, video.thumbnailFileId)
+    : getYoutubeThumbnailUrl(video.url);
   const content = (
     <>
-      <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-slate-100">
+      <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-gradient-to-br from-slate-100 via-slate-50 to-emerald-50">
         {thumbnailUrl ? (
           <img src={thumbnailUrl} alt="" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
         ) : null}
