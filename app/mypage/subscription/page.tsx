@@ -9,6 +9,7 @@ import {
     ChevronDown,
     ChevronRight,
     MoreVertical,
+    Share2,
 } from "lucide-react";
 import { Api } from "@/api";
 import { Badge } from "@/components/ui/badge";
@@ -417,13 +418,19 @@ export default function SubscriptionPage() {
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-12">
-            <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                 <div>
-                    <h1 className="mb-2 text-3xl font-bold text-foreground">구독 정보</h1>
+                    <h1 className="mb-2 text-2xl font-bold text-foreground md:text-3xl">
+                        <span className="text-primary">{profile?.name ?? "고객"}</span>님 안녕하세요! 언제든지 환영합니다.
+                    </h1>
                     <p className="text-muted-foreground">
-                        계약정보를 기준으로 구독 내역을 확인하고, 상세보기에서 서비스별 상세 내역을 확인할 수 있습니다.
+                        현재 이용 중인 플랜을 확인하고 관리하세요. 조직의 규모와 환경에 맞는 최적의 옵션을 선택하여 더욱 효율적으로 활용해보세요.
                     </p>
                 </div>
+                <Button variant="outline" size="sm" className="shrink-0">
+                    <Share2 className="mr-2 h-4 w-4" />
+                    공유
+                </Button>
             </div>
 
             {profile && (
@@ -463,6 +470,9 @@ export default function SubscriptionPage() {
                 </Card>
             ) : (
                 <div className="flex flex-col gap-6">
+                    <h2 className="border-b-2 border-foreground pb-2 text-lg font-bold text-foreground">
+                        멤버십(구독)정보
+                    </h2>
                     {companyGroups.map((group) => (
                         <Card key={group.key} className="overflow-hidden border-2">
                             {/* 회사(사업자) 그룹 헤더 */}
