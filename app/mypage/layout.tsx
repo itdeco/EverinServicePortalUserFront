@@ -14,9 +14,9 @@ export default function MyPageLayout({
       <Header />
       <main className="flex-1">
         <div className="container max-w-7xl mx-auto px-4 py-8">
-          <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex flex-col lg:flex-row gap-8 lg:items-start">
             {/* 사이드바 - 모바일에서는 숨김 */}
-            <div className="hidden lg:block">
+            <div className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
               <MypageSidebar />
             </div>
             {/* 콘텐츠 영역 */}
