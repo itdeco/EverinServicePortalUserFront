@@ -279,6 +279,7 @@ function InvoiceContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const paymentId = searchParams.get("id");
+  const totCompanySeq = Number(searchParams.get("totCompanySeq"));
   const isLoggedIn = useLoginStatus();
   const subscriptions = useUserSubscriptions();
   const plans = usePlans();
@@ -299,7 +300,13 @@ function InvoiceContent() {
       setIsLoading(true);
 
       try {
-        const result = await Api.Payments.getPagedPaymentList({ pageNumber: 0, pageSize: 100 });
+        const result = await Api.Payments.getPagedPaymentList({
+          pageNumber: 0,
+          pageSize: 100,
+          totCompanySeq: Number.isInteger(totCompanySeq) && totCompanySeq > 0
+            ? totCompanySeq
+            : undefined,
+        });
         const found =
           checkApiResult(result) &&
           result!.payload?.list?.find((p: PaymentLogDto) => p.id?.toString() === paymentId);
@@ -334,7 +341,7 @@ function InvoiceContent() {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn, paymentId]);
+  }, [isLoggedIn, paymentId, totCompanySeq]);
 
   const subtotal = useMemo(
     () => (model ? model.serviceLines.reduce((sum, line) => sum + line.amount, 0) : 0),
@@ -393,7 +400,16 @@ function InvoiceContent() {
         {/* 헤더 (인쇄 제외) */}
         <div className="no-print mb-8 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => router.push("/mypage/payment")} aria-label="목록으로">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => router.push(
+                Number.isInteger(totCompanySeq) && totCompanySeq > 0
+                  ? `/mypage/payment?totCompanySeq=${totCompanySeq}`
+                  : "/mypage/payment",
+              )}
+              aria-label="목록으로"
+            >
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>

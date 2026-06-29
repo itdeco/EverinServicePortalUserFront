@@ -3,8 +3,12 @@ import Config from "@/utils/config";
 import {callApi} from "@/utils/apiUtil";
 
 export default class ApiPayments {
-    async getPagedPaymentList(params: PagedRequestDto) {
+    async getPagedPaymentList(params: PagedRequestDto & { totCompanySeq?: number }) {
         let url = `${Config.apiServer}/api/v1/payments/logs?pageNumber=${params.pageNumber}&pageSize=${params.pageSize}`;
+
+        if (params.totCompanySeq) {
+            url += `&totCompanySeq=${params.totCompanySeq}`;
+        }
 
         return callApi({
             url: url,

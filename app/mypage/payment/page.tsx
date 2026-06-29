@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   AlertCircle,
   CheckCircle,
@@ -15,6 +15,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Table,
   TableBody,
   TableCell,
@@ -23,8 +30,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { checkApiResult } from "@/utils/apiUtil";
-import { useLoginStatus } from "@/redux/selectors/Users";
+import { useLoginStatus, useUserProfile } from "@/redux/selectors/Users";
 import { PaymentLogStatusType } from "@/types/Payments";
+import { ContractSummary } from "@/api/Subscribe";
 
 type BmsRecord = Record<string, any>;
 
@@ -36,6 +44,7 @@ type BmsPaymentPayload = {
 };
 
 const PAGE_SIZE = 10;
+const ALL_COMPANIES_VALUE = "all";
 
 const DEMO_PAYMENT_PAYLOAD: BmsPaymentPayload = {
   DataBlock1: [
@@ -238,7 +247,7 @@ function getCompanyName(row: BmsRecord) {
 }
 
 function getBizNo(row: BmsRecord) {
-  return valueOf(row, ["BizNo", "BizRegNo", "BizRegNumber", "CompanyRegNo", "RegNo"]);
+  return valueOf(row, ["BizNo", "businessNo", "BizRegNo", "BizRegNumber", "CompanyRegNo", "RegNo"]);
 }
 
 function getCompanyLabel(row: BmsRecord) {
@@ -252,7 +261,10 @@ function groupByCompany(rows: BmsRecord[]) {
   const indexMap = new Map<string, number>();
 
   rows.forEach((row) => {
-    const key = String(valueOf(row, ["TotCompanySeq", "BizCompanySeq"]) ?? getCompanyName(row));
+    const key = String(
+      valueOf(row, ["TotCompanySeq", "totCompanySeq", "BizCompanySeq", "bizCompanySeq"])
+      ?? getCompanyName(row),
+    );
 
     if (!indexMap.has(key)) {
       indexMap.set(key, groups.length);
@@ -335,9 +347,14 @@ function getInvoiceId(row: BmsRecord, index: number) {
 
 export default function PaymentPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const isLoggedIn = useLoginStatus();
+  const profile = useUserProfile();
   const [isLoading, setIsLoading] = useState(true);
   const [payload, setPayload] = useState<BmsPaymentPayload>({});
+  const [companies, setCompanies] = useState<ContractSummary[]>([]);
+  const [selectedCompanySeq, setSelectedCompanySeq] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -346,31 +363,93 @@ export default function PaymentPage() {
       return;
     }
 
-    const loadData = async () => {
+    const loadCompanies = async () => {
       setIsLoading(true);
+      setErrorMessage("");
+
+      try {
+        const totUserSeq = Number(profile?.totUserSeq);
+        if (!Number.isInteger(totUserSeq) || totUserSeq <= 0) {
+          setCompanies([]);
+          setPayload({});
+          setErrorMessage("로그인 정보에 통합 사용자 SEQ가 없습니다. 다시 로그인해 주세요.");
+          setIsLoading(false);
+          return;
+        }
+
+        const result = await Api.Subscribe.getContractList(totUserSeq);
+        const companyMap = new Map<string, ContractSummary>();
+        (result.DataBlock1 || []).forEach((company) => {
+          const key = String(company.TotCompanySeq);
+          if (company.TotCompanySeq > 0 && !companyMap.has(key)) {
+            companyMap.set(key, company);
+          }
+        });
+
+        const nextCompanies = Array.from(companyMap.values());
+        setCompanies(nextCompanies);
+
+        const requestedCompanySeq = searchParams.get("totCompanySeq");
+        const requestedCompany = nextCompanies.find(
+          (company) => String(company.TotCompanySeq) === requestedCompanySeq,
+        );
+        setSelectedCompanySeq(
+          requestedCompany
+            ? String(requestedCompany.TotCompanySeq)
+            : ALL_COMPANIES_VALUE,
+        );
+      } catch (error) {
+        console.error("회사 목록 조회 실패", error);
+        setCompanies([]);
+        setPayload({});
+        setErrorMessage(
+          error instanceof Error ? error.message : "회사 목록을 불러오지 못했습니다.",
+        );
+        setIsLoading(false);
+      }
+    };
+
+    loadCompanies();
+    // 최초 진입 시 전달된 회사 파라미터만 반영합니다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn, profile?.totUserSeq, router]);
+
+  useEffect(() => {
+    if (!isLoggedIn || !selectedCompanySeq) return;
+
+    const loadPayments = async () => {
+      setIsLoading(true);
+      setErrorMessage("");
 
       try {
         const result = await Api.Payments.getPagedPaymentList({
           pageNumber: 0,
           pageSize: 100,
+          totCompanySeq: selectedCompanySeq === ALL_COMPANIES_VALUE
+            ? undefined
+            : Number(selectedCompanySeq),
         });
 
         if (!checkApiResult(result)) {
-          setPayload(DEMO_PAYMENT_PAYLOAD);
+          setPayload({});
+          setErrorMessage("청구/납부 내역을 불러오지 못했습니다.");
           return;
         }
 
-        const nextPayload = normalizePayload(result!.payload);
-        const hasData = !!nextPayload.DataBlock1?.length;
-
-        setPayload(hasData ? nextPayload : DEMO_PAYMENT_PAYLOAD);
+        setPayload(normalizePayload(result!.payload));
+      } catch (error) {
+        console.error("청구/납부 내역 조회 실패", error);
+        setPayload({});
+        setErrorMessage(
+          error instanceof Error ? error.message : "청구/납부 내역을 불러오지 못했습니다.",
+        );
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadData();
-  }, [isLoggedIn, router]);
+    loadPayments();
+  }, [isLoggedIn, selectedCompanySeq]);
 
   const rows = useMemo(() => payload.DataBlock1 || [], [payload]);
   const totalPage = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
@@ -381,7 +460,23 @@ export default function PaymentPage() {
   const companyGroups = useMemo(() => groupByCompany(pagedRows), [pagedRows]);
 
   const onViewInvoiceClick = (row: BmsRecord, index: number) => {
-    router.push(`/mypage/payment/invoice?id=${getInvoiceId(row, index)}`);
+    const companyQuery = selectedCompanySeq === ALL_COMPANIES_VALUE
+      ? ""
+      : `&totCompanySeq=${selectedCompanySeq}`;
+    router.push(
+      `/mypage/payment/invoice?id=${getInvoiceId(row, index)}${companyQuery}`,
+    );
+  };
+
+  const onCompanyChange = (value: string) => {
+    setSelectedCompanySeq(value);
+    setPage(1);
+    router.replace(
+      value === ALL_COMPANIES_VALUE
+        ? "/mypage/payment"
+        : `/mypage/payment?totCompanySeq=${value}`,
+      { scroll: false },
+    );
   };
 
   if (!isLoggedIn) return null;
@@ -407,7 +502,37 @@ export default function PaymentPage() {
         </h1>
       </div>
 
-      {rows.length === 0 ? (
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2">
+          <h2 className="text-lg font-bold text-foreground">청구/납부내역</h2>
+          <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+            {companies.length}개 사업자
+          </span>
+        </div>
+        <Select value={selectedCompanySeq} onValueChange={onCompanyChange}>
+          <SelectTrigger className="w-full bg-card sm:w-[260px]" aria-label="조회 회사 선택">
+            <SelectValue placeholder="회사를 선택하세요" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL_COMPANIES_VALUE}>전체</SelectItem>
+            {companies.map((company) => (
+              <SelectItem key={company.TotCompanySeq} value={String(company.TotCompanySeq)}>
+                {company.CompanyName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {errorMessage ? (
+        <Card className="border-destructive/30 shadow-sm">
+          <CardContent className="py-14 text-center">
+            <AlertCircle className="mx-auto mb-4 h-12 w-12 text-destructive/70" />
+            <h3 className="mb-1 text-base font-semibold text-foreground">청구/납부 내역을 불러오지 못했습니다.</h3>
+            <p className="text-sm text-muted-foreground">{errorMessage}</p>
+          </CardContent>
+        </Card>
+      ) : rows.length === 0 ? (
         <Card className="border-border/70 shadow-sm">
           <CardContent className="py-14 text-center">
             <Receipt className="mx-auto mb-4 h-12 w-12 text-muted-foreground opacity-40" />
@@ -417,13 +542,6 @@ export default function PaymentPage() {
         </Card>
       ) : (
         <div className="flex flex-col gap-6">
-          <div className="flex items-center gap-2">
-            <h2 className="text-lg font-bold text-foreground">청구/납부내역</h2>
-            <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
-              {companyGroups.length}개 사업자
-            </span>
-          </div>
-
           {companyGroups.map((group) => (
             <Card key={group.key} className="overflow-hidden gap-0 border-border/70 py-0 shadow-sm">
               {/* 회사(사업자) 그룹 헤더 */}

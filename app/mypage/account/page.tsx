@@ -42,6 +42,10 @@ function AccountContent() {
   const [companies, setCompanies] = useState<CompanyManagementDto[]>([]);
   const [companiesLoaded, setCompaniesLoaded] = useState(false);
 
+  useEffect(() => {
+    setActiveTab(tab === "1" || tab === "company" ? "company" : "account");
+  }, [tab]);
+
   const loadCompanies = async () => {
     const result = await Api.Users.getMyCompanyManagement();
     if (!checkApiResult(result)) return;

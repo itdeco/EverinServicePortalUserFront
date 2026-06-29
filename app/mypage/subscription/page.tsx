@@ -28,7 +28,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { checkApiResult } from "@/utils/apiUtil";
 import { useLoginStatus, useUserProfile } from "@/redux/selectors/Users";
 
 type BmsRecord = Record<string, any>;
@@ -163,6 +162,10 @@ function formatDate(value: any) {
     if (!value) return "-";
 
     const text = String(value).trim();
+    if (/^\d{6}$/.test(text)) {
+        return `${text.slice(0, 4)}-${text.slice(4, 6)}`;
+    }
+
     if (/^\d{8}$/.test(text)) {
         return `${text.slice(0, 4)}-${text.slice(4, 6)}-${text.slice(6, 8)}`;
     }
@@ -233,10 +236,15 @@ function getServiceEndDate(record: BmsRecord) {
 }
 
 function getUseStatus(master: BmsRecord) {
-    const textStatus = valueOf(master, ["UseStatusName", "StatusName", "ServiceStatusName"]);
+    const textStatus = valueOf(master, [
+        "ContStatusName",
+        "UseStatusName",
+        "StatusName",
+        "ServiceStatusName",
+    ]);
     if (textStatus) return String(textStatus);
 
-    const status = Number(valueOf(master, ["Status", "UseStatus"]));
+    const status = Number(valueOf(master, ["ContStatus", "Status", "UseStatus"]));
     if (status === 0) return "이용중";
     if (status === 1) return "이용대기";
     if (status === 9) return "만료";
@@ -362,7 +370,7 @@ export default function SubscriptionPage() {
     const profile = useUserProfile();
     const [isLoading, setIsLoading] = useState(true);
     const [payload, setPayload] = useState<BmsSubscriptionPayload>({});
-    const [isUsingDemoData, setIsUsingDemoData] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const [openKey, setOpenKey] = useState<string | null>(null);
 
     useEffect(() => {
@@ -373,27 +381,34 @@ export default function SubscriptionPage() {
 
         const loadData = async () => {
             setIsLoading(true);
+            setErrorMessage("");
 
             try {
-                const result = await Api.Subscriptions.getMySubscriptions();
-                if (!checkApiResult(result)) {
-                    setPayload(DEMO_SUBSCRIPTION_PAYLOAD);
-                    setIsUsingDemoData(true);
+                const totUserSeq = Number(profile?.totUserSeq);
+
+                if (!Number.isInteger(totUserSeq) || totUserSeq <= 0) {
+                    setPayload({});
+                    setErrorMessage("로그인 정보에 통합 사용자 SEQ가 없습니다. 다시 로그인해 주세요.");
                     return;
                 }
 
-                const nextPayload = normalizePayload(result!.payload);
-                const hasData = !!nextPayload.DataBlock1?.length;
-
-                setPayload(hasData ? nextPayload : DEMO_SUBSCRIPTION_PAYLOAD);
-                setIsUsingDemoData(!hasData);
+                const result = await Api.Subscribe.getContractList(totUserSeq);
+                setPayload(normalizePayload(result));
+            } catch (error) {
+                console.error("구독 계약 조회 실패", error);
+                setPayload({});
+                setErrorMessage(
+                    error instanceof Error
+                        ? error.message
+                        : "구독 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.",
+                );
             } finally {
                 setIsLoading(false);
             }
         };
 
         loadData();
-    }, [isLoggedIn, router]);
+    }, [isLoggedIn, profile?.totUserSeq, router]);
 
     const masters = useMemo(() => payload.DataBlock1 || [], [payload]);
     const details = useMemo(() => payload.DataBlock2 || [], [payload]);
@@ -451,7 +466,15 @@ export default function SubscriptionPage() {
                 </Card>
             )}
 
-            {masters.length === 0 ? (
+            {errorMessage ? (
+                <Card className="border-destructive/30">
+                    <CardContent className="py-12 text-center">
+                        <AlertCircle className="mx-auto mb-4 h-12 w-12 text-destructive/70" />
+                        <h3 className="mb-2 text-lg font-semibold">구독 정보를 불러오지 못했습니다.</h3>
+                        <p className="text-sm text-muted-foreground">{errorMessage}</p>
+                    </CardContent>
+                </Card>
+            ) : masters.length === 0 ? (
                 <Card className="border-2">
                     <CardContent className="py-12 text-center">
                         <AlertCircle className="mx-auto mb-4 h-12 w-12 text-muted-foreground opacity-50" />
@@ -505,7 +528,7 @@ export default function SubscriptionPage() {
                                                             onClick={() => setOpenKey(isOpen ? null : key)}
                                                         >
                                                             <TableCell className="text-center" onClick={(e) => e.stopPropagation()}>
-                                                                <ContractMenu />
+                                                                <ContractMenu master={master} />
                                                             </TableCell>
                                                             <TableCell className="font-medium text-foreground">{getContractDate(master)}</TableCell>
                                                             <TableCell>
@@ -552,7 +575,7 @@ export default function SubscriptionPage() {
                                         return (
                                             <div key={key} className="p-4">
                                                 <div className="flex items-start gap-2">
-                                                    <ContractMenu />
+                                                    <ContractMenu master={master} />
                                                     <button
                                                         type="button"
                                                         className="flex flex-1 items-start justify-between gap-4 text-left"
@@ -593,7 +616,24 @@ export default function SubscriptionPage() {
     );
 }
 
-function ContractMenu() {
+function ContractMenu({ master }: { master: BmsRecord }) {
+    const router = useRouter();
+
+    const handleSelect = (label: string) => {
+        if (label === "결제수단변경" || label === "관리자 추가") {
+            router.push("/mypage/account?tab=company");
+            return;
+        }
+
+        if (label === "청구요금 및 납부내역") {
+            const totCompanySeq = Number(valueOf(master, ["TotCompanySeq"]));
+            const query = Number.isInteger(totCompanySeq) && totCompanySeq > 0
+                ? `?totCompanySeq=${totCompanySeq}`
+                : "";
+            router.push(`/mypage/payment${query}`);
+        }
+    };
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -606,9 +646,7 @@ function ContractMenu() {
                     <Fragment key={label}>
                         {index === CONTRACT_MENU_ITEMS.length - 1 && <DropdownMenuSeparator />}
                         <DropdownMenuItem
-                            onSelect={() => {
-                                console.log("[v0] contract menu action:", label);
-                            }}
+                            onSelect={() => handleSelect(label)}
                             className={index === CONTRACT_MENU_ITEMS.length - 1 ? "text-destructive focus:text-destructive" : ""}
                         >
                             {label}

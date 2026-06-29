@@ -117,13 +117,6 @@ export function SupportHero({
             <h1 className="text-4xl font-black tracking-normal text-slate-950 md:text-5xl">{title}</h1>
             <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-slate-600">{description}</p>
           </div>
-          <Link
-            href="/support/inquiry"
-            className="inline-flex h-12 w-fit items-center gap-2 rounded-full bg-slate-950 px-5 text-sm font-black text-white transition-colors hover:bg-[#03b565]"
-          >
-            문의하기
-            <ArrowRight className="h-4 w-4" />
-          </Link>
         </div>
       </div>
     </section>
