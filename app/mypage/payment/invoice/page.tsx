@@ -18,13 +18,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Api } from "@/api";
-import { checkApiResult } from "@/utils/apiUtil";
-import { useLoginStatus, useUserSubscriptions, useUserCards } from "@/redux/selectors/Users";
-import { usePlans } from "@/redux/selectors/Plans";
-import { PaymentLogDto, PaymentLogStatusType } from "@/types/Payments";
-import { SubscriptionDto, SubscriptionChartDataDto } from "@/types/Subscriptions";
-import { PlanDetailDto } from "@/types/subscribe";
+import { useLoginStatus, useUserProfile } from "@/redux/selectors/Users";
+import { PaymentLogStatusType } from "@/types/Payments";
 import DateUtil from "@/utils/dateUtil";
+
+type BmsRecord = Record<string, any>;
 
 type ServiceLine = {
   name: string;
@@ -80,162 +78,140 @@ const STATUS_INFO: Record<
   },
 };
 
-// 백엔드 미구현 시 데모 인보이스 (청구 목록의 PaymentLogId 와 매칭)
-const DEMO_INVOICES: Record<string, InvoiceModel> = {
-  "9001": {
-    invoiceNo: "BILL-202606-001",
-    companyName: "참존(주)",
-    bizNo: "212-12-12222",
-    periodStart: new Date(2026, 5, 1),
-    periodEnd: new Date(2026, 5, 30),
-    status: PaymentLogStatusType.Paid,
-    payDate: new Date(2026, 5, 5),
-    payMethod: "신한카드 1234",
-    year: 2026,
-    month: 6,
-    serviceLines: [
-      { name: "에버웰커밍", userCount: 30, unitPrice: 2000, amount: 60000 },
-      { name: "에버타임", userCount: 30, unitPrice: 1000, amount: 30000 },
-    ],
-    memberChangeAmt: 0,
-    vat: 9000,
-    total: 99000,
-    amounts: [
-      { month: 3, value: 66000 },
-      { month: 4, value: 90000 },
-      { month: 5, value: 90000 },
-      { month: 6, value: 99000 },
-    ],
-    userCounts: [
-      { month: 3, value: 10 },
-      { month: 4, value: 20 },
-      { month: 5, value: 30 },
-      { month: 6, value: 45 },
-    ],
-  },
-  "9002": {
-    invoiceNo: "BILL-202607-001",
-    companyName: "참존(주)",
-    bizNo: "212-12-12222",
-    periodStart: new Date(2026, 6, 1),
-    periodEnd: new Date(2026, 6, 31),
-    status: PaymentLogStatusType.NotPaid,
-    payDate: null,
-    payMethod: "신한카드 1234",
-    year: 2026,
-    month: 7,
-    serviceLines: [
-      { name: "에버웰커밍", userCount: 30, unitPrice: 2000, amount: 60000 },
-      { name: "에버타임", userCount: 30, unitPrice: 1000, amount: 30000 },
-    ],
-    memberChangeAmt: 0,
-    vat: 9000,
-    total: 99000,
-    amounts: [
-      { month: 4, value: 90000 },
-      { month: 5, value: 90000 },
-      { month: 6, value: 99000 },
-      { month: 7, value: 99000 },
-    ],
-    userCounts: [
-      { month: 4, value: 20 },
-      { month: 5, value: 30 },
-      { month: 6, value: 45 },
-      { month: 7, value: 45 },
-    ],
-  },
-  "9003": {
-    invoiceNo: "BILL-202606-002",
-    companyName: "에버인테스트 법인",
-    bizNo: "212-12-33333",
-    periodStart: new Date(2026, 5, 1),
-    periodEnd: new Date(2026, 5, 30),
-    status: PaymentLogStatusType.Error,
-    payDate: null,
-    payMethod: "국민카드 5678",
-    year: 2026,
-    month: 6,
-    serviceLines: [{ name: "급여관리", userCount: 25, unitPrice: 4500, amount: 112500 }],
-    memberChangeAmt: 0,
-    vat: 11250,
-    total: 123750,
-    amounts: [
-      { month: 3, value: 90000 },
-      { month: 4, value: 99000 },
-      { month: 5, value: 112500 },
-      { month: 6, value: 123750 },
-    ],
-    userCounts: [
-      { month: 3, value: 15 },
-      { month: 4, value: 18 },
-      { month: 5, value: 22 },
-      { month: 6, value: 25 },
-    ],
-  },
-};
-
-function buildModelFromApi(
-  paymentLog: PaymentLogDto,
-  subscription?: SubscriptionDto,
-  plan?: PlanDetailDto,
-  chartData?: SubscriptionChartDataDto | null,
-  payMethod?: string,
-): InvoiceModel {
-  let periodStart =
-    paymentLog.useStartDate || new Date(paymentLog.year!, (paymentLog.month || 1) - 1, 1);
-  if (!paymentLog.useStartDate && subscription?.subscribeDate && periodStart < subscription.subscribeDate) {
-    periodStart = subscription.subscribeDate;
+function valueOf(record: BmsRecord | undefined, keys: string[]) {
+  if (!record) return undefined;
+  for (const key of keys) {
+    const value = record[key];
+    if (value !== undefined && value !== null && value !== "") return value;
   }
-  const periodEnd = paymentLog.useEndDate || DateUtil.getLastDateOfMonth(periodStart);
+  return undefined;
+}
 
-  // 서비스별 라인: subscription.items 우선, 없으면 플랜/요금 단일 라인
-  const items = subscription?.items ?? [];
-  const userCount = paymentLog.userCount || subscription?.userCount || 0;
-  let serviceLines: ServiceLine[] = items
-    .filter((item) => !item.quoteOnly)
-    .map((item) => {
-      const unitPrice = item.unitPrice ?? item.price ?? 0;
-      const count = item.userCount ?? userCount;
-      return {
-        name: item.serviceName || item.productName || item.planProductName || "서비스",
-        userCount: count,
-        unitPrice,
-        amount: item.amount ?? unitPrice * count,
-      };
-    });
+function toRecords(value: unknown): BmsRecord[] {
+  if (Array.isArray(value)) return value;
+  if (value && typeof value === "object") return [value as BmsRecord];
+  return [];
+}
+
+function getInvoiceBlocks(payload: any) {
+  const source = payload?.ROOT || payload?.root || payload || {};
+  const data = source.data?.ROOT || source.data || source;
+  return {
+    master: toRecords(data.DataBlock1 || data.datablock1 || data.invoice)[0],
+    services: toRecords(data.DataBlock2 || data.datablock2 || data.serviceLines),
+    history: toRecords(data.DataBlock3 || data.datablock3 || data.history),
+  };
+}
+
+function toNumber(value: unknown, fallback = 0) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+function parseDate(value: unknown, fallback: Date) {
+  if (!value) return fallback;
+  if (value instanceof Date) return value;
+
+  const text = String(value).trim();
+  if (/^\d{8}$/.test(text)) {
+    return new Date(
+      Number(text.slice(0, 4)),
+      Number(text.slice(4, 6)) - 1,
+      Number(text.slice(6, 8)),
+    );
+  }
+
+  const date = new Date(text);
+  return Number.isNaN(date.getTime()) ? fallback : date;
+}
+
+function getServiceName(row: BmsRecord) {
+  const serviceName = valueOf(row, ["ServiceItemName", "ServiceName", "ProductName", "ItemName"]);
+  const subServiceName = valueOf(row, ["SubServiceItemName", "SubServiceName"]);
+  return subServiceName ? `${serviceName || "서비스"} > ${subServiceName}` : String(serviceName || "서비스");
+}
+
+function getHistoryMonth(row: BmsRecord) {
+  const billYm = String(valueOf(row, ["BillYm", "BillingYm", "PayYm", "UseYm"]) || "");
+  if (/^\d{6}$/.test(billYm)) return Number(billYm.slice(4, 6));
+  return toNumber(valueOf(row, ["Month", "month"]));
+}
+
+function buildModelFromBms(payload: any): InvoiceModel | null {
+  const { master, services, history } = getInvoiceBlocks(payload);
+  if (!master) return null;
+
+  const billYm = String(valueOf(master, ["BillYm", "BillingYm", "PayYm", "UseYm"]) || "");
+  const now = new Date();
+  const year = /^\d{6}$/.test(billYm)
+    ? Number(billYm.slice(0, 4))
+    : toNumber(valueOf(master, ["Year", "year"]), now.getFullYear());
+  const month = /^\d{6}$/.test(billYm)
+    ? Number(billYm.slice(4, 6))
+    : toNumber(valueOf(master, ["Month", "month"]), now.getMonth() + 1);
+  const defaultStart = new Date(year, month - 1, 1);
+  const defaultEnd = new Date(year, month, 0);
+
+  let serviceLines: ServiceLine[] = services.map((row) => {
+    const userCount = toNumber(valueOf(row, ["Qty", "UserCount", "userCount"]));
+    const unitPrice = toNumber(valueOf(row, ["Price", "UnitPrice", "unitPrice"]));
+    return {
+      name: getServiceName(row),
+      userCount,
+      unitPrice,
+      amount: toNumber(valueOf(row, ["Amt", "Amount", "amount"]), unitPrice * userCount),
+    };
+  });
 
   if (serviceLines.length === 0) {
-    const unitPrice = plan?.price ?? subscription?.price ?? 0;
-    serviceLines = [
-      {
-        name: paymentLog.planName || plan?.name || subscription?.planName || "서비스",
-        userCount,
-        unitPrice,
-        amount: paymentLog.amount ?? unitPrice * userCount,
-      },
-    ];
+    const userCount = toNumber(valueOf(master, ["Qty", "UserCount", "userCount"]));
+    const amount = toNumber(valueOf(master, ["Amt", "Amount", "amount"]));
+    const unitPrice = toNumber(valueOf(master, ["Price", "UnitPrice", "unitPrice"]));
+    serviceLines = [{ name: getServiceName(master), userCount, unitPrice, amount }];
   }
 
-  const vat = paymentLog.vat ?? subscription?.payment?.vat ?? 0;
-  const total = Math.round((paymentLog.amount || 0) + vat);
+  const cardCompany = valueOf(master, ["CardCompany", "CardName", "cardCompany"]);
+  const cardNo = valueOf(master, ["CardNo", "CardNumber", "cardNo"]);
+  const payMethodName = valueOf(master, ["PaymentMethodName", "PayMethodName", "PayMethod"]);
+  const maskedCardNo = cardNo ? String(cardNo).slice(-4) : "";
+  const payMethod = cardCompany || cardNo
+    ? `${cardCompany || "카드"}${maskedCardNo ? ` ${maskedCardNo}` : ""}`
+    : payMethodName ? String(payMethodName) : undefined;
+  const subtotal = serviceLines.reduce((sum, line) => sum + line.amount, 0);
+  const memberChangeAmt = toNumber(valueOf(master, ["MemberChangeAmt", "ChangeAmt"]));
+  const vat = toNumber(valueOf(master, ["Vat", "VAT", "vat"]));
+  const sortedHistory = [...history]
+    .sort((a, b) => String(valueOf(a, ["BillYm"]) || "").localeCompare(String(valueOf(b, ["BillYm"]) || "")))
+    .slice(-4);
 
   return {
-    invoiceNo: paymentLog.id ? `INV-${paymentLog.id}` : "INV-DEMO",
-    companyName: subscription?.corporationName || "-",
-    bizNo: undefined,
-    periodStart,
-    periodEnd,
-    status: paymentLog.status ?? PaymentLogStatusType.NotPaid,
-    payDate: paymentLog.payDate,
+    invoiceNo: String(valueOf(master, ["BillNo", "InvoiceNo", "PaymentLogId"]) || "-"),
+    companyName: String(valueOf(master, ["CompanyName", "BizCompanyName", "CorporationName"]) || "-"),
+    bizNo: valueOf(master, ["BizNo", "BizRegNo", "BizRegNumber"]),
+    periodStart: parseDate(valueOf(master, ["ServiceStartDate", "UseStartDate", "PeriodStart"]), defaultStart),
+    periodEnd: parseDate(valueOf(master, ["ServiceEndDate", "UseEndDate", "PeriodEnd"]), defaultEnd),
+    status: toNumber(valueOf(master, ["PayStatus", "PaymentStatus", "Status"]), PaymentLogStatusType.NotPaid),
+    payDate: valueOf(master, ["PayDate", "PaymentDate", "PaidDate"])
+      ? parseDate(valueOf(master, ["PayDate", "PaymentDate", "PaidDate"]), defaultStart)
+      : null,
     payMethod,
-    year: paymentLog.year || periodStart.getFullYear(),
-    month: paymentLog.month || periodStart.getMonth() + 1,
+    year,
+    month,
     serviceLines,
-    memberChangeAmt: subscription?.payment?.memberChangeAmt ?? 0,
+    memberChangeAmt,
     vat,
-    total: total || serviceLines.reduce((sum, l) => sum + l.amount, 0) + vat,
-    amounts: (chartData?.amounts ?? []).map((a) => ({ month: a.month || 0, value: a.value || 0 })),
-    userCounts: (chartData?.userCounts ?? []).map((a) => ({ month: a.month || 0, value: a.value || 0 })),
+    total: toNumber(
+      valueOf(master, ["TotAmt", "TotAmount", "TotalAmount", "total"]),
+      subtotal + memberChangeAmt + vat,
+    ),
+    amounts: sortedHistory.map((row) => ({
+      month: getHistoryMonth(row),
+      value: toNumber(valueOf(row, ["TotAmt", "TotAmount", "Amount", "amount"])),
+    })),
+    userCounts: sortedHistory.map((row) => ({
+      month: getHistoryMonth(row),
+      value: toNumber(valueOf(row, ["Qty", "UserCount", "userCount"])),
+    })),
   };
 }
 
@@ -281,12 +257,11 @@ function InvoiceContent() {
   const paymentId = searchParams.get("id");
   const totCompanySeq = Number(searchParams.get("totCompanySeq"));
   const isLoggedIn = useLoginStatus();
-  const subscriptions = useUserSubscriptions();
-  const plans = usePlans();
-  const cards = useUserCards();
+  const profile = useUserProfile();
 
   const [isLoading, setIsLoading] = useState(true);
   const [model, setModel] = useState<InvoiceModel | null>(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -298,39 +273,32 @@ function InvoiceContent() {
 
     const load = async () => {
       setIsLoading(true);
+      setErrorMessage("");
 
       try {
-        const result = await Api.Payments.getPagedPaymentList({
-          pageNumber: 0,
-          pageSize: 100,
-          totCompanySeq: Number.isInteger(totCompanySeq) && totCompanySeq > 0
-            ? totCompanySeq
-            : undefined,
-        });
-        const found =
-          checkApiResult(result) &&
-          result!.payload?.list?.find((p: PaymentLogDto) => p.id?.toString() === paymentId);
-
-        if (found) {
-          const subscription = subscriptions?.find((s) => s.id === found.subscriptionId);
-          const plan = plans?.find((pl) => pl.id === subscription?.planId);
-          const card = cards?.find((c) => c.cardId === subscription?.cardId);
-
-          let chartData: SubscriptionChartDataDto | null = null;
-          if (subscription?.id) {
-            const chartResult = await Api.Subscriptions.getRecentChartData(subscription.id);
-            if (checkApiResult(chartResult)) chartData = chartResult!.payload;
-          }
-
-          if (!cancelled) {
-            setModel(buildModelFromApi(found, subscription, plan, chartData, card?.companyName));
-          }
-        } else if (!cancelled) {
-          // 데모 폴백
-          setModel(DEMO_INVOICES[paymentId || "9001"] || DEMO_INVOICES["9001"]);
+        const totUserSeq = Number(profile?.totUserSeq);
+        if (!Number.isInteger(totUserSeq) || totUserSeq <= 0) {
+          throw new Error("로그인 정보에 통합 사용자 SEQ가 없습니다. 다시 로그인해 주세요.");
         }
-      } catch {
-        if (!cancelled) setModel(DEMO_INVOICES[paymentId || "9001"] || DEMO_INVOICES["9001"]);
+        if (!paymentId) throw new Error("청구 건 ID가 없습니다.");
+
+        const result = await Api.Payments.getBmsPaymentInvoice(
+          totUserSeq,
+          paymentId,
+          Number.isInteger(totCompanySeq) && totCompanySeq > 0 ? totCompanySeq : undefined,
+        );
+        const nextModel = buildModelFromBms(result);
+        if (!nextModel) throw new Error("BMS 청구 상세 응답에 기본정보가 없습니다.");
+
+        if (!cancelled) setModel(nextModel);
+      } catch (error) {
+        console.error("BMS 청구 상세 조회 실패", error);
+        if (!cancelled) {
+          setModel(null);
+          setErrorMessage(
+            error instanceof Error ? error.message : "청구 상세를 불러오지 못했습니다.",
+          );
+        }
       } finally {
         if (!cancelled) setIsLoading(false);
       }
@@ -340,8 +308,7 @@ function InvoiceContent() {
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn, paymentId, totCompanySeq]);
+  }, [isLoggedIn, paymentId, profile?.totUserSeq, router, totCompanySeq]);
 
   const subtotal = useMemo(
     () => (model ? model.serviceLines.reduce((sum, line) => sum + line.amount, 0) : 0),
@@ -350,7 +317,7 @@ function InvoiceContent() {
 
   if (!isLoggedIn) return null;
 
-  if (isLoading || !model) {
+  if (isLoading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
         <div className="text-center">
@@ -359,6 +326,23 @@ function InvoiceContent() {
           </div>
           <p className="text-muted-foreground">청구 내역을 불러오는 중입니다.</p>
         </div>
+      </div>
+    );
+  }
+
+  if (!model) {
+    return (
+      <div className="mx-auto flex min-h-[60vh] max-w-xl items-center justify-center px-4">
+        <Card className="w-full border-destructive/30">
+          <CardContent className="py-10 text-center">
+            <XCircle className="mx-auto mb-4 h-12 w-12 text-destructive/70" />
+            <h1 className="mb-2 text-lg font-semibold">청구 상세를 불러오지 못했습니다.</h1>
+            <p className="mb-6 text-sm text-muted-foreground">{errorMessage}</p>
+            <Button variant="outline" onClick={() => router.push("/mypage/payment")}>
+              목록으로 돌아가기
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }
