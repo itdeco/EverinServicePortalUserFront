@@ -125,14 +125,14 @@ export default function ElectronicContractSection() {
             </p>
           </div>
 
-          {/* 계약서조회 화면 스크린샷 */}
-          <div className="mx-auto max-w-5xl overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.14)]">
+          {/* 관리자 계약서 화면 스크린샷 (자체 윈도우 크롬 포함) */}
+          <div className="mx-auto max-w-4xl">
             <Image
-              src="/images/people/addOnServices/contract-inquiry.png"
-              alt="계약서 조회 화면 - 사원별 계약서 동의 여부 및 전체/선택 출력"
-              width={1456}
-              height={370}
-              className="h-auto w-full"
+              src="/images/people/addOnServices/contract-admin-screen.png"
+              alt="관리자 계약서 화면 - 사원별 계약서 조회 및 동의 여부 확인"
+              width={1200}
+              height={720}
+              className="h-auto w-full drop-shadow-[0_20px_45px_rgba(15,23,42,0.16)]"
             />
           </div>
         </ScrollReveal>

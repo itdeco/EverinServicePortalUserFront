@@ -74,25 +74,27 @@ export default function IntegrationSection() {
               </div>
             </div>
 
-            {/* ERP 로고 */}
-            <div className="flex flex-col gap-4">
-              <div className="grid grid-cols-2 gap-3">
-                {logos.map((logo) => (
-                  <div
-                    key={logo.alt}
-                    className="flex h-20 items-center justify-center rounded-xl border border-slate-200 bg-white p-4"
-                  >
-                    <Image
-                      src={logo.src || "/placeholder.svg"}
-                      alt={logo.alt}
-                      width={160}
-                      height={48}
-                      className="h-auto max-h-10 w-auto max-w-full object-contain"
-                    />
-                  </div>
-                ))}
+            {/* ERP 로고 - 1줄에 1개씩 */}
+            <div className="flex flex-col gap-3">
+              <div className="mb-1 flex items-center gap-2 text-sm font-bold" style={{ color: COLORS.people }}>
+                <Database className="h-4 w-4" />
+                연동 가능한 ERP
               </div>
-              <p className="text-center text-sm font-semibold text-slate-500">
+              {logos.map((logo) => (
+                <div
+                  key={logo.alt}
+                  className="flex h-16 items-center justify-center rounded-xl border border-slate-200 bg-white px-6"
+                >
+                  <Image
+                    src={logo.src || "/placeholder.svg"}
+                    alt={logo.alt}
+                    width={200}
+                    height={48}
+                    className="h-auto max-h-9 w-auto max-w-full object-contain"
+                  />
+                </div>
+              ))}
+              <p className="mt-1 break-keep text-center text-sm font-semibold text-slate-500">
                 영림원소프트랩 ERP는 물론, 타사 ERP와도 연동 가능합니다.
               </p>
             </div>
