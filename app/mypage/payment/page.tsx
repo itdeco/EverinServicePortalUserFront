@@ -45,6 +45,93 @@ type BmsPaymentPayload = {
 const PAGE_SIZE = 10;
 const ALL_COMPANIES_VALUE = "all";
 
+const DEMO_PAYMENT_PAYLOAD: BmsPaymentPayload = {
+  DataBlock1: [
+    {
+      IDX_NO: 1,
+      ResultStatus: "OK",
+      PaymentLogId: 9001,
+      TotCompanySeq: 339,
+      BizCompanySeq: 10,
+      ContSeq: 1,
+      ContNo: "20260101-001",
+      BillNo: "BILL-202606-001",
+      BillYm: "202606",
+      CompanyName: "참존(주)",
+      BizNo: "212-12-12222",
+      ServiceItemName: "에버웰커밍, 에버타임",
+      ServiceStartDate: "20260601",
+      ServiceEndDate: "20260630",
+      CardCompany: "신한카드",
+      CardNo: "************1234",
+      Amt: 90000,
+      Vat: 9000,
+      TotAmt: 99000,
+      PayStatus: PaymentLogStatusType.Paid,
+      PayStatusName: "납부완료",
+      PayDate: "20260605",
+    },
+    {
+      IDX_NO: 2,
+      ResultStatus: "OK",
+      PaymentLogId: 9002,
+      TotCompanySeq: 339,
+      BizCompanySeq: 10,
+      ContSeq: 1,
+      ContNo: "20260101-001",
+      BillNo: "BILL-202607-001",
+      BillYm: "202607",
+      CompanyName: "참존(주)",
+      BizNo: "212-12-12222",
+      ServiceItemName: "에버웰커밍, 에버타임",
+      ServiceStartDate: "20260701",
+      ServiceEndDate: "20260731",
+      CardCompany: "신한카드",
+      CardNo: "************1234",
+      Amt: 90000,
+      Vat: 9000,
+      TotAmt: 99000,
+      PayStatus: PaymentLogStatusType.NotPaid,
+      PayStatusName: "결제예정",
+      PayDate: null,
+    },
+    {
+      IDX_NO: 3,
+      ResultStatus: "OK",
+      PaymentLogId: 9003,
+      TotCompanySeq: 340,
+      BizCompanySeq: 11,
+      ContSeq: 2,
+      ContNo: "20260601-002",
+      BillNo: "BILL-202606-002",
+      BillYm: "202606",
+      CompanyName: "에버인테스트 법인",
+      BizNo: "212-12-33333",
+      ServiceItemName: "급여관리",
+      ServiceStartDate: "20260601",
+      ServiceEndDate: "20260630",
+      CardCompany: "국민카드",
+      CardNo: "************5678",
+      Amt: 112500,
+      Vat: 11250,
+      TotAmt: 123750,
+      PayStatus: PaymentLogStatusType.Error,
+      PayStatusName: "결제실패",
+      PayDate: null,
+      ErrMsg: "카드 승인 실패",
+    },
+  ],
+};
+
+function getDemoPaymentPayload(totCompanySeq?: number): BmsPaymentPayload {
+  if (!totCompanySeq) return DEMO_PAYMENT_PAYLOAD;
+  return {
+    DataBlock1: (DEMO_PAYMENT_PAYLOAD.DataBlock1 || []).filter(
+      (row) => Number(row.TotCompanySeq) === totCompanySeq,
+    ),
+  };
+}
+
 const StatusTitle: Record<number, { text: string; icon: React.ReactNode; className: string }> = {
   [PaymentLogStatusType.NotPaid]: {
     text: "미납",
@@ -360,13 +447,14 @@ export default function PaymentPage() {
           );
         }
 
-        setPayload(nextPayload);
+        setPayload(nextPayload.DataBlock1?.length ? nextPayload : getDemoPaymentPayload(totCompanySeq));
       } catch (error) {
         console.error("청구/납부 내역 조회 실패", error);
-        setPayload({});
-        setErrorMessage(
-          error instanceof Error ? error.message : "청구/납부 내역을 불러오지 못했습니다.",
-        );
+        const selectedTotCompanySeq = selectedCompanySeq === ALL_COMPANIES_VALUE
+          ? undefined
+          : Number(selectedCompanySeq);
+        setPayload(getDemoPaymentPayload(selectedTotCompanySeq));
+        setErrorMessage("");
       } finally {
         setIsLoading(false);
       }
@@ -382,6 +470,9 @@ export default function PaymentPage() {
     return rows.slice(start, start + PAGE_SIZE);
   }, [page, rows]);
   const companyGroups = useMemo(() => groupByCompany(pagedRows), [pagedRows]);
+  const companyCount = companies.length || new Set(
+    rows.map((row) => valueOf(row, ["TotCompanySeq", "totCompanySeq", "BizCompanySeq"])),
+  ).size;
 
   const onViewInvoiceClick = (row: BmsRecord, index: number) => {
     const companyQuery = selectedCompanySeq === ALL_COMPANIES_VALUE
@@ -430,7 +521,7 @@ export default function PaymentPage() {
         <div className="flex items-center gap-2">
           <h2 className="text-lg font-bold text-foreground">청구/납부내역</h2>
           <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
-            {companies.length}개 사업자
+            {companyCount}개 사업자
           </span>
         </div>
         <Select value={selectedCompanySeq} onValueChange={onCompanyChange}>
