@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { DoorOpen, Fingerprint, ArrowRight, Zap } from "lucide-react"
 import ScrollReveal from "@/components/common/scroll-reveal"
 import { COLORS } from "@/constants/brand-colors"
@@ -33,22 +32,10 @@ export default function AccessControlSection() {
           </p>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
+          {/* 연동 흐름 */}
           <ScrollReveal>
-            <div className="overflow-hidden rounded-[28px] border border-slate-200 shadow-sm">
-              <Image
-                src="/images/people/addOnServices/access-reader.png"
-                alt="출입관리 리더기"
-                width={800}
-                height={600}
-                className="h-auto w-full object-cover"
-              />
-            </div>
-          </ScrollReveal>
-
-          <div className="flex flex-col gap-6">
-            {/* 연동 흐름 */}
-            <ScrollReveal>
+            <div className="flex h-full flex-col justify-center rounded-2xl border border-slate-200 bg-slate-50 p-6">
               <div className="flex items-stretch gap-3">
                 <div className="flex flex-1 flex-col items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-center">
                   <Fingerprint className="h-8 w-8 text-slate-600" />
@@ -74,11 +61,12 @@ export default function AccessControlSection() {
                   <span className="text-xs text-slate-500">출근부 · 근태 통합</span>
                 </div>
               </div>
-            </ScrollReveal>
+            </div>
+          </ScrollReveal>
 
-            {/* 연동 단계 */}
+          {/* 연동 단계 */}
             <ScrollReveal delay={100}>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+              <div className="h-full rounded-2xl border border-slate-200 bg-slate-50 p-6">
                 <p className="mb-4 text-sm font-bold text-slate-700">연동 프로세스</p>
                 <ol className="space-y-3">
                   {steps.map((step, index) => (
@@ -95,7 +83,6 @@ export default function AccessControlSection() {
                 </ol>
               </div>
             </ScrollReveal>
-          </div>
         </div>
       </div>
     </section>

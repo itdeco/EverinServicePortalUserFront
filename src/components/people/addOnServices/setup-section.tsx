@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { Settings2, UserCheck, Wrench } from "lucide-react"
 import ScrollReveal from "@/components/common/scroll-reveal"
 import { COLORS } from "@/constants/brand-colors"
@@ -41,24 +40,11 @@ export default function SetupSection() {
         </ScrollReveal>
 
         <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2">
-          <ScrollReveal>
-            <div className="overflow-hidden rounded-[28px] border border-slate-200 shadow-sm">
-              <Image
-                src="/images/people/addOnServices/setup-consulting.png"
-                alt="셋업 컨설팅"
-                width={800}
-                height={600}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </ScrollReveal>
-
-          <div className="flex flex-col gap-6">
-            {cards.map((card, index) => {
-              const Icon = card.Icon
-              return (
-                <ScrollReveal key={card.title} delay={index * 100}>
-                  <div className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
+          {cards.map((card, index) => {
+            const Icon = card.Icon
+            return (
+              <ScrollReveal key={card.title} delay={index * 100}>
+                <div className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
                     <div className="mb-4 flex items-center gap-3">
                       <span
                         className="flex h-11 w-11 items-center justify-center rounded-2xl text-white"
@@ -72,9 +58,8 @@ export default function SetupSection() {
                     <p className="mt-3 text-sm font-medium text-slate-400">{card.note}</p>
                   </div>
                 </ScrollReveal>
-              )
-            })}
-          </div>
+            )
+          })}
         </div>
       </div>
     </section>
