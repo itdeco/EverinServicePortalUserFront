@@ -78,10 +78,10 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
   {
     label: "부가서비스",
     items: [
-      { title: "전자계약", href: "#" },
-      { title: "연동서비스", href: "#" },
-      { title: "출입관리시스템", href: "#" },
-      { title: "SetUp/추가개발", href: "#" },
+      { title: "전자계약", href: "/people/addOnServices#electronic-contract" },
+      { title: "연동서비스", href: "/people/addOnServices#integration" },
+      { title: "출입관리시스템", href: "/people/addOnServices#access-control" },
+      { title: "SetUp/추가개발", href: "/people/addOnServices#setup" },
     ],
   },
 ];
@@ -105,10 +105,10 @@ const peopleMenu: Record<string, MenuItem[]> = {
   ],
   평가관리: [{ title: "업적·역량·다면", href: "/people/evaluation" }],
   부가서비스: [
-    { title: "전자계약", href: "#" },
-    { title: "연동서비스", href: "#" },
-    { title: "출입관리시스템", href: "#" },
-    { title: "SetUp/추가개발", href: "#" },
+    { title: "전자계약", href: "/people/addOnServices#electronic-contract" },
+    { title: "연동서비스", href: "/people/addOnServices#integration" },
+    { title: "출입관리시스템", href: "/people/addOnServices#access-control" },
+    { title: "SetUp/추가개발", href: "/people/addOnServices#setup" },
   ],
 };
 

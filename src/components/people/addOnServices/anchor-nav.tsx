@@ -1,0 +1,78 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { FileSignature, RefreshCcw, DoorOpen, Settings2, type LucideIcon } from "lucide-react"
+import { COLORS } from "@/constants/brand-colors"
+
+type NavItem = {
+  id: string
+  label: string
+  Icon: LucideIcon
+}
+
+const items: NavItem[] = [
+  { id: "electronic-contract", label: "전자계약", Icon: FileSignature },
+  { id: "integration", label: "연동서비스", Icon: RefreshCcw },
+  { id: "access-control", label: "출입관리시스템", Icon: DoorOpen },
+  { id: "setup", label: "SetUp/추가개발", Icon: Settings2 },
+]
+
+// 헤더(배너 ~40px + 네비 64px) + 앵커 네비 높이만큼 스크롤 오프셋
+const SCROLL_OFFSET = 168
+
+export default function AddOnAnchorNav() {
+  const [active, setActive] = useState<string>(items[0].id)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + SCROLL_OFFSET + 40
+      let current = items[0].id
+      for (const item of items) {
+        const el = document.getElementById(item.id)
+        if (el && el.offsetTop <= scrollPos) {
+          current = item.id
+        }
+      }
+      setActive(current)
+    }
+    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const handleClick = (id: string) => (e: React.MouseEvent) => {
+    e.preventDefault()
+    const el = document.getElementById(id)
+    if (!el) return
+    const top = el.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET
+    window.scrollTo({ top, behavior: "smooth" })
+  }
+
+  return (
+    <nav className="sticky top-[104px] z-40 border-b border-slate-200 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70">
+      <div className="mx-auto flex max-w-[1280px] items-center gap-2 overflow-x-auto px-4 py-3 lg:justify-center lg:px-12">
+        {items.map((item) => {
+          const isActive = active === item.id
+          const Icon = item.Icon
+          return (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              onClick={handleClick(item.id)}
+              className="flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition-all md:px-5 md:text-[15px]"
+              style={{
+                backgroundColor: isActive ? COLORS.people : "#fff",
+                color: isActive ? "#fff" : "#475569",
+                borderColor: isActive ? COLORS.people : "#e2e8f0",
+                boxShadow: isActive ? "0 10px 24px rgba(3,181,101,0.24)" : undefined,
+              }}
+            >
+              <Icon className="h-4 w-4 shrink-0" />
+              <span className="whitespace-nowrap">{item.label}</span>
+            </a>
+          )
+        })}
+      </div>
+    </nav>
+  )
+}
