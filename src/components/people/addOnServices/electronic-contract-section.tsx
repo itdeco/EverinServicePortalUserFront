@@ -125,33 +125,15 @@ export default function ElectronicContractSection() {
             </p>
           </div>
 
-          {/* PC 모니터 프레임 */}
-          <div className="mx-auto max-w-5xl">
-            <div className="overflow-hidden rounded-xl border-[10px] border-slate-800 bg-slate-800 shadow-[0_25px_55px_rgba(15,23,42,0.28)]">
-              {/* 브라우저 상단 바 */}
-              <div className="flex items-center gap-2 bg-slate-800 px-4 py-2.5">
-                <span className="h-3 w-3 rounded-full bg-red-400" />
-                <span className="h-3 w-3 rounded-full bg-amber-300" />
-                <span className="h-3 w-3 rounded-full bg-emerald-400" />
-                <div className="ml-3 flex items-center gap-1.5 rounded-md bg-slate-700 px-3 py-1 text-[11px] font-medium text-slate-300">
-                  <MonitorCheck className="h-3.5 w-3.5" />
-                  계약서조회
-                </div>
-              </div>
-              {/* 화면 */}
-              <div className="bg-white">
-                <Image
-                  src="/images/people/addOnServices/contract-inquiry.png"
-                  alt="계약서 조회 화면 - 사원별 계약서 동의 여부 및 전체/선택 출력"
-                  width={1456}
-                  height={370}
-                  className="h-auto w-full"
-                />
-              </div>
-            </div>
-            {/* 모니터 받침대 */}
-            <div className="mx-auto h-6 w-28 rounded-b-lg bg-slate-700" />
-            <div className="mx-auto h-2 w-48 rounded-full bg-slate-800" />
+          {/* 계약서조회 화면 스크린샷 */}
+          <div className="mx-auto max-w-5xl overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.14)]">
+            <Image
+              src="/images/people/addOnServices/contract-inquiry.png"
+              alt="계약서 조회 화면 - 사원별 계약서 동의 여부 및 전체/선택 출력"
+              width={1456}
+              height={370}
+              className="h-auto w-full"
+            />
           </div>
         </ScrollReveal>
       </div>
