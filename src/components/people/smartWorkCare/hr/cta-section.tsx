@@ -18,7 +18,7 @@ export default function HrCtaSection() {
       {/* Content */}
       <ScrollReveal className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
         <h2 className="text-3xl md:text-4xl lg:text-4xl font-medium text-black mb-4 leading-relaxed">
-          "흩어진 정보를 하나로, 인사는 더 체계적으로"
+          &quot;흩어진 정보를 하나로, 인사는 더 체계적으로&quot;
         </h2>
 
         <p className="text-black text-base md:text-lg mb-3 leading-relaxed">
@@ -27,7 +27,7 @@ export default function HrCtaSection() {
         </p>
         <div className="flex justify-center gap-4 flex-wrap mt-10">
           <Link
-            href="/trial"
+            href="/subscribe"
             className="px-10 py-3.5 rounded-lg font-semibold text-white transition-opacity hover:opacity-90 text-sm md:text-base"
             style={{ background: "linear-gradient(135deg, #4B6BF5 0%, #00cc99 100%)" }}
           >
@@ -35,7 +35,7 @@ export default function HrCtaSection() {
           </Link>
 
           <Link
-            href="/trial"
+            href="/inquiry"
             className="px-10 py-3.5 bg-white border border-black/40 text-black rounded-lg font-semibold hover:bg-gray-50 transition-colors text-sm md:text-base"
           >
             도입문의

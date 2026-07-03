@@ -33,7 +33,7 @@ export default function CTASection() {
           {/* Main CTA */}
           <div className="mb-16 rounded-3xl bg-gradient-to-r from-primary to-primary/80 p-8 text-center text-primary-foreground md:p-12">
             <h2 className="mb-4 text-balance text-3xl font-bold tracking-tight md:text-4xl">
-              파트너가 되어주세요
+              &quot;파트너가 되어주세요&quot;
             </h2>
             <p className="mx-auto mb-8 max-w-xl text-pretty text-lg opacity-90">
               에버人의 성장에 함께할 파트너를 모집합니다. 도입 문의부터 파트너십까지, 언제든지

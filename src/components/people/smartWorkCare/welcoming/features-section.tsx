@@ -141,11 +141,6 @@ export default function WelcomingFeaturesSection() {
                 <h3 className="text-2xl font-bold leading-tight text-slate-950 md:text-3xl">
                   {activeFeature.title}
                 </h3>
-                {activeFeature.badge && (
-                  <span className="inline-block px-2.5 py-1 text-xs font-medium text-orange-600 bg-orange-100 rounded-full">
-                    {activeFeature.badge}
-                  </span>
-                )}
               </div>
 
               <p className="mb-7 text-base leading-relaxed text-slate-500">

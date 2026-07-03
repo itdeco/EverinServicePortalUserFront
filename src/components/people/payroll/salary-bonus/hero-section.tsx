@@ -41,7 +41,7 @@ export default function SalaryBonusHeroSection() {
               className="px-10 h-14 text-base font-semibold rounded-lg text-white border-0"
               style={{ background: "linear-gradient(135deg, #3344e6 0%, #6f7cf5 100%)" }}
             >
-              <Link href="/trial">도입문의</Link>
+              <Link href="/inquiry">도입문의</Link>
             </Button>
 
             <Button
@@ -51,7 +51,7 @@ export default function SalaryBonusHeroSection() {
               className="bg-white text-gray-700 px-10 h-14 text-base font-semibold rounded-lg hover:bg-[#f3f4ff]"
               style={{ borderColor: "#3344e6" }}
             >
-              <Link href="/trial">견적요청</Link>
+              <Link href="/subscribe">견적요청</Link>
             </Button>
           </div>
         </div>

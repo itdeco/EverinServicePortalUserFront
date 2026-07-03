@@ -19,7 +19,7 @@ export default function CtaSection() {
           <h2 className="text-[20px] md:text-[26px] font-medium text-black mb-9 leading-relaxed">
             혹시 지금 인사팀 업무의 70%가{" "}
             <span className="font-black">
-            ‘서로 다른 시스템의 데이터를 맞추는 일’
+            &quot;서로 다른 시스템의 데이터를 맞추는 일&quot;
           </span>
             에 쓰이고 있지는 않습니까?
           </h2>

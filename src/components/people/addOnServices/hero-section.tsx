@@ -46,7 +46,7 @@ export default function AddOnHeroSection() {
               className="h-14 rounded-lg border-0 px-10 text-base font-semibold text-white"
               style={{ background: `linear-gradient(135deg, ${COLORS.people} 0%, ${COLORS.onboarding} 100%)` }}
             >
-              <Link href="/trial">견적받기</Link>
+              <Link href="/subscribe">견적받기</Link>
             </Button>
 
             <Button

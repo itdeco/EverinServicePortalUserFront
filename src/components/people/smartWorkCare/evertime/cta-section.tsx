@@ -35,7 +35,7 @@ export default function EvertimeCtaSection() {
           </Link>
 
           <Link
-            href="/inquiry"
+            href="/subscribe"
             className="border border-[#00cc99] bg-white text-gray-700 px-10 h-14 inline-flex items-center text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
           >
             견적요청

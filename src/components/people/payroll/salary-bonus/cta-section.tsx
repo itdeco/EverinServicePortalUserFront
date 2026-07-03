@@ -17,7 +17,7 @@ export default function SalaryBonusCtaSection() {
       {/* 컨텐츠 */}
       <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
         <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold text-black mb-4 leading-relaxed">
-          급여·상여, 이제는 더 똑똑하게
+          &quot;급여·상여, 이제는 더 똑똑하게&quot;
         </h2>
 
         <p className="text-black text-base md:text-lg mb-3 leading-relaxed">
@@ -27,7 +27,7 @@ export default function SalaryBonusCtaSection() {
 
         <div className="flex justify-center gap-4 flex-wrap mt-10">
           <Link
-            href="/trial"
+            href="/inquiry"
             className="px-10 py-3.5 rounded-lg font-semibold text-white transition-opacity hover:opacity-90 text-sm md:text-base"
             style={{ background: "linear-gradient(135deg, #3344e6 0%, #6f7cf5 100%)" }}
           >
@@ -35,7 +35,7 @@ export default function SalaryBonusCtaSection() {
           </Link>
 
           <Link
-            href="/trial"
+            href="/subscribe"
             className="bg-white text-gray-700 px-10 h-14 inline-flex items-center text-base font-semibold rounded-lg hover:bg-[#f3f4ff]"
             style={{ border: "1px solid #3344e6" }}
           >

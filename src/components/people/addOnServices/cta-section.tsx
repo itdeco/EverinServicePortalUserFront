@@ -16,17 +16,17 @@ export default function AddOnCtaSection() {
       </div>
 
       <ScrollReveal className="relative mx-auto max-w-[1280px] px-6 text-center lg:px-12">
-        <h2 className="mb-4 text-3xl font-medium leading-relaxed text-black md:text-4xl">
+        <h2 className="text-3xl md:text-4xl lg:text-4xl font-medium text-black mb-4 leading-relaxed">
           &quot;하나의 HR플랫폼으로 모두 연결&quot;
         </h2>
 
-        <p className="mb-3 text-3xl leading-relaxed text-black md:text-4xl">
+        <p className="text-black text-base md:text-lg mb-3 leading-relaxed">
           부가서비스로 HR을 더 편리하게 시작하세요.
         </p>
 
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <Link
-            href="/trial"
+            href="/subscribe"
             className="inline-flex h-14 items-center rounded-lg px-10 text-base font-semibold text-white transition-opacity hover:opacity-90"
             style={{ background: `linear-gradient(135deg, ${COLORS.people} 0%, ${COLORS.onboarding} 100%)` }}
           >

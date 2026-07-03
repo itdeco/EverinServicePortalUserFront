@@ -18,7 +18,7 @@ export default function PcOffCtaSection() {
       {/* Content */}
       <ScrollReveal className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
         <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold text-black mb-4 leading-relaxed">
-          불필요한 야근, 이제는 기업의 리스크입니다.
+          &quot;불필요한 야근, 이제는 기업의 리스크입니다.&quot;
         </h2>
 
         <p className="text-black text-base md:text-lg mb-3 leading-relaxed">
@@ -36,7 +36,7 @@ export default function PcOffCtaSection() {
           </Link>
 
           <Link
-            href="/trial"
+            href="/subscribe"
             className="px-10 py-3.5 bg-white border border-black/40 text-black rounded-lg font-semibold hover:bg-gray-50 transition-colors text-sm md:text-base"
           >
             견적요청

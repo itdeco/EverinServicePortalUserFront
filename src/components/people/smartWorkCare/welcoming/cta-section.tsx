@@ -17,7 +17,7 @@ export default function WelcomingCtaSection() {
       {/* 컨텐츠 */}
       <div className="relative mx-auto max-w-[1280px] px-6 lg:px-12 text-center">
         <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold text-black mb-4 leading-relaxed">
-          첫날부터 성공적인 시작
+          &quot;첫날부터 성공적인 시작&quot;
         </h2>
 
         <p className="text-black text-base md:text-lg mb-3 leading-relaxed">
@@ -35,7 +35,7 @@ export default function WelcomingCtaSection() {
           </Link>
 
           <Link
-            href="/trial"
+            href="/inquiry"
             className="border border-[#00cc99] bg-white text-gray-700 px-10 h-14 inline-flex items-center text-base font-semibold rounded-lg hover:bg-[#f0fdf9]"
           >
             평생 무료 사용
