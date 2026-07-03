@@ -1,58 +1,54 @@
 "use client"
 
-import { DoorOpen, Fingerprint, Monitor, Database, Zap, ArrowRight, ArrowDown, Clock } from "lucide-react"
+import { DoorOpen, Fingerprint, Monitor, ArrowUp, ArrowRight, ArrowDown } from "lucide-react"
 import ScrollReveal from "@/components/common/scroll-reveal"
 import { COLORS } from "@/constants/brand-colors"
 
-const steps = [
-  "접속 계정 생성",
-  "연동 테이블 생성",
-  "ODBC 설정",
-  "연동 설정",
-  "출입 데이터 자동 전송",
-]
+const GREEN = COLORS.people
+const GREEN_DARK = "#3f9c35"
+const BLUE = "#2f3aa8"
+const ORANGE = "#f97316"
+const RED = "#e11d48"
 
-function SystemBox({
-  title,
-  children,
-}: {
-  title: string
-  children: React.ReactNode
-}) {
+/** 데이터베이스 실린더 모양 노드 */
+function Cylinder({ label }: { label: string }) {
   return (
-    <div className="flex flex-1 flex-col overflow-hidden rounded-2xl border-2" style={{ borderColor: `${COLORS.people}55` }}>
-      <div className="px-4 py-2.5 text-center text-sm font-bold text-white" style={{ backgroundColor: COLORS.people }}>
-        {title}
-      </div>
-      <div className="flex flex-1 flex-col items-center gap-3 bg-white p-5">{children}</div>
+    <div className="relative mx-auto flex h-14 w-44 items-center justify-center">
+      <div
+        className="absolute inset-0 rounded-[50%/22px] border-2 bg-white"
+        style={{ borderColor: GREEN }}
+      />
+      <span className="relative z-10 break-keep px-2 text-center text-sm font-bold text-slate-800">
+        {label}
+      </span>
     </div>
   )
 }
 
-function Node({
-  icon: Icon,
-  label,
-  sub,
-  tone = "slate",
-}: {
-  icon: React.ElementType
-  label: string
-  sub?: string
-  tone?: "slate" | "people"
-}) {
-  const isPeople = tone === "people"
+/** 중앙 연결 방향 화살표 (데스크탑: 오른쪽 / 모바일: 아래) */
+function FlowArrow({ color }: { color: string }) {
   return (
-    <div
-      className="flex w-full flex-col items-center gap-1 rounded-xl border p-3 text-center"
-      style={
-        isPeople
-          ? { borderColor: `${COLORS.people}33`, backgroundColor: `${COLORS.people}0d` }
-          : { borderColor: "#e2e8f0", backgroundColor: "#f8fafc" }
-      }
-    >
-      <Icon className="h-6 w-6" style={{ color: isPeople ? COLORS.people : "#475569" }} />
-      <span className="text-sm font-bold text-slate-800">{label}</span>
-      {sub && <span className="text-xs text-slate-500">{sub}</span>}
+    <div className="flex items-center justify-center" style={{ color }}>
+      {/* 데스크탑: 가로 → */}
+      <div className="hidden items-center lg:flex">
+        <span className="h-0.5 w-10" style={{ backgroundColor: color }} />
+        <ArrowRight className="-ml-1 h-5 w-5" strokeWidth={3} />
+      </div>
+      {/* 모바일: 세로 ↓ */}
+      <div className="flex flex-col items-center lg:hidden">
+        <span className="h-8 w-0.5" style={{ backgroundColor: color }} />
+        <ArrowDown className="-mt-1 h-5 w-5" strokeWidth={3} />
+      </div>
+    </div>
+  )
+}
+
+/** 위로 향하는 파란 화살표 */
+function UpArrow() {
+  return (
+    <div className="flex flex-col items-center" style={{ color: BLUE }}>
+      <div className="h-6 w-0.5" style={{ backgroundColor: BLUE }} />
+      <ArrowUp className="-mt-2 h-4 w-4" strokeWidth={3} />
     </div>
   )
 }
@@ -64,77 +60,144 @@ export default function AccessControlSection() {
         <ScrollReveal className="mb-12 text-center">
           <div
             className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-bold"
-            style={{ backgroundColor: `${COLORS.people}14`, color: COLORS.people }}
+            style={{ backgroundColor: `${GREEN}14`, color: GREEN }}
           >
             <DoorOpen className="h-4 w-4" />
             출입관리시스템
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
-            출입 데이터로 근태를 통합 관리하세요
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-gray-600 md:text-lg">
-            사용 중인 출입관리시스템(세콤 / 캡스)과 연동하여 출입 데이터를 자동 전송하고 근태 내역을 통합 관리합니다.
+          <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">출입 데이터로 근태를 통합 관리하세요</h2>
+          <p className="mx-auto mt-4 max-w-2xl break-keep text-base leading-relaxed text-gray-600 md:text-lg">
+            사용하고 계시는 출입관리시스템(세콤 / 캡스)과의 연동으로 출입데이터를 자동 전송하여 근태 내역을 통합
+            관리하세요.
           </p>
         </ScrollReveal>
 
         <ScrollReveal>
-          <div className="rounded-[28px] border border-slate-200 bg-slate-50 p-6 shadow-sm md:p-10">
-            {/* 연동 다이어그램 */}
-            <div className="flex flex-col items-stretch gap-4 lg:flex-row lg:items-center">
-              {/* 세콤/캡스 */}
-              <SystemBox title="세콤 / 캡스 보안시스템">
-                <Node icon={Fingerprint} label="리더기" sub="출퇴근 시간 수집" />
-                <ArrowDown className="h-5 w-5 text-slate-400" />
-                <Node icon={Monitor} label="관리용 PC" sub="시스템 매니저 · 연동 설정" />
-                <ArrowDown className="h-5 w-5 text-slate-400" />
-                <Node icon={Database} label="출입 데이터" />
-              </SystemBox>
-
-              {/* 중앙 전송 */}
-              <div className="flex flex-row items-center justify-center gap-2 lg:flex-col">
+          <div className="relative rounded-[28px] border border-slate-200 bg-slate-50 p-5 shadow-sm md:p-8">
+            <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-[1fr_auto_1fr]">
+              {/* ============ 세콤 / 캡스 보안시스템 ============ */}
+              <div className="overflow-hidden rounded-xl border-2 bg-white" style={{ borderColor: GREEN }}>
                 <div
-                  className="flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold text-white"
-                  style={{ backgroundColor: COLORS.people }}
+                  className="py-2.5 text-center text-base font-bold text-white"
+                  style={{ backgroundColor: GREEN }}
                 >
-                  <Zap className="h-3.5 w-3.5" />
-                  출입데이터 자동전송
+                  세콤 / 캡스 보안시스템
                 </div>
-                <ArrowRight className="hidden h-7 w-7 lg:block" style={{ color: COLORS.people }} />
-                <ArrowDown className="h-6 w-6 lg:hidden" style={{ color: COLORS.people }} />
-                <span className="rounded-full border border-dashed border-slate-300 bg-white px-3 py-1 text-[11px] font-semibold text-slate-500">
-                  ODBC 설정
-                </span>
+                <div className="flex flex-col items-center p-6">
+                  {/* 리더기 + 관리용 PC */}
+                  <div className="flex w-full items-end justify-center gap-8">
+                    {/* 리더기 */}
+                    <div className="flex flex-col items-center gap-2">
+                      <span className="text-xs font-bold" style={{ color: GREEN_DARK }}>
+                        리더기
+                      </span>
+                      <div className="flex h-24 w-16 flex-col items-center justify-between rounded-md border-2 border-slate-300 bg-slate-100 p-1.5">
+                        <div className="h-6 w-full rounded-sm bg-slate-700" />
+                        <Fingerprint className="h-8 w-8 text-slate-500" />
+                      </div>
+                    </div>
+                    {/* 관리용 PC */}
+                    <div className="flex flex-col items-center gap-2">
+                      <span className="text-xs font-bold" style={{ color: GREEN_DARK }}>
+                        관리용 PC
+                      </span>
+                      <span className="text-[11px] font-semibold" style={{ color: GREEN_DARK }}>
+                        시스템 매니저
+                      </span>
+                      <Monitor className="h-14 w-14 text-slate-600" strokeWidth={1.4} />
+                    </div>
+                  </div>
+
+                  {/* 화살표: 출퇴근시간 / 4.연동 설정 */}
+                  <div className="mt-2 flex w-full items-start justify-center gap-8">
+                    <div className="flex flex-col items-center" style={{ color: BLUE }}>
+                      <span className="mb-1 text-[11px] font-bold text-slate-600">출퇴근시간</span>
+                      <div className="h-8 w-0.5" style={{ backgroundColor: BLUE }} />
+                      <ArrowUp className="-mt-2 h-4 w-4 rotate-180" strokeWidth={3} />
+                    </div>
+                    <div className="flex flex-col items-center" style={{ color: BLUE }}>
+                      <span className="mb-1 text-[11px] font-bold text-slate-600">4. 연동 설정</span>
+                      <div className="h-8 w-0.5" style={{ backgroundColor: BLUE }} />
+                      <ArrowUp className="-mt-2 h-4 w-4 rotate-180" strokeWidth={3} />
+                    </div>
+                  </div>
+
+                  <div className="mt-3">
+                    <Cylinder label="출입데이터" />
+                  </div>
+                </div>
               </div>
 
-              {/* 에버타임 */}
-              <SystemBox title="에버타임">
-                <Node icon={Database} label="연동 테이블" tone="people" />
-                <ArrowDown className="h-5 w-5" style={{ color: COLORS.people }} />
-                <Node icon={Clock} label="카드 출퇴근 데이터 업로드" tone="people" />
-                <ArrowDown className="h-5 w-5" style={{ color: COLORS.people }} />
-                <Node icon={DoorOpen} label="출근부" sub="근태 통합 관리" tone="people" />
-              </SystemBox>
-            </div>
+              {/* ============ 중앙 연결 (세콤/캡스 → 에버타임) ============ */}
+              <div className="flex flex-row items-stretch justify-center gap-4 py-2 lg:flex-col lg:justify-center lg:gap-6 lg:py-8">
+                {/* 공통 방향 안내 */}
+                <span className="hidden text-center text-[11px] font-bold uppercase tracking-wide text-slate-400 lg:block">
+                  세콤 / 캡스 → 에버타임
+                </span>
 
-            {/* 연동 프로세스 */}
-            <div className="mt-8 border-t border-slate-200 pt-6">
-              <p className="mb-4 text-sm font-bold text-slate-700">연동 프로세스</p>
-              <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-                {steps.map((step, index) => (
-                  <li
-                    key={step}
-                    className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3"
+                {/* 3. ODBC 설정 */}
+                <div className="flex flex-1 flex-col items-center justify-center gap-2 rounded-2xl border border-dashed bg-white px-3 py-4 lg:flex-none"
+                  style={{ borderColor: ORANGE }}
+                >
+                  <span
+                    className="rounded-full px-3 py-1 text-xs font-bold text-white"
+                    style={{ backgroundColor: ORANGE }}
                   >
-                    <span
-                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                      style={{ backgroundColor: COLORS.people }}
-                    >
-                      {index + 1}
+                    3. ODBC 설정
+                  </span>
+                  <FlowArrow color={ORANGE} />
+                  <span className="break-keep text-center text-[11px] font-semibold text-slate-500">
+                    관리용 PC → 연동 테이블
+                  </span>
+                </div>
+
+                {/* 5. 출입데이터 자동전송 */}
+                <div className="flex flex-1 flex-col items-center justify-center gap-2 rounded-2xl border px-3 py-4 lg:flex-none"
+                  style={{ borderColor: GREEN_DARK, backgroundColor: "#f2fbef" }}
+                >
+                  <span
+                    className="rounded-full px-3 py-1 text-center text-xs font-black leading-tight text-white"
+                    style={{ backgroundColor: GREEN_DARK }}
+                  >
+                    5. 출입데이터 자동전송
+                  </span>
+                  <FlowArrow color={GREEN_DARK} />
+                  <span className="break-keep text-center text-[11px] font-semibold text-slate-500">
+                    출입데이터 → 연동 테이블
+                  </span>
+                </div>
+              </div>
+
+              {/* ============ 에버타임 ============ */}
+              <div className="overflow-hidden rounded-xl border-2 bg-white" style={{ borderColor: GREEN }}>
+                <div className="flex items-center justify-center gap-2 py-2.5">
+                  <span className="h-4 w-4 rounded-full" style={{ backgroundColor: GREEN }} />
+                  <span className="text-base font-bold text-slate-800">에버타임</span>
+                </div>
+                <div className="flex flex-col items-center border-t border-slate-100 p-6">
+                  {/* 출근부 */}
+                  <div className="w-full max-w-[220px] rounded-md border border-slate-200 bg-slate-50 p-3 text-center">
+                    <span className="text-base font-bold text-slate-800">출근부</span>
+                  </div>
+                  <UpArrow />
+                  <Cylinder label="출 / 퇴근 테이블" />
+                  <UpArrow />
+                  {/* 카드 출퇴근 데이터 업로드 (빨강) */}
+                  <div
+                    className="rounded-lg border-2 px-5 py-2.5"
+                    style={{ borderColor: RED, backgroundColor: "#fff1f2" }}
+                  >
+                    <span className="text-sm font-bold" style={{ color: RED }}>
+                      카드 출퇴근 데이터 업로드
                     </span>
-                    <span className="text-sm font-semibold text-slate-800">{step}</span>
-                  </li>
-                ))}
-              </ol>
+                  </div>
+                  <UpArrow />
+                  <Cylinder label="연동 테이블" />
+                  <p className="mt-4 break-keep text-center text-xs font-semibold text-slate-500">
+                    1. 접속 계정 생성 · 2. 연동 테이블 생성
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </ScrollReveal>
