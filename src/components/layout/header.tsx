@@ -86,6 +86,12 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
   },
 ];
 
+const peopleCategoryHrefs: Record<string, string> = {
+  급여: "/people/payroll/salary-bonus",
+  평가관리: "/people/evaluation",
+  부가서비스: "/people/addOnServices",
+};
+
 // Culture 메뉴는 기존 유지 (모바일에서 사용)
 const peopleMenu: Record<string, MenuItem[]> = {
   "스마트 워크케어": [
@@ -144,6 +150,7 @@ const cultureMenu: Record<string, MenuItem[]> = {
 };
 
 export default function Header() {
+  const headerRef = useRef<HTMLElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const closeTimerRef = useRef<NodeJS.Timeout | null>(null)
@@ -214,10 +221,33 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    const header = headerRef.current
+    if (!header) return
+
+    const updateHeaderHeight = () => {
+      document.documentElement.style.setProperty(
+        "--site-header-height",
+        `${header.offsetHeight}px`,
+      )
+    }
+
+    updateHeaderHeight()
+    const observer = new ResizeObserver(updateHeaderHeight)
+    observer.observe(header)
+    window.addEventListener("resize", updateHeaderHeight)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener("resize", updateHeaderHeight)
+      document.documentElement.style.removeProperty("--site-header-height")
+    }
+  }, [])
+
   // Remove megaMenuTop calculation useEffect
 
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header ref={headerRef} className="sticky top-0 z-50 w-full">
       {/* 상단 프로모션 배너 */}
       <div
         className="text-primary-foreground py-2.5"
@@ -294,11 +324,23 @@ export default function Header() {
                               <div className="flex gap-8">
                               {peopleMenuColumns.map((col) => (
                                 <div key={col.label} className="flex flex-col gap-3 shrink-0">
-                                  <div className="text-base font-bold whitespace-nowrap" style={{
-                                    color: col.label === "급여" ? COLORS.people
-                                      : col.label === "평가관리" ? COLORS.people
-                                      : COLORS.people
-                                  }}>{col.label}</div>
+                                  {peopleCategoryHrefs[col.label] ? (
+                                    <SmartLink
+                                      href={peopleCategoryHrefs[col.label]}
+                                      onClick={dismissMegaMenu}
+                                      className="text-base font-bold whitespace-nowrap transition-opacity hover:opacity-70"
+                                      style={{ color: COLORS.people }}
+                                    >
+                                      {col.label}
+                                    </SmartLink>
+                                  ) : (
+                                    <div
+                                      className="text-base font-bold whitespace-nowrap"
+                                      style={{ color: COLORS.people }}
+                                    >
+                                      {col.label}
+                                    </div>
+                                  )}
                                   {col.col1 ? (
                                     <div className="flex gap-8">
                                       <div className="flex flex-col gap-2">
@@ -746,10 +788,21 @@ export default function Header() {
                         className="overflow-hidden rounded-2xl border bg-white shadow-sm"
                         style={{ borderColor: `${COLORS.people}18`, borderLeft: `4px solid ${COLORS.people}` }}
                       >
-                        <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-3 py-2.5 text-[15px] font-black text-slate-950">
-                          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: COLORS.people }} />
-                          {category.replace('\n', ' ')}
-                        </div>
+                        {peopleCategoryHrefs[category] ? (
+                          <SmartLink
+                            href={peopleCategoryHrefs[category]}
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-3 py-2.5 text-[15px] font-black text-slate-950 transition-colors hover:bg-slate-100"
+                          >
+                            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: COLORS.people }} />
+                            {category.replace('\n', ' ')}
+                          </SmartLink>
+                        ) : (
+                          <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-3 py-2.5 text-[15px] font-black text-slate-950">
+                            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: COLORS.people }} />
+                            {category.replace('\n', ' ')}
+                          </div>
+                        )}
                         <div className="grid gap-1">
                         {items.map((item) => (
                           <SmartLink

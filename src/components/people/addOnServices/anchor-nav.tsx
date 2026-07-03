@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { FileSignature, RefreshCcw, DoorOpen, Settings2, type LucideIcon } from "lucide-react"
 import { COLORS } from "@/constants/brand-colors"
 
@@ -17,15 +17,20 @@ const items: NavItem[] = [
   { id: "setup", label: "SetUp/추가개발", Icon: Settings2 },
 ]
 
-// 헤더(배너 ~40px + 네비 64px) + 앵커 네비 높이만큼 스크롤 오프셋
-const SCROLL_OFFSET = 168
-
 export default function AddOnAnchorNav() {
+  const navRef = useRef<HTMLElement>(null)
   const [active, setActive] = useState<string>(items[0].id)
+
+  const getScrollOffset = useCallback(() => {
+    const headerHeight = Number.parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue("--site-header-height"),
+    ) || 104
+    return headerHeight + (navRef.current?.offsetHeight || 64)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPos = window.scrollY + SCROLL_OFFSET + 40
+      const scrollPos = window.scrollY + getScrollOffset() + 40
       let current = items[0].id
       for (const item of items) {
         const el = document.getElementById(item.id)
@@ -38,18 +43,22 @@ export default function AddOnAnchorNav() {
     handleScroll()
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [getScrollOffset])
 
   const handleClick = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault()
     const el = document.getElementById(id)
     if (!el) return
-    const top = el.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET
+    const top = el.getBoundingClientRect().top + window.scrollY - getScrollOffset()
     window.scrollTo({ top, behavior: "smooth" })
   }
 
   return (
-    <nav className="sticky top-[104px] z-40 border-b border-slate-200 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70">
+    <nav
+      ref={navRef}
+      className="sticky z-40 border-b border-slate-200 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70"
+      style={{ top: "var(--site-header-height, 104px)" }}
+    >
       <div className="mx-auto flex max-w-[1280px] items-center gap-2 overflow-x-auto px-4 py-3 lg:justify-center lg:px-12">
         {items.map((item) => {
           const isActive = active === item.id

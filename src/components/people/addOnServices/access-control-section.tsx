@@ -67,8 +67,7 @@ export default function AccessControlSection() {
           </div>
           <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">출입 데이터로 근태를 통합 관리하세요</h2>
           <p className="mx-auto mt-4 max-w-2xl break-keep text-base leading-relaxed text-gray-600 md:text-lg">
-            사용하고 계시는 출입관리시스템(세콤 / 캡스)과의 연동으로 출입데이터를 자동 전송하여 근태 내역을 통합
-            관리하세요.
+            사용하고 계시는 출입관리시스템(세콤 / 캡스)과의 연동으로<br/>출입데이터를 자동 전송하여 근태 내역을 통합 관리하세요.
           </p>
         </ScrollReveal>
 

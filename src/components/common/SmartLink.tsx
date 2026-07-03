@@ -1,11 +1,12 @@
 import Link from "next/link"
-import { ReactNode } from "react"
+import { CSSProperties, ReactNode } from "react"
 import { ExternalLink } from "lucide-react"
 
 type SmartLinkProps = {
     href: string
     children: ReactNode
     className?: string
+    style?: CSSProperties
     onClick?: () => void
     external?: boolean
     hideExternalIcon?: boolean
@@ -15,6 +16,7 @@ export default function SmartLink({
                                       href,
                                       children,
                                       className,
+                                      style,
                                       onClick,
                                       external,
                                       hideExternalIcon,
@@ -31,6 +33,7 @@ export default function SmartLink({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`group flex items-center gap-2 ${className}`}
+                style={style}
                 onClick={onClick}
             >
                 {children}
@@ -44,7 +47,7 @@ export default function SmartLink({
     }
 
     return (
-        <Link href={href} className={className} onClick={onClick}>
+        <Link href={href} className={className} style={style} onClick={onClick}>
             {children}
         </Link>
     )
