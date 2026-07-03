@@ -1,6 +1,6 @@
 "use client"
 
-import { DoorOpen, Fingerprint, Monitor, ArrowUp } from "lucide-react"
+import { DoorOpen, Fingerprint, Monitor, ArrowUp, ArrowRight, ArrowDown } from "lucide-react"
 import ScrollReveal from "@/components/common/scroll-reveal"
 import { COLORS } from "@/constants/brand-colors"
 
@@ -110,21 +110,33 @@ export default function AccessControlSection() {
                 </div>
               </div>
 
-              {/* ============ 중앙 연결 ============ */}
-              <div className="flex flex-row items-center justify-center gap-4 py-2 lg:flex-col lg:justify-between lg:py-8">
-                {/* 3. ODBC 설정 (주황 점선) */}
-                <div className="flex flex-col items-center gap-1">
-                  <div
-                    className="h-0 w-16 border-t-2 border-dashed lg:h-16 lg:w-0 lg:border-l-2 lg:border-t-0"
-                    style={{ borderColor: ORANGE }}
-                  />
+              {/* ============ 중앙 연결 (세콤/캡스 → 에버타임) ============ */}
+              <div className="flex flex-row items-center justify-center gap-6 py-2 lg:flex-col lg:justify-center lg:gap-10 lg:py-8">
+                {/* 3. ODBC 설정 (주황 점선 화살표) */}
+                <div className="flex flex-col items-center gap-2">
                   <span className="whitespace-nowrap text-xs font-bold" style={{ color: ORANGE }}>
                     3. ODBC 설정
                   </span>
+                  {/* 데스크탑: 오른쪽 방향 / 모바일: 아래 방향 */}
+                  <div className="flex items-center" style={{ color: ORANGE }}>
+                    <div
+                      className="hidden border-t-2 border-dashed lg:block"
+                      style={{ borderColor: ORANGE, width: 56 }}
+                    />
+                    <div
+                      className="border-l-2 border-dashed lg:hidden"
+                      style={{ borderColor: ORANGE, height: 40 }}
+                    />
+                    <ArrowRight className="hidden h-5 w-5 lg:block" strokeWidth={3} />
+                    <ArrowDown className="h-5 w-5 lg:hidden" strokeWidth={3} />
+                  </div>
+                  <span className="whitespace-nowrap text-[10px] font-semibold text-slate-500">
+                    관리용 PC → 연동 테이블
+                  </span>
                 </div>
 
-                {/* 5. 출입데이터 자동전송 (별표 배지) */}
-                <div className="flex flex-col items-center gap-1">
+                {/* 5. 출입데이터 자동전송 (별표 배지 + 방향 화살표) */}
+                <div className="flex flex-col items-center gap-2">
                   <div
                     className="flex h-24 w-24 items-center justify-center text-center"
                     style={{
@@ -139,6 +151,16 @@ export default function AccessControlSection() {
                       자동전송
                     </span>
                   </div>
+                  {/* 데스크탑: 오른쪽 방향 / 모바일: 아래 방향 */}
+                  <div className="flex items-center" style={{ color: GREEN_DARK }}>
+                    <div className="hidden h-0.5 lg:block" style={{ backgroundColor: GREEN_DARK, width: 56 }} />
+                    <div className="w-0.5 lg:hidden" style={{ backgroundColor: GREEN_DARK, height: 40 }} />
+                    <ArrowRight className="hidden h-5 w-5 lg:block" strokeWidth={3} />
+                    <ArrowDown className="h-5 w-5 lg:hidden" strokeWidth={3} />
+                  </div>
+                  <span className="whitespace-nowrap text-[10px] font-semibold text-slate-500">
+                    출입데이터 → 연동 테이블
+                  </span>
                 </div>
               </div>
 
