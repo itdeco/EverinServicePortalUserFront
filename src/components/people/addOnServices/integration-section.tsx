@@ -50,44 +50,60 @@ export default function IntegrationSection() {
             </div>
 
             {/* 중앙 흐름: 에버타임 원형 노드 + 양방향 화살표 */}
-            <div className="flex items-center gap-4 md:gap-6">
-              {/* 에버타임 원형 노드 */}
+            <div className="flex flex-col items-center gap-5 lg:flex-row lg:gap-6">
+              {/* 에버타임 원형 노드 (모바일: 위쪽 중앙 고정) */}
               <div className="flex h-28 w-28 shrink-0 flex-col items-center justify-center rounded-full border border-slate-100 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.12)]">
                 <span className="mb-1 h-6 w-6 rounded-full" style={{ backgroundColor: GREEN }} />
                 <span className="text-sm font-bold text-slate-800">에버타임</span>
               </div>
 
-              {/* 두 개의 방향 화살표 */}
-              <div className="flex flex-1 flex-col justify-center gap-10">
-                {/* ERP → 에버타임 (왼쪽 방향) */}
-                <div>
+              {/* 두 개의 방향 화살표 (모바일: 세로 / 데스크탑: 가로) */}
+              <div className="flex w-full flex-row justify-center gap-8 lg:flex-1 lg:flex-col lg:gap-10">
+                {/* ERP → 에버타임 */}
+                <div className="flex-1">
                   <p className="mb-1 text-center text-sm font-bold md:text-base" style={{ color: GREEN }}>
                     ERP정보 <span className="text-slate-900">자동 동기화</span>
                   </p>
-                  <div className="relative flex items-center">
-                    {/* 왼쪽 화살촉 */}
+                  {/* 데스크탑: 가로(왼쪽 방향) */}
+                  <div className="hidden items-center lg:flex">
                     <span
                       className="h-0 w-0 border-y-[6px] border-r-[9px] border-y-transparent"
                       style={{ borderRightColor: BLUE }}
                     />
                     <span className="h-0.5 flex-1" style={{ backgroundColor: BLUE }} />
                   </div>
+                  {/* 모바일: 세로(위 방향 = 에버타임으로 유입) */}
+                  <div className="flex flex-col items-center lg:hidden">
+                    <span
+                      className="h-0 w-0 border-x-[6px] border-b-[9px] border-x-transparent"
+                      style={{ borderBottomColor: BLUE }}
+                    />
+                    <span className="w-0.5 flex-1" style={{ backgroundColor: BLUE, minHeight: 40 }} />
+                  </div>
                   <p className="mt-1.5 break-keep text-center text-xs text-slate-600 md:text-sm">
                     <span className="font-bold text-slate-900">[기본정보]</span> 부서, 조직, 사원, 발령, 부서장
                   </p>
                 </div>
 
-                {/* 에버타임 → ERP (오른쪽 방향) */}
-                <div>
+                {/* 에버타임 → ERP */}
+                <div className="flex-1">
                   <p className="mb-1 text-center text-sm font-bold md:text-base" style={{ color: GREEN }}>
                     근태결과 <span className="text-slate-900">급여연동</span>
                   </p>
-                  <div className="relative flex items-center">
+                  {/* 데스크탑: 가로(오른쪽 방향) */}
+                  <div className="hidden items-center lg:flex">
                     <span className="h-0.5 flex-1" style={{ backgroundColor: BLUE }} />
-                    {/* 오른쪽 화살촉 */}
                     <span
                       className="h-0 w-0 border-y-[6px] border-l-[9px] border-y-transparent"
                       style={{ borderLeftColor: BLUE }}
+                    />
+                  </div>
+                  {/* 모바일: 세로(아래 방향 = ERP로 유출) */}
+                  <div className="flex flex-col items-center lg:hidden">
+                    <span className="w-0.5 flex-1" style={{ backgroundColor: BLUE, minHeight: 40 }} />
+                    <span
+                      className="h-0 w-0 border-x-[6px] border-t-[9px] border-x-transparent"
+                      style={{ borderTopColor: BLUE }}
                     />
                   </div>
                   <p className="mt-1.5 break-keep text-center text-xs text-slate-600 md:text-sm">

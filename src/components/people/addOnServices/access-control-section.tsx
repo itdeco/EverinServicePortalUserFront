@@ -25,6 +25,24 @@ function Cylinder({ label }: { label: string }) {
   )
 }
 
+/** 중앙 연결 방향 화살표 (데스크탑: 오른쪽 / 모바일: 아래) */
+function FlowArrow({ color }: { color: string }) {
+  return (
+    <div className="flex items-center justify-center" style={{ color }}>
+      {/* 데스크탑: 가로 → */}
+      <div className="hidden items-center lg:flex">
+        <span className="h-0.5 w-10" style={{ backgroundColor: color }} />
+        <ArrowRight className="-ml-1 h-5 w-5" strokeWidth={3} />
+      </div>
+      {/* 모바일: 세로 ↓ */}
+      <div className="flex flex-col items-center lg:hidden">
+        <span className="h-8 w-0.5" style={{ backgroundColor: color }} />
+        <ArrowDown className="-mt-1 h-5 w-5" strokeWidth={3} />
+      </div>
+    </div>
+  )
+}
+
 /** 위로 향하는 파란 화살표 */
 function UpArrow() {
   return (
@@ -111,54 +129,40 @@ export default function AccessControlSection() {
               </div>
 
               {/* ============ 중앙 연결 (세콤/캡스 → 에버타임) ============ */}
-              <div className="flex flex-row items-center justify-center gap-6 py-2 lg:flex-col lg:justify-center lg:gap-10 lg:py-8">
-                {/* 3. ODBC 설정 (주황 점선 화살표) */}
-                <div className="flex flex-col items-center gap-2">
-                  <span className="whitespace-nowrap text-xs font-bold" style={{ color: ORANGE }}>
+              <div className="flex flex-row items-stretch justify-center gap-4 py-2 lg:flex-col lg:justify-center lg:gap-6 lg:py-8">
+                {/* 공통 방향 안내 */}
+                <span className="hidden text-center text-[11px] font-bold uppercase tracking-wide text-slate-400 lg:block">
+                  세콤 / 캡스 → 에버타임
+                </span>
+
+                {/* 3. ODBC 설정 */}
+                <div className="flex flex-1 flex-col items-center justify-center gap-2 rounded-2xl border border-dashed bg-white px-3 py-4 lg:flex-none"
+                  style={{ borderColor: ORANGE }}
+                >
+                  <span
+                    className="rounded-full px-3 py-1 text-xs font-bold text-white"
+                    style={{ backgroundColor: ORANGE }}
+                  >
                     3. ODBC 설정
                   </span>
-                  {/* 데스크탑: 오른쪽 방향 / 모바일: 아래 방향 */}
-                  <div className="flex items-center" style={{ color: ORANGE }}>
-                    <div
-                      className="hidden border-t-2 border-dashed lg:block"
-                      style={{ borderColor: ORANGE, width: 56 }}
-                    />
-                    <div
-                      className="border-l-2 border-dashed lg:hidden"
-                      style={{ borderColor: ORANGE, height: 40 }}
-                    />
-                    <ArrowRight className="hidden h-5 w-5 lg:block" strokeWidth={3} />
-                    <ArrowDown className="h-5 w-5 lg:hidden" strokeWidth={3} />
-                  </div>
-                  <span className="whitespace-nowrap text-[10px] font-semibold text-slate-500">
+                  <FlowArrow color={ORANGE} />
+                  <span className="break-keep text-center text-[11px] font-semibold text-slate-500">
                     관리용 PC → 연동 테이블
                   </span>
                 </div>
 
-                {/* 5. 출입데이터 자동전송 (별표 배지 + 방향 화살표) */}
-                <div className="flex flex-col items-center gap-2">
-                  <div
-                    className="flex h-24 w-24 items-center justify-center text-center"
-                    style={{
-                      backgroundColor: "#22a3d8",
-                      clipPath:
-                        "polygon(50% 0%, 61% 20%, 80% 9%, 75% 32%, 98% 35%, 79% 50%, 98% 65%, 75% 68%, 80% 91%, 61% 80%, 50% 100%, 39% 80%, 20% 91%, 25% 68%, 2% 65%, 21% 50%, 2% 35%, 25% 32%, 20% 9%, 39% 20%)",
-                    }}
+                {/* 5. 출입데이터 자동전송 */}
+                <div className="flex flex-1 flex-col items-center justify-center gap-2 rounded-2xl border px-3 py-4 lg:flex-none"
+                  style={{ borderColor: GREEN_DARK, backgroundColor: "#f2fbef" }}
+                >
+                  <span
+                    className="rounded-full px-3 py-1 text-center text-xs font-black leading-tight text-white"
+                    style={{ backgroundColor: GREEN_DARK }}
                   >
-                    <span className="px-2 text-[11px] font-black leading-tight" style={{ color: RED }}>
-                      5. 출입데이터
-                      <br />
-                      자동전송
-                    </span>
-                  </div>
-                  {/* 데스크탑: 오른쪽 방향 / 모바일: 아래 방향 */}
-                  <div className="flex items-center" style={{ color: GREEN_DARK }}>
-                    <div className="hidden h-0.5 lg:block" style={{ backgroundColor: GREEN_DARK, width: 56 }} />
-                    <div className="w-0.5 lg:hidden" style={{ backgroundColor: GREEN_DARK, height: 40 }} />
-                    <ArrowRight className="hidden h-5 w-5 lg:block" strokeWidth={3} />
-                    <ArrowDown className="h-5 w-5 lg:hidden" strokeWidth={3} />
-                  </div>
-                  <span className="whitespace-nowrap text-[10px] font-semibold text-slate-500">
+                    5. 출입데이터 자동전송
+                  </span>
+                  <FlowArrow color={GREEN_DARK} />
+                  <span className="break-keep text-center text-[11px] font-semibold text-slate-500">
                     출입데이터 → 연동 테이블
                   </span>
                 </div>
