@@ -112,7 +112,7 @@ export default function SupportInquiryPage() {
           description="접수한 문의와 답변 상태를 확인하세요."
           action={
             isLoggedIn ? (
-              <Link href="/support/inquiry/write" className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-black text-white hover:bg-[#03b565]">
+              <Link href="/support/inquiry/write" className="inline-flex items-center gap-2 rounded-full bg-[#03b565] px-5 py-3 text-sm font-black text-white transition-colors hover:bg-[#029d58]">
                 <Edit3 className="h-4 w-4" />
                 문의 작성
               </Link>

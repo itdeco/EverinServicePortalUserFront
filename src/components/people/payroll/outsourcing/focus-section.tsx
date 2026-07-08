@@ -26,9 +26,9 @@ const focusCards = [
 ];
 
 const benefits = [
-  { icon: MonitorCog, text: "31년 ERP 전문기업이\n직접 만든 안정적인 솔루션" },
-  { icon: Users, text: "공차, 윈윈스포츠 등\n다수의 고객사가 선택한 서비스" },
-  { icon: ShieldCheck, text: "세법 전문가의\n즉각적인 대응과 지원" },
+  { icon: MonitorCog, text: "33년 ERP 전문기업이\n직접 만든 안정적인 솔루션" },
+  { icon: Users, text: "다수의 고객사가 선택한 서비스" },
+  { icon: ShieldCheck, text: "세무/회계법인을 통한\n즉각적인 대응과 지원" },
   { icon: Calculator, text: "복잡한 수당을 한 번에\n계산하는 완전 자동화 시스템" },
   { icon: Activity, text: "실시간으로 진행과정을\n확인하는 모니터링 시스템" },
 ];

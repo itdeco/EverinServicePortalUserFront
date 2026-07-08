@@ -111,7 +111,7 @@ export default function PartnersPage() {
                             <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 px-4 py-1.5">Business Partner Ecosystem</Badge>
                         </div>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                            에버타임과 함께하는
+                            에버인과 함께하는
                             <br/>
                             <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-primary bg-clip-text text-transparent">
                                 파트너사 네트워크
@@ -128,7 +128,7 @@ export default function PartnersPage() {
             <div className="container max-w-7xl mx-auto px-4 py-20">
                 <div className="mb-12">
                     <h2 className="text-3xl font-bold text-foreground mb-3">현재 파트너사</h2>
-                    <p className="text-muted-foreground">에버타임과 함께 성장하고 있는 파트너들입니다</p>
+                    <p className="text-muted-foreground">에버인과 함께 성장하고 있는 파트너들입니다</p>
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-20">
@@ -198,7 +198,7 @@ export default function PartnersPage() {
                                 새로운 기회
                             </Badge>
                             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-                                에버타임·에버페이롤과
+                                에버인과
                                 <br/>
                                 <span className="bg-gradient-to-r from-cyan-400 to-primary bg-clip-text text-transparent">
                                     함께 성장할 파트너
@@ -255,7 +255,7 @@ export default function PartnersPage() {
                 <div className="mb-20">
                     <div className="mb-12">
                         <h2 className="text-3xl font-bold text-foreground mb-3">파트너사의 이점</h2>
-                        <p className="text-muted-foreground">에버타임 파트너가 되었을 때의 다양한 혜택들</p>
+                        <p className="text-muted-foreground">에버인 파트너가 되었을 때의 다양한 혜택들</p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-6">
@@ -302,7 +302,7 @@ export default function PartnersPage() {
                                 파트너사가 되어보세요
                             </h3>
                             <p className="text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-                                에버타임과 함께 비즈니스를 성장시킬 수 있는 파트너사를 모집하고 있습니다.
+                                에버인과 함께 비즈니스를 성장시킬 수 있는 파트너사를 모집하고 있습니다.
                                 지금 바로 문의하세요.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">

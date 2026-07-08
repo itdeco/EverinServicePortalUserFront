@@ -1,10 +1,9 @@
-import { ShieldCheck, Users, Headset, Cpu, Activity } from "lucide-react"
+import { ShieldCheck, Users, Cpu, Activity } from "lucide-react"
 
 const strengths = [
-  { icon: ShieldCheck, text: "31년 ERP 전문기업이\n직접 만든 안정적인 솔루션" },
+  { icon: ShieldCheck, text: "33년 ERP 전문기업이\n직접 만든 안정적인 솔루션" },
   { icon: Users, text: "다수의 고객사가\n선택한 검증된 서비스" },
-  { icon: Headset, text: "세법 전문가의\n즉각적인 대응과 지원" },
-  { icon: Cpu, text: "복잡한 수당을 한 번에\n계산하는 완전 자동화 시스템" },
+  { icon: Cpu, text: "복잡한 수당을 한 번에\n계산하는 자동화 시스템" },
   { icon: Activity, text: "실시간으로 진행과정을\n확인하는 모니터링 시스템" },
 ]
 
@@ -21,7 +20,7 @@ export default function SalaryBonusStrengthsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {strengths.map((item, idx) => {
             const Icon = item.icon
             return (

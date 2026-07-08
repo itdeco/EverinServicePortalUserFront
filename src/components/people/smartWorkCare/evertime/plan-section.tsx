@@ -5,7 +5,7 @@ import { useState } from "react"
 import { COLORS } from "@/constants/brand-colors"
 import { cn } from "@/lib/utils"
 
-type PlanName = "에버타임 Standard" | "에버타임 Enterprise"
+export type PlanName = "에버타임 Standard" | "에버타임 Enterprise"
 
 type PlanImageSource =
   | string
@@ -157,41 +157,44 @@ export default function EvertimePlanSection() {
   const plans: PlanName[] = ["에버타임 Standard", "에버타임 Enterprise"]
 
   return (
-    <section className="relative overflow-hidden bg-white py-14 md:py-20">
+    <section className="relative overflow-clip bg-white py-14 md:py-20">
       <div className="mx-auto max-w-[1280px] px-4 md:px-8 lg:px-12">
-        <div className="text-center">
+        <div
+          className="sticky z-40 -mx-4 bg-white/95 px-4 pb-1 text-center backdrop-blur md:-mx-8 md:px-8 lg:-mx-12 lg:px-12"
+          style={{ top: "var(--site-header-height, 104px)" }}
+        >
           <h2 className="mt-3 break-keep text-[32px] font-black leading-tight text-slate-950 md:text-[46px]">
             우리회사에 맞는 근태관리를 선택하세요.
           </h2>
-        </div>
 
-        <div className="mx-auto mt-10 grid max-w-[760px] grid-cols-2 gap-4">
-          {plans.map((plan) => {
-            const isActive = activePlan === plan
+          <div className="mx-auto mt-10 grid max-w-[760px] grid-cols-2 gap-4">
+            {plans.map((plan) => {
+              const isActive = activePlan === plan
 
-            return (
-              <button
-                key={plan}
-                type="button"
-                onClick={() => setActivePlan(plan)}
-                style={
-                  isActive
-                    ? {
-                        background: `linear-gradient(90deg, ${COLORS.payroll} 0%, ${COLORS.culture} 28%, ${COLORS.onboarding} 58%, ${COLORS.people} 100%)`,
-                      }
-                    : undefined
-                }
-                className={cn(
-                  "min-h-16 rounded-full border px-3 text-sm font-black transition-all md:min-h-[72px] md:text-xl",
-                  isActive
-                    ? "border-transparent text-white shadow-[0_16px_36px_rgba(13,153,255,0.24)]"
-                    : "border-slate-200 bg-white text-slate-500 shadow-sm hover:border-[#00cc99]/40 hover:bg-slate-50 hover:text-slate-900",
-                )}
-              >
-                {plan}
-              </button>
-            )
-          })}
+              return (
+                <button
+                  key={plan}
+                  type="button"
+                  onClick={() => setActivePlan(plan)}
+                  style={
+                    isActive
+                      ? {
+                          background: `linear-gradient(90deg, ${COLORS.payroll} 0%, ${COLORS.culture} 28%, ${COLORS.onboarding} 58%, ${COLORS.people} 100%)`,
+                        }
+                      : undefined
+                  }
+                  className={cn(
+                    "min-h-16 rounded-full border px-3 text-sm font-black transition-all md:min-h-[72px] md:text-xl",
+                    isActive
+                      ? "border-transparent text-white shadow-[0_16px_36px_rgba(13,153,255,0.24)]"
+                      : "border-slate-200 bg-white text-slate-500 shadow-sm hover:border-[#00cc99]/40 hover:bg-slate-50 hover:text-slate-900",
+                  )}
+                >
+                  {plan}
+                </button>
+              )
+            })}
+          </div>
         </div>
 
         <div className="mt-10 space-y-6 md:mt-12 md:space-y-8">

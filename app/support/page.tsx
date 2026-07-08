@@ -100,14 +100,14 @@ export default function SupportPage() {
               <Link
                 key={menu.href}
                 href={menu.href}
-                className="group flex h-full min-h-[250px] flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-1 hover:border-[#03b565]/40 hover:shadow-lg"
+                className="group flex h-full min-h-[180px] flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-1 hover:border-[#03b565]/40 hover:shadow-lg md:min-h-[200px] md:p-5 xl:min-h-[250px]"
               >
-                <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-[#03b565]">
+                <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-50 text-[#03b565] md:mb-4 md:h-11 md:w-11 xl:mb-5">
                   <Icon className="h-5 w-5" />
                 </span>
                 <h2 className="text-lg font-black text-slate-950">{menu.title}</h2>
-                <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">{menu.description}</p>
-                <span className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-black text-[#03b565]">
+                <p className="mt-1.5 text-sm font-semibold leading-5 text-slate-500 md:mt-2 md:leading-6">{menu.description}</p>
+                <span className="mt-auto inline-flex items-center gap-2 pt-3 text-sm font-black text-[#03b565] md:pt-4 xl:pt-5">
                   바로가기 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </Link>

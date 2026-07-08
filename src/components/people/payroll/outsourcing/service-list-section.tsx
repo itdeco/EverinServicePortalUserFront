@@ -1,5 +1,7 @@
 "use client";
 
+import { Building2 } from "lucide-react";
+
 const GREEN = "#3344e6";
 
 type ServiceGroup = {
@@ -96,9 +98,15 @@ export default function OutsourcingServiceListSection() {
   return (
     <section className="bg-white py-16 md:py-24">
       <div className="mx-auto max-w-[1280px] px-4 md:px-6">
-        <h2 className="text-center text-2xl md:text-[32px] font-bold text-gray-900 mb-12 md:mb-16">
-          제공되는 서비스를 확인하세요.
-        </h2>
+        <div className="mb-12 text-center md:mb-16">
+          <h2 className="text-2xl font-bold text-gray-900 md:text-[32px]">
+            제공되는 서비스를 확인하세요.
+          </h2>
+          <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2.5 text-sm font-bold text-indigo-800 shadow-sm md:px-5 md:text-base">
+            <Building2 className="h-4 w-4 shrink-0 text-[#3344e6] md:h-5 md:w-5" />
+            <span>세무/회계법인을 통해 진행됩니다.</span>
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-x-6 gap-y-10 mb-10">
           {row1.map((g) => (

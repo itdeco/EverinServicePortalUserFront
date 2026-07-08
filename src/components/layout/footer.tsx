@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Globe, Smartphone, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Globe, X } from "lucide-react";
 
 import { Api } from "@/api";
 import { TermsDto, TermsType } from "@/types/Terms";
@@ -174,55 +174,55 @@ export default function Footer() {
             </button>
 
             {/* 모바일 앱 다운로드 */}
-            <div className="w-full max-w-[460px] rounded-xl border border-slate-700 bg-slate-950/25 p-3">
-              <div className="mb-3 flex items-center gap-2 px-1">
-                <Smartphone className="h-5 w-5 text-slate-400" />
-                <span className="text-sm font-semibold text-slate-200">모바일 앱 다운로드</span>
-              </div>
-              <div className="space-y-2">
-                {appDownloads.map((app) => (
-                  <div
-                    key={app.name}
-                    className="grid gap-2 rounded-lg border border-slate-700/70 bg-slate-800/70 p-2.5 sm:grid-cols-[104px_1fr] sm:items-center"
-                  >
-                    <div className="flex items-center gap-2 px-1">
-                      <span
-                        className="h-2.5 w-2.5 shrink-0 rounded-full"
-                        style={{ backgroundColor: app.color }}
-                      />
-                      <span className="whitespace-nowrap text-sm font-semibold text-slate-200">
-                        {app.name}
-                      </span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      <a
-                        href={app.googlePlay}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${app.name} Google Play 다운로드`}
-                        className="flex min-h-10 items-center justify-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-slate-300 transition-colors hover:border-slate-500 hover:bg-slate-700 hover:text-white"
-                      >
-                        <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" fill="currentColor">
-                          <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z" />
-                        </svg>
-                        <span className="whitespace-nowrap text-xs font-medium">Google Play</span>
-                      </a>
-                      <a
-                        href={app.appStore}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${app.name} App Store 다운로드`}
-                        className="flex min-h-10 items-center justify-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-slate-300 transition-colors hover:border-slate-500 hover:bg-slate-700 hover:text-white"
-                      >
-                        <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" fill="currentColor">
-                          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                        </svg>
-                        <span className="whitespace-nowrap text-xs font-medium">App Store</span>
-                      </a>
-                    </div>
+            <div className="grid w-full max-w-[500px] grid-cols-3 gap-3">
+              {appDownloads.map((app) => (
+                <div
+                  key={app.name}
+                  className="relative flex min-w-0 flex-col items-center gap-2 overflow-hidden rounded-xl border border-slate-700 bg-gradient-to-b from-slate-800 to-slate-800/60 px-3 py-2.5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-600 hover:shadow-lg"
+                >
+                  <span
+                    className="absolute inset-x-0 top-0 h-1"
+                    style={{ backgroundColor: app.color }}
+                  />
+                  <div className="flex min-w-0 items-center justify-center gap-2 pt-0.5">
+                    <span
+                      className="h-2.5 w-2.5 shrink-0 rounded-full"
+                      aria-hidden="true"
+                      style={{ backgroundColor: app.color }}
+                    />
+                    <span className="whitespace-nowrap text-[15px] font-bold tracking-[-0.02em] text-white">
+                      {app.name}
+                    </span>
                   </div>
-                ))}
-              </div>
+                  <div className="h-px w-full bg-slate-700/70" />
+                  <div className="flex items-center justify-center gap-3">
+                    <a
+                      href={app.googlePlay}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${app.name} Google Play 다운로드`}
+                      title="Google Play"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-600 bg-slate-900/50 text-slate-300 transition-all hover:scale-105 hover:border-slate-400 hover:bg-slate-700 hover:text-white"
+                    >
+                      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
+                        <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z" />
+                      </svg>
+                    </a>
+                    <a
+                      href={app.appStore}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${app.name} App Store 다운로드`}
+                      title="App Store"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-600 bg-slate-900/50 text-slate-300 transition-all hover:scale-105 hover:border-slate-400 hover:bg-slate-700 hover:text-white"
+                    >
+                      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

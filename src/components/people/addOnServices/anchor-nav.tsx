@@ -19,6 +19,8 @@ const items: NavItem[] = [
 
 export default function AddOnAnchorNav() {
   const navRef = useRef<HTMLElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const itemRefs = useRef<Record<string, HTMLAnchorElement | null>>({})
   const [active, setActive] = useState<string>(items[0].id)
 
   const getScrollOffset = useCallback(() => {
@@ -45,10 +47,27 @@ export default function AddOnAnchorNav() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [getScrollOffset])
 
+  useEffect(() => {
+    const container = scrollContainerRef.current
+    const activeItem = itemRefs.current[active]
+    if (!container || !activeItem || container.scrollWidth <= container.clientWidth) return
+
+    const containerRect = container.getBoundingClientRect()
+    const itemRect = activeItem.getBoundingClientRect()
+    const left =
+      container.scrollLeft +
+      itemRect.left -
+      containerRect.left -
+      (container.clientWidth - itemRect.width) / 2
+
+    container.scrollTo({ left: Math.max(0, left), behavior: "smooth" })
+  }, [active])
+
   const handleClick = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault()
     const el = document.getElementById(id)
     if (!el) return
+    setActive(id)
     const top = el.getBoundingClientRect().top + window.scrollY - getScrollOffset()
     window.scrollTo({ top, behavior: "smooth" })
   }
@@ -59,13 +78,19 @@ export default function AddOnAnchorNav() {
       className="sticky z-40 border-b border-slate-200 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70"
       style={{ top: "var(--site-header-height, 104px)" }}
     >
-      <div className="mx-auto flex max-w-[1280px] items-center gap-2 overflow-x-auto px-4 py-3 lg:justify-center lg:px-12">
+      <div
+        ref={scrollContainerRef}
+        className="mx-auto flex max-w-[1280px] items-center gap-2 overflow-x-auto px-4 py-3 lg:justify-center lg:px-12"
+      >
         {items.map((item) => {
           const isActive = active === item.id
           const Icon = item.Icon
           return (
             <a
               key={item.id}
+              ref={(element) => {
+                itemRefs.current[item.id] = element
+              }}
               href={`#${item.id}`}
               onClick={handleClick(item.id)}
               className="flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition-all md:px-5 md:text-[15px]"

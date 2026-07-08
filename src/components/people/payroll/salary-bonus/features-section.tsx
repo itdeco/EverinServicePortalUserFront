@@ -35,9 +35,9 @@ const tabs = [
     icon: Receipt,
     image: "/images/people/payroll/salary-bonus/feature-payslip.png",
     intro: "급여·상여 처리는 빠르게, 명세서 발송은 간편하게!",
-    heading: "급상여처리 · 출력 · 급여명세서 발송 · 급상여데이터분석",
+    heading: "급상여처리 · 급여명세서 출력/발송 · 급상여데이터분석",
     description: [
-      "급상여 처리부터 출력, 명세서 발송까지 전 과정을 효율적으로 지원",
+      "급상여처리부터 명세서 출력, 발송까지 전 과정을 효율적으로 지원",
       "급상여 데이터 분석으로 정확한 급여 운영 가능",
     ],
   },
@@ -45,12 +45,15 @@ const tabs = [
     id: "mobile",
     title: "모바일 급여명세서",
     icon: Smartphone,
-    image: "/images/people/payroll/salary-bonus/feature-mobile-payslip.png",
+    image: ["/images/people/payroll/salary-bonus/feature-mobile-payslip-01.png",
+      "/images/people/payroll/salary-bonus/feature-mobile-payslip-02.png",
+      "/images/people/payroll/salary-bonus/feature-mobile-payslip-03.png",],
     intro: "이제 급여명세서도 모바일 시대!",
     heading: "모바일 급여명세서",
     description: [
       "언제 어디서나 모바일로 편리하게 급여명세서를 확인",
       "직원이 직접 급여를 조회하는 셀프서비스 제공",
+      "급여명세서 모바일앱으로 제공 (이메일, 카톡도 가능)"
     ],
   },
   {
@@ -61,8 +64,7 @@ const tabs = [
     intro: "원천세부터 4대보험까지, 복잡한 급여업무는 이제 그만!",
     heading: "신고관리",
     description: [
-      "원천세 · 지방소득세특별징수 · 간이지급명세 · 보험취득 · 상실신고 등",
-      "원천세부터 지방소득세 특별징수, 간이지급명세 제출, 보험취득 및 상실신고까지 복잡한 급여 업무를 쉽고 정확하게 처리합니다",
+      "원천세부터 지방소득세특별징수, 간이지급명세, 사회보험 취득 및 상실신고까지 복잡한 신고 업무를 쉽고 정확하게 처리",
     ],
   },
   {
@@ -73,7 +75,6 @@ const tabs = [
     intro: "종이 없는 근로계약, 스마트한 시작! 모바일로 빠르고 간편하게, 계약의 혁신을 경험하세요",
     heading: "전자계약",
     description: [
-      "전자근로계약 모바일 앱",
       "전자근로계약을 모바일 앱으로 언제 어디서나 편리하게 체결할 수 있습니다",
     ],
   },
@@ -85,7 +86,6 @@ const tabs = [
     intro: "복잡한 인원현황, 이젠 한눈에!",
     heading: "인원현황",
     description: [
-      "인원현황",
       "우리 회사 인원현황을 빠르고 간편하게 한눈에 확인할 수 있습니다",
     ],
   },
@@ -106,6 +106,10 @@ const tabs = [
 export default function SalaryBonusFeaturesSection() {
   const [activeTab, setActiveTab] = useState("hr-info")
   const activeFeature = tabs.find((tab) => tab.id === activeTab)!
+  const featureImages = Array.isArray(activeFeature.image)
+    ? activeFeature.image
+    : [activeFeature.image]
+  const hasMultipleImages = featureImages.length > 1
 
   return (
     <section className="w-full bg-gray-50 py-16 md:py-24">
@@ -152,14 +156,33 @@ export default function SalaryBonusFeaturesSection() {
               <div className="absolute left-10 top-10 h-24 w-24 rounded-full bg-blue-100/60 blur-2xl" />
               <div className="absolute bottom-8 right-10 h-28 w-28 rounded-full bg-indigo-100/70 blur-2xl" />
 
-              <div className="relative h-[200px] w-[86%] md:h-[340px] md:w-[88%] lg:h-[380px]">
-                <Image
-                  src={activeFeature.image}
-                  alt={activeFeature.title}
-                  fill
-                  className="object-contain rounded-xl drop-shadow-[0_24px_35px_rgba(15,23,42,0.12)]"
-                  priority
-                />
+              <div
+                className={`relative w-[92%] md:w-[94%] ${
+                  hasMultipleImages
+                    ? "flex h-[220px] items-end justify-center gap-1.5 md:h-[380px] md:gap-3 lg:h-[420px]"
+                    : "h-[200px] md:h-[340px] lg:h-[380px]"
+                }`}
+              >
+                {featureImages.map((image, imageIndex) => (
+                  <div
+                    key={image}
+                    className={
+                      hasMultipleImages
+                        ? "relative h-full min-w-0 flex-1"
+                        : "relative h-full w-full"
+                    }
+                  >
+                    <Image
+                      src={image}
+                      alt={`${activeFeature.title}${hasMultipleImages ? ` ${imageIndex + 1}` : ""}`}
+                      fill
+                      className={`rounded-xl object-contain drop-shadow-[0_24px_35px_rgba(15,23,42,0.12)] ${
+                        hasMultipleImages ? "object-bottom" : ""
+                      }`}
+                      priority
+                    />
+                  </div>
+                ))}
               </div>
             </div>
 
