@@ -1,0 +1,34 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - export AWS_REGION="ap-northeast-2"
+      - export AWS_ACCOUNT_ID="364569322708"
+      - export IMAGE_REPO_NAME="everin-service-portal-user-front-stg"
+      - export ECR_URL=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - echo URL $ECR_URL
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_URL
+      - export IMAGE_TAG="latest"
+      - echo $IMAGE_TAG
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build --build-arg PROFILE=stg -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+      - docker tag $IMAGE_REPO_NAME:latest $ECR_URL/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - echo REPOSITORY_URL $ECR_URL/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $ECR_URL/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - printf '[{"name":"everin-service-portal-user-front-stg","imageUri":"%s"}]' $ECR_URL/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
