@@ -26,6 +26,7 @@ type MenuItem = {
   href: string;
   badge?: string;
   planned?: boolean;
+  disabled?: boolean;
   external?: boolean;
 };
 
@@ -51,11 +52,11 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
   {
     label: "스마트 워크케어",
     col1: [
-      { title: "채용", href: "#", planned: true },
+      { title: "채용", href: "#", planned: true, disabled: true },
       { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
       { title: "온보딩", href: "/people/smartWorkCare/welcoming", badge: "무료" },
       { title: "교육·경력", href: "#", planned: true },
-      { title: "복리후생", href: "#", planned: true },
+      { title: "복리후생", href: "#", planned: true, disabled: true },
     ],
     col2: [
       { title: "근태관리", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
@@ -67,8 +68,8 @@ const peopleMenuColumns: PeopleMenuColumn[] = [
     items: [
       { title: "급여/상여", href: "/people/payroll/salary-bonus" },
       { title: "아웃소싱", href: "/people/payroll/outsourcing" },
-      { title: "신고", href: "#" },
-      { title: "연말정산", href: "#" },
+      { title: "신고", href: "/people/payroll/outsourcing#provided-services" },
+      { title: "연말정산", href: "/people/payroll/year-end-tax" },
     ],
   },
   {
@@ -95,19 +96,19 @@ const peopleCategoryHrefs: Record<string, string> = {
 // Culture 메뉴는 기존 유지 (모바일에서 사용)
 const peopleMenu: Record<string, MenuItem[]> = {
   "스마트 워크케어": [
-    { title: "채용", href: "#", planned: true },
+    { title: "채용", href: "#", planned: true, disabled: true },
     { title: "인사·조직·발령", href: "/people/smartWorkCare/hr" },
     { title: "근태관리", href: "/people/smartWorkCare/evertime", badge: "7개월 무료" },
     { title: "PC-OFF", href: "/people/smartWorkCare/pcoff" },
     { title: "온보딩", href: "/people/smartWorkCare/welcoming", badge: "무료" },
     { title: "교육·경력", href: "#", planned: true },
-    { title: "복리후생", href: "#", planned: true },
+    { title: "복리후생", href: "#", planned: true, disabled: true },
   ],
   급여: [
     { title: "급여/상여", href: "/people/payroll/salary-bonus" },
     { title: "아웃소싱", href: "/people/payroll/outsourcing" },
-    { title: "신고", href: "#" },
-    { title: "연말정산", href: "#" },
+    { title: "신고", href: "/people/payroll/outsourcing#provided-services" },
+    { title: "연말정산", href: "/people/payroll/year-end-tax" },
   ],
   평가관리: [{ title: "업적·역량·다면", href: "/people/evaluation" }],
   부가서비스: [
@@ -344,28 +345,48 @@ export default function Header() {
                                   {col.col1 ? (
                                     <div className="flex gap-8">
                                       <div className="flex flex-col gap-2">
-                                        {col.col1.map((item) => (
-                                          <SmartLink
-                                            key={item.title}
-                                            href={item.href}
-                                            onClick={dismissMegaMenu}
-                                            className="text-base text-foreground transition-colors whitespace-nowrap flex items-center gap-1.5 hover:opacity-80"
-                                          >
-                                            <span className="text-muted-foreground/50 text-sm">ㄴ</span>
-                                            <span className="font-semibold">{item.title}</span>
-                                            {item.subtitle && (
-                                              <span className="text-sm font-normal" style={{
-                                                color: item.subtitle === "에버웰커밍" ? COLORS.onboarding : COLORS.people
-                                              }}>{item.subtitle}</span>
-                                            )}
-                                            {item.badge && (
-                                              <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
-                                            )}
-                                            {item.planned && (
-                                              <span className="text-[11px] font-medium text-gray-400">*예정</span>
-                                            )}
-                                          </SmartLink>
-                                        ))}
+                                        {col.col1.map((item) => {
+                                          const itemContent = (
+                                            <>
+                                              <span className="text-muted-foreground/50 text-sm">ㄴ</span>
+                                              <span className="font-semibold">{item.title}</span>
+                                              {item.subtitle && (
+                                                <span className="text-sm font-normal" style={{
+                                                  color: item.subtitle === "에버웰커밍" ? COLORS.onboarding : COLORS.people
+                                                }}>{item.subtitle}</span>
+                                              )}
+                                              {item.badge && (
+                                                <span className="text-[11px] px-1.5 py-0.5 rounded font-medium" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                                              )}
+                                              {item.planned && (
+                                                <span className="text-[11px] font-medium text-gray-400">*예정</span>
+                                              )}
+                                            </>
+                                          )
+
+                                          if (item.disabled) {
+                                            return (
+                                              <span
+                                                key={item.title}
+                                                className="text-base text-foreground whitespace-nowrap flex cursor-default items-center gap-1.5"
+                                                aria-disabled="true"
+                                              >
+                                                {itemContent}
+                                              </span>
+                                            )
+                                          }
+
+                                          return (
+                                            <SmartLink
+                                              key={item.title}
+                                              href={item.href}
+                                              onClick={dismissMegaMenu}
+                                              className="text-base text-foreground transition-colors whitespace-nowrap flex items-center gap-1.5 hover:opacity-80"
+                                            >
+                                              {itemContent}
+                                            </SmartLink>
+                                          )
+                                        })}
                                       </div>
                                       <div className="flex flex-col gap-2">
                                         {col.col2.map((item) => (
@@ -473,7 +494,15 @@ export default function Header() {
                             <div className="flex flex-col gap-4">
                               {Object.entries(everworksMenu).map(([category, items]) => (
                                 <div key={category} className="flex flex-col gap-3">
-                                  <div className="text-base font-bold whitespace-nowrap" style={{ color: COLORS.everworks }}>{category}</div>
+                                  <SmartLink
+                                    href="/people/everworks"
+                                    onClick={dismissMegaMenu}
+                                    className="flex items-center gap-1.5 text-base font-bold whitespace-nowrap transition-opacity hover:opacity-70"
+                                    style={{ color: COLORS.everworks }}
+                                  >
+                                    <span>{category}</span>
+                                    <span className="text-[11px] font-medium text-gray-400">*예정</span>
+                                  </SmartLink>
                                   <div className="flex flex-col gap-2">
                                     {items.map((item) => (
                                       <SmartLink
@@ -804,37 +833,57 @@ export default function Header() {
                           </div>
                         )}
                         <div className="grid gap-1">
-                        {items.map((item) => (
-                          <SmartLink
-                            key={item.title}
-                            href={item.href}
-                            className="flex min-h-11 items-center justify-between gap-3 border-t border-slate-100 px-3 py-2 text-[15px] font-semibold text-slate-800 first:border-t-0 hover:bg-slate-50"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            <span className="min-w-0">
-                              <span className="break-keep">{item.title}</span>
-                              {item.subtitle && (
-                                <span className="ml-1 text-xs font-bold" style={{
-                                  color: item.subtitle === "에버웰커밍" ? COLORS.onboarding
-                                    : item.subtitle === "에버페이롤" ? COLORS.payroll
-                                    : item.subtitle === "에버평가" ? COLORS.evaluation
-                                    : COLORS.people
-                                }}>({item.subtitle})</span>
-                              )}
-                              {item.badge && (item.badge === "7개월 무료" || item.badge === "무료" ? null : (
-                                <span className="ml-1 rounded px-1.5 py-0.5 text-[11px]" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
-                              ))}
-                              {item.planned && (
-                                <span className="ml-1 text-[11px] font-medium text-gray-400">*예정</span>
-                              )}
-                            </span>
-                            {item.badge && (
-                              <span className="shrink-0 rounded-full px-2 py-1 text-[11px] font-bold" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>
-                                {item.badge}
+                        {items.map((item) => {
+                          const itemContent = (
+                            <>
+                              <span className="min-w-0">
+                                <span className="break-keep">{item.title}</span>
+                                {item.subtitle && (
+                                  <span className="ml-1 text-xs font-bold" style={{
+                                    color: item.subtitle === "에버웰커밍" ? COLORS.onboarding
+                                      : item.subtitle === "에버페이롤" ? COLORS.payroll
+                                      : item.subtitle === "에버평가" ? COLORS.evaluation
+                                      : COLORS.people
+                                  }}>({item.subtitle})</span>
+                                )}
+                                {item.badge && (item.badge === "7개월 무료" || item.badge === "무료" ? null : (
+                                  <span className="ml-1 rounded px-1.5 py-0.5 text-[11px]" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>{item.badge}</span>
+                                ))}
+                                {item.planned && (
+                                  <span className="ml-1 text-[11px] font-medium text-gray-400">*예정</span>
+                                )}
                               </span>
-                            )}
-                          </SmartLink>
-                        ))}
+                              {item.badge && (
+                                <span className="shrink-0 rounded-full px-2 py-1 text-[11px] font-bold" style={{ background: `${COLORS.people}18`, color: COLORS.people }}>
+                                  {item.badge}
+                                </span>
+                              )}
+                            </>
+                          )
+
+                          if (item.disabled) {
+                            return (
+                              <span
+                                key={item.title}
+                                className="flex min-h-11 cursor-default items-center justify-between gap-3 border-t border-slate-100 px-3 py-2 text-[15px] font-semibold text-slate-800 first:border-t-0"
+                                aria-disabled="true"
+                              >
+                                {itemContent}
+                              </span>
+                            )
+                          }
+
+                          return (
+                            <SmartLink
+                              key={item.title}
+                              href={item.href}
+                              className="flex min-h-11 items-center justify-between gap-3 border-t border-slate-100 px-3 py-2 text-[15px] font-semibold text-slate-800 first:border-t-0 hover:bg-slate-50"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {itemContent}
+                            </SmartLink>
+                          )
+                        })}
                         </div>
                       </div>
                     ))}
@@ -899,10 +948,15 @@ export default function Header() {
                         className="overflow-hidden rounded-2xl border bg-white shadow-sm"
                         style={{ borderColor: `${COLORS.everworks}18`, borderLeft: `4px solid ${COLORS.everworks}` }}
                       >
-                        <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-3 py-2.5 text-[15px] font-black text-slate-950">
+                        <SmartLink
+                          href="/people/everworks"
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-3 py-2.5 text-[15px] font-black text-slate-950 transition-colors hover:bg-slate-100"
+                        >
                           <span className="h-2 w-2 rounded-full" style={{ backgroundColor: COLORS.everworks }} />
-                          {category}
-                        </div>
+                          <span>{category}</span>
+                          <span className="text-[11px] font-medium text-gray-400">*예정</span>
+                        </SmartLink>
                         <div className="grid gap-1">
                         {items.map((item) => (
                           <SmartLink

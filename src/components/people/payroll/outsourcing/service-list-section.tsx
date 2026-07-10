@@ -96,7 +96,7 @@ function ServiceCard({ group }: { group: ServiceGroup }) {
 
 export default function OutsourcingServiceListSection() {
   return (
-    <section className="bg-white py-16 md:py-24">
+    <section id="provided-services" className="scroll-mt-24 bg-white py-16 md:py-24">
       <div className="mx-auto max-w-[1280px] px-4 md:px-6">
         <div className="mb-12 text-center md:mb-16">
           <h2 className="text-2xl font-bold text-gray-900 md:text-[32px]">

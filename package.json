@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:dev": "env-cmd -f .env.dev next build",
-    "postbuild:dev": "env-cmd -f .env.dev next-sitemap --config test-sitemap.config.js",
     "build:stg": "env-cmd -f .env.stg next build",
-    "postbuild:stg": "env-cmd -f .env.stg next-sitemap --config test-sitemap.config.js",
     "build:prod": "env-cmd -f .env.prod next build",
     "start": "next start",
     "lint": "next lint"
@@ -84,6 +82,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "env-cmd": "^11.0.0",
     "postcss": "^8.5.10",
     "tailwindcss": "^4.2.0",
     "tw-animate-css": "1.3.3",
