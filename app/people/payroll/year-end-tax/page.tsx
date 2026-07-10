@@ -5,7 +5,6 @@ import Footer from "@/components/layout/footer"
 import YearEndTaxHeroSection from "@/components/people/payroll/year-end-tax/hero-section"
 import YearEndTaxFeaturesSection from "@/components/people/payroll/year-end-tax/features-section"
 import YearEndTaxMobileProcessSection from "@/components/people/payroll/year-end-tax/mobile-process-section"
-import YearEndTaxDetailSection from "@/components/people/payroll/year-end-tax/detail-section"
 import YearEndTaxCtaSection from "@/components/people/payroll/year-end-tax/cta-section"
 
 export default function YearEndTaxPage() {
@@ -15,7 +14,6 @@ export default function YearEndTaxPage() {
       <YearEndTaxHeroSection />
       <YearEndTaxFeaturesSection />
       <YearEndTaxMobileProcessSection />
-      <YearEndTaxDetailSection />
       <YearEndTaxCtaSection />
       <Footer />
     </main>
