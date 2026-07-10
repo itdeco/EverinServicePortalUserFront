@@ -21,7 +21,7 @@ export const useSeoConfig = ({ siteType, title, description, url }: SeoConfigTyp
         ],
         openGraph: {
             title: !title ? SiteType.EverTime === siteType ? METADATA.EverTime.metaTitle : METADATA.EverPayroll.metaTitle : title,
-            url: SiteType.EverTime === siteType ? `https://www.evertime.co.kr${url || "/"}` : `https://www.evertime.co.kr${url || "/payroll"}`,
+            url: SiteType.EverTime === siteType ? `https://people.everin.co.kr${url || "/"}` : `https://people.everin.co.kr${url || "/payroll"}`,
             description: !description ? SiteType.EverTime === siteType ? METADATA.EverTime.description : METADATA.EverPayroll.description : description,
         }
     }

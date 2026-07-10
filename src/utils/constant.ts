@@ -5,20 +5,9 @@ export const TOKEN_INVALID = 1;
 export const TOKEN_EXPIRED = 2;
 
 // 사이트 주소
-export const EVERTIME_DOMAIN = "evertime.co.kr";
-export const EVERPAYROLL_DOMAIN = "everpayroll.co.kr";
-
 // 포털타입
 export const PORTAL_TYPE_HEADER_NAME = "portal-type";
 export const PORTAL_TYPE = "1";
-
-// 기본 자동 결제 일 (매월 5일)
-export const DEFAULT_PAY_DAY = 5;
-
-export const PAGINATION_PAGE_COUNT = 5;	//  페이지네이션에 표시될 페이지 번호 갯수
-export const PAGINATION_PAGE_SIZE = 5;	// 페이지네이션 리스트 개수
-
-export const MAX_UPLOAD_SIZE = 1024 * 1024 * 200;	// 200MB
 
 export const METADATA = {
     EverTime: {

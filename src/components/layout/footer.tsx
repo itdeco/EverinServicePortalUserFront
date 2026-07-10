@@ -174,11 +174,11 @@ export default function Footer() {
             </button>
 
             {/* 모바일 앱 다운로드 */}
-            <div className="grid w-full max-w-[500px] grid-cols-3 gap-3">
+            <div className="grid w-full max-w-[500px] grid-cols-3 gap-1">
               {appDownloads.map((app) => (
                 <div
                   key={app.name}
-                  className="relative flex min-w-0 flex-col items-center gap-2 overflow-hidden rounded-xl border border-slate-700 bg-gradient-to-b from-slate-800 to-slate-800/60 px-3 py-2.5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-600 hover:shadow-lg"
+                  className="relative flex min-w-0 flex-col items-center gap-2 overflow-hidden rounded-md border border-slate-700 from-slate-800 to-slate-800/60 px-3 py-2.5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-600 hover:shadow-lg"
                 >
                   <span
                     className="absolute inset-x-0 top-0 h-1"
@@ -190,12 +190,12 @@ export default function Footer() {
                       aria-hidden="true"
                       style={{ backgroundColor: app.color }}
                     />
-                    <span className="whitespace-nowrap text-[15px] font-bold tracking-[-0.02em] text-white">
+                    <span className="whitespace-nowrap text-[15px] tracking-[-0.02em] text-white">
                       {app.name}
                     </span>
                   </div>
                   <div className="h-px w-full bg-slate-700/70" />
-                  <div className="flex items-center justify-center gap-3">
+                  <div className="flex items-center justify-center gap-4">
                     <a
                       href={app.googlePlay}
                       target="_blank"
