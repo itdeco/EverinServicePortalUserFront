@@ -17,7 +17,7 @@ export default function YearEndTaxHeroSection() {
         <div className="flex flex-col items-center justify-center pt-28 pb-20 lg:pt-36 lg:pb-28 text-center hero-fade-up">
           {/* 브랜드 태그 */}
           <p className="text-xl md:text-2xl font-semibold mb-3 tracking-wide" style={{ color: "#3344e6" }}>
-            연말정산 아웃소싱
+            연말정산
           </p>
 
           {/* 메인 타이틀 */}
