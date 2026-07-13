@@ -125,7 +125,7 @@ export function TrustBanner() {
 
                 <span className="block mt-1">
         <span className="text-[#03b565] font-bold tracking-tight">
-          성능·보안·패치 안정성
+          보안·성능·패치 안정성
         </span>
         을 보장합니다.
       </span>

@@ -12,7 +12,7 @@ FROM public.ecr.aws/docker/library/node:20-alpine AS builder
 
 WORKDIR /app
 
-ARG PROFILE=stg
+ARG PROFILE=dev
 ENV NODE_ENV=production
 
 COPY --from=deps /app/node_modules ./node_modules
@@ -22,12 +22,15 @@ RUN echo "Current Profile : ${PROFILE}"
 
 RUN if [ "$PROFILE" = "dev" ]; then \
         npm run build:dev; \
+    elif [ "$PROFILE" = "local" ]; then \
+        npm run build; \
     elif [ "$PROFILE" = "stg" ]; then \
         npm run build:stg; \
     elif [ "$PROFILE" = "prod" ]; then \
         npm run build:prod; \
     else \
-        npm run build:stg; \
+        echo "Unknown PROFILE: $PROFILE"; \
+        exit 1; \
     fi
 
 

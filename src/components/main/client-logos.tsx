@@ -4,17 +4,14 @@ import Image from "next/image"
 
 const clients = [
     {logo: "client_logo_01.png" },
-    {logo: "client_logo_02.svg" },
     {logo: "client_logo_03.png" },
     {logo: "client_logo_04.png" },
     {logo: "client_logo_05.png" },
-    {logo: "client_logo_06.webp" },
     {logo: "client_logo_07.png" },
     {logo: "client_logo_08.png" },
     {logo: "client_logo_09.png" },
     {logo: "client_logo_10.png" },
     {logo: "client_logo_11.png" },
-    {logo: "client_logo_12.png" },
     {logo: "client_logo_13.png" },
     {logo: "client_logo_14.png" },
     {logo: "client_logo_15.png" },

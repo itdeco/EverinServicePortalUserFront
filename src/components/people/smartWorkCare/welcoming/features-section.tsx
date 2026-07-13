@@ -20,7 +20,7 @@ const tabs = [
     id: "vision",
     title: "회사 비전 및 미션소개",
     icon: Building2,
-    image: "/images/people/smartWorkCare/welcoming/feature-vision.jfif",
+    image: "/images/people/smartWorkCare/welcoming/feature-vision.png",
     intro: "입사 첫 순간부터 회사의 방향성과 문화를 자연스럽게 전달합니다.",
     description: [
       "모바일앱을 통해 정책, 조직문화,\n핵심가치를 효과적으로 제공",
@@ -42,10 +42,7 @@ const tabs = [
     id: "support",
     title: "신속한 지원시스템",
     icon: Headphones,
-    image: [
-      "/images/people/smartWorkCare/welcoming/feature-support_1.jfif",
-      "/images/people/smartWorkCare/welcoming/feature-support_2.jfif",
-    ],
+    image: "/images/people/smartWorkCare/welcoming/feature-support.png",
     intro: "궁금한 점이 생기면 언제든 바로 물어보고 답을 받을 수 있습니다.",
     description: [
       "신규 직원이 쉽게 도움 요청 및\n질의응답이 가능한 실시간 Q&A 제공",
@@ -56,10 +53,10 @@ const tabs = [
     id: "todo",
     title: "To-Do 관리",
     icon: ListTodo,
-    image: "/images/people/smartWorkCare/welcoming/feature-todo.jfif",
+    image: "/images/people/smartWorkCare/welcoming/feature-todo.png",
     intro: "입사자가 해야 할 일을 한눈에 확인하고 체계적으로 완료할 수 있습니다.",
     description: [
-      "온보딩 단계별 할 일을 체크리스트로 제공\n(26년 하반기 예정)",
+      "온보딩 단계별 할 일을 체크리스트로 제공",
       "진행 현황을 실시간으로 확인",
     ],
   },

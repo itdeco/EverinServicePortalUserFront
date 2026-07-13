@@ -118,7 +118,7 @@ export default function PartnersPage() {
                             </span>
                         </h1>
                         <p className="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
-                            비즈니스 파트너사는 고객에게 필요한 솔루션, 서비스 및 기술지원을 제공하기 위해 최선을 다하고 있습니다.
+                            비즈니스 파트너사는 고객에게 필요한 솔루션, 서비스 및 기술지원을 제공하기 위해<br/>최선을 다하고 있습니다.
                         </p>
                     </div>
                 </div>
@@ -205,7 +205,7 @@ export default function PartnersPage() {
                                 </span>
                                 를 찾습니다
                             </h2>
-                            <p className="text-slate-300 mb-8 leading-relaxed">
+                            <p className="text-slate-300 mb-8 leading-relaxed md:whitespace-nowrap">
                                 우리와 함께 성장하고 고객들에게 더 나은 솔루션을 제공할 수 있는 파트너를 찾고 있습니다.
                             </p>
 

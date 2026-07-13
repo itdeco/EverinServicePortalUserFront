@@ -212,7 +212,7 @@ export default function SignUpPage() {
                                 결제수단 등록 시 6개월 추가 무료
                             </p>
                             <p className="mt-4 text-base font-semibold text-[#00cc99]">
-                                에버웰커밍은 평생무료로 시작하세요.
+                                에버웰커밍 스탠다드는 평생무료로 시작하세요.
                             </p>
                             {/* 혜택 */}
                             <div className="grid grid-cols-2 gap-6 mt-12 pt-8 border-t border-white/10">
@@ -354,7 +354,7 @@ export default function SignUpPage() {
                                         <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                                         <div>
                                             <p className="text-sm font-bold text-gray-900">
-                                                에버웰커밍
+                                                에버웰커밍 스탠다드
                                             </p>
                                             <p className="mt-0.5 text-sm leading-relaxed text-gray-600">
                                                 기본 솔루션 평생무료
@@ -403,7 +403,7 @@ export default function SignUpPage() {
                                 </div>
                                 <div className="flex items-center gap-1.5 text-muted-foreground">
                                     <Sparkles className="w-4 h-4 text-primary" />
-                                    <span className="text-xs font-medium">에버웰커밍 평생무료</span>
+                                    <span className="text-xs font-medium">에버웰커밍 스탠다드 평생무료</span>
                                 </div>
                             </div>
                         </div>

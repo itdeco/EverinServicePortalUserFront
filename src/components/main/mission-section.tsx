@@ -47,7 +47,7 @@ export function MissionSection() {
 
             {/* 뱃지 */}
             <div className="relative z-10 mt-auto flex flex-col gap-2.5">
-              <span className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-[#00cc99]/20 text-gray-700 text-sm font-medium px-4 py-2.5 rounded-xl shadow-sm">
+              <span className="flex w-full shrink-0 items-center gap-2 bg-white/80 backdrop-blur-sm border border-[#00cc99]/20 text-gray-700 text-sm font-medium px-4 rounded-xl shadow-sm" style={{ height: 44 }}>
                 <svg className="w-4 h-4 text-[#00cc99]" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M4 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm0 8a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm0 8a2 2 0 012-2h12a2 2 0 012 2v.5a.5.5 0 01-.5.5h-13a.5.5 0 01-.5-.5V21z"/>
                 </svg>
@@ -100,7 +100,7 @@ export function MissionSection() {
 
             {/* 뱃지들 */}
             <div className="relative z-10 mt-auto flex flex-col gap-3">
-              <span className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-sm border border-white/50 text-[#1a2340] text-sm font-bold px-4 py-3 rounded-2xl shadow-[0_10px_24px_rgba(15,23,42,0.16)]">
+              <span className="flex w-full shrink-0 items-center gap-3 bg-white/95 backdrop-blur-sm border border-white/50 text-[#1a2340] text-sm font-bold px-4 rounded-2xl shadow-[0_10px_24px_rgba(15,23,42,0.16)]" style={{ height: 44 }}>
                 <svg className="w-6 h-6" viewBox="0 0 24 24">
                   <defs>
                     <linearGradient id="mission-shield-gradient" x1="3" y1="1" x2="21" y2="23" gradientUnits="userSpaceOnUse">
@@ -113,7 +113,7 @@ export function MissionSection() {
                 </svg>
                 ISO 27001 인증 획득
               </span>
-              <span className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-sm border border-white/50 text-[#1a2340] text-sm font-bold px-4 py-3 rounded-2xl shadow-[0_10px_24px_rgba(15,23,42,0.16)]">
+              <span className="flex w-full shrink-0 items-center gap-3 bg-white/95 backdrop-blur-sm border border-white/50 text-[#1a2340] text-sm font-bold px-4 rounded-2xl shadow-[0_10px_24px_rgba(15,23,42,0.16)]" style={{ height: 44 }}>
                 <svg className="w-6 h-6" viewBox="0 0 24 24">
                   <defs>
                     <linearGradient id="mission-crown-gradient" x1="3" y1="4" x2="21" y2="20" gradientUnits="userSpaceOnUse">
@@ -158,7 +158,7 @@ export function MissionSection() {
 
             {/* 뱃지 */}
             <div className="relative z-10 mt-auto flex flex-col gap-2.5">
-              <span className="inline-flex items-center gap-2 bg-gradient-to-r from-[#4b6bf5] to-[#00cc99] text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-lg shadow-[#4b6bf5]/20">
+              <span className="flex w-full shrink-0 items-center gap-2 bg-gradient-to-r from-[#4b6bf5] to-[#00cc99] text-white text-sm font-semibold px-4 rounded-xl shadow-lg shadow-[#4b6bf5]/20" style={{ height: 44 }}>
                 <svg className="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
                 </svg>

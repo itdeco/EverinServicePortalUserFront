@@ -275,7 +275,7 @@ export default function TrialPage() {
                 무료 체험 신청
               </CardTitle>
               <CardDescription>
-                에버타임 스탠다드와 에버웰커밍을 15일간 함께 무료로 체험해보세요
+                에버타임 스탠다드와 에버웰커밍 스탠다드를 15일간 함께 무료로 체험해보세요
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6 md:p-8 space-y-5">

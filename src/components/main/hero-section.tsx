@@ -75,7 +75,7 @@ export default function HeroSection() {
                       평생 무료로 시작하세요.
                     </p>
                     <p className="mt-2 text-[10px] font-black leading-snug text-slate-900/75 md:text-[11px]">
-                      에버웰커밍 기본 솔루션은 평생 무료이며, 연동되는 외부 AI 모델 과금 정책에 따라 일정 사용초과분 LLM 사용료가 발생할 수 있습니다.
+                      에버웰커밍 스탠다드는 평생 무료이며, 연동되는 외부 AI 모델 과금 정책에 따라 일정 사용초과분 LLM 사용료가 발생할 수 있습니다.
                     </p>
                   </div>
 
@@ -84,7 +84,7 @@ export default function HeroSection() {
                         href="/people/smartWorkCare/welcoming"
                         className="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-slate-950 px-6 text-base font-black text-white shadow-[0_12px_28px_rgba(15,23,42,0.24)] transition-transform hover:-translate-y-0.5 md:h-14 md:px-7 md:text-lg"
                     >
-                      에버웰커밍 맛보기
+                      에버웰커밍 스탠다드 맛보기
                       <span className="text-[#00cc99]">→</span>
                     </Link>
                     <Link

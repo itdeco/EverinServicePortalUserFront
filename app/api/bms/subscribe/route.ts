@@ -4,6 +4,14 @@ import { Category, PriceRule } from "@/types/subscribe";
 const SERVICE_LIST_PATH = "/VEN.Ylw.ZBM.BssIFPortalService/ServiceList";
 const PRICE_LIST_PATH = "/VEN.Ylw.ZBM.BssIFPortalService/PriceList";
 
+const requiredEnvironmentKeys = [
+    "BMS_SERVER",
+    "BMS_CERT_ID",
+    "BMS_CERT_KEY",
+    "BMS_DSN_BIS",
+    "BMS_DSN_OPER",
+] as const;
+
 const toNumber = (value: unknown, fallback = 0) => {
     const n = Number(value);
     return Number.isFinite(n) ? n : fallback;
@@ -31,6 +39,11 @@ function createBmsBody(portalId: string) {
 }
 
 async function callBms(path: string, body: unknown) {
+    const missingKeys = requiredEnvironmentKeys.filter((key) => !process.env[key]);
+    if (missingKeys.length > 0) {
+        throw new Error(`BMS environment variables are not set: ${missingKeys.join(", ")}`);
+    }
+
     const response = await fetch(`${process.env.BMS_SERVER}${path}`, {
         method: "POST",
         headers: {

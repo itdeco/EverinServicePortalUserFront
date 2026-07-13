@@ -23,11 +23,11 @@ const lawCards = [
 ]
 
 const smartCards = [
-  { icon: "/images/people/smartWorkCare/evertime/icon/Icon-special-01.svg", title: "근태관리 특화 솔루션 개발", subtitle: "30년 이상 경험 보유" },
-  { icon: "/images/people/smartWorkCare/evertime/icon/Icon-special-02.svg", title: "실시간 대시보드로 모든 직원의", subtitle: "근태현황 즉시 파악 가능" },
-  { icon: "/images/people/smartWorkCare/evertime/icon/Icon-special-03.svg", title: "스마트폰·PC로", subtitle: "언제 어디서나 쉽게 출퇴근" },
-  { icon: "/images/people/smartWorkCare/evertime/icon/Icon-special-04.svg", title: "근로기준법 업데이트 즉시 대응", subtitle: "법적 리스크 해소" },
-  { icon: "/images/people/smartWorkCare/evertime/icon/Icon-special-05.svg", title: "API 연동으로 급여, ERP와의", subtitle: "완벽한 연동 지원" },
+  { icon: "/images/people/smartWorkCare/evertime/icon/Icon-special-01.svg", title: "근태관리 특화 솔루션 개발\n30년 이상 경험 보유" },
+  { icon: "/images/people/smartWorkCare/evertime/icon/Icon-special-02.svg", title: "실시간 대시보드로\n모든 직원의\n근태현황 즉시 파악 가능" },
+  { icon: "/images/people/smartWorkCare/evertime/icon/Icon-special-03.svg", title: "스마트폰·PC로 언제 어디서나 쉽게 출퇴근" },
+  { icon: "/images/people/smartWorkCare/evertime/icon/Icon-special-04.svg", title: "근로기준법 업데이트\n즉시 대응 법적 리스크 해소" },
+  { icon: "/images/people/smartWorkCare/evertime/icon/Icon-special-05.svg", title: "API 연동으로 급여,\nERP와의\n완벽한 연동 지원" },
 ]
 
 export default function EvertimeTaglineSection() {
@@ -48,7 +48,7 @@ export default function EvertimeTaglineSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {lawCards.map((item, idx) => (
             <ScrollReveal key={idx} delay={idx * 120}>
-              <div className="relative flex h-full min-h-[320px] cursor-pointer flex-col items-start rounded-2xl border border-gray-200 bg-gray-50 p-8 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl">
+              <div className="relative flex h-full min-h-[320px] cursor-pointer flex-col items-start rounded-2xl border border-gray-200 bg-gray-50 px-5 py-8 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl md:px-6">
                 <h3 className="mb-2 break-keep text-xl font-bold leading-snug text-gray-900">{item.title}</h3>
                 <p className="mb-4 text-sm leading-relaxed text-gray-500">{item.desc}</p>
                 <ul className="space-y-2">
@@ -89,10 +89,8 @@ export default function EvertimeTaglineSection() {
                   <div className="w-12 h-12 md:w-16 md:h-16 md:mb-4 relative shrink-0">
                     <Image src={item.icon} alt={item.title} fill className="object-contain" />
                   </div>
-                  <p className="break-keep text-left text-sm font-medium leading-relaxed text-gray-700 md:text-center md:text-[13px] md:leading-7 lg:text-sm xl:text-[15px]">
+                  <p className="whitespace-pre-line break-keep text-left text-sm font-medium leading-relaxed text-gray-700 md:text-center md:text-[13px] md:leading-7 lg:text-sm xl:text-[15px]">
                     {item.title}
-                    <br />
-                    {item.subtitle}
                   </p>
                 </div>
               </ScrollReveal>

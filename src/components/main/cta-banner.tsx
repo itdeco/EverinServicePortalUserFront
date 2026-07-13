@@ -21,7 +21,7 @@ export function CtaBanner() {
               <span className="text-[#03b565]">클라우드 HR 플랫폼 에버人</span>
             </h2>
             <p className="text-gray-600 text-base md:text-lg mb-8">
-              에버웰커밍 무료 + 에버타임(7개월)
+                에버웰커밍 스탠다드 무료 + 에버타임(7개월)
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Button
